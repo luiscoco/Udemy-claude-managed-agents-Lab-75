@@ -1,0 +1,6 @@
+{
+  "name": "Managed Agents Lab 01 — text only",
+  "system": "You teach Claude Managed Agents. Follow the requested output format and keep answers brief.",
+  "tools": [],
+  "mcp_servers": []
+}

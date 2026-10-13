@@ -1,0 +1,76 @@
+{
+  "name": "Managed Agents Lab 05 — custom task tools",
+  "system": "You teach Claude Managed Agents. Use only the task tools to read or change tasks; never invent task IDs. If a tool returns an error, report it briefly and continue. Keep answers brief.",
+  "tools": [
+    {
+      "type": "custom",
+      "name": "list_tasks",
+      "description": "List the tasks in this exercise, optionally filtered by status. Returns JSON with id, title, priority and status for each task.",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "description": "Only list tasks with this status. Omit it to list every task.",
+            "type": "string",
+            "enum": [
+              "open",
+              "done"
+            ]
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    {
+      "type": "custom",
+      "name": "add_task",
+      "description": "Add one open task. Returns the new task as JSON, including its ID.",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 120,
+            "pattern": "\\S",
+            "description": "Short task title."
+          },
+          "priority": {
+            "description": "Defaults to normal.",
+            "type": "string",
+            "enum": [
+              "low",
+              "normal",
+              "high"
+            ]
+          }
+        },
+        "required": [
+          "title"
+        ],
+        "additionalProperties": false
+      }
+    },
+    {
+      "type": "custom",
+      "name": "complete_task",
+      "description": "Mark one open task as done by ID. Fails if the ID is unknown or the task is already done.",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^task_\\d{1,4}$",
+            "description": "Task ID returned by list_tasks or add_task, for example task_1."
+          }
+        },
+        "required": [
+          "id"
+        ],
+        "additionalProperties": false
+      }
+    }
+  ],
+  "mcp_servers": [],
+  "skills": []
+}

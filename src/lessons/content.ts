@@ -1,0 +1,60 @@
+import type { LessonMetadata } from '../../shared/lessons';
+export type LessonContent = Pick<LessonMetadata, 'objective' | 'steps' | 'inspect' | 'challenge'>;
+// Only implemented lessons belong here; reserved IDs are not completed labs.
+export const content: Readonly<Record<number, LessonContent>> = Object.freeze({
+  5: {
+    objective: 'Expose typed application functions as Managed Agents custom tools: the agent declares them, the session pauses on agent.custom_tool_use, and the host validates the input, runs the handler and answers once with user.custom_tool_result.',
+    steps: ['Read the three tool definitions and confirm each input_schema is generated from its Zod shape.',
+      'Run the Tour offline: list, add and complete a task, then watch the malformed add_task and the unknown ID come back as is_error results.',
+      'Compare the before and after task state for each call, and the handler call counts against the number of calls.',
+      'Run Slow handler and see a handler pass its deadline: the session gets an is_error result and no task is saved.',
+      'Run Hang, cancel it, and read how user.interrupt and cleanup are reported. Then load the run\'s task state through GET /api/c5/tasks.'],
+    inspect: ['shared/lab05-custom-tools.ts', 'server/lib/lab05-tasks.ts', 'server/lib/lab05-run.ts', 'server/lib/lab05-port.ts',
+      'server/lib/lab05-fixtures.ts', 'server/lib/tool-session-run.ts'],
+    challenge: 'Send add_task with a missing or wrong-typed title. Confirm that the result is is_error, that the handler call count is unchanged and that the task list is identical before and after.',
+  },
+  4: {
+    objective: 'Approve or deny paused tool calls through a host review dialog: the Managed Agents equivalent of canUseTool is a requires_action pause answered once with user.tool_confirmation.',
+    steps: ['Run the Review scenario offline. Approve the write and the first edit, deny the second edit, and deny the summary write.',
+      'Confirm on disk that only the first edit landed, and read how the authored agent acknowledges each deny_message.',
+      'Run again with a 5-second approval window and let one review expire; then cancel a run while a review is pending.',
+      'Use the decision tester to replay a decision and send one with a wrong token; compare the 409 and 404 answers.',
+      'Run Preallowed only and notice that no review appears: always_allow calls never reach the reviewer.'],
+    inspect: ['shared/lab04-permissions.ts', 'server/lib/lab04-approvals.ts', 'server/lib/lab04-run.ts',
+      'server/concepts/04-permissions.ts', 'server/lib/tool-session-run.ts', 'server/lib/lab03-sandbox.ts'],
+    challenge: 'Deny one write with your own deny_message and explain how the agent responds: the message comes back as an error agent.tool_result and the session keeps running. Why is the offline reaction authored, while a live agent may try another approach?',
+  },
+  3: {
+    objective: 'Distinguish a tool being enabled in the session toolset from a call being permitted by its permission_policy and the host, and verify the effects in files rather than in agent claims.',
+    steps: ['Run Read-only offline and confirm that every file on disk is unchanged.',
+      'Run Unavailable Write and Denied Write; compare the evaluated_permission, the evaluation object and the permission denials list.',
+      'Run Permitted edit: the host allows the allowlisted cp and the in-fixture edit, and denies the traversal attempts.',
+      'Inspect outputs/draft.md on disk, then reset the sandbox and run Auto to see server-evaluated outcomes.'],
+    inspect: ['shared/lab03-tools.ts', 'server/lib/lab03-sandbox.ts', 'server/lib/lab03-run.ts',
+      'server/lib/lab03-port.ts', 'server/lib/lab03-fixtures.ts'],
+    challenge: 'Take the Permitted edit preset and remove edit from the enabled tools. Before you run it, predict whether the edit attempt is unavailable (deny with no evaluation) or denied, and what outputs/draft.md contains on disk afterwards.',
+  },
+  2: {
+    objective: 'Control a dedicated Managed Agents session with model and system overrides, a list-cost budget, connection previews and a local deadline.',
+    steps: ['Run normal completion offline, then disable previews while keeping prompt and model fixed.',
+      'Compare requested options with the effective session creation snapshot.',
+      'Run Budget reached and Deadline expires; distinguish paused work from local timeout.',
+      'Inspect interruption, cleanup and reported usage; offline fixtures are not measurements of Claude.'],
+    inspect: ['shared/lab02-options.ts', 'server/lib/lab02-port.ts', 'server/lib/lab02-run.ts',
+      'server/lib/lab02-fixtures.ts', 'server/lib/lab01-run.ts', 'server/lib/session-events.ts'],
+    challenge: 'Reduce the session budget or local deadline. Explain the outcome, which limit produced it, and whether remote execution was confirmed stopped.',
+  },
+  1: {
+    objective: 'Consume a Managed Agents event stream and tell agent response text apart from session lifecycle events and turn completion.',
+    steps: [
+      'Run the Normal turn fixture offline and watch the four panels fill separately: session, agent text, raw events, outcome.',
+      'Find where the preview text is replaced by the authoritative agent.message instead of being appended to it.',
+      'Run Repeated events, Stream ended and Session error and compare the outcomes.',
+      'Run Requires action and Budget reached to see paused turns that are not successes.',
+      'Start Cancel, press Cancel query, and read the guide section on what a local abort does and does not stop.',
+    ],
+    inspect: ['server/lib/session-events.ts', 'server/lib/lab01-run.ts', 'server/lib/lab01-port.ts',
+      'server/lib/lab01-fixtures.ts', 'shared/lab01-events.ts'],
+    challenge: 'Ask for three bullet points. Identify the authoritative agent.message containing them and the lifecycle event confirming that the turn finished.',
+  },
+});

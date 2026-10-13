@@ -1,0 +1,48 @@
+{
+  "name": "claude-managed-agents",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=24"
+  },
+  "scripts": {
+    "managed:ready": "node --env-file-if-exists=.env --import tsx scripts/managed-setup.ts ready",
+    "managed:verify": "node --env-file-if-exists=.env --import tsx scripts/managed-setup.ts verify",
+    "managed:provision": "node --env-file-if-exists=.env --import tsx scripts/managed-setup.ts provision",
+    "dev": "concurrently --kill-others --names server,web \"npm run dev:server\" \"npm run dev:web\"",
+    "dev:server": "node scripts/dev-server.mjs",
+    "dev:web": "vite",
+    "typecheck": "tsc --noEmit",
+    "build": "npm run typecheck && vite build",
+    "test": "npm run test:offline",
+    "test:offline": "node --import tsx --test --test-concurrency=1 tests/*.test.ts",
+    "test:browser": "node scripts/run-browser-tests.mjs",
+    "test:ui:lessons": "node scripts/lesson-ui.smoke.mjs",
+    "test:dev-server": "node --test scripts/dev-server.test.mjs",
+    "scan:distribution": "node scripts/scan-distribution.mjs",
+    "prepack": "npm run scan:distribution",
+    "test:sse": "node --import tsx --test --test-concurrency=1 tests/sse.test.ts",
+    "test:lesson-guides": "node --import tsx --test tests/lesson-guides.test.ts",
+    "audit:lesson-guides": "node --import tsx scripts/audit-lesson-guides.ts"
+  },
+  "dependencies": {
+    "express": "^5.2.1",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0",
+    "zod": "^4.6.5",
+    "@anthropic-ai/sdk": "0.133.0"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.64.0",
+    "@types/express": "^5.0.6",
+    "@types/node": "^26.6.2",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "@vitejs/plugin-react": "^6.1.1",
+    "concurrently": "^10.0.5",
+    "tsx": "^4.23.15",
+    "typescript": "^7.0.2",
+    "vite": "^8.3.0"
+  }
+}
