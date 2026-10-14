@@ -2,6 +2,14 @@ import type { LessonMetadata } from '../../shared/lessons';
 export type LessonContent = Pick<LessonMetadata, 'objective' | 'steps' | 'inspect' | 'challenge'>;
 // Only implemented lessons belong here; reserved IDs are not completed labs.
 export const content: Readonly<Record<number, LessonContent>> = Object.freeze({
+  10: {
+    objective: 'Validate final JSON reports with a closed application schema and distinguish interrupt, local abort and idle-session close.',
+    steps: ['Run valid and invalid report fixtures and inspect host verification.', 'Run Corrected and Exhausted to see the single corrective-round limit.',
+      'Run Hang, interrupt it and confirm idle before sending another turn.', 'Disconnect locally or abort and inspect remote cleanup separately.',
+      'Close an idle session and verify future sends are rejected.'],
+    inspect: ['shared/lab10-structured-interrupt.ts', 'server/lib/lab10-port.ts', 'server/lib/lab10-run.ts', 'server/concepts/10-structured-interrupt.ts'],
+    challenge: 'Identify the stop action that keeps the same session available for another turn and the evidence required before reuse.',
+  },
   9: {
     objective: 'Compare inherited and explicitly composed system instructions in fresh sessions while keeping the question and base model fixed.',
     steps: ['Compare all four offline variants with the same question.', 'Find the omitted system override in Base and the replacement in Custom.',

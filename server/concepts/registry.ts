@@ -20,6 +20,8 @@ import { lab08Lesson } from '../../shared/lab08-subagents.js';
 import { createLab08Router } from './08-subagents.js';
 import { lab09Lesson } from '../../shared/lab09-system-prompts.js';
 import { createLab09Router } from './09-system-prompts.js';
+import { lab10Lesson } from '../../shared/lab10-structured-interrupt.js';
+import { createLab10Router } from './10-structured-interrupt.js';
 
 export type ConceptRecord = LessonMetadata & { router: Router; close?: () => Promise<void> };
 export function registerConcepts(): readonly ConceptRecord[] {
@@ -32,6 +34,7 @@ export function registerConcepts(): readonly ConceptRecord[] {
   const lab07 = createLab07Router();
   const lab08 = createLab08Router();
   const lab09 = createLab09Router();
+  const lab10 = createLab10Router();
   const entries: ConceptRecord[] = [
     { ...lab01Lesson, ...content[lab01Lesson.id]!, router: lab01.router, close: lab01.close },
     { ...lab02Lesson, ...content[lab02Lesson.id]!, router: lab02.router, close: lab02.close },
@@ -42,6 +45,7 @@ export function registerConcepts(): readonly ConceptRecord[] {
     { ...lab07Lesson, ...content[lab07Lesson.id]!, router: lab07.router, close: lab07.close },
     { ...lab08Lesson, ...content[lab08Lesson.id]!, router: lab08.router, close: lab08.close },
     { ...lab09Lesson, ...content[lab09Lesson.id]!, router: lab09.router, close: lab09.close },
+    { ...lab10Lesson, ...content[lab10Lesson.id]!, router: lab10.router, close: lab10.close },
   ];
   validateLessonRegistry(entries.map(({ router: _router, close: _close, ...metadata }) => metadata));
   return entries;

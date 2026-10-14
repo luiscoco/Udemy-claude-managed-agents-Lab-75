@@ -47,6 +47,7 @@ export class StreamFailure extends Error {
 }
 export type StreamOutcome<T> = { kind: 'success'; result: T } | { kind: 'canceled'; reason: string };
 export interface StreamPostOptions<T> {
+  headers?: Record<string, string>;
   signal?: AbortSignal;
   idleMs: number;
   deadlineMs: number;
@@ -70,7 +71,7 @@ export async function streamPost<T>(url: string, body: unknown, options: StreamP
   resetIdle();
   try {
     const response = await fetch(url, { method: 'POST', signal: controller.signal,
-      headers: { 'Content-Type': 'application/json', Accept: 'text/event-stream' }, body: JSON.stringify(body) });
+      headers: { ...options.headers, 'Content-Type': 'application/json', Accept: 'text/event-stream' }, body: JSON.stringify(body) });
     resetIdle();
     if (!response.ok) {
       // Do not retain an unbounded proxy error page or wait indefinitely for it.

@@ -6,13 +6,14 @@ agent execution uses the official `@anthropic-ai/sdk` Managed Agents APIs.
 The original application is unchanged. Labs 01 (session event streaming), 02
 (session options), 03 (built-in tools), 04 (permissions), 05 (custom tools),
 06 (sessions and retained context), 07 (tool policy and execution audit) and
-08 (delegation and session threads) and 09 (system instructions and explicit
-context) are registered, with offline fixtures and
+08 (delegation and session threads), 09 (system instructions and explicit
+context) and 10 (validated reports and interruption) are registered, with offline fixtures and
 source inspection. See
 [Lab 02 guide](Tab2-options.md), [Lab 03 guide](Tab3-tools.md),
 [Lab 04 guide](Tab4-permissions.md), [Lab 05 guide](Tab5-custom-tools.md) and
 [Lab 06 guide](Tab6-sessions.md), [Lab 07 guide](Tab7-hooks.md) and
-[Lab 08 guide](Tab8-subagents.md) and [Lab 09 guide](Tab9-system-prompts.md)
+[Lab 08 guide](Tab8-subagents.md), [Lab 09 guide](Tab9-system-prompts.md) and
+[Lab 10 guide](Tab10-structured-interrupt.md)
 for controls, experiments and PowerShell checks.
 The [course repository index](docs/github-repositories.md) links every cumulative
 GitHub checkpoint.
@@ -487,6 +488,34 @@ keeping role capabilities and effect verification in the host application.
 10. **Verified the boundaries.** Deterministic tests cover exact composition,
     capability clearing, SDK transport, fresh IDs, injection rejection,
     cancellation and deadlines. The browser compares all four variants.
+
+### Lab 10: Validated reports and interruption
+
+1. **Defined a closed report schema.** One Zod contract generates the JSON Schema
+   and independently validates project, summary, risks and nextSteps.
+2. **Selected host final-text validation.** The lesson prompts a text-only agent
+   for JSON, then parses the last authoritative message after end_turn. It sends
+   no invented native structured-output fields.
+3. **Bounded corrective work.** Invalid reports get at most one corrective user
+   message. A second invalid result is exhausted and remains unverified.
+4. **Retained owned sessions.** Local run IDs map to a provider session and an
+   exercise owner. Unknown IDs and controls from other owners are rejected.
+5. **Serialized sends.** Each session has one active turn plus at most two queued
+   sends, explicit turn IDs and bounded history.
+6. **Implemented interrupt with evidence.** Interrupt stops the current local
+   turn and sends user.interrupt alone when needed. The host polls provider status
+   and permits reuse only after idle is observed.
+7. **Separated local abort from remote cleanup.** Disconnect aborts local waiting
+   and initiates remote interrupt and archive. Unconfirmed stop or failed archive
+   remains visible as pending cleanup.
+8. **Closed idle sessions explicitly.** End requires no pending sends and confirmed
+   idle, archives the session and rejects all future sends. Repeated Close is safe.
+9. **Reported effective outcomes and usage.** The ledger distinguishes verified,
+   invalid, exhausted, interrupted, aborted and deadline outcomes. Only observed
+   live spans supply usage; fixtures report no measured tokens.
+10. **Exercised the lifecycle.** Deterministic tests cover schemas, correction,
+    queue bounds, ownership, deadlines, interrupt acknowledgment versus idle,
+    reuse, close and SDK calls. Browser exercises demonstrate the same controls.
 
 ### Presentations
 
