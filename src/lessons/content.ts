@@ -2,6 +2,14 @@ import type { LessonMetadata } from '../../shared/lessons';
 export type LessonContent = Pick<LessonMetadata, 'objective' | 'steps' | 'inspect' | 'challenge'>;
 // Only implemented lessons belong here; reserved IDs are not completed labs.
 export const content: Readonly<Record<number, LessonContent>> = Object.freeze({
+  6: {
+    objective: 'Continue a conversation in the same server-owned Managed session, compare it with fresh context, and reconnect without duplicating persisted events.',
+    steps: ['Start a new offline session with the fictional project introduction.', 'Select the follow-up and Continue; confirm the session ID stays the same and the name is recalled.',
+      'Start a fresh session with only the follow-up and compare the answer.', 'Reconnect and inspect stream-before-history ordering plus duplicate counts.',
+      'Inspect the server conversation index, then close the idle session and confirm later access is rejected.'],
+    inspect: ['shared/lab06-sessions.ts', 'server/lib/lab06-store.ts', 'server/lib/lab06-port.ts', 'server/concepts/06-sessions.ts'],
+    challenge: 'Ask a follow-up that depends on the first answer. Explain which ID proves session reuse and why fixture recall is evidence only of fixture behavior.',
+  },
   5: {
     objective: 'Expose typed application functions as Managed Agents custom tools: the agent declares them, the session pauses on agent.custom_tool_use, and the host validates the input, runs the handler and answers once with user.custom_tool_result.',
     steps: ['Read the three tool definitions and confirm each input_schema is generated from its Zod shape.',

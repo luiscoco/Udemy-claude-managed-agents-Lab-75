@@ -4,11 +4,14 @@ A separate learning app migrated from the reusable Claude Agent SDK Learning
 foundation on 2026-10-12. React, Vite, strict TypeScript, Express and Zod remain;
 agent execution uses the official `@anthropic-ai/sdk` Managed Agents APIs.
 The original application is unchanged. Labs 01 (session event streaming), 02
-(session options), 03 (built-in tools), 04 (permissions) and 05 (custom tools)
-are registered, with offline fixtures and source inspection. See
+(session options), 03 (built-in tools), 04 (permissions), 05 (custom tools) and
+06 (sessions and retained context) are registered, with offline fixtures and
+source inspection. See
 [Lab 02 guide](Tab2-options.md), [Lab 03 guide](Tab3-tools.md),
-[Lab 04 guide](Tab4-permissions.md) and [Lab 05 guide](Tab5-custom-tools.md) for
-controls, experiments and PowerShell checks.
+[Lab 04 guide](Tab4-permissions.md), [Lab 05 guide](Tab5-custom-tools.md) and
+[Lab 06 guide](Tab6-sessions.md) for controls, experiments and PowerShell checks.
+The [course repository index](docs/github-repositories.md) links every cumulative
+GitHub checkpoint.
 
 ## Run locally
 
@@ -348,6 +351,48 @@ answers once with `user.custom_tool_result`.
    `browser-tests/lab05.spec.ts` drives the Tour, the student challenge and the
    slow-handler and cancel flows in Chrome. Results are in
    `docs/lab05-checkpoint.md`.
+
+### Lab 06: Sessions and retained context
+
+The goal is to continue a conversation in one retained Managed session, compare
+it with a fresh session and reconnect without duplicating persisted events.
+
+1. **Separated application and provider identity.** The browser holds a random
+   conversation UUID. The server binds it to the exercise owner and stores the
+   Managed `sesn_` ID, turn count, expiry and seen persisted event IDs. Clients
+   never select arbitrary remote sessions.
+2. **Created only when New is requested.** `POST /api/c6/query` with `action=new`
+   calls `sessions.create` once and saves the returned `sesn_` ID. Continue and
+   Reconnect retrieve the existing owned entry and reject unknown, foreign,
+   archived and expired conversations.
+3. **Opened the stream before every send.** Continue establishes
+   `sessions.events.stream` before sending `user.message`, then records the
+   actual `sevt_` ID returned by `events.send`. A local turn UUID remains separate
+   from both provider IDs.
+4. **Kept idle sessions open across turns.** A completed turn updates the host
+   index but does not archive the session. This differs from the one-shot runner
+   used by earlier labs.
+5. **Hydrated reconnects safely.** Reconnect opens the live stream first, walks
+   paginated session history in chronological order and merges only unseen
+   persisted IDs. The UI shows the number of ignored duplicates.
+6. **Made ownership and lifecycle failures visible.** The server returns distinct
+   403, 404 and 409 responses for foreign, unknown and archived or expired
+   conversations. Stream EOF stays incomplete even when text was observed.
+7. **Closed only after confirmed idle.** `POST /api/c6/close` checks session
+   status, archives an idle session and blocks all future sends. Cancellation and
+   shutdown use bounded interrupt and cleanup attempts.
+8. **Authored a stateful offline adapter.** The fixture remembers a fictional
+   project only inside one fixture session, returns real-shaped `sesn_` and
+   `sevt_` IDs and never contacts Anthropic. Fresh-session isolation is therefore
+   deterministic without claiming Claude behavior.
+9. **Built the exercise UI and guide.** `Concept06Sessions` exposes New,
+   Continue, Reconnect, Inspect and Close; it shows conversation, session, turn
+   and sent-event IDs alongside retained history and stream ordering.
+10. **Verified the complete checkpoint.** Focused unit and HTTP tests cover one
+    create across two turns, returned send IDs, ownership, reconnect
+    deduplication, EOF, cancellation and explicit archive. The full offline suite,
+    TypeScript, lesson audit, production build and Chrome exercise all pass. See
+    `docs/lab06-checkpoint.md`.
 
 ### Presentations
 

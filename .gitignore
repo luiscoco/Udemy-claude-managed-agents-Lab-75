@@ -34,3 +34,4 @@ presentations/**/.build/
 presentations/**/.f*-build/
 
 presentations/**/.migration-build/
+/docs/prompt-migration/
