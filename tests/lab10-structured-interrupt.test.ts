@@ -101,3 +101,15 @@ test('HTTP schemas and report stream reject injection and foreign control reques
     assert.equal(disconnectedEntry.state,'closed');assert.equal(disconnectedEntry.turns[0]?.outcome,'aborted');assert.equal(disconnectedEntry.cleanup,'simulated');
   }finally{await lab.close();server.closeAllConnections();await new Promise<void>((resolve)=>server.close(()=>resolve()));}
 });
+test('live creation failures report safe connection and access diagnostics before streaming',async()=>{
+  for(const [error,status,expected] of [
+    [new Anthropic.APIConnectionError({cause:new Error('secret-provider-detail')}),503,/could not reach Anthropic/],
+    [new Anthropic.PermissionDeniedError(403,{error:{message:'secret-provider-detail'}},'secret-provider-detail',new Headers()),422,/inaccessible/],
+  ] as const){
+    const lab=createLab10Router({live:()=>({...createFixtureLab10Port(input,0),async create(){throw error;}})});
+    const app=express();app.use('/api/c10',lab.router);const server=app.listen(0,'127.0.0.1');await once(server,'listening');const address=server.address();assert(address && typeof address !== 'string');
+    try{const response=await fetch(`http://127.0.0.1:${address.port}/api/c10/structured`,{method:'POST',headers:{'Content-Type':'application/json','X-Lab-Owner':'alice'},body:JSON.stringify({...input,mode:'live'})});
+      assert.equal(response.status,status);const body=await response.text();assert.match(body,expected);assert.doesNotMatch(body,/secret-provider-detail/);assert.equal(lab.runs.entries.size,0);
+    }finally{await lab.close();server.closeAllConnections();await new Promise<void>((resolve)=>server.close(()=>resolve()));}
+  }
+});

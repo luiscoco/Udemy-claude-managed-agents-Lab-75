@@ -26,3 +26,11 @@ The browser exercises verified bounded correction/exhaustion and interrupt follo
 - Interrupt acknowledgment alone is not idle confirmation. Unconfirmed stops block reuse, and pending cleanup remains separate from successful archive.
 - Text-only single-agent overrides clear inherited tools, MCP servers, skills and orchestration. Dynamic workflows are outside this lesson.
 - Exercise owner IDs isolate host run records and are not a general authentication system.
+
+## Live startup fix — 2026-10-14
+
+The agent-launched development server originally inherited restricted network access, causing a live metadata request to fail before any session was created. The server was restarted outside that restriction. `managed:verify` then confirmed read-only access to the configured agent and environment; no model run or session was started.
+
+Live connection failures now return a safe HTTP 503 diagnostic; provider access/configuration failures return HTTP 422 with a sanitized message. The schema panel initializes from the shared contract instead of appearing blank while its API request is pending.
+
+Validation: all 12 focused tests passed, including connection/access failure regressions, and both browser scenarios passed against the running development server. Provider verification remained read-only.

@@ -35,6 +35,7 @@ API inventory: `GET /api/c10/schemas`, `POST /structured`, `POST /run`, `POST /i
 - 409: closed, expired or stopping run; pending cleanup; or Close before idle.
 - 422: missing live configuration or inherited capabilities were not cleared.
 - 429: the per-session send queue or retained-session capacity is full. Close another session.
+- 503: the server could not reach Anthropic. Run the development server in a terminal with network access, check connectivity, and retry explicitly. Local setup readiness does not verify provider access.
 - **cleanup-pending / unconfirmed**: the interrupt acknowledgment did not prove idle. Inspect the session in Claude Console. Do not reuse it based on an HTTP acknowledgment alone.
 
 ## Limitations

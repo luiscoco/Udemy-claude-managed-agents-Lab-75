@@ -1,6 +1,8 @@
 import { Router, json } from 'express';
+import Anthropic from '@anthropic-ai/sdk';
 import { apiError, apiErrorHandler } from '../lib/errors.js';
-import { managedSettings } from '../lib/managed-config.js';
+import { managedSettings, managedErrorMessage } from '../lib/managed-config.js';
+import { LabError } from '../lib/lab01-run.js';
 import { openSse } from '../sse.js';
 import { Lab10Error, Lab10Runs } from '../lib/lab10-run.js';
 import { createFixtureLab10Port, createLiveLab10Port } from '../lib/lab10-port.js';
@@ -34,7 +36,14 @@ export function createLab10Router(options:{runs?:Lab10Runs;live?:(input:Lab10Par
       else {let port:Lab10Port;try{port=input.mode === 'live' ? live(input) : fixture(input);}catch{throw new Lab10Error(422,'Configure Managed live mode first.');}
         // Reserve/create before streaming. A dropped socket while creation finishes is cleaned up below.
         const disconnected=()=>controller.abort('disconnect');response.on('close',disconnected);
-        try{e=await runs.create(exerciseOwner,input,port);}finally{response.removeListener('close',disconnected);}
+        try{e=await runs.create(exerciseOwner,input,port);}
+        catch(error){
+          if(input.mode === 'live' && !(error instanceof Lab10Error)) {
+            if(error instanceof Anthropic.APIConnectionError) throw new Lab10Error(503,'The server could not reach Anthropic. Check server network access and connectivity, then retry explicitly. No report was started.');
+            throw new Lab10Error(422,error instanceof LabError ? error.message : managedErrorMessage(error));
+          }
+          throw error;
+        }finally{response.removeListener('close',disconnected);}
         if(controller.signal.aborted){await runs.stop(e,true);return;}
       }
       // Reject queue conflicts before SSE headers.

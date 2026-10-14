@@ -1,7 +1,7 @@
 import { expect,test } from '@playwright/test';
 async function open(page:import('@playwright/test').Page){await page.goto('/?lesson=10');await page.getByRole('tab',{name:'Run the exercise'}).click();}
 test('report correction is bounded and invalid output never becomes verified',async({page})=>{
-  await open(page);await page.getByLabel('Offline scenario').selectOption('corrected');await page.getByRole('button',{name:'Start offline report'}).click();
+  await open(page);await expect(page.getByLabel('Application report schema',{exact:true})).toContainText('"additionalProperties": false');await page.getByLabel('Offline scenario').selectOption('corrected');await page.getByRole('button',{name:'Start offline report'}).click();
   const table=page.getByRole('table',{name:'Report verification'});await expect(table).toContainText('completed: verified');await expect(table).toContainText('Aurora Finch');await expect(table.locator('tbody tr td').nth(2)).toHaveText('2');
   await page.getByRole('button',{name:'Close idle session'}).click();await expect(page.getByLabel('Run evidence')).toContainText('State: closed');
   await page.getByLabel('Offline scenario').selectOption('exhausted');await page.getByRole('button',{name:'Start offline report'}).click();

@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { lab10FrameSchema, lab10Prompt, lab10SchemasSchema, lab10Scenarios, lab10SnapshotSchema } from '../../shared/lab10-structured-interrupt';
+import { lab10FrameSchema, lab10JsonSchema, lab10Prompt, lab10SchemasSchema, lab10Scenarios, lab10SnapshotSchema } from '../../shared/lab10-structured-interrupt';
 import type { Lab10Snapshot } from '../../shared/lab10-structured-interrupt';
 import { request } from '../lib/api';
 import { streamPost } from '../lib/sse';
@@ -10,7 +10,7 @@ import { CodeBlock } from '../components/CodeBlock';
 export default function Concept10StructuredInterrupt(){
   const [prompt,setPrompt]=useState(lab10Prompt); const [scenario,setScenario]=useState<typeof lab10Scenarios[number]>('valid');
   const [correctiveRound,setCorrectiveRound]=useState(true);const [snapshot,setSnapshot]=useState<Lab10Snapshot>();const [pending,setPending]=useState(false);
-  const [status,setStatus]=useState('Ready. Reports pass only after application schema validation.');const [schema,setSchema]=useState('');const [liveReady,setLiveReady]=useState(false);
+  const [status,setStatus]=useState('Ready. Reports pass only after application schema validation.');const [schema,setSchema]=useState(JSON.stringify(lab10JsonSchema,null,2));const [liveReady,setLiveReady]=useState(false);
   const controller=useRef<AbortController|null>(null);const runId=useRef('');const owner=useRef(crypto.randomUUID());
   const headers={'X-Lab-Owner':owner.current};
   useEffect(()=>{void request('/api/c10/schemas',lab10SchemasSchema).then((value)=>setSchema(JSON.stringify(value.report,null,2))).catch(()=>{});
