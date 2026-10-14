@@ -38,3 +38,7 @@ presentations/**/.f*-build/
 
 presentations/**/.migration-build/
 /docs/prompt-migration/
+
+managed/lab11-skills.local.json
+managed/lab11-skills.local.lock
+managed/lab11-skills.local.tmp

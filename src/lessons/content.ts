@@ -2,6 +2,14 @@ import type { LessonMetadata } from '../../shared/lessons';
 export type LessonContent = Pick<LessonMetadata, 'objective' | 'steps' | 'inspect' | 'challenge'>;
 // Only implemented lessons belong here; reserved IDs are not completed labs.
 export const content: Readonly<Record<number, LessonContent>> = Object.freeze({
+  11: {
+    objective: 'Inspect pinned skill metadata separately from observed instruction and reference file reads in fresh sessions.',
+    steps: ['Compare all five offline variants and identify distinct session IDs.', 'Preview the authored instructions and reference; confirm a host preview is not an agent read.',
+      'Run Metadata only and Failed read to distinguish attachment, attempted loading and successful loading.', 'Compare revision v1 with v2 and inspect their different pinned versions.',
+      'Check the bundle locally, upload only through the explicit CLI, and opt into a live fresh session separately.'],
+    inspect: ['shared/lab11-skills.ts', 'server/lib/lab11-bundle.ts', 'server/lib/lab11-port.ts', 'server/lib/lab11-run.ts'],
+    challenge: 'Compare attached metadata with event evidence that SKILL.md was read. Explain why no observed read does not prove the skill was unavailable.',
+  },
   10: {
     objective: 'Validate final JSON reports with a closed application schema and distinguish interrupt, local abort and idle-session close.',
     steps: ['Run valid and invalid report fixtures and inspect host verification.', 'Run Corrected and Exhausted to see the single corrective-round limit.',

@@ -23,6 +23,9 @@ import { createLab09Router } from './09-system-prompts.js';
 import { lab10Lesson } from '../../shared/lab10-structured-interrupt.js';
 import { createLab10Router } from './10-structured-interrupt.js';
 
+import { lab11Lesson } from '../../shared/lab11-skills.js';
+import { createLab11Router } from './11-skills.js';
+
 export type ConceptRecord = LessonMetadata & { router: Router; close?: () => Promise<void> };
 export function registerConcepts(): readonly ConceptRecord[] {
   const lab01 = createLab01Router();
@@ -35,6 +38,7 @@ export function registerConcepts(): readonly ConceptRecord[] {
   const lab08 = createLab08Router();
   const lab09 = createLab09Router();
   const lab10 = createLab10Router();
+  const lab11 = createLab11Router();
   const entries: ConceptRecord[] = [
     { ...lab01Lesson, ...content[lab01Lesson.id]!, router: lab01.router, close: lab01.close },
     { ...lab02Lesson, ...content[lab02Lesson.id]!, router: lab02.router, close: lab02.close },
@@ -46,6 +50,7 @@ export function registerConcepts(): readonly ConceptRecord[] {
     { ...lab08Lesson, ...content[lab08Lesson.id]!, router: lab08.router, close: lab08.close },
     { ...lab09Lesson, ...content[lab09Lesson.id]!, router: lab09.router, close: lab09.close },
     { ...lab10Lesson, ...content[lab10Lesson.id]!, router: lab10.router, close: lab10.close },
+    { ...lab11Lesson, ...content[lab11Lesson.id]!, router: lab11.router, close: lab11.close },
   ];
   validateLessonRegistry(entries.map(({ router: _router, close: _close, ...metadata }) => metadata));
   return entries;

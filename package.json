@@ -24,7 +24,9 @@
     "prepack": "npm run scan:distribution",
     "test:sse": "node --import tsx --test --test-concurrency=1 tests/sse.test.ts",
     "test:lesson-guides": "node --import tsx --test tests/lesson-guides.test.ts",
-    "audit:lesson-guides": "node --import tsx scripts/audit-lesson-guides.ts"
+    "audit:lesson-guides": "node --import tsx scripts/audit-lesson-guides.ts",
+    "skills:check": "node --env-file-if-exists=.env --import tsx scripts/lab11-skills-setup.ts check",
+    "skills:upload": "node --env-file-if-exists=.env --import tsx scripts/lab11-skills-setup.ts upload"
   },
   "dependencies": {
     "express": "^5.2.1",

@@ -7,13 +7,14 @@ The original application is unchanged. Labs 01 (session event streaming), 02
 (session options), 03 (built-in tools), 04 (permissions), 05 (custom tools),
 06 (sessions and retained context), 07 (tool policy and execution audit) and
 08 (delegation and session threads), 09 (system instructions and explicit
-context) and 10 (validated reports and interruption) are registered, with offline fixtures and
+context), 10 (validated reports and interruption) and 11 (Managed skills and
+progressive loading) are registered, with offline fixtures and
 source inspection. See
 [Lab 02 guide](Tab2-options.md), [Lab 03 guide](Tab3-tools.md),
 [Lab 04 guide](Tab4-permissions.md), [Lab 05 guide](Tab5-custom-tools.md) and
 [Lab 06 guide](Tab6-sessions.md), [Lab 07 guide](Tab7-hooks.md) and
 [Lab 08 guide](Tab8-subagents.md), [Lab 09 guide](Tab9-system-prompts.md) and
-[Lab 10 guide](Tab10-structured-interrupt.md)
+[Lab 10 guide](Tab10-structured-interrupt.md), [Lab 11 guide](Tab11-skills.md)
 for controls, experiments and PowerShell checks.
 The [course repository index](docs/github-repositories.md) links every cumulative
 GitHub checkpoint.
@@ -31,7 +32,7 @@ npm.cmd run dev
 Open the **Local** URL printed by Vite. It starts at http://127.0.0.1:5174
 and uses the next available port if another application occupies it.
 The backend listens on 127.0.0.1:3076.
-These ports differ from the original app. Vite fails if its port is occupied.
+These ports differ from the original app. Vite selects the next free frontend port.
 If npm.cmd is unavailable with NVM, this machine has npm here:
 
 ```powershell
@@ -521,6 +522,43 @@ keeping role capabilities and effect verification in the host application.
 10. **Exercised the lifecycle.** Deterministic tests cover schemas, correction,
     queue bounds, ownership, deadlines, interrupt acknowledgment versus idle,
     reuse, close and SDK calls. Browser exercises demonstrate the same controls.
+
+### Lab 11: Managed skills and progressive loading
+
+1. **Authored three complete skill snapshots.** `skills/lab11/` contains v1 and
+   revised v2 formatting instructions with references, plus a deliberately missing
+   reference snapshot. Frontmatter names the skill and describes its relevance.
+2. **Validated the host bundle.** `server/lib/lab11-bundle.ts` reads only authored
+   allowlisted files, rejects file symlinks and bounds sizes. File hashes and a
+   snapshot hash distinguish revisions independently of an agent's claims.
+3. **Separated explicit upload from execution.** `scripts/lab11-skills-setup.ts`
+   provides `skills:check` without provider access and deliberate `skills:upload`.
+   The Skills API receives a full multipart snapshot. A local manifest records
+   the returned skill and immutable version; uploads are never called by routes.
+4. **Attached pinned versions in fresh sessions.** `server/lib/lab11-port.ts`
+   retrieves the base agent version and pinned skill metadata, then overrides
+   skills explicitly. It preserves the model/system, clears MCP and disables
+   all built-in tools except read. Resolved mismatches block the prompt while
+   retaining the new session ID for cleanup.
+5. **Tracked file reads independently.** `server/lib/lab11-run.ts` correlates read
+   uses and results, classifies instruction/reference paths, ignores duplicate
+   events and worker cross-posts, and distinguishes attempted, succeeded and
+   failed reads. Host previews and assistant text cannot manufacture this evidence.
+6. **Reused lifecycle boundaries.** The shared tool-session runner opens the stream
+   before sending, bounds host answers, handles local cancellation/deadlines and
+   uses fresh interrupt/status/archive calls for cleanup. Each request owns a new
+   session; owner and global concurrency bounds prevent overlapping exercises.
+7. **Built readable comparisons.** `src/concepts/Concept11Skills.tsx` compares five
+   offline variants, supports metadata-only and failed-read cases, displays
+   configured/resolved metadata separately from reads and exposes copyable JSON.
+8. **Registered the lesson and documented limits.** Browser/server registries,
+   shared strict schemas and `Tab11-skills.md` expose the actual implementation.
+   The guide distinguishes local bundles from trusted GitHub discovery and does
+   not assume Agent SDK plugin, Skill tool, hot reload or preload APIs.
+9. **Verified without provider charges.** Focused tests use authored streams and
+   injected SDK HTTP transport, including multipart upload construction. Browser
+   checks compare all variants and verify mobile wrapping. Live relevance and
+   remote upload/execution remain unverified until explicitly exercised.
 
 ### Platform readability and adopted prompt changes
 
