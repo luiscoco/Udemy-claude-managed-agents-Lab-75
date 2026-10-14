@@ -28,7 +28,9 @@ npm.cmd ci
 npm.cmd run dev
 ```
 
-Open http://127.0.0.1:5174. The backend listens on 127.0.0.1:3076.
+Open the **Local** URL printed by Vite. It starts at http://127.0.0.1:5174
+and uses the next available port if another application occupies it.
+The backend listens on 127.0.0.1:3076.
 These ports differ from the original app. Vite fails if its port is occupied.
 If npm.cmd is unavailable with NVM, this machine has npm here:
 
