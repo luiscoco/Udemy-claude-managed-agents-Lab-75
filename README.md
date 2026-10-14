@@ -540,6 +540,8 @@ keeping role capabilities and effect verification in the host application.
    skills explicitly. It preserves the model/system, clears MCP and disables
    all built-in tools except read. Resolved mismatches block the prompt while
    retaining the new session ID for cleanup.
+   Numeric session version aliases are resolved through a scoped read-only lookup
+   and must identify the exact immutable pin; raw and canonical versions remain visible.
 5. **Tracked file reads independently.** `server/lib/lab11-run.ts` correlates read
    uses and results, classifies instruction/reference paths, ignores duplicate
    events and worker cross-posts, and distinguishes attempted, succeeded and

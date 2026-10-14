@@ -82,3 +82,23 @@ The UI now distinguishes ready base API configuration from missing skill uploads
 Lab 11 reuses the configured base API key; it does not require a separate isolated key.
 The no-skill variant requires no upload, while Missing skill ID is an offline experiment.
 Typecheck, production build and both Lab 11 browser checks passed for this clarification.
+
+## Live version identity fix
+
+A user-triggered live attempt created a session whose skill version was returned as a
+numeric alias rather than the configured `skver_` ID. All base agent, model, read-only
+toolset and skill-ID checks matched. A scoped read-only Skills API lookup confirmed
+that the alias addresses the exact pinned immutable version. Raw string comparison had
+incorrectly blocked the prompt; the original session was successfully archived.
+
+The guard now verifies numeric aliases through the provider version endpoint and retains
+both the raw session version and verified canonical pin in the result. `latest`, wrong
+skill IDs, extra attachments, different canonical versions and failed alias lookups still
+block prompt submission. Failed verification returns the created session ID to the shared
+runner so cleanup remains available.
+
+Validation: all 11 focused tests passed, including successful alias resolution and
+failed-lookup cleanup through injected SDK transport. All three Lab 11 browser checks,
+typecheck, production build and post-build distribution scan passed. The patched guard also accepted the original
+archived session's configuration through read-only API verification. No additional
+session or paid model turn was created during diagnosis or validation.

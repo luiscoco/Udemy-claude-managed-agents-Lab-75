@@ -16,6 +16,22 @@ export const lab11Toolset: BetaManagedAgentsAgentToolset20260401Params = { type:
   default_config: { enabled: false, permission_policy: { type: 'always_allow' } },
   configs: [{ name: 'read', enabled: true, permission_policy: { type: 'always_allow' } }] };
 export type Lab11Port = ToolSessionPort & { configured: Lab11Result['configured']; resolvedSkills: Lab11Result['resolvedSkills']; bundle: SkillBundle | null };
+/** Preserve the raw session version; accept numeric aliases only after a scoped provider lookup proves the exact immutable pin. */
+export async function verifyLab11ResolvedSkills(client: Anthropic, resolved: NonNullable<Lab11Result['resolvedSkills']>, pin: SkillPin | null) {
+  if (!pin) return resolved.length === 0;
+  if (resolved.length !== 1) return false;
+  const skill = resolved[0]!;
+  if (skill.type !== 'custom' || skill.skillId !== pin.skillId) return false;
+  if (skill.version === pin.version) { skill.canonicalVersion = pin.version; return true; }
+  skill.canonicalVersion = null;
+  // Never accept latest, infer from timestamps, or substitute another version on a failed lookup.
+  if (!/^\d{1,32}$/.test(skill.version)) return false;
+  try {
+    const metadata = await client.beta.skills.versions.retrieve(skill.version, { skill_id: pin.skillId }, { timeout: 3000 });
+    if (metadata.skill_id !== pin.skillId || metadata.id !== pin.version) return false;
+    skill.canonicalVersion = metadata.id; return true;
+  } catch { return false; }
+}
 export function revisionFor(input: Lab11Request): SkillBundle['revision'] {
   return input.variant === 'revised-version' ? 'v2' : input.variant === 'absent-reference' ? 'missing-reference' : 'v1';
 }
@@ -52,11 +68,11 @@ export async function createLiveLab11Port(input: Lab11Request, sdk?: Anthropic, 
       const session = await client.beta.sessions.create(lab11SessionParams(request, base, pin ?? null, env), { timeout: 5000 });
       const a = session.agent; const tools = effectiveToolsFrom(a.tools);
       port.resolvedSkills = a.skills.map(s => ({ type: s.type, skillId: s.skill_id, version: s.version }));
-      const expected = pin ? [{ type: 'custom', skillId: pin.skillId, version: pin.version }] : [];
+      const skillVerified = await verifyLab11ResolvedSkills(client, port.resolvedSkills, pin ?? null);
       if (a.id !== base.id || a.version !== base.version || a.model.id !== base.model.id || a.multiagent || a.mcp_servers.length ||
         a.tools.length !== 1 || a.tools[0]?.type !== 'agent_toolset_20260401' || a.tools[0].default_config.enabled ||
-        tools.filter(t => t.enabled).length !== 1 || !tools.some(t => t.name === 'read' && t.enabled && t.policy === 'always_allow') ||
-        JSON.stringify(port.resolvedSkills) !== JSON.stringify(expected)) mismatch = 'Resolved session differs from the requested read-only toolset or pinned skill. No prompt sent.';
+        tools.filter(t => t.enabled).length !== 1 || !tools.some(t => t.name === 'read' && t.enabled && t.policy === 'always_allow')) mismatch = 'Resolved session differs from the requested base agent or read-only toolset. No prompt sent.';
+      else if (!skillVerified) mismatch = 'Resolved skill identity or version could not be verified against the immutable pin. No prompt sent.';
       // Return the created ID even on a mismatch, so the shared runner can archive it.
       return { effectiveTools: tools, session: { source: 'managed-api', id: session.id, status: session.status, agentId: a.id,
         agentVersion: a.version, environmentId: session.environment_id, budget: session.budget ? `${session.budget.max_list_cost.amount} USD cents` : null,

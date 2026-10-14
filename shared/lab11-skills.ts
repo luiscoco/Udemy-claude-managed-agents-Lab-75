@@ -29,6 +29,6 @@ export const skillReadSchema = z.strictObject({ useId: z.string(), resultId: z.s
 export type SkillRead = z.infer<typeof skillReadSchema>;
 export const attachmentSchema = z.strictObject({ skillId: z.string(), version: z.string(), revision: z.enum(bundleRevisions), bundleHash: z.string() });
 export const lab11ResultSchema = lab03ResultSchema.omit({ requested: true, toolset: true }).extend({ requested: lab11RequestSchema,
-  configured: attachmentSchema.nullable(), resolvedSkills: z.array(z.strictObject({ type: z.string(), skillId: z.string(), version: z.string() })).nullable(),
+  configured: attachmentSchema.nullable(), resolvedSkills: z.array(z.strictObject({ type: z.string(), skillId: z.string(), version: z.string(), canonicalVersion: z.string().nullable().optional() })).nullable(),
   reads: z.array(skillReadSchema).max(100), reportedUsage: reportedUsageSchema.nullable(), evidenceNote: z.string().max(1000) });
 export type Lab11Result = z.infer<typeof lab11ResultSchema>;

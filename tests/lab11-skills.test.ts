@@ -6,7 +6,7 @@ import express from 'express';
 import Anthropic from '@anthropic-ai/sdk';
 import { lab11Question, lab11RequestSchema, lab11Variants, pinManifestSchema } from '../shared/lab11-skills.js';
 import { readSkillBundle } from '../server/lib/lab11-bundle.js';
-import { createFixtureLab11Port, createLiveLab11Port, lab11SessionParams, lab11Toolset } from '../server/lib/lab11-port.js';
+import { createFixtureLab11Port, createLiveLab11Port, lab11SessionParams, lab11Toolset, verifyLab11ResolvedSkills } from '../server/lib/lab11-port.js';
 import { runLab11 } from '../server/lib/lab11-run.js';
 import { createLab11Router } from '../server/concepts/11-skills.js';
 import { uploadSkillBundle } from '../scripts/lab11-skills-setup.js';
@@ -68,7 +68,7 @@ test('cancel, deadline and cancellation during creation preserve returned ID for
 });
 test('real SDK transport pins exact skill/version and base, opens stream first and never uploads in a run', async () => {
   const bundle = await readSkillBundle('v1'); const pin = { skillId: 'skill_test', version: 'version_test', bundleHash: bundle.hash };
-  const log: Array<{ path: string; method: string; body: any }> = []; let mismatch = false;
+  const log: Array<{ path: string; method: string; body: any }> = []; let mismatch = false; let alias = false; let aliasLookupFailed = false;
   const base = { id: 'agent_test', version: 3, model: { id: 'base-model' }, system: 'Base.', multiagent: null, archived_at: null };
   let resolved: any = { ...base, tools: [lab11Toolset], skills: [{ type: 'custom', skill_id: pin.skillId, version: pin.version }], mcp_servers: [] };
   const fixture = await createFixtureLab11Port(input, 0); await fixture.send('id', 'prompt', new AbortController().signal);
@@ -80,8 +80,10 @@ test('real SDK transport pins exact skill/version and base, opens stream first a
     const path = new URL(String(url)).pathname; const body = typeof init?.body === 'string' ? JSON.parse(init.body) : undefined;
     log.push({ path, method: init?.method ?? 'GET', body });
     if (path.startsWith('/v1/agents/')) return Response.json(base);
-    if (path.includes('/versions/')) return Response.json({ id: pin.version, skill_id: pin.skillId, name: bundle.name, description: bundle.description });
+    if (path.includes('/versions/')) { if (aliasLookupFailed && path.endsWith('/1791993629073853')) return Response.json({ error: { type: 'not_found_error', message: 'Authored unavailable alias' } }, { status: 404 });
+      return Response.json({ id: pin.version, skill_id: pin.skillId, name: bundle.name, description: bundle.description }); }
     if (path === '/v1/sessions' && init?.method === 'POST') { resolved = { ...base, ...body.agent, model: base.model };
+      if (alias) resolved.skills = [{ type: 'custom', skill_id: pin.skillId, version: '1791993629073853' }];
       if (mismatch) resolved.skills = [{ type: 'custom', skill_id: 'skill_unwanted', version: 'unexpected' }]; }
     if (path.endsWith('/events/stream')) return new Response(events.map(e => `event: ${e.type}\ndata: ${JSON.stringify(e)}\n\n`).join(''), { headers: { 'Content-Type': 'text/event-stream' } });
     return Response.json({ id: 'sesn_test', status: 'idle', agent: resolved, environment_id: 'env_test', budget: null });
@@ -97,11 +99,40 @@ test('real SDK transport pins exact skill/version and base, opens stream first a
   assert.throws(() => lab11SessionParams(q, base, null, env));
   assert.throws(() => lab11SessionParams(q, base, { ...pin, version: 'latest' }, env));
   await assert.rejects(createLiveLab11Port({ ...q, variant: 'missing-id' }, sdk, env, pin), /No skill ID/);
+  alias = true; log.length = 0;
+  const aliased = await runLab11(q, await createLiveLab11Port(q, sdk, env, pin), new AbortController().signal, () => {}, 10);
+  assert.equal(aliased.outcome.kind, 'completed'); assert.equal(aliased.cleanup, 'archived');
+  assert.equal(aliased.resolvedSkills?.[0]?.version, '1791993629073853'); assert.equal(aliased.resolvedSkills?.[0]?.canonicalVersion, pin.version);
+  assert(log.some(x => x.path.endsWith('/versions/1791993629073853')));
+  aliasLookupFailed = true; log.length = 0;
+  const unverified = await runLab11(q, await createLiveLab11Port(q, sdk, env, pin), new AbortController().signal, () => {}, 10);
+  assert.equal(unverified.outcome.kind, 'error'); assert.equal(unverified.sessionId, 'sesn_test'); assert.equal(unverified.cleanup, 'archived');
+  assert.equal(log.some(x => x.body?.events?.[0]?.type === 'user.message'), false);
+  aliasLookupFailed = false;
   mismatch = true; log.length = 0;
   const rejected = await runLab11(q, await createLiveLab11Port(q, sdk, env, pin), new AbortController().signal, () => {}, 10);
   assert.equal(rejected.outcome.kind, 'error'); assert.equal(rejected.sessionId, 'sesn_test'); assert.equal(rejected.cleanup, 'archived');
   assert.equal(log.some(x => x.body?.events?.[0]?.type === 'user.message'), false);
   assert(log.some(x => x.path.endsWith('/archive')));
+});
+test('numeric resolved versions require exact scoped identity; wrong, latest and failed lookups fail closed', async () => {
+  const pin = { skillId: 'skill_test', version: 'skver_pinned', bundleHash: 'a'.repeat(64) };
+  for (const scenario of ['matching', 'wrong-version', 'wrong-skill', 'unavailable']) {
+    const calls: string[] = [];
+    const sdk = new Anthropic({ apiKey: 'offline-only', maxRetries: 0, fetch: async url => {
+      calls.push(new URL(String(url)).pathname);
+      if (scenario === 'unavailable') return Response.json({ error: { type: 'not_found_error', message: 'Authored unavailable alias' } }, { status: 404 });
+      return Response.json({ id: scenario === 'wrong-version' ? 'skver_other' : pin.version, skill_id: scenario === 'wrong-skill' ? 'skill_other' : pin.skillId });
+    } });
+    const resolved: NonNullable<import('../shared/lab11-skills.js').Lab11Result['resolvedSkills']> = [{ type: 'custom', skillId: pin.skillId, version: '1791993629073853' }];
+    assert.equal(await verifyLab11ResolvedSkills(sdk, resolved, pin), scenario === 'matching');
+    assert.equal(resolved[0]!.canonicalVersion, scenario === 'matching' ? pin.version : null);
+    assert.deepEqual(calls, ['/v1/skills/skill_test/versions/1791993629073853']);
+    calls.length = 0;
+    for (const version of ['latest', 'skver_other', '../../latest']) assert.equal(await verifyLab11ResolvedSkills(sdk, [{ type: 'custom', skillId: pin.skillId, version }], pin), false);
+    assert.equal(await verifyLab11ResolvedSkills(sdk, [{ type: 'custom', skillId: 'skill_other', version: '1791993629073853' }], pin), false);
+    assert.deepEqual(calls, []);
+  }
 });
 test('explicit upload uses Skills multipart API and full relative filenames, returns immutable pin', async () => {
   const bundle = await readSkillBundle('v2'); const paths: string[] = [], files: string[] = [];

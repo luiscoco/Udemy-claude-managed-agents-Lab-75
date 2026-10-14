@@ -1,4 +1,7 @@
 import { expect, test } from '@playwright/test';
+import { createFixtureLab11Port } from '../server/lib/lab11-port';
+import { runLab11 } from '../server/lib/lab11-run';
+import { lab11Question } from '../shared/lab11-skills';
 test('five fresh comparisons separate configured pins and observed file loads', async ({ page }) => {
   await page.goto('/?lesson=11'); await page.getByRole('tab', { name: 'Run the exercise' }).click();
   await page.getByRole('button', { name: 'Preview authored instructions' }).click(); await expect(page.getByText('Host preview loaded. This is not evidence of an agent read.', { exact: true })).toBeVisible();
@@ -11,6 +14,18 @@ test('five fresh comparisons separate configured pins and observed file loads', 
   for (const article of await page.getByRole('article').all()) await expect(article).toContainText('Usage: not reported');
   await page.screenshot({ path: 'test-results/lab11-desktop.png', fullPage: true });
   await page.getByRole('article', { name: 'With pinned skill result' }).screenshot({ path: 'test-results/lab11-report-card.png' });
+});
+test('raw resolved version and verified canonical pin are presented separately', async ({ page }) => {
+  const input = { mode: 'scripted' as const, variant: 'with-skill' as const, prompt: lab11Question };
+  const sample = await runLab11(input, await createFixtureLab11Port(input, 0), new AbortController().signal, () => {}, 10);
+  sample.resolvedSkills![0]!.version = '1791993629073853'; sample.resolvedSkills![0]!.canonicalVersion = 'fixture-v1';
+  await page.route('**/api/c11/new-session', route => route.fulfill({ status: 200, contentType: 'text/event-stream', body: `id: 1\nevent: result\ndata: ${JSON.stringify(sample)}\n\n` }));
+  await page.goto('/?lesson=11'); await page.getByRole('tab', { name: 'Run the exercise' }).click();
+  await page.getByRole('button', { name: 'Run offline skill experiment' }).click();
+  const article = page.getByRole('article', { name: 'With pinned skill result' });
+  await expect(article.getByText('1791993629073853', { exact: true })).toBeVisible();
+  await expect(article.getByText('fixture-v1', { exact: true })).toBeVisible();
+  await expect(article).toContainText('Source: authored-fixture');
 });
 test('metadata-only does not count preview as loading and mobile report wraps', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 }); await page.goto('/?lesson=11'); await page.getByRole('tab', { name: 'Run the exercise' }).click();

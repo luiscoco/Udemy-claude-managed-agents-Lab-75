@@ -48,6 +48,8 @@ Only clean absolute paths under a skills directory ending in the authored skill 
 
 The session override pins the retrieved base agent version, preserves its model/system, replaces inherited tools with read only, clears MCP and attaches only the selected custom skill version. Unexpected resolved capabilities block the prompt and trigger cleanup of the returned session ID. Write, edit, bash and web tools are disabled by the toolset; a skill description does not authorize them. Unexpected pauses are denied. The lesson does not implement a manual-only Skill invocation API.
 
+The session can return a numeric version alias while the configured immutable pin uses a `skver_` ID. The host preserves the raw returned version and resolves a numeric alias with a read-only, skill-scoped version lookup. It accepts only the exact configured skill and canonical version ID. Unknown aliases, unavailable lookups, extra skills and `latest` remain rejected before prompt submission; the created session ID is still available for cleanup. Raw and verified canonical versions appear separately in the evidence.
+
 Live usage is aggregated only from deduplicated model-request spans. It includes observed input/output/cache counts, not complete billed session cost. Offline results have no measured usage. Cleanup is separate from completion and can remain pending; an interrupt acknowledgment is followed by status confirmation.
 
 ## Troubleshooting
@@ -75,6 +77,7 @@ Run With pinned skill using Metadata only, then successful reads. Compare config
 - [Managed Agents skills](https://platform.claude.com/docs/en/managed-agents/skills)
 - [Create a skill](https://platform.claude.com/docs/en/api/beta/skills/create)
 - [Skill versions](https://platform.claude.com/docs/en/api/beta/skills/versions/create)
+- [Get Skill Version](https://platform.claude.com/docs/en/api/typescript/beta/skills/versions/retrieve)
 - [Managed Agents permission policies](https://platform.claude.com/docs/en/managed-agents/permission-policies)
 
 The checked-in implementation uses the installed SDK types as the parameter contract.
