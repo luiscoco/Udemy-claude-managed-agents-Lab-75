@@ -2,6 +2,16 @@ import type { LessonMetadata } from '../../shared/lessons';
 export type LessonContent = Pick<LessonMetadata, 'objective' | 'steps' | 'inspect' | 'challenge'>;
 // Only implemented lessons belong here; reserved IDs are not completed labs.
 export const content: Readonly<Record<number, LessonContent>> = Object.freeze({
+  12: {
+    objective: 'Queue multiple messages in one retained session, separating local admission, provider acceptance and correlated turn outcomes.',
+    steps: ['Create an offline session and queue one Normal message. Inspect its local command and returned user event IDs.',
+      'Choose Slow, queue a message, then queue a follow-up while the first is running. Confirm that the second waits for completed idle evidence.',
+      'Compare one message with the two-message script; the script is a bounded host queue, not an Agent SDK async generator.',
+      'Try an oversized message, then close a Hang run with waiting work. Confirm rejection before submission and cancellation of waiting commands.',
+      'Open idle configuration. Apply read-only tools, append explicit system context, then create a new model session with a context handoff.'],
+    inspect: ['shared/lab12-streaming-input.ts', 'server/lib/lab12-queue.ts', 'server/lib/lab12-port.ts', 'server/concepts/12-streaming-input.ts'],
+    challenge: 'Queue a follow-up while busy. Identify admission, processing, provider acceptance and completion evidence, then prove that closing the queue prevented waiting commands from being sent.',
+  },
   11: {
     objective: 'Inspect pinned skill metadata separately from observed instruction and reference file reads in fresh sessions.',
     steps: ['Compare all five offline variants and identify distinct session IDs.', 'Preview the authored instructions and reference; confirm a host preview is not an agent read.',

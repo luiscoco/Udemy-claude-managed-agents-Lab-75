@@ -3,6 +3,12 @@
 Each repository is a standalone cumulative checkpoint. A later lab contains all
 earlier lessons, so learners can clone any checkpoint and run it independently.
 
+After each new lesson passes validation, commit its cumulative checkpoint and push
+it to its own private `luiscoco/Udemy-claude-managed-agents-Lab-NN` repository.
+Keep earlier lesson repositories as historical checkpoints. Verify the published
+`main` commit matches the local commit; completing only local changes does not
+finish the user's requested lesson workflow.
+
 | Lab | Repository | Visibility |
 | --- | --- | --- |
 | 01 | [Session event streaming](https://github.com/luiscoco/Udemy-claude-managed-agents-Lab-01-Session-event-streaming) | Private |
@@ -16,4 +22,5 @@ earlier lessons, so learners can clone any checkpoint and run it independently.
 | 09 | [System instructions and explicit context](https://github.com/luiscoco/Udemy-claude-managed-agents-Lab-09) | Private |
 | 10 | [Validated reports and interruption](https://github.com/luiscoco/Udemy-claude-managed-agents-Lab-10) | Private |
 | 11 | [Managed skills and progressive loading](https://github.com/luiscoco/Udemy-claude-managed-agents-Lab-11) | Private |
+| 12 | [Multiple messages in one session](https://github.com/luiscoco/Udemy-claude-managed-agents-Lab-12) | Private |
 

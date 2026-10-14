@@ -11,7 +11,7 @@ export function SourceViewer({ sources, mainSources }: { sources: TextCatalog; m
     return mainSources[0] ?? Object.keys(sources)[0] ?? '';
   });
   const names = [...new Set([...mainSources, ...Object.keys(sources).sort()])];
-  return <section aria-label="Real source files"><h2>Read the real source</h2>
+  return <section className="source-card" aria-label="Real source files"><p className="phase-label">Explore / Source</p><h2>Read the real source</h2>
     <p>Public teaching files bundled as text at build time. Viewing source never executes it.</p>
     {!names.length ? <p role="status">No source files are available for this lesson.</p> : <>
       <label htmlFor={id}>Source file</label>

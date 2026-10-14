@@ -42,3 +42,5 @@ presentations/**/.migration-build/
 managed/lab11-skills.local.json
 managed/lab11-skills.local.lock
 managed/lab11-skills.local.tmp
+artifacts/visual-style/
+artifacts/lab12/

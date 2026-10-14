@@ -19,6 +19,7 @@ export function LessonWorkspace({ lesson, loadGuide, sources, mainSources, loadE
     } catch { return 0; }
   });
   const [visited, setVisited] = useState(active === 1);
+  const [guidanceOpen, setGuidanceOpen] = useState(true);
   const [Exercise, setExercise] = useState<ComponentType>(); const [error, setError] = useState(false);
   const buttons = useRef<(HTMLButtonElement | null)[]>([]);
   const [reopenGuide] = useState(() => { try { return sessionStorage.getItem('lesson-resource-retry') === 'guide'; } catch { return false; } });
@@ -49,12 +50,31 @@ export function LessonWorkspace({ lesson, loadGuide, sources, mainSources, loadE
         }}>{name}</button>)}
     </div>
     <div role="tabpanel" id={`${id}-panel-0`} aria-labelledby={`${id}-tab-0`} hidden={active !== 0} tabIndex={0}>
-      <section><h2>Your lab path</h2><p><strong>Objective:</strong> {lesson.objective}</p><ol>{lesson.steps.map((step) => <li key={step}>{step}</li>)}</ol>
+      <section className="learning-card"><p className="phase-label">01 / Understand</p><h2>Your lab path</h2><p><strong>Objective:</strong> {lesson.objective}</p><ol>{lesson.steps.map((step) => <li key={step}>{step}</li>)}</ol>
         <p><strong>Inspect:</strong> {lesson.inspect.join(', ')}</p><p><strong>Challenge:</strong> {lesson.challenge}</p>
+        <button type="button" onClick={() => activate(1, true)}>Open exercise</button>
         <details open={reopenGuide || undefined}><summary>Detailed guide</summary><TextResource load={loadGuide} label="guide">{(markdown) => <LessonGuide lessonId={lesson.id} markdown={markdown} />}</TextResource></details></section>
     </div>
     <div role="tabpanel" id={`${id}-panel-1`} aria-labelledby={`${id}-tab-1`} hidden={active !== 1} tabIndex={0}>
+      <div className="guided-workspace">
+        <aside className="learning-card exercise-guide" aria-label="Exercise guidance">
+          <p className="phase-label">01 / Understand</p><h2>Understand the lesson</h2>
+          <button type="button" className="guidance-toggle" aria-expanded={guidanceOpen} aria-controls={`${id}-guidance`} onClick={() => setGuidanceOpen(!guidanceOpen)}>{guidanceOpen ? 'Hide guidance' : 'Show guidance'}</button>
+          <div id={`${id}-guidance`} hidden={!guidanceOpen}>
+          <p>{lesson.objective}</p>
+          <details open><summary>Your steps</summary><ol className="learning-steps">{lesson.steps.map((step) => <li key={step}>{step}</li>)}</ol></details>
+          <p><strong>Your turn:</strong> Start with the exercise’s offline path. Compare its evidence with the steps above.</p>
+          <details><summary>Recovery tips</summary><p>If the backend cannot be reached, check that the local development server is running. Live execution requires the server setup described in the exercise.</p><p>Use the Learn tab for the detailed guide. Changing tabs keeps your current experiment; leaving the lesson cancels its local request.</p></details>
+          <button type="button" onClick={() => activate(0, true)}>Open detailed guide</button>
+          </div>
+        </aside>
+        <div className="exercise-content">
+          <div className="exercise-frame"><p className="phase-label">02 / Do the exercise</p>
       {visited && (Exercise ? <Exercise /> : error ? <section role="alert"><h2>Exercise could not load</h2><p>Check your connection and that the local web server is running. Your lesson is still available.</p><p>Retry refreshes the page and reopens the exercise.</p><button onClick={retry}>Retry loading exercise</button></section> : <p role="status">Loading exercise…</p>)}
+          </div>
+          <section className="review-card"><p className="phase-label">03 / Review</p><h2>Check your result</h2><p><strong>Inspect:</strong> {lesson.inspect.join(', ')}</p><p><strong>Challenge:</strong> {lesson.challenge}</p><p>Compare the reported outcome and evidence with the lesson objective.</p></section>
+        </div>
+      </div>
     </div>
     <div role="tabpanel" id={`${id}-panel-2`} aria-labelledby={`${id}-tab-2`} hidden={active !== 2} tabIndex={0}><SourceViewer sources={sources} mainSources={mainSources} /></div>
   </div>;

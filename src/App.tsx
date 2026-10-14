@@ -108,7 +108,8 @@ export function App({ lessons = implementedLessons }: { lessons?: readonly Lesso
       <div className="drawer-header"><h2 id="drawer-heading">Course navigation</h2><button autoFocus onClick={() => drawer.current?.close()}>Close</button></div>{navigation('mobile')}
     </dialog>
     <main id="main" ref={main} tabIndex={-1}>
-      {selected && Component ? <><p className="eyebrow">{selected.topic} / LAB {String(selected.id).padStart(2, '0')}</p><h1>{selected.title}</h1><p className="lead">{selected.objective}</p>
+      {selected && Component ? <><p className="eyebrow">Course / {selected.topic} / LAB {String(selected.id).padStart(2, '0')}</p><h1>{selected.title}</h1><p className="lead">{selected.objective}</p>
+        <nav className="lab-strip" aria-label="Implemented lessons">{ordered.map((lesson) => <a key={lesson.id} href={routeHref(lesson.id)} aria-current={lesson.id === selected.id ? 'page' : undefined} onClick={(event) => navigate(event, lesson.id)}>Lab {String(lesson.id).padStart(2, '0')}</a>)}</nav>
         <Component key={selected.id} />
         <nav className="lesson-pagination" aria-label="Previous and next lessons">
           {ordered[position - 1] ? <a href={routeHref(ordered[position - 1]!.id)} onClick={(event) => navigate(event, ordered[position - 1]!.id)}>← {ordered[position - 1]!.title}</a> : <span>First implemented lesson</span>}

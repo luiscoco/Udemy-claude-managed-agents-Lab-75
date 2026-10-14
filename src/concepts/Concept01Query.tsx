@@ -121,12 +121,13 @@ export default function Concept01Query() {
       <li>Environment: <code>{session.environmentId}</code>; budget: {session.budget ?? 'none'}</li>
     </ul> : <p className="muted">Metadata comes from the session creation response, not from a stream event.</p>}
 
-    <h3>2. Agent text</h3>
+    <div className="agent-response"><h3>2. Agent text</h3>
     {messages.length === 0 && livePreviews.size === 0 && incomplete.size === 0 && <p className="muted">No agent text yet.</p>}
     {[...livePreviews].map(([id, text]) => incomplete.has(id) ? null : <div key={id}><p><strong>Preview</strong> <code>{id}</code> — streaming, not final</p><pre>{redact(text) || '…'}</pre></div>)}
     {messages.map((frame) => <div key={frame.eventId}><p><strong>Authoritative agent.message</strong> <code>{frame.eventId}</code>{frame.replacedPreview ? ' — replaced its preview' : ''}</p><pre>{redact(frame.text)}</pre></div>)}
     {[...incomplete].map(([id, text]) => <div key={id}><p><strong>Incomplete preview</strong> <code>{id}</code> — never received its agent.message</p><pre>{redact(text)}</pre></div>)}
 
+    </div>
     <h3>3. Lifecycle and span events</h3>
     {lifecycle.length === 0 ? <p className="muted">None yet.</p> : <ol>{lifecycle.map((frame) => <li key={frame.seq}>
       {frame.kind === 'duplicate' ? <><strong>duplicate ignored</strong> <code>{frame.id}</code> ({frame.eventType})</>

@@ -10,7 +10,7 @@ import { LessonGuide } from '../src/components/LessonGuide';
 import type * as Resources from '../src/lessons/resources';
 
 test('every completed ID has an authored guide, objective and real UI/server sources', async () => {
-  assert.deepEqual(await auditLessonGuides(), [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]);
+  assert.deepEqual(await auditLessonGuides(), [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]);
 });
 test('actual Vite raw catalog excludes acceptance probes and private/runtime files', async () => {
   const server = await createServer({ server: { middlewareMode: true }, appType: 'custom' });
@@ -20,7 +20,7 @@ test('actual Vite raw catalog excludes acceptance probes and private/runtime fil
     assert.ok(paths.length > 10);
     assert.equal(paths.some(path => /dummy|tests\//i.test(path)), false);
     const { registerConcepts } = await server.ssrLoadModule('/server/concepts/registry.ts');
-    assert.deepEqual(registerConcepts().map(({ id, serverPrefix }: { id: number; serverPrefix: string }) => [id, serverPrefix]), [[1, '/api/c1'], [2, '/api/c2'], [3, '/api/c3'], [4, '/api/c4'], [5, '/api/c5'], [6, '/api/c6'], [7, '/api/c7'], [8, '/api/c8'], [9, '/api/c9'], [10, '/api/c10'], [11, '/api/c11']]);
+    assert.deepEqual(registerConcepts().map(({ id, serverPrefix }: { id: number; serverPrefix: string }) => [id, serverPrefix]), Array.from({ length: 12 }, (_, index) => [index + 1, `/api/c${index + 1}`]));
     for (const path of paths) {
       assert.match(path, /^(server\/(?:index\.ts|sse\.ts|concepts\/[^/]+\.(?:ts|mjs)|lib\/[^/]+\.ts|routes\/[^/]+\.ts)|src\/(?:concepts\/[^/]+\.tsx?|components\/[^/]+\.tsx|lib\/[^/]+\.ts)|shared\/(?:contracts|health|lessons|lab\d{2}-[a-z-]+)\.ts|mcp-servers\/[^/]+\.(?:ts|mjs))$/);
       assert.doesNotMatch(path, /(?:test\.|spec\.|browser|live-check|credential|secret|private|config|(?:^|\/)(?:logs|workspaces?|sandbox)\/|\.env)/i);

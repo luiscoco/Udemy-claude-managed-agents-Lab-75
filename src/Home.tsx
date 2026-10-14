@@ -45,7 +45,7 @@ export function Home({ invalid, lessonCount, startHref, onStart }: { invalid: bo
     <h1>Understand the system.<br /><span>Then build it.</span></h1>
     <p className="lead">A hands-on course in Claude Managed Agents. Follow a request across the browser, the backend, and the runtime—with real source and evidence you can inspect.</p>
     <div className="hero-actions">{startHref ? <a className="button" href={startHref} onClick={onStart}>Start with Lab 01 <span aria-hidden="true">&rarr;</span></a> : <span className="muted">Lab 01 is coming next.</span>}<span className="muted">{lessonCount} implemented {lessonCount === 1 ? 'lesson' : 'lessons'}</span></div>
-    <section aria-labelledby="system-heading"><p className="eyebrow">THE FOUR PARTS</p><h2 id="system-heading">Know what runs where.</h2>
+    <section className="learning-card" aria-labelledby="system-heading"><p className="eyebrow">THE FOUR PARTS</p><h2 id="system-heading">Know what runs where.</h2>
       <div className="system-grid">
         <article><span className="step-number">01 / BROWSER</span><h3>Frontend</h3><p>React renders lessons, collects input, and displays events. Navigation chooses a lesson; only an explicit Run action starts an exercise.</p></article>
         <article><span className="step-number">02 / NODE</span><h3>Backend</h3><p>Express validates requests, applies host policies, and owns execution. Credentials and privileged operations belong here.</p></article>
@@ -55,7 +55,7 @@ export function Home({ invalid, lessonCount, startHref, onStart }: { invalid: bo
     </section>
     <section aria-labelledby="sequence-heading"><h2 id="sequence-heading">Build in small, inspectable steps.</h2><ol className="build-sequence"><li><strong>Establish the foundation.</strong> Connect React and Express with a health contract.</li><li><strong>Trace a deterministic run.</strong> Validate input, observe events, and inspect the outcome in the scripted or guided path for each lab.</li><li><strong>Grow the course.</strong> Add a working lab, its registry entry, and evidence before exposing it in navigation.</li></ol></section>
     <section aria-labelledby="topics-heading"><h2 id="topics-heading">Where the course is heading</h2><p>These are the planned topic groups. Lessons become navigable as they are implemented.</p><ul className="topic-roadmap">{topicGroups.map((topic) => <li key={topic}>{topic}</li>)}</ul></section>
-    <section aria-labelledby="health-heading">
+    <section className="exercise-frame" aria-labelledby="health-heading">
       <h2 id="health-heading">Backend readiness</h2>
       <p>Check the local API. This request does not call Claude or inspect credentials.</p>
       <div className="actions">
@@ -66,7 +66,7 @@ export function Home({ invalid, lessonCount, startHref, onStart }: { invalid: bo
       {health && <details open><summary>Raw API evidence</summary><pre>{JSON.stringify(health, null, 2)}</pre></details>}
     </section>
     <ManagedFoundation />
-    <section aria-labelledby="source-heading">
+    <section className="source-card" aria-labelledby="source-heading">
       <h2 id="source-heading">Read the real source</h2>
       <p>These are the actual authored files, included as text at build time.</p>
       <details><summary>src/Home.tsx</summary><pre>{homeSource}</pre></details>

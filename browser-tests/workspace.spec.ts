@@ -45,7 +45,8 @@ test('exercise loads on demand, retains state across tabs and cancels without re
     await route.fulfill({ contentType: 'text/event-stream', body: 'id: 1\nevent: result\ndata: {"output":"Test completed."}\n\n' });
   });
   await page.goto('/browser-tests/harness.html?lesson=1'); expect(loads).toBe(0); expect(posts).toBe(0);
-  await page.getByRole('tab', { name: 'Run the exercise' }).click();
+  await page.getByRole('button', { name: 'Open exercise', exact: true }).click();
+  await expect(page.getByRole('tab', { name: 'Run the exercise' })).toBeFocused();
   await page.getByRole('textbox', { name: 'Test text' }).fill('retained');
   await page.getByRole('button', { name: 'Run test' }).click(); await expect(page.getByText('Test completed.', { exact: true })).toBeVisible();
   for (const name of ['Learn', 'TypeScript source', 'Run the exercise']) await page.getByRole('tab', { name, exact: true }).click();

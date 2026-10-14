@@ -7,14 +7,15 @@ The original application is unchanged. Labs 01 (session event streaming), 02
 (session options), 03 (built-in tools), 04 (permissions), 05 (custom tools),
 06 (sessions and retained context), 07 (tool policy and execution audit) and
 08 (delegation and session threads), 09 (system instructions and explicit
-context), 10 (validated reports and interruption) and 11 (Managed skills and
-progressive loading) are registered, with offline fixtures and
+context), 10 (validated reports and interruption), 11 (Managed skills and
+progressive loading) and 12 (multiple messages in one session) are registered, with offline fixtures and
 source inspection. See
 [Lab 02 guide](Tab2-options.md), [Lab 03 guide](Tab3-tools.md),
 [Lab 04 guide](Tab4-permissions.md), [Lab 05 guide](Tab5-custom-tools.md) and
 [Lab 06 guide](Tab6-sessions.md), [Lab 07 guide](Tab7-hooks.md) and
 [Lab 08 guide](Tab8-subagents.md), [Lab 09 guide](Tab9-system-prompts.md) and
-[Lab 10 guide](Tab10-structured-interrupt.md), [Lab 11 guide](Tab11-skills.md)
+[Lab 10 guide](Tab10-structured-interrupt.md), [Lab 11 guide](Tab11-skills.md),
+[Lab 12 guide](Tab12-streaming-input.md)
 for controls, experiments and PowerShell checks.
 The [course repository index](docs/github-repositories.md) links every cumulative
 GitHub checkpoint.
@@ -634,6 +635,29 @@ npm.cmd run scan:distribution
 Browser checks use dedicated ports 5184 and 3086 and installed Google Chrome.
 Offline checks use injected managed ports and do not spend API credits.
 See docs/migration.md for architecture, curriculum decisions and verification.
+
+### Lab 12: Multiple messages in one session
+
+1. **Defined closed command contracts.** `shared/lab12-streaming-input.ts` bounds message text, command IDs, scripts, limits and small PNG attachments. Unsupported SDK generator/setter fields fail before admission.
+2. **Opened one stream for a retained session.** `server/lib/lab12-port.ts` implements injected fixture and official SDK adapters. Live sessions pin the base version, clear tools/MCP/skills and verify effective configuration; returned IDs remain available for cleanup if verification fails.
+3. **Built the host queue.** `server/lib/lab12-queue.ts` admits at most one active and two waiting commands, deduplicates command IDs and serializes sends using the shared lifecycle consumer. It requires the returned user event to appear before attributing turn evidence.
+4. **Separated controls from turns.** The Express router exposes admission, scripts, SSE snapshots, inspection, restricted idle tools/MCP updates, system context, explicit new-model context handoff and end/cleanup. Waiting commands are cancelled before submission on close; interruption and archive are reported separately.
+5. **Added the real learning workspace.** `src/concepts/Concept12StreamingInput.tsx`, the registry and [Lab 12 guide](Tab12-streaming-input.md) show admission, provider acceptance, processing and outcomes independently, retaining the shared visual design.
+6. **Validated offline.** The full regression run passed 169 tests; the expanded Lab 12 suite passed 16 tests, including disconnect during new-model creation. The Lab 12/navigation browser run passed 12 checks. Typecheck, guide audit/tests and build passed. Live provider behavior was not exercised.
+
+```powershell
+npm.cmd run dev
+# In another terminal:
+node --import tsx --test tests/lab12-streaming-input.test.ts
+npm.cmd run audit:lesson-guides
+npm.cmd run test:lesson-guides
+npm.cmd run typecheck
+npm.cmd run build
+npm.cmd run scan:distribution
+node scripts/lab12-browser-demonstration.mjs
+```
+
+The demonstration uses the running server at port 5174 by default; set `LESSON_UI_URL` to the actual Vite URL if it chose another port. It runs only authored offline commands and closes its sessions. See [Lab 12 checkpoint](docs/lab12-checkpoint.md) for evidence and limits.
 
 Official references:
 - https://platform.claude.com/docs/en/managed-agents/quickstart
