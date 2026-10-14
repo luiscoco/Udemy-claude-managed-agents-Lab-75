@@ -34,3 +34,11 @@ The agent-launched development server originally inherited restricted network ac
 Live connection failures now return a safe HTTP 503 diagnostic; provider access/configuration failures return HTTP 422 with a sanitized message. The schema panel initializes from the shared contract instead of appearing blank while its API request is pending.
 
 Validation: all 12 focused tests passed, including connection/access failure regressions, and both browser scenarios passed against the running development server. Provider verification remained read-only.
+
+## Readability and workbook update — 2026-10-14
+
+The user supplied a successful live Managed API report with first-attempt host validation. The presentation now uses readable report sections with collapsible copyable JSON, separate turn metadata and observed token counters. Idle retained sessions no longer claim that a run is in progress. The platform base font is 20px with larger secondary text and code.
+
+Four Lab 10 browser tests passed, including long reports at 390px and 1280px with no horizontal page overflow and JSON expanded. Typecheck passed. The updated Word workbook preserves the original 91 prompt blocks and adds five adopted-context blocks for a total of 96.
+
+Production build, all 12 focused Lab 10 tests, four platform navigation/layout checks and the post-build distribution scan passed. The 106-page Word workbook was rendered with native Word page metafiles and visually reviewed; all original paragraphs remain in order and all 96 prompt blocks have matching start/end markers.

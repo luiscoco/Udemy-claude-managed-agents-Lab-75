@@ -23,6 +23,8 @@ The report contract requires project, summary, risks and nonempty nextSteps. It 
 
 Each turn has a local UUID, state, outcome, attempts, validation errors and observed usage. The run records the provider session ID, queue depth, interruption evidence and cleanup outcome. Offline usage is null. Live usage comes only from deduplicated model-request spans, not a fabricated cost estimate.
 
+Validated reports render as a project heading, summary, Risks list and numbered Next steps. Turn evidence and observed input, output and cache-token counts are separate. **View and copy validated JSON** exposes the exact validated object without placing long JSON in a wide table. The platform uses larger readable typography, and a completed idle session is labeled as retained rather than in progress.
+
 The report is **application schema validation**. No `outputFormat` or `result.structured_output` field is sent to `sessions.create`. This lesson selects the host final-text validation route rather than a submit_report custom tool.
 
 API inventory: `GET /api/c10/schemas`, `POST /structured`, `POST /run`, `POST /interrupt`, `POST /abort`, `POST /send` and `POST /end`. `GET /run?runId=...` adds read-only state inspection. Stateful calls require the same `X-Lab-Owner` exercise ID. IDs are local run UUIDs, not caller-selected provider session IDs.

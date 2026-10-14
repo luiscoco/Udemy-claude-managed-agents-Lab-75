@@ -37,10 +37,21 @@ export default function Concept10StructuredInterrupt(){
       <button disabled={!runId.current || pending || closed} onClick={()=>void control('end')}>Close idle session</button>
       {pending && <button onClick={()=>controller.current?.abort()}>Disconnect locally</button>}
       <button disabled={!runId.current} onClick={()=>void refresh()}>Inspect run state</button></div>
-    <div className="lab-live"><LiveActionButton busy={pending || (!!snapshot && !closed)} available={liveReady} keyIsolated setup={liveReady ? 'Live base setup is ready. Start a billed text-only session.' : 'Live Managed setup is not ready.'} checkAvailability={async()=>liveReady} onRun={()=>void run('live')}/></div>
+    <div className="lab-live"><LiveActionButton busy={pending} {...(snapshot && !closed ? {blockedReason:'This session is retained. Send another turn or Close it before starting a new live session.'} : {})} available={liveReady} keyIsolated setup={liveReady ? 'Live base setup is ready. Start a billed text-only session.' : 'Live Managed setup is not ready.'} checkAvailability={async()=>liveReady} onRun={()=>void run('live')}/></div>
     <p role="status" aria-live="polite">{redact(status)}</p>
     {snapshot && <><p aria-label="Run evidence">Run: <code>{snapshot.runId}</code>. Session: <code>{snapshot.session.id}</code>. State: {snapshot.state}. Interruption: {snapshot.interruption}. Cleanup: {snapshot.cleanup}. Source: {snapshot.source}.</p>
-      <table aria-label="Report verification"><thead><tr><th>Turn</th><th>State and outcome</th><th>Attempts</th><th>Validated report</th><th>Errors and usage</th></tr></thead><tbody>{turns.map((turn)=><tr key={turn.turnId}><td><code>{turn.turnId}</code></td><td>{turn.state}: {turn.outcome}</td><td>{turn.attempts}</td><td>{turn.report ? <pre>{JSON.stringify(turn.report,null,2)}</pre> : 'No verified report'}</td><td>{turn.errors.join('; ')}<br/>{turn.reportedUsage ? `${turn.reportedUsage.inputTokens} input / ${turn.reportedUsage.outputTokens} output tokens` : 'No measured usage'}</td></tr>)}</tbody></table>
+      <div role="region" aria-label="Report verification" className="report-results">{turns.map((turn,index)=><article className="report-turn" key={turn.turnId} aria-labelledby={`report-turn-${turn.turnId}`}>
+        <header className="report-turn-header"><h3 id={`report-turn-${turn.turnId}`}>Turn {index+1}</h3><span className="report-outcome">{turn.state}: {turn.outcome}</span></header>
+        <dl className="report-metadata"><div><dt>Turn ID</dt><dd><code>{turn.turnId}</code></dd></div><div><dt>Attempts</dt><dd>{turn.attempts}</dd></div></dl>
+        {turn.report ? <div className="validated-report"><h4>{turn.report.project}</h4><p>{turn.report.summary}</p>
+          <h5>Risks</h5>{turn.report.risks.length ? <ul>{turn.report.risks.map((risk,i)=><li key={i}>{risk}</li>)}</ul> : <p>No risks reported.</p>}
+          <h5>Next steps</h5><ol>{turn.report.nextSteps.map((step,i)=><li key={i}>{step}</li>)}</ol>
+          <details><summary>View and copy validated JSON</summary><CodeBlock label={`Validated JSON for turn ${index+1}`} code={JSON.stringify(turn.report,null,2)} lineNumbers={false}/></details>
+        </div> : <p>No verified report</p>}
+        {turn.errors.length>0 && <div className="report-errors"><h4>Validation or execution errors</h4><ul>{turn.errors.map((error,i)=><li key={i}>{error}</li>)}</ul></div>}
+        <div className="report-usage"><h4>Observed usage</h4>{turn.reportedUsage ? <><dl className="report-metadata"><div><dt>Input tokens</dt><dd>{turn.reportedUsage.inputTokens}</dd></div><div><dt>Output tokens</dt><dd>{turn.reportedUsage.outputTokens}</dd></div>
+          <div><dt>Cache creation tokens</dt><dd>{turn.reportedUsage.cacheCreationTokens}</dd></div><div><dt>Cache read tokens</dt><dd>{turn.reportedUsage.cacheReadTokens}</dd></div></dl><p className="muted">Scope: {turn.reportedUsage.scope}. These counters do not represent complete billed session cost.</p></> : <p>No measured usage</p>}</div>
+      </article>)}</div>
       <p>Local cancellation does not prove a remote stop. An acknowledgment must be followed by idle confirmation before reuse or archive.</p></>}
   </section>;
 }

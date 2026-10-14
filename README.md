@@ -514,10 +514,27 @@ keeping role capabilities and effect verification in the host application.
    idle, archives the session and rejects all future sends. Repeated Close is safe.
 9. **Reported effective outcomes and usage.** The ledger distinguishes verified,
    invalid, exhausted, interrupted, aborted and deadline outcomes. Only observed
-   live spans supply usage; fixtures report no measured tokens.
+   live spans supply usage; fixtures report no measured tokens. Reports render
+   as project headings, summaries, risks and numbered next steps; copyable JSON
+   lives in a details panel. An idle retained session is labeled separately from
+   active execution.
 10. **Exercised the lifecycle.** Deterministic tests cover schemas, correction,
     queue bounds, ownership, deadlines, interrupt acknowledgment versus idle,
     reuse, close and SDK calls. Browser exercises demonstrate the same controls.
+
+### Platform readability and adopted prompt changes
+
+The platform uses a 20px base font with larger navigation, controls, notes and
+code. Long Lab 10 reports wrap within the page on desktop and phone screens.
+The report metadata and token counters stay separate from the readable report.
+
+The updated Word workbook in `docs/prompt-migration/` preserves the original
+Setup and Labs 01–75 prompts and adds five dated copyable blocks covering adopted
+conversation requirements. These include readable output, platform typography,
+development port fallback, network-aware live diagnostics, README walkthroughs,
+private cumulative lesson repositories and truthful retained-session evidence.
+The canonical workbook and its dated updated copy contain the same content.
+The original baseline is retained locally as a backup.
 
 ### Presentations
 
