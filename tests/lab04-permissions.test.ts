@@ -281,7 +281,15 @@ test('router: 400, 404, 409, 422 and 429 over HTTP, one winner per race, and can
     controllers.forEach((c) => c.abort());
     for (let i = 0; i < 80 && router.registry.pendingCount() > 0; i++) await delay(25);
     assert.equal(router.registry.pendingCount(), 0, 'disconnect released every waiter');
-    await delay(100);
-    assert.notEqual((await post('query', { ...base, scenario: 'preallowed-only' })).status, 429, 'capacity released');
+    // Pending reviews clear before asynchronous session cleanup releases capacity.
+    // Probe admission with a finite bound instead of assuming cleanup takes 100 ms.
+    let admission: Response | undefined;
+    const until = Date.now() + 5000;
+    do { admission = await post('query', { ...base, scenario: 'preallowed-only' });
+      if (admission.status !== 429) break;
+      await admission.arrayBuffer(); await delay(25);
+    } while (Date.now() < until);
+    assert.notEqual(admission.status, 429, 'capacity released');
+    await readSse(admission, async () => {});
   } finally { await router.close(); server.closeAllConnections(); await new Promise<void>((resolve) => server.close(() => resolve())); }
 });

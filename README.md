@@ -9,14 +9,14 @@ The original application is unchanged. Labs 01 (session event streaming), 02
 08 (delegation and session threads), 09 (system instructions and explicit
 context), 10 (validated reports and interruption), 11 (Managed skills and
 progressive loading), 12 (multiple messages in one session) and 13 (MCP connections
-and reachability) are registered, with offline fixtures and
+and reachability), and 14 (models and supported effort) are registered, with offline fixtures and
 source inspection. See
 [Lab 02 guide](Tab2-options.md), [Lab 03 guide](Tab3-tools.md),
 [Lab 04 guide](Tab4-permissions.md), [Lab 05 guide](Tab5-custom-tools.md) and
 [Lab 06 guide](Tab6-sessions.md), [Lab 07 guide](Tab7-hooks.md) and
 [Lab 08 guide](Tab8-subagents.md), [Lab 09 guide](Tab9-system-prompts.md) and
 [Lab 10 guide](Tab10-structured-interrupt.md), [Lab 11 guide](Tab11-skills.md),
-[Lab 12 guide](Tab12-streaming-input.md), [Lab 13 guide](Tab13-mcp-servers.md)
+[Lab 12 guide](Tab12-streaming-input.md), [Lab 13 guide](Tab13-mcp-servers.md), [Lab 14 guide](Tab14-thinking-effort-models.md)
 for controls, experiments and PowerShell checks.
 The [course repository index](docs/github-repositories.md) links every cumulative
 GitHub checkpoint.
@@ -690,3 +690,26 @@ Official references:
 - https://platform.claude.com/docs/en/managed-agents/tools
 - https://platform.claude.com/docs/en/managed-agents/permission-policies
 - https://platform.claude.com/docs/en/managed-agents/files
+
+
+### Lab 14: How it was built, step by step
+
+1. Inspected SDK 0.133.0 model, effort, session-creation/update and usage-span types, then checked current official effort and Managed session documentation.
+2. Authored a closed teaching capability catalog with explicit operator-declared account readiness. Strict schemas reject incompatible combinations and Agent SDK fields before sending.
+3. Adapted the shared text-session runner through injected ports. Each attempt pins the base version, sets a model/effort object, clears tools/skills/MCP and verifies returned configuration before sending. Only events after the acknowledged user message are attributed to the attempt.
+4. Added owned experiment preparation, fresh runs, replacement configurations and cleanup. Uncertain work reserves capacity; fallback is bounded to one separately budgeted session after reconciliation.
+5. Added readable evidence, fixed-prompt comparison history, offline failure scenarios, cancellation and the guide. Private thinking is filtered and fixture measurements remain absent.
+6. Added deterministic provider-boundary tests, browser checks and phone/desktop demonstrations. See [Lab 14 checkpoint](docs/lab14-checkpoint.md) for actual validation and limitations.
+
+```powershell
+npm.cmd run typecheck
+node --import tsx --test tests/lab14-models.test.ts
+npm.cmd run test:offline
+npm.cmd run audit:lesson-guides
+npm.cmd run test:lesson-guides
+npm.cmd run build
+npm.cmd run scan:distribution
+node scripts/lab14-browser-demonstration.mjs
+```
+
+Lab 14 is published independently at [Udemy-claude-managed-agents-Lab-14](https://github.com/luiscoco/Udemy-claude-managed-agents-Lab-14), preserving earlier cumulative checkpoints.

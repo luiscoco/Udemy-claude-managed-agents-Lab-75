@@ -261,9 +261,13 @@ test('router: 400 before any provider work, 422 for unconfigured live, 429 at ca
     controllers.forEach((c) => c.abort());
     for (let i = 0; i < 80 && interrupts < 2; i++) await delay(25);
     assert.equal(interrupts, 2);
-    await delay(50);
-
-    const done = await post({ ...base, preset: 'permitted-edit' });
+    // Interrupt acknowledgment precedes archive/output cleanup and slot release.
+    let done: Response;
+    const until = Date.now() + 5000;
+    do { done = await post({ ...base, preset: 'permitted-edit' });
+      if (done.status !== 429) break;
+      await done.arrayBuffer(); await delay(25);
+    } while (Date.now() < until);
     assert.equal(done.status, 200); assert.match(await done.text(), /"kind":"completed"/);
     const after = await (await fetch(`${root}/files`)).json();
     assert.match(after.files.find((f: { path: string }) => f.path === 'outputs/draft.md').content, /Status: reviewed/);

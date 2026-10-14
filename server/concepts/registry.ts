@@ -30,6 +30,9 @@ import { createLab12Router } from './12-streaming-input.js';
 import { lab13Lesson } from '../../shared/lab13-mcp.js';
 import { createLab13Router } from './13-mcp-servers.js';
 
+import { lab14Lesson } from '../../shared/lab14-models.js';
+import { createLab14Router } from './14-thinking-effort-models.js';
+
 export type ConceptRecord = LessonMetadata & { router: Router; close?: () => Promise<void> };
 export function registerConcepts(): readonly ConceptRecord[] {
   const lab01 = createLab01Router();
@@ -44,6 +47,7 @@ export function registerConcepts(): readonly ConceptRecord[] {
   const lab10 = createLab10Router();
   const lab11 = createLab11Router();
   const lab12 = createLab12Router();
+  const lab14 = createLab14Router();
   const lab13 = createLab13Router();
   const entries: ConceptRecord[] = [
     { ...lab01Lesson, ...content[lab01Lesson.id]!, router: lab01.router, close: lab01.close },
@@ -59,6 +63,7 @@ export function registerConcepts(): readonly ConceptRecord[] {
     { ...lab11Lesson, ...content[lab11Lesson.id]!, router: lab11.router, close: lab11.close },
     { ...lab12Lesson, ...content[lab12Lesson.id]!, router: lab12.router, close: lab12.close },
     { ...lab13Lesson, ...content[lab13Lesson.id]!, router: lab13.router, close: lab13.close },
+    { ...lab14Lesson, ...content[lab14Lesson.id]!, router: lab14.router, close: lab14.close },
   ];
   validateLessonRegistry(entries.map(({ router: _router, close: _close, ...metadata }) => metadata));
   return entries;

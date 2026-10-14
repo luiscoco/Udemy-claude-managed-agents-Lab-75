@@ -2,6 +2,12 @@ import type { LessonMetadata } from '../../shared/lessons';
 export type LessonContent = Pick<LessonMetadata, 'objective' | 'steps' | 'inspect' | 'challenge'>;
 // Only implemented lessons belong here; reserved IDs are not completed labs.
 export const content: Readonly<Record<number, LessonContent>> = Object.freeze({
+  14: {
+    objective: 'Compare supported model and effort settings in fresh sessions with resolved metadata, public responses and explicit fallback budgets.',
+    steps: ['Hold the prompt and model fixed; compare low, medium and high effort offline.', 'Reject incompatible values and inspect the resolved model snapshot.', 'Simulate unavailable and uncertain primary models with one explicitly budgeted host fallback.'],
+    inspect: ['shared/lab14-models.ts', 'server/lib/lab14-port.ts', 'server/lib/lab14-run.ts'],
+    challenge: 'Change supported effort while keeping prompt and model fixed in fresh sessions. Explain why uncertain work blocks fallback.',
+  },
   13: {
     objective: 'Connect real local MCP transports, separate configuration from observed reachability, and compare host bridges with native Managed HTTPS MCP.',
     steps: ['Run Working offline and inspect the real notes stdio and authenticated inventory HTTP handshakes.',
