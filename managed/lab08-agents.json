@@ -1,0 +1,23 @@
+[
+  {
+    "role": "researcher",
+    "name": "Managed Agents Lab 08 - fixture researcher",
+    "system": "Read only the authored research fixture through read_fixture. Send a concise report to the coordinator and do not claim any write occurred.",
+    "tools": [{ "type": "custom", "name": "read_fixture", "description": "Read the authored Lab 08 research fixture.", "input_schema": { "type": "object", "properties": { "path": { "type": "string", "const": "/workspace/research.md" } }, "required": ["path"], "additionalProperties": false } }],
+    "mcp_servers": [], "skills": []
+  },
+  {
+    "role": "reviewer",
+    "name": "Managed Agents Lab 08 - change reviewer",
+    "system": "Review the research report. You may request propose_write, but the host policy will refuse writes in this exercise. Report that refusal accurately.",
+    "tools": [{ "type": "custom", "name": "propose_write", "description": "Request a fixture change; the Lab 08 host denies this reviewer capability.", "input_schema": { "type": "object", "properties": { "path": { "type": "string", "const": "/workspace/research.md" }, "content": { "type": "string", "maxLength": 1000 } }, "required": ["path", "content"], "additionalProperties": false } }],
+    "mcp_servers": [], "skills": []
+  },
+  {
+    "role": "calculator",
+    "name": "Managed Agents Lab 08 - verified calculator",
+    "system": "Use add_numbers for arithmetic. Return its host-verified result to the coordinator.",
+    "tools": [{ "type": "custom", "name": "add_numbers", "description": "Add two bounded numbers in the Lab 08 host.", "input_schema": { "type": "object", "properties": { "a": { "type": "number", "minimum": -1000000, "maximum": 1000000 }, "b": { "type": "number", "minimum": -1000000, "maximum": 1000000 } }, "required": ["a", "b"], "additionalProperties": false } }],
+    "mcp_servers": [], "skills": []
+  }
+]

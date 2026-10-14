@@ -12,4 +12,5 @@ earlier lessons, so learners can clone any checkpoint and run it independently.
 | 05 | [Custom tools](https://github.com/luiscoco/Udemy-claude-managed-agents-Lab-05) | Private |
 | 06 | [Sessions and retained context](https://github.com/luiscoco/Udemy-claude-managed-agents-Lab-06) | Private |
 | 07 | [Tool policy and execution audit](https://github.com/luiscoco/Udemy-claude-managed-agents-Lab-07) | Private |
+| 08 | [Delegation and session threads](https://github.com/luiscoco/Udemy-claude-managed-agents-Lab-08) | Private |
 

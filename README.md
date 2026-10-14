@@ -5,11 +5,13 @@ foundation on 2026-10-12. React, Vite, strict TypeScript, Express and Zod remain
 agent execution uses the official `@anthropic-ai/sdk` Managed Agents APIs.
 The original application is unchanged. Labs 01 (session event streaming), 02
 (session options), 03 (built-in tools), 04 (permissions), 05 (custom tools),
-06 (sessions and retained context) and 07 (tool policy and execution audit) are registered, with offline fixtures and
+06 (sessions and retained context), 07 (tool policy and execution audit) and
+08 (delegation and session threads) are registered, with offline fixtures and
 source inspection. See
 [Lab 02 guide](Tab2-options.md), [Lab 03 guide](Tab3-tools.md),
 [Lab 04 guide](Tab4-permissions.md), [Lab 05 guide](Tab5-custom-tools.md) and
-[Lab 06 guide](Tab6-sessions.md) and [Lab 07 guide](Tab7-hooks.md) for controls, experiments and PowerShell checks.
+[Lab 06 guide](Tab6-sessions.md), [Lab 07 guide](Tab7-hooks.md) and
+[Lab 08 guide](Tab8-subagents.md) for controls, experiments and PowerShell checks.
 The [course repository index](docs/github-repositories.md) links every cumulative
 GitHub checkpoint.
 
@@ -428,6 +430,32 @@ host-owned policy pipeline around Managed Agents custom tools.
 10. **Verified effects rather than claims.** Focused tests inspect disk state for
     allow, deny, rewrite, exception and path escape, plus HTTP/SSE, duplicate
     handling and cancellation. Chrome drives the same policy experiments.
+
+### Lab 08: Delegation and session threads
+
+The goal is to use the pinned Managed Agents multiagent configuration while
+keeping role capabilities and effect verification in the host application.
+
+1. **Authored three saved worker definitions.** The researcher, reviewer and
+   calculator have separate prompts and minimal custom tools.
+2. **Provisioned one coordinator roster.** The coordinator enables exactly the
+   three predefined agents and disables inline agents, advisor and workflows.
+3. **Used native session-thread identity.** Thread creation, status and messages
+   are correlated by `sthr_` IDs and agent names.
+4. **Kept histories separate.** The UI shows the parent and each child history;
+   child prose is not treated as an automatic parent answer.
+5. **Enforced capabilities in the host.** The researcher can read one fixture,
+   the reviewer write is refused, and the calculator can request bounded addition.
+6. **Verified effects independently.** The ledger records whether the handler ran,
+   proves the fixture write did not occur and recomputes `21 + 21` as `42`.
+7. **Handled cross-posted calls by thread ID.** The adapter uses
+   `session_thread_id`; it does not invent an Agent SDK `parent_tool_use_id`.
+8. **Stopped child activity through the session boundary.** Cancellation invokes
+   the Managed session interrupt or its deterministic fixture equivalent.
+9. **Exposed the roster and experiment API.** `GET /api/c8/agents` describes the
+   bounded topology and `POST /api/c8/query` streams thread and effect evidence.
+10. **Recorded limits honestly.** Separate histories do not imply filesystem
+    isolation, and offline fixtures do not prove real parallel execution.
 
 ### Presentations
 

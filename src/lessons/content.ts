@@ -2,6 +2,14 @@ import type { LessonMetadata } from '../../shared/lessons';
 export type LessonContent = Pick<LessonMetadata, 'objective' | 'steps' | 'inspect' | 'challenge'>;
 // Only implemented lessons belong here; reserved IDs are not completed labs.
 export const content: Readonly<Record<number, LessonContent>> = Object.freeze({
+  8: {
+    objective: 'Delegate bounded work to predefined Managed Agents, inspect separate session-thread histories, and verify role capabilities and effects in the host.',
+    steps: ['Run the normal fixture and identify the researcher, reviewer and calculator thread IDs.', 'Separate delegation, report receipt and independent verification states.',
+      'Confirm the reviewer write is denied and the calculator sum is recomputed by the host.', 'Run cross-posted, duplicate and wrong-role scenarios.',
+      'Cancel the hanging child activity and inspect the interrupt outcome.'],
+    inspect: ['shared/lab08-subagents.ts', 'server/lib/lab08-port.ts', 'server/lib/lab08-run.ts', 'server/concepts/08-subagents.ts'],
+    challenge: 'Restrict one worker capability and compare its report with the host effect ledger.',
+  },
   7: {
     objective: 'Replace Agent SDK tool hooks with a host policy pipeline that validates before execution and records the actual effect afterward.',
     steps: ['Run Audit only and confirm the safe draft edit executes.', 'Run Deny write and verify the protected file is unchanged and the handler did not run.',

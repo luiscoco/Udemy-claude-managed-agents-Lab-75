@@ -6,7 +6,7 @@ import type { EnvironmentCreateParams } from '@anthropic-ai/sdk/resources/beta/e
 const command = process.argv[2];
 const target = process.argv[3];
 try {
-  if (target !== undefined && !(['lab05', 'lab07'].includes(target) && (command === 'provision' || command === 'verify'))) throw new Error('target');
+  if (target !== undefined && !(['lab05', 'lab07', 'lab08'].includes(target) && (command === 'provision' || command === 'verify'))) throw new Error('target');
   if (command === 'provision' && target === 'lab05') {
     // Lab 05 needs its own agent that declares the custom tools; it reuses the Lab 01 environment.
     const model = process.env.MANAGED_MODEL?.trim();
@@ -26,6 +26,16 @@ try {
     const agent = await createManagedClient().beta.agents.create({ ...template, model });
     await writeFile('managed/lab07-resources.local.json', JSON.stringify({ agentId: agent.id, agentVersion: agent.version }, null, 2), { flag: 'wx' });
     console.info(`CLAUDE_MANAGED_LAB07_AGENT_ID=${agent.id}`);
+  } else if (command === 'provision' && target === 'lab08') {
+    const model = process.env.MANAGED_MODEL?.trim(); if (!model) { console.error('Set MANAGED_MODEL to a supported model available to your account before provisioning.'); process.exit(1); }
+    try { await readFile('managed/lab08-resources.local.json'); throw new Error('already provisioned'); }
+    catch (error) { if (!(error instanceof Error && 'code' in error && error.code === 'ENOENT')) throw error; }
+    const definitions = JSON.parse(await readFile('managed/lab08-agents.json', 'utf8')) as Array<Omit<AgentCreateParams, 'model'> & { role: string }>;
+    const client = createManagedClient(); const children: Array<{ role:string; id:string; version:number }> = [];
+    for (const definition of definitions) { const { role, ...template } = definition; const agent = await client.beta.agents.create({ ...template, model }); children.push({ role, id: agent.id, version: agent.version }); }
+    const { lab08CoordinatorTemplate } = await import('../server/lib/lab08-port.js'); const coordinator = await client.beta.agents.create(lab08CoordinatorTemplate(children.map((item) => item.id), model));
+    await writeFile('managed/lab08-resources.local.json', JSON.stringify({ coordinator: { id: coordinator.id, version: coordinator.version }, children }, null, 2), { flag: 'wx' });
+    console.info(`CLAUDE_MANAGED_LAB08_AGENT_ID=${coordinator.id}`);
   } else if (command === 'verify' && target === 'lab05') {
     const { lab05AgentEnv, lab05AgentId, lab05ToolMismatch } = await import('../server/lib/lab05-port.js');
     const id = lab05AgentId();
@@ -43,6 +53,13 @@ try {
       ? 'it has MCP servers, skills or multiagent configuration' : lab07ToolMismatch(agent.tools);
     if (problem) { console.error(`The Lab 07 agent cannot be used: ${problem}.`); process.exit(1); }
     console.info('Lab 07 agent verified: exactly read_file, write_file and edit_file as custom tools. No session started.');
+  } else if (command === 'verify' && target === 'lab08') {
+    const { lab08AgentEnv, lab08AgentId } = await import('../server/lib/lab08-port.js'); const id = lab08AgentId(); if (!id) { console.error(`Set ${lab08AgentEnv} first.`); process.exit(1); }
+    const agent = await createManagedClient().beta.agents.retrieve(id); const multi = agent.multiagent;
+    if (agent.archived_at || multi?.type !== 'multiagent_20261001' || multi.subagents.type !== 'enabled' || multi.subagents.inline_agents.type !== 'disabled' || multi.subagents.predefined_agents.length !== 3 || multi.workflows.type !== 'disabled') {
+      console.error('The Lab 08 coordinator must expose exactly three predefined subagents, disable inline agents and disable workflows.'); process.exit(1);
+    }
+    console.info('Lab 08 coordinator verified: three predefined subagents, inline agents disabled and workflows disabled. No session started.');
   } else if (command === 'ready') {
     console.info(JSON.stringify(managedSettings(), null, 2));
   } else if (command === 'verify') {

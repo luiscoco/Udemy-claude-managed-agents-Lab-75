@@ -28,3 +28,6 @@ presentations/**/.f*-build/
 presentations/**/.migration-build/
 managed/resources.local.json
 managed/lab05-resources.local.json
+managed/lab07-resources.local.json
+managed/lab08-resources.local.json
+docs/prompt-migration/
