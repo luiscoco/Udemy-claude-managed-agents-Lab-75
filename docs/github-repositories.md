@@ -25,3 +25,4 @@ finish the user's requested lesson workflow.
 | 12 | [Multiple messages in one session](https://github.com/luiscoco/Udemy-claude-managed-agents-Lab-12) | Private |
 | 13 | [MCP connections and reachability](https://github.com/luiscoco/Udemy-claude-managed-agents-Lab-13) | Private |
 | 14 | [Models and supported effort](https://github.com/luiscoco/Udemy-claude-managed-agents-Lab-14) | Private |
+| 15 | [Usage and session budgets](https://github.com/luiscoco/Udemy-claude-managed-agents-Lab-15) | Private |

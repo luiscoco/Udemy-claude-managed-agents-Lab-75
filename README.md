@@ -9,14 +9,14 @@ The original application is unchanged. Labs 01 (session event streaming), 02
 08 (delegation and session threads), 09 (system instructions and explicit
 context), 10 (validated reports and interruption), 11 (Managed skills and
 progressive loading), 12 (multiple messages in one session) and 13 (MCP connections
-and reachability), and 14 (models and supported effort) are registered, with offline fixtures and
+and reachability), 14 (models and supported effort), and 15 (usage and session budgets) are registered, with offline fixtures and
 source inspection. See
 [Lab 02 guide](Tab2-options.md), [Lab 03 guide](Tab3-tools.md),
 [Lab 04 guide](Tab4-permissions.md), [Lab 05 guide](Tab5-custom-tools.md) and
 [Lab 06 guide](Tab6-sessions.md), [Lab 07 guide](Tab7-hooks.md) and
 [Lab 08 guide](Tab8-subagents.md), [Lab 09 guide](Tab9-system-prompts.md) and
 [Lab 10 guide](Tab10-structured-interrupt.md), [Lab 11 guide](Tab11-skills.md),
-[Lab 12 guide](Tab12-streaming-input.md), [Lab 13 guide](Tab13-mcp-servers.md), [Lab 14 guide](Tab14-thinking-effort-models.md)
+[Lab 12 guide](Tab12-streaming-input.md), [Lab 13 guide](Tab13-mcp-servers.md), [Lab 14 guide](Tab14-thinking-effort-models.md), [Lab 15 guide](Tab15-cost-usage.md)
 for controls, experiments and PowerShell checks.
 The [course repository index](docs/github-repositories.md) links every cumulative
 GitHub checkpoint.
@@ -713,3 +713,26 @@ node scripts/lab14-browser-demonstration.mjs
 ```
 
 Lab 14 is published independently at [Udemy-claude-managed-agents-Lab-14](https://github.com/luiscoco/Udemy-claude-managed-agents-Lab-14), preserving earlier cumulative checkpoints.
+
+
+### Lab 15: How it was built, step by step
+
+1. Inspected SDK 0.133.0 session/usage-event/span/thread and budget-update types, then checked current official usage and budget documentation.
+2. Added safe integer-cent parsing, nullable usage metrics, deduplicated span accounting and cumulative snapshot replacement. Deltas compare only matching scopes, identities and sources.
+3. Built an owned retained-session adapter around the shared event consumer and SSE transport. Budgeted text-only sessions enforce three-turn/message ceilings, one context message and zero tool calls, with independent cancellation and cleanup.
+4. Added a separate acknowledged budget-raise action that can resume paused work. It permits one bounded increase on an originally capped session, checks known consumed cost and reserves a host turn before sending. Reads never raise budgets.
+5. Added readable usage/source cards, intermediate/final comparisons, offline duplicate/child/missing/budget/hanging scenarios, guide and source inspection. No worker, upload or paid model run starts automatically.
+6. Verified deterministic accounting/provider boundaries, browser exercise, phone/desktop evidence and earlier lessons. See [Lab 15 checkpoint](docs/lab15-checkpoint.md).
+
+```powershell
+npm.cmd run typecheck
+node --import tsx --test tests/lab15-usage.test.ts
+npm.cmd run test:offline
+npm.cmd run audit:lesson-guides
+npm.cmd run test:lesson-guides
+npm.cmd run build
+npm.cmd run scan:distribution
+node scripts/lab15-browser-demonstration.mjs
+```
+
+Independent private checkpoint: [Udemy-claude-managed-agents-Lab-15](https://github.com/luiscoco/Udemy-claude-managed-agents-Lab-15).

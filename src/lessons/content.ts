@@ -2,6 +2,12 @@ import type { LessonMetadata } from '../../shared/lessons';
 export type LessonContent = Pick<LessonMetadata, 'objective' | 'steps' | 'inspect' | 'challenge'>;
 // Only implemented lessons belong here; reserved IDs are not completed labs.
 export const content: Readonly<Record<number, LessonContent>> = Object.freeze({
+  15: {
+    objective: 'Read cumulative session usage and separate overlapping scopes while enforcing platform budgets and bounded host turns.',
+    steps: ['Compare an intermediate usage event with the retrieved idle-session snapshot.', 'Repeat usage events and inspect child attribution without double counting.', 'Reach a local turn limit or platform budget, then explicitly decide whether to raise the cap.'],
+    inspect: ['shared/lab15-usage.ts', 'server/lib/lab15-accounting.ts', 'server/lib/lab15-port.ts', 'server/lib/lab15-sessions.ts'],
+    challenge: 'Explain why intermediate usage differs from the final session snapshot, and why list cost is not a guaranteed invoice total.',
+  },
   14: {
     objective: 'Compare supported model and effort settings in fresh sessions with resolved metadata, public responses and explicit fallback budgets.',
     steps: ['Hold the prompt and model fixed; compare low, medium and high effort offline.', 'Reject incompatible values and inspect the resolved model snapshot.', 'Simulate unavailable and uncertain primary models with one explicitly budgeted host fallback.'],
