@@ -48,8 +48,15 @@ The checkpoint contains all earlier implemented lessons and the updated workbook
 
 ## Limits and live setup
 
-Cloud Skill uploads and billed Lab 11 execution have not been exercised. Local pins are
-absent until the explicit upload commands in [the guide](../Tab11-skills.md) are run.
+Cloud Skill uploads were completed after explicit user approval on 2026-10-14.
+All three snapshots are pinned as versions of one skill. Read-only provider metadata
+and local bundle hashes were verified for each version, and the running app reports
+all three pins configured and matching. The resource manifest stays local and ignored.
+Browser readiness was confirmed for With pinned skill, Absent reference and Revised
+pinned version with live-run requests blocked. Read-only base agent/environment
+verification also passed; no session or model run was started by these checks.
+Billed Lab 11 execution has not been exercised. A fresh clone needs its own explicit
+upload/pin setup from [the guide](../Tab11-skills.md).
 The model can decline to load a skill; no observed read is not proof that no read occurred.
 Path and exact text matching do not attest the entire remote bundle or semantic compliance.
 Usage has the observed model-span scope and is not complete session billing.
