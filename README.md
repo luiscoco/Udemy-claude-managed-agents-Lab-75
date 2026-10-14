@@ -6,12 +6,14 @@ agent execution uses the official `@anthropic-ai/sdk` Managed Agents APIs.
 The original application is unchanged. Labs 01 (session event streaming), 02
 (session options), 03 (built-in tools), 04 (permissions), 05 (custom tools),
 06 (sessions and retained context), 07 (tool policy and execution audit) and
-08 (delegation and session threads) are registered, with offline fixtures and
+08 (delegation and session threads) and 09 (system instructions and explicit
+context) are registered, with offline fixtures and
 source inspection. See
 [Lab 02 guide](Tab2-options.md), [Lab 03 guide](Tab3-tools.md),
 [Lab 04 guide](Tab4-permissions.md), [Lab 05 guide](Tab5-custom-tools.md) and
 [Lab 06 guide](Tab6-sessions.md), [Lab 07 guide](Tab7-hooks.md) and
-[Lab 08 guide](Tab8-subagents.md) for controls, experiments and PowerShell checks.
+[Lab 08 guide](Tab8-subagents.md) and [Lab 09 guide](Tab9-system-prompts.md)
+for controls, experiments and PowerShell checks.
 The [course repository index](docs/github-repositories.md) links every cumulative
 GitHub checkpoint.
 
@@ -456,6 +458,35 @@ keeping role capabilities and effect verification in the host application.
    bounded topology and `POST /api/c8/query` streams thread and effect evidence.
 10. **Recorded limits honestly.** Separate histories do not imply filesystem
     isolation, and offline fixtures do not prove real parallel execution.
+
+### Lab 09: System instructions and explicit context
+
+1. **Defined four explicit variants.** Base inherits the agent system; Custom
+   replaces it; the two combined variants join the retrieved base to appended
+   instructions or authored project context in one host composer.
+2. **Selected trusted context by ID.** A fictional `CLAUDE.md` lives as reviewed
+   host teaching text. Only `aurora-finch-v1` selects it; arbitrary project paths
+   or browser-supplied project text are rejected.
+3. **Pinned the base snapshot.** The host retrieves the configured agent version
+   and creates a fresh session referencing that same ID and version. The model
+   is inherited so instruction comparisons keep it fixed.
+4. **Cleared inherited capabilities.** Every session explicitly replaces tools,
+   MCP servers and skills with empty arrays. A multiagent base is rejected.
+5. **Compared requested and resolved instructions.** The host checks the returned
+   system, model and agent identity before sending the question. Base omits the
+   system override; other variants send the complete composed replacement.
+6. **Reused event and cleanup boundaries.** The existing runner opens the stream
+   before sending the user question, consumes authoritative messages, enforces
+   deadlines and attempts bounded interruption and archive.
+7. **Kept comparisons bounded.** Offline Compare runs variants sequentially. The
+   server accepts at most two concurrent Lab 09 requests, subject to server limits.
+8. **Reported observed usage.** Live model spans are deduplicated and counted;
+   authored fixtures report no measured usage or quality/cost ranking.
+9. **Added the context and query routes.** `GET /api/c9/context` exposes the
+   authored context provenance; `POST /api/c9/query` streams one fresh session.
+10. **Verified the boundaries.** Deterministic tests cover exact composition,
+    capability clearing, SDK transport, fresh IDs, injection rejection,
+    cancellation and deadlines. The browser compares all four variants.
 
 ### Presentations
 

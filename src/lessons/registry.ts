@@ -10,6 +10,7 @@ import { lab05Lesson } from '../../shared/lab05-custom-tools';
 import { lab06Lesson } from '../../shared/lab06-sessions';
 import { lab07Lesson } from '../../shared/lab07-hooks';
 import { lab08Lesson } from '../../shared/lab08-subagents';
+import { lab09Lesson } from '../../shared/lab09-system-prompts';
 import { LessonWorkspace } from '../components/LessonWorkspace';
 import { content } from './content';
 import { loadGuide, mainSources, sources } from './resources';
@@ -29,6 +30,7 @@ const lab05: LessonMetadata = { ...lab05Lesson, ...content[lab05Lesson.id]! };
 const lab06: LessonMetadata = { ...lab06Lesson, ...content[lab06Lesson.id]! };
 const lab07: LessonMetadata = { ...lab07Lesson, ...content[lab07Lesson.id]! };
 const lab08: LessonMetadata = { ...lab08Lesson, ...content[lab08Lesson.id]! };
+const lab09: LessonMetadata = { ...lab09Lesson, ...content[lab09Lesson.id]! };
 // Register a lesson only when its UI, router, guide and scripted/guided path exist.
 export const lessons: readonly LessonRecord[] = Object.freeze(validateLessonRecords<ComponentType>([
   { ...lab01, component: workspace(lab01, () => import('../concepts/Concept01Query')) },
@@ -39,4 +41,5 @@ export const lessons: readonly LessonRecord[] = Object.freeze(validateLessonReco
   { ...lab06, component: workspace(lab06, () => import('../concepts/Concept06Sessions')) },
   { ...lab07, component: workspace(lab07, () => import('../concepts/Concept07Hooks')) },
   { ...lab08, component: workspace(lab08, () => import('../concepts/Concept08Subagents')) },
+  { ...lab09, component: workspace(lab09, () => import('../concepts/Concept09SystemPrompts')) },
 ]));

@@ -2,6 +2,14 @@ import type { LessonMetadata } from '../../shared/lessons';
 export type LessonContent = Pick<LessonMetadata, 'objective' | 'steps' | 'inspect' | 'challenge'>;
 // Only implemented lessons belong here; reserved IDs are not completed labs.
 export const content: Readonly<Record<number, LessonContent>> = Object.freeze({
+  9: {
+    objective: 'Compare inherited and explicitly composed system instructions in fresh sessions while keeping the question and base model fixed.',
+    steps: ['Compare all four offline variants with the same question.', 'Find the omitted system override in Base and the replacement in Custom.',
+      'Inspect base plus append and the authored project context selection.', 'Compare requested composition with the resolved session snapshot.',
+      'Use one live variant explicitly and inspect actual usage and cleanup evidence.'],
+    inspect: ['shared/lab09-system-prompts.ts', 'server/lib/lab09-composer.ts', 'server/lib/lab09-port.ts', 'server/lib/lab09-run.ts'],
+    challenge: 'Keep the question fixed and change only the system instructions. Explain what is inherited and what is replaced.',
+  },
   8: {
     objective: 'Delegate bounded work to predefined Managed Agents, inspect separate session-thread histories, and verify role capabilities and effects in the host.',
     steps: ['Run the normal fixture and identify the researcher, reviewer and calculator thread IDs.', 'Separate delegation, report receipt and independent verification states.',
