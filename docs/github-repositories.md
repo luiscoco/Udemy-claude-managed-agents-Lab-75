@@ -23,4 +23,5 @@ finish the user's requested lesson workflow.
 | 10 | [Validated reports and interruption](https://github.com/luiscoco/Udemy-claude-managed-agents-Lab-10) | Private |
 | 11 | [Managed skills and progressive loading](https://github.com/luiscoco/Udemy-claude-managed-agents-Lab-11) | Private |
 | 12 | [Multiple messages in one session](https://github.com/luiscoco/Udemy-claude-managed-agents-Lab-12) | Private |
+| 13 | [MCP connections and reachability](https://github.com/luiscoco/Udemy-claude-managed-agents-Lab-13) | Private |
 

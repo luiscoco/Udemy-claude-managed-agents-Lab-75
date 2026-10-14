@@ -2,6 +2,16 @@ import type { LessonMetadata } from '../../shared/lessons';
 export type LessonContent = Pick<LessonMetadata, 'objective' | 'steps' | 'inspect' | 'challenge'>;
 // Only implemented lessons belong here; reserved IDs are not completed labs.
 export const content: Readonly<Record<number, LessonContent>> = Object.freeze({
+  13: {
+    objective: 'Connect real local MCP transports, separate configuration from observed reachability, and compare host bridges with native Managed HTTPS MCP.',
+    steps: ['Run Working offline and inspect the real notes stdio and authenticated inventory HTTP handshakes.',
+      'Compare advertised tools with effective tools. Enable fictional reservation, apply the idle configuration and attempt one reservation.',
+      'Disable the inventory server or reservation tool, apply while idle, then attempt the same call. Confirm local stock stayed unchanged.',
+      'Close the session and compare Missing and Unauthorized scenarios. Local HTTP 404/401 errors are not cloud reachability tests.',
+      'Inspect the typed host bridge and native URL source. Live native MCP requires a reviewed reachable HTTPS endpoint and a matching pre-registered vault.'],
+    inspect: ['shared/lab13-mcp.ts', 'server/lib/lab13-local-mcp.ts', 'server/lib/lab13-port.ts', 'server/lib/lab13-sessions.ts', 'mcp-servers/lab13-notes.mjs', 'mcp-servers/lab13-inventory.ts'],
+    challenge: 'Disable a server and inspect which calls remain possible. Prove the disabled tool had no host MCP effect, and explain why local success does not prove cloud access.',
+  },
   12: {
     objective: 'Queue multiple messages in one retained session, separating local admission, provider acceptance and correlated turn outcomes.',
     steps: ['Create an offline session and queue one Normal message. Inspect its local command and returned user event IDs.',

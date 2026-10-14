@@ -30,6 +30,8 @@ export interface ToolRunOptions<X extends { kind: string }> {
   port: ToolSessionPort; signal: AbortSignal;
   /** Host files to report after the turn. Labs without host files leave it out. */
   sandbox?: Sandbox;
+  /** Retained-session labs keep only a completed, confirmed-idle session. Default is archive. */
+  retainOnCompleted?: boolean;
   emit: (frame: (ToolFrameInput | X) & { seq: number }) => void;
   /**
    * Answers one requires_action pause. Returns at most one answer per call: a confirmation for a paused
@@ -45,7 +47,7 @@ export interface ToolRunCore {
   files: SandboxFile[]; outputs: OutputReport | { status: 'not-attempted'; detail: string };
   uploads: 'not-needed' | 'deleted' | 'pending'; duplicatesIgnored: number; eventCount: number;
   interruption: 'not-needed' | 'not-attempted' | 'simulated' | 'confirmed' | 'unconfirmed';
-  cleanup: 'not-needed' | 'simulated' | 'archived' | 'pending'; notes: string[];
+  cleanup: 'not-needed' | 'retained' | 'simulated' | 'archived' | 'pending'; notes: string[];
 }
 
 const textOf = (content: readonly { type: string; text?: string }[] | undefined) =>
@@ -209,7 +211,8 @@ export async function runToolSession<X extends { kind: string }>(options: ToolRu
         // Files on disk are the evidence: copy outputs before the session is archived.
         try { outputs = await port.collectOutputs(sessionId); }
         catch (error) { outputs = { status: 'failed', detail: `Outputs could not be collected: ${managedErrorMessage(error)}` }; }
-        try { await port.archive(sessionId); cleanup = simulated ? 'simulated' : 'archived'; } catch { cleanup = 'pending'; }
+        if (options.retainOnCompleted && outcome.kind === 'completed') cleanup = 'retained';
+        else { try { await port.archive(sessionId); cleanup = simulated ? 'simulated' : 'archived'; } catch { cleanup = 'pending'; } }
       } else cleanup = 'pending';
     }
   } finally { upstream.abort('closed'); }

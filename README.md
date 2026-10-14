@@ -8,14 +8,15 @@ The original application is unchanged. Labs 01 (session event streaming), 02
 06 (sessions and retained context), 07 (tool policy and execution audit) and
 08 (delegation and session threads), 09 (system instructions and explicit
 context), 10 (validated reports and interruption), 11 (Managed skills and
-progressive loading) and 12 (multiple messages in one session) are registered, with offline fixtures and
+progressive loading), 12 (multiple messages in one session) and 13 (MCP connections
+and reachability) are registered, with offline fixtures and
 source inspection. See
 [Lab 02 guide](Tab2-options.md), [Lab 03 guide](Tab3-tools.md),
 [Lab 04 guide](Tab4-permissions.md), [Lab 05 guide](Tab5-custom-tools.md) and
 [Lab 06 guide](Tab6-sessions.md), [Lab 07 guide](Tab7-hooks.md) and
 [Lab 08 guide](Tab8-subagents.md), [Lab 09 guide](Tab9-system-prompts.md) and
 [Lab 10 guide](Tab10-structured-interrupt.md), [Lab 11 guide](Tab11-skills.md),
-[Lab 12 guide](Tab12-streaming-input.md)
+[Lab 12 guide](Tab12-streaming-input.md), [Lab 13 guide](Tab13-mcp-servers.md)
 for controls, experiments and PowerShell checks.
 The [course repository index](docs/github-repositories.md) links every cumulative
 GitHub checkpoint.
@@ -658,6 +659,28 @@ node scripts/lab12-browser-demonstration.mjs
 ```
 
 The demonstration uses the running server at port 5174 by default; set `LESSON_UI_URL` to the actual Vite URL if it chose another port. It runs only authored offline commands and closes its sessions. See [Lab 12 checkpoint](docs/lab12-checkpoint.md) for evidence and limits.
+
+### Lab 13: MCP connections and reachability
+
+1. **Authored real local MCP servers.** `mcp-servers/lab13-notes.mjs` uses protocol-only stdio. `mcp-servers/lab13-inventory.ts` supplies an authenticated, loopback-only, stateless Streamable HTTP implementation pinned to MCP 2025-11-25.
+2. **Connected bounded clients.** `server/lib/lab13-local-mcp.ts` performs initialize/tool discovery, validates results, correlates RPC IDs, strips privileged environment settings from the child, and owns child/listener cleanup. Missing and unauthorized scenarios produce real transport failures.
+3. **Separated bridge and native integration.** `server/lib/lab13-port.ts` declares typed custom tools for the host bridge, or restricted native URL MCP toolsets with an existing vault. Native endpoints are configured only on the server; metadata never claims successful cloud reachability.
+4. **Retained only completed idle sessions.** `server/lib/lab13-sessions.ts` reuses the shared tool-session runner, answers bridge calls once and records result-submission acknowledgments separately from native result events. The runner's new retention option defaults off, preserving earlier labs' archive behavior.
+5. **Added the actual exercise and guide.** Lab 13 supports working/missing/unauthorized/hanging experiments, tool/server disabling, owned-stock inspection/reset, idle configuration and cleanup. Its UI retains the shared visual design and labels local stock separately from remote evidence.
+6. **Validated without paid runs.** See [Lab 13 checkpoint](docs/lab13-checkpoint.md) for actual checks, browser demonstrations and limits.
+
+```powershell
+node --import tsx --test tests/lab13-mcp.test.ts
+npm.cmd run typecheck
+npm.cmd run audit:lesson-guides
+npm.cmd run test:lesson-guides
+npm.cmd run build
+npm.cmd run scan:distribution
+# With the local app running:
+node scripts/lab13-browser-demonstration.mjs
+```
+
+Each completed lesson is committed and pushed to its own private cumulative repository; Lab 13's destination is [Udemy-claude-managed-agents-Lab-13](https://github.com/luiscoco/Udemy-claude-managed-agents-Lab-13).
 
 Official references:
 - https://platform.claude.com/docs/en/managed-agents/quickstart
