@@ -1,0 +1,12 @@
+{
+  "name": "Managed Agents Lab 07 — host policy audit",
+  "system": "Use the declared file tools exactly once as requested. The host may deny or rewrite a custom tool input under its application policy. Treat each custom tool result as authoritative and report it briefly.",
+  "tools": [
+    { "type": "custom", "name": "read_file", "description": "Read one file in the Lab 07 host fixture.", "input_schema": { "type": "object", "properties": { "path": { "type": "string", "minLength": 1, "maxLength": 200, "description": "Absolute exercise path under /workspace." } }, "required": ["path"], "additionalProperties": false } },
+    { "type": "custom", "name": "write_file", "description": "Write one file in the Lab 07 host fixture.", "input_schema": { "type": "object", "properties": { "path": { "type": "string", "minLength": 1, "maxLength": 200, "description": "Absolute exercise path under /workspace." }, "content": { "type": "string", "maxLength": 4000 } }, "required": ["path", "content"], "additionalProperties": false } },
+    { "type": "custom", "name": "edit_file", "description": "Replace one exact text fragment in a Lab 07 host fixture file.", "input_schema": { "type": "object", "properties": { "path": { "type": "string", "minLength": 1, "maxLength": 200, "description": "Absolute exercise path under /workspace." }, "oldText": { "type": "string", "minLength": 1, "maxLength": 2000 }, "newText": { "type": "string", "maxLength": 2000 } }, "required": ["path", "oldText", "newText"], "additionalProperties": false } }
+  ],
+  "mcp_servers": [],
+  "skills": []
+}
+

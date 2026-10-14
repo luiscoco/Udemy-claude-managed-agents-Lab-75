@@ -70,7 +70,7 @@ test('router reuses one session, reconnects with deduplication, enforces ownersh
   const fixture = new FixtureLab06Port(); const lab = createLab06Router({ fixture }); const app = express(); app.use('/api/c6', lab.router);
   const server = app.listen(0, '127.0.0.1'); await once(server, 'listening'); const address = server.address(); assert(address && typeof address !== 'string');
   const root = `http://127.0.0.1:${address.port}/api/c6`; const post = (path: string, body: unknown, signal?: AbortSignal) => fetch(`${root}${path}`, {
-    method: 'POST', headers: { 'Content-Type': 'application/json', 'X-Lab-Owner': 'alice' }, body: JSON.stringify(body), signal,
+    method: 'POST', headers: { 'Content-Type': 'application/json', 'X-Lab-Owner': 'alice' }, body: JSON.stringify(body), ...(signal ? { signal } : {}),
   });
   try {
     const first = await readSse(await post('/query', input)); assert(first); assert.equal(first.outcome, 'completed');

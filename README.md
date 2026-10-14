@@ -4,12 +4,12 @@ A separate learning app migrated from the reusable Claude Agent SDK Learning
 foundation on 2026-10-12. React, Vite, strict TypeScript, Express and Zod remain;
 agent execution uses the official `@anthropic-ai/sdk` Managed Agents APIs.
 The original application is unchanged. Labs 01 (session event streaming), 02
-(session options), 03 (built-in tools), 04 (permissions), 05 (custom tools) and
-06 (sessions and retained context) are registered, with offline fixtures and
+(session options), 03 (built-in tools), 04 (permissions), 05 (custom tools),
+06 (sessions and retained context) and 07 (tool policy and execution audit) are registered, with offline fixtures and
 source inspection. See
 [Lab 02 guide](Tab2-options.md), [Lab 03 guide](Tab3-tools.md),
 [Lab 04 guide](Tab4-permissions.md), [Lab 05 guide](Tab5-custom-tools.md) and
-[Lab 06 guide](Tab6-sessions.md) for controls, experiments and PowerShell checks.
+[Lab 06 guide](Tab6-sessions.md) and [Lab 07 guide](Tab7-hooks.md) for controls, experiments and PowerShell checks.
 The [course repository index](docs/github-repositories.md) links every cumulative
 GitHub checkpoint.
 
@@ -393,6 +393,41 @@ it with a fresh session and reconnect without duplicating persisted events.
     deduplication, EOF, cancellation and explicit archive. The full offline suite,
     TypeScript, lesson audit, production build and Chrome exercise all pass. See
     `docs/lab06-checkpoint.md`.
+
+### Lab 07: Tool policy and execution audit
+
+The goal is to replace Agent SDK `PreToolUse` and `PostToolUse` callbacks with a
+host-owned policy pipeline around Managed Agents custom tools.
+
+1. **Declared a dedicated tool-only agent.** `managed/lab07-agent.json` contains
+   exactly `read_file`, `write_file` and `edit_file` as closed-schema custom
+   tools. Built-in filesystem and Bash tools, MCP servers and skills are absent.
+2. **Provisioned outside the request path.** `managed:provision -- lab07` creates
+   the versioned agent explicitly and records its ID locally. Live requests
+   retrieve and verify the agent before creating a session.
+3. **Validated original input first.** The host parses every call with the same
+   Zod schema that generated the agent's JSON Schema. Invalid and unknown calls
+   return an error result without invoking a handler.
+4. **Applied three visible policies.** Audit-only permits safe fixture calls;
+   deny-write blocks protected-file mutations; rewrite-input changes a proposed
+   output path to the allowed draft fixture.
+5. **Revalidated rewrites.** A rewritten call passes through the complete schema
+   and path guard again. The audit keeps both original and effective input.
+6. **Executed inside a guarded host sandbox.** Only named `/workspace` fixtures
+   map into a disposable host directory. Traversal, other roots, Windows paths,
+   oversized values and unknown files are rejected before any file operation.
+7. **Recorded actual post-execution evidence.** Every row stores the decision,
+   validation phase, whether the handler ran, execution outcome, returned result
+   and file contents before and after. Executed, denied and failed remain distinct.
+8. **Correlated one result to each call.** The shared tool-session runner answers
+   `agent.custom_tool_use` with one `user.custom_tool_result` keyed by its
+   `sevt_` ID and ignores repeated calls or pause IDs.
+9. **Exposed the evidence in the UI and API.** `POST /api/c7/query` streams the
+   pipeline; `GET /api/c7/file` reads the retained run fixture. The lesson offers
+   normal, handler-exception, repeated-call and cancellation experiments.
+10. **Verified effects rather than claims.** Focused tests inspect disk state for
+    allow, deny, rewrite, exception and path escape, plus HTTP/SSE, duplicate
+    handling and cancellation. Chrome drives the same policy experiments.
 
 ### Presentations
 

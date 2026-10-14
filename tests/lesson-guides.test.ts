@@ -10,7 +10,7 @@ import { LessonGuide } from '../src/components/LessonGuide';
 import type * as Resources from '../src/lessons/resources';
 
 test('every completed ID has an authored guide, objective and real UI/server sources', async () => {
-  assert.deepEqual(await auditLessonGuides(), [1, 2, 3, 4, 5, 6]);
+  assert.deepEqual(await auditLessonGuides(), [1, 2, 3, 4, 5, 6, 7]);
 });
 test('actual Vite raw catalog excludes acceptance probes and private/runtime files', async () => {
   const server = await createServer({ server: { middlewareMode: true }, appType: 'custom' });
@@ -20,7 +20,7 @@ test('actual Vite raw catalog excludes acceptance probes and private/runtime fil
     assert.ok(paths.length > 10);
     assert.equal(paths.some(path => /dummy|tests\//i.test(path)), false);
     const { registerConcepts } = await server.ssrLoadModule('/server/concepts/registry.ts');
-    assert.deepEqual(registerConcepts().map(({ id, serverPrefix }: { id: number; serverPrefix: string }) => [id, serverPrefix]), [[1, '/api/c1'], [2, '/api/c2'], [3, '/api/c3'], [4, '/api/c4'], [5, '/api/c5'], [6, '/api/c6']]);
+    assert.deepEqual(registerConcepts().map(({ id, serverPrefix }: { id: number; serverPrefix: string }) => [id, serverPrefix]), [[1, '/api/c1'], [2, '/api/c2'], [3, '/api/c3'], [4, '/api/c4'], [5, '/api/c5'], [6, '/api/c6'], [7, '/api/c7']]);
     for (const path of paths) {
       assert.match(path, /^(server\/(?:index\.ts|sse\.ts|concepts\/[^/]+\.(?:ts|mjs)|lib\/[^/]+\.ts|routes\/[^/]+\.ts)|src\/(?:concepts\/[^/]+\.tsx?|components\/[^/]+\.tsx|lib\/[^/]+\.ts)|shared\/(?:contracts|health|lessons|lab\d{2}-[a-z-]+)\.ts|mcp-servers\/[^/]+\.(?:ts|mjs))$/);
       assert.doesNotMatch(path, /(?:test\.|spec\.|browser|live-check|credential|secret|private|config|(?:^|\/)(?:logs|workspaces?|sandbox)\/|\.env)/i);
@@ -36,7 +36,8 @@ test('actual Vite raw catalog excludes acceptance probes and private/runtime fil
     assert.match(await resources.loadGuide(4), /^# Lab 04: Permissions/);
     assert.match(await resources.loadGuide(5), /^# Lab 05: Custom tools/);
     assert.match(await resources.loadGuide(6), /^# Lab 06: Sessions and retained context/);
-    await assert.rejects(resources.loadGuide(7));
+    assert.match(await resources.loadGuide(7), /^# Lab 07: Tool policy and execution audit/);
+    await assert.rejects(resources.loadGuide(8));
     assert.match(await resources.loadText(resources.sources, 'shared/lab01-events.ts'), /lab01RequestSchema/);
   } finally { await server.close(); }
 });

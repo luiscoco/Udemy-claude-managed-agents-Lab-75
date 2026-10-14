@@ -2,6 +2,14 @@ import type { LessonMetadata } from '../../shared/lessons';
 export type LessonContent = Pick<LessonMetadata, 'objective' | 'steps' | 'inspect' | 'challenge'>;
 // Only implemented lessons belong here; reserved IDs are not completed labs.
 export const content: Readonly<Record<number, LessonContent>> = Object.freeze({
+  7: {
+    objective: 'Replace Agent SDK tool hooks with a host policy pipeline that validates before execution and records the actual effect afterward.',
+    steps: ['Run Audit only and confirm the safe draft edit executes.', 'Run Deny write and verify the protected file is unchanged and the handler did not run.',
+      'Run Rewrite input and compare original proposed.md with effective draft.md after revalidation.', 'Run the handler-exception and repeated-call fixtures.',
+      'Load file evidence from GET /api/c7/file and distinguish executed, denied and failed audit outcomes.'],
+    inspect: ['shared/lab07-hooks.ts', 'server/lib/lab07-policy.ts', 'server/lib/lab07-run.ts', 'server/lib/lab07-port.ts', 'server/concepts/07-hooks.ts'],
+    challenge: 'Block a protected-file call and identify the host decision that prevented the effect before any handler ran.',
+  },
   6: {
     objective: 'Continue a conversation in the same server-owned Managed session, compare it with fresh context, and reconnect without duplicating persisted events.',
     steps: ['Start a new offline session with the fictional project introduction.', 'Select the follow-up and Continue; confirm the session ID stays the same and the name is recalled.',

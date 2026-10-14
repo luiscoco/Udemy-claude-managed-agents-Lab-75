@@ -4,6 +4,7 @@
 claude-lock.json
 managed/resources.local.json
 managed/lab05-resources.local.json
+managed/lab07-resources.local.json
 node_modules/
 dist/
 coverage/
@@ -29,6 +30,7 @@ generated-sessions/
 .claude/
 .venv/
 *.log
+~$*.docx
 *.tsbuildinfo
 presentations/**/.build/
 presentations/**/.f*-build/
