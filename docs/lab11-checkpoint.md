@@ -68,3 +68,10 @@ is not authorization; worker configuration requires independent checks.
 
 Target: [Udemy-claude-managed-agents-Lab-11](https://github.com/luiscoco/Udemy-claude-managed-agents-Lab-11), private, branch `main`.
 Prior Lab 10 history is retained under the `lab10` remote; `origin` points to this checkpoint.
+
+## Live readiness clarification
+
+The UI now distinguishes ready base API configuration from missing skill uploads/pins.
+Lab 11 reuses the configured base API key; it does not require a separate isolated key.
+The no-skill variant requires no upload, while Missing skill ID is an offline experiment.
+Typecheck, production build and both Lab 11 browser checks passed for this clarification.
