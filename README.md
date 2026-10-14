@@ -576,6 +576,14 @@ private cumulative lesson repositories and truthful retained-session evidence.
 The canonical workbook and its dated updated copy contain the same content.
 The original baseline is retained locally as a backup.
 
+The tracked Word workbook now also includes an **Independent visual style
+improvement prompt** on pages 107–110. Its [standalone copy](docs/visual-style-improvement-prompt.md)
+describes the supplied dark course shell, guided two-column workspace and colored
+exercise panels, while preserving readable typography and the implemented lessons.
+All previous 96 copyable blocks remain intact; the workbook contains 97 blocks.
+The 110-page document was rendered and visually reviewed. Pages 2–106 are pixel
+identical to the previously reviewed version.
+
 ### Presentations
 
 Each lab has a slide deck in `presentations/labNN/output/`, built from scripts in
