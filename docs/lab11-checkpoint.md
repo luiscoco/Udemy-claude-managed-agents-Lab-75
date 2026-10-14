@@ -55,7 +55,7 @@ all three pins configured and matching. The resource manifest stays local and ig
 Browser readiness was confirmed for With pinned skill, Absent reference and Revised
 pinned version with live-run requests blocked. Read-only base agent/environment
 verification also passed; no session or model run was started by these checks.
-Billed Lab 11 execution has not been exercised. A fresh clone needs its own explicit
+The user subsequently supplied a successful live v1 result, recorded below. A fresh clone needs its own explicit
 upload/pin setup from [the guide](../Tab11-skills.md).
 The model can decline to load a skill; no observed read is not proof that no read occurred.
 Path and exact text matching do not attest the entire remote bundle or semantic compliance.
@@ -102,3 +102,20 @@ failed-lookup cleanup through injected SDK transport. All three Lab 11 browser c
 typecheck, production build and post-build distribution scan passed. The patched guard also accepted the original
 archived session's configuration through read-only API verification. No additional
 session or paid model turn was created during diagnosis or validation.
+
+## User-confirmed live result
+
+The user supplied a subsequent Managed API result with outcome `completed` and cleanup
+`archived`. The session's numeric version alias matched the configured immutable v1
+pin. Both instruction and reference reads succeeded under
+`/workspace/skills/format-observation/`; exact authored-text matches were not established
+from the returned read text.
+
+The answer used the v1 Observation, Conditions and Follow-up sections, preserved the
+three birds, calm weather and offline capture, and marked missing time/location Unknown.
+The UI currently displays the answer as plain text, including its Markdown markers.
+
+Reported model-span usage was 8 input, 208 output, 2431 cache-creation and 4298 cache-read
+tokens. These counters do not establish complete billed session cost. This evidence is
+the user-supplied live output, not a new model run initiated during the commit update;
+it confirms this particular v1 path without claiming live verification of every variant.
