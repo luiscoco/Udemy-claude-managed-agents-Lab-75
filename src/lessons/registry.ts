@@ -26,6 +26,7 @@ import { lab24Lesson } from '../../shared/lab24-harnesses';
 import { lab25Lesson } from '../../shared/lab25-compaction-context';
 import { lab26Lesson } from '../../shared/lab26-query-control';
 import { lab27Lesson } from '../../shared/lab27-background-tasks';
+import { lab28Lesson } from '../../shared/lab28-errors-retries';
 import { lab14Lesson } from '../../shared/lab14-models';
 import { lab13Lesson } from '../../shared/lab13-mcp';
 import { lab10Lesson } from '../../shared/lab10-structured-interrupt';
@@ -67,6 +68,7 @@ const lab24: LessonMetadata = { ...lab24Lesson, ...content[lab24Lesson.id]! };
 const lab25: LessonMetadata = { ...lab25Lesson, ...content[lab25Lesson.id]! };
 const lab26: LessonMetadata = { ...lab26Lesson, ...content[lab26Lesson.id]! };
 const lab27: LessonMetadata = { ...lab27Lesson, ...content[lab27Lesson.id]! };
+const lab28: LessonMetadata = { ...lab28Lesson, ...content[lab28Lesson.id]! };
 // Register a lesson only when its UI, router, guide and scripted/guided path exist.
 export const lessons: readonly LessonRecord[] = Object.freeze(validateLessonRecords<ComponentType>([
   { ...lab01, component: workspace(lab01, () => import('../concepts/Concept01Query')) },
@@ -96,4 +98,5 @@ export const lessons: readonly LessonRecord[] = Object.freeze(validateLessonReco
   { ...lab25, component: workspace(lab25, () => import('../concepts/Concept25CompactionContext')) },
   { ...lab26, component: workspace(lab26, () => import('../concepts/Concept26QueryControl')) },
   { ...lab27, component: workspace(lab27, () => import('../concepts/Concept27BackgroundTasks')) },
+  { ...lab28, component: workspace(lab28, () => import('../concepts/Concept28ErrorsRetries')) },
 ]));

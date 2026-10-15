@@ -2,6 +2,14 @@ import type { LessonMetadata } from '../../shared/lessons';
 export type LessonContent = Pick<LessonMetadata, 'objective' | 'steps' | 'inspect' | 'challenge'>;
 // Only implemented lessons belong here; reserved IDs are not completed labs.
 export const content: Readonly<Record<number, LessonContent>> = Object.freeze({
+  28: {
+    objective: 'Classify authored transport, event, handler and cleanup faults while bounding read retries and reconciling uncertain mutations without duplicate effects.',
+    steps: ['Run Read rate limit and inspect three bounded GET attempts.', 'Run Missing create response and explain why another create is unsafe without an ID.',
+      'Run Tool result failure and compare one host effect with the uncertain result acknowledgment.', 'Run Reconnect duplicates and inspect stable event ID deduplication.',
+      'Compare validation, authorization, cancellation, EOF and browser disconnect classifications.'],
+    inspect: ['shared/lab28-errors-retries.ts', 'server/lib/lab28-faults.ts', 'server/concepts/28-errors-retries.ts'],
+    challenge: 'Explain when reconnecting a known session is safer than creating another one.',
+  },
   27: {
     objective: 'Track authored remote work in a host ledger across browser detach and reconnect without creating duplicate sessions or task cards.',
     steps: ['Open a slow offline task and inspect separate task, session, thread and browser identities.',

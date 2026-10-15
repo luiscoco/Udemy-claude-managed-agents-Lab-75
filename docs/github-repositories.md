@@ -38,3 +38,4 @@ finish the user's requested lesson workflow.
 | 25 | [Context growth and compaction evidence](https://github.com/luiscoco/Udemy-claude-managed-agents-Lab-25) | Private |
 | 26 | [Session controls and supported updates](https://github.com/luiscoco/Udemy-claude-managed-agents-Lab-26) | Private |
 | 27 | [Remote work beyond a browser connection](https://github.com/luiscoco/Udemy-claude-managed-agents-Lab-27) | Private |
+| 28 | [Errors, retries and reconciliation](https://github.com/luiscoco/Udemy-claude-managed-agents-Lab-28) | Private |
