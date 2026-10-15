@@ -2,6 +2,16 @@ import type { LessonMetadata } from '../../shared/lessons';
 export type LessonContent = Pick<LessonMetadata, 'objective' | 'steps' | 'inspect' | 'challenge'>;
 // Only implemented lessons belong here; reserved IDs are not completed labs.
 export const content: Readonly<Record<number, LessonContent>> = Object.freeze({
+  42: {
+    objective: 'Research with bounded, inspected source records and verify citations against returned evidence while refusing unsafe redirects.',
+    steps: ['Inspect exact installed Managed web_search and web_fetch config fields in the code view.',
+      'Compare a search snippet with a complete authored page.',
+      'Run the hostile page and confirm its instruction remains escaped source data.',
+      'Run redirect and blocked-host cases; compare checked targets and request counts.',
+      'Verify answer citation IDs against inspected source records.'],
+    inspect: ['shared/lab42-web-tools.ts', 'server/lib/lab42-research.ts', 'server/concepts/42-web-tools.ts'],
+    challenge: 'Test a hostile page and inspect the enforcing host decision.',
+  },
   41: {
     objective: 'Compare one-shot, retained and reconnect workflows using current Managed session events, IDs and archive evidence.',
     steps: ['Start one-shot and inspect the sent user event, streamed agent event, idle confirmation and archive.',

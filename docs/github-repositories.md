@@ -52,3 +52,4 @@ finish the user's requested lesson workflow.
 | 39 | [Trusted configuration and untrusted checkouts](https://github.com/luiscoco/Udemy-claude-managed-agents-Lab-39) | Private |
 | 40 | [Safe recovery boundaries](https://github.com/luiscoco/Udemy-claude-managed-agents-Lab-40) | Private |
 | 41 | [Managed session lifecycle comparison](https://github.com/luiscoco/Udemy-claude-managed-agents-Lab-41) | Private |
+| 42 | [Bounded web research and citations](https://github.com/luiscoco/Udemy-claude-managed-agents-Lab-42) | Private |
