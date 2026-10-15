@@ -1,0 +1,7 @@
+{
+  "name": "bird.catalog",
+  "type": "url",
+  "url": "https://example.invalid/bird-mcp",
+  "auth": "none",
+  "enabledByDefault": false
+}

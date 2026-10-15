@@ -1,0 +1,10 @@
+{
+  "name": "bird.list_sightings",
+  "type": "custom",
+  "access": "read-only",
+  "input": { "location": ["north marsh", "pine grove"] },
+  "records": [
+    { "species": "Aurora Finch", "location": "north marsh", "count": 3 },
+    { "species": "Forest Wren", "location": "pine grove", "count": 2 }
+  ]
+}

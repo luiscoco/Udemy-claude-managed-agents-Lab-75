@@ -1,0 +1,8 @@
+{
+  "name": "bird.worker",
+  "role": "worker",
+  "tools": [],
+  "skills": [],
+  "mcpServers": [],
+  "dynamicDelegation": false
+}

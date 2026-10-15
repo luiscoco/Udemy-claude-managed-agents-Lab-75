@@ -1,0 +1,6 @@
+{
+  "name": "bird.observation",
+  "kind": "model-template",
+  "template": "Format a fictional {species} observation note.",
+  "arguments": { "species": ["Aurora Finch", "Forest Wren"] }
+}

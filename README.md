@@ -16,7 +16,7 @@ source inspection. See
 [Lab 06 guide](Tab6-sessions.md), [Lab 07 guide](Tab7-hooks.md) and
 [Lab 08 guide](Tab8-subagents.md), [Lab 09 guide](Tab9-system-prompts.md) and
 [Lab 10 guide](Tab10-structured-interrupt.md), [Lab 11 guide](Tab11-skills.md),
-[Lab 12 guide](Tab12-streaming-input.md), [Lab 13 guide](Tab13-mcp-servers.md), [Lab 14 guide](Tab14-thinking-effort-models.md), [Lab 15 guide](Tab15-cost-usage.md), [Lab 16 guide](Tab16-settings-env.md), [Lab 17 guide](Tab17-checkpointing.md), [Lab 18 guide](Tab18-sandbox.md), [Lab 19 guide](Tab19-session-management.md), [Lab 20 guide](Tab20-hooks-in-depth.md), [Lab 21 guide](Tab21-slash-commands.md), [Lab 22 guide](Tab22-claude-md-memory.md)
+[Lab 12 guide](Tab12-streaming-input.md), [Lab 13 guide](Tab13-mcp-servers.md), [Lab 14 guide](Tab14-thinking-effort-models.md), [Lab 15 guide](Tab15-cost-usage.md), [Lab 16 guide](Tab16-settings-env.md), [Lab 17 guide](Tab17-checkpointing.md), [Lab 18 guide](Tab18-sandbox.md), [Lab 19 guide](Tab19-session-management.md), [Lab 20 guide](Tab20-hooks-in-depth.md), [Lab 21 guide](Tab21-slash-commands.md), [Lab 22 guide](Tab22-claude-md-memory.md), [Lab 23 guide](Tab23-plugins.md)
 for controls, experiments and PowerShell checks.
 The [course repository index](docs/github-repositories.md) links every cumulative
 GitHub checkpoint.
@@ -870,3 +870,21 @@ node scripts/lab22-browser-demonstration.mjs
 ```
 
 Independent private checkpoint: [Udemy-claude-managed-agents-Lab-22](https://github.com/luiscoco/Udemy-claude-managed-agents-Lab-22).
+
+### Lab 23: How it was built, step by step
+
+1. Registered lesson 23 with a React exercise, Express routes, source inspection and [learner guide](Tab23-plugins.md).
+2. Authored a six-contribution host bundle with fixed paths, namespace rules, version `1.0.0` and SHA-256 pins. The validator rejects malformed manifests, missing directories, changed hashes and worker privilege expansion before replacing the active inventory.
+3. Composed bundle on/off, skill and optional MCP inventories. These are host proposals and authored fixture resolutions; no Managed resource is provisioned, uploaded or contacted by Reload.
+4. Executed a reviewed read-only host tool against validated fictional sighting records and recorded its exact input/result. A disabled bundle has zero handler invocations. Added strict owner-local comparisons, focused tests and a phone/desktop offline demonstration. See [Lab 23 checkpoint](docs/lab23-checkpoint.md) for validation and limits.
+
+```powershell
+npm.cmd run typecheck
+node --import tsx --test tests/lab23-plugins.test.ts
+npm.cmd run audit:lesson-guides
+npm.cmd run test:lesson-guides
+npm.cmd run build
+node scripts/lab23-browser-demonstration.mjs
+```
+
+Independent private checkpoint: [Udemy-claude-managed-agents-Lab-23](https://github.com/luiscoco/Udemy-claude-managed-agents-Lab-23).

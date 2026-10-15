@@ -1,0 +1,37 @@
+{
+  "schemaVersion": 1,
+  "namespace": "bird",
+  "version": "1.0.0",
+  "contributions": [
+    {
+      "kind": "command",
+      "path": "command.json",
+      "sha256": "a00a989a6c42dd8e675d05132a1ac6d315301dea639e9f8345ce5b1502ee16fa"
+    },
+    {
+      "kind": "tool",
+      "path": "tool.json",
+      "sha256": "c0778db960c6bb26ec5a3365094c79abafd588f1ecff17f3cb68a0a87004d8aa"
+    },
+    {
+      "kind": "primary-agent",
+      "path": "primary.json",
+      "sha256": "5b1df0fe6efc3c9dac0df4308571651a2c861d95db2d5a9145ebfa4ba7412b77"
+    },
+    {
+      "kind": "worker-agent",
+      "path": "worker.json",
+      "sha256": "be3d9abb2fa3b5c0a64c450be5dc01c3634c9702254decc0b2d5ed570c91ea14"
+    },
+    {
+      "kind": "mcp",
+      "path": "mcp.json",
+      "sha256": "ec2397f16d40716155480fe5daadb35b791c3c68a7b5aff093fc2c50ebb3cdd3"
+    },
+    {
+      "kind": "skill",
+      "path": "skill/SKILL.md",
+      "sha256": "544b2c3baa72e8368db551fb304805e7284a3ebb220eccf2be4572fe86924d67"
+    }
+  ]
+}

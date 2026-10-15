@@ -2,6 +2,16 @@ import type { LessonMetadata } from '../../shared/lessons';
 export type LessonContent = Pick<LessonMetadata, 'objective' | 'steps' | 'inspect' | 'challenge'>;
 // Only implemented lessons belong here; reserved IDs are not completed labs.
 export const content: Readonly<Record<number, LessonContent>> = Object.freeze({
+  23: {
+    objective: 'Compose a reviewed, hash-pinned host bundle of commands, tools, skills, agent definitions and optional MCP declarations while enforcing worker least privilege.',
+    steps: ['Inspect the six contribution hashes and the active host bundle version.',
+      'Compare bundle disabled and enabled inventories, then run the read-only host tool.',
+      'Include the skill snapshot and optional MCP declaration without claiming an observed skill read or server contact.',
+      'Try malformed, missing-directory, changed-hash and elevated-worker reloads; verify the accepted inventory stays pinned.',
+      'Reload the reviewed bundle and distinguish host inventory refresh from a resolved Managed session change.'],
+    inspect: ['shared/lab23-plugins.ts', 'server/lib/lab23-bundles.ts', 'server/concepts/23-plugins.ts'],
+    challenge: 'Reload a reviewed bundle and compare the requested capabilities with the fixture-resolved inventory. What remains unverified in Managed Agents?',
+  },
   22: {
     objective: 'Trace exactly which authored project and summary files the host selects for a fresh Managed session without assuming automatic CLAUDE.md discovery.',
     steps: ['Inspect the four allowlisted fixture files and their content hashes.',

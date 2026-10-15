@@ -1,0 +1,8 @@
+{
+  "name": "bird.reviewer",
+  "role": "primary",
+  "tools": ["bird.list_sightings"],
+  "skills": ["bird.format_observation"],
+  "mcpServers": ["bird.catalog"],
+  "dynamicDelegation": false
+}
