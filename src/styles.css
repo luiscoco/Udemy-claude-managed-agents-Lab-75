@@ -100,6 +100,10 @@ body:has(.drawer[open]) { overflow: hidden; }
 .code-line > span:last-of-type { min-width: 0; }
 .code-line { white-space: pre-wrap; }
 .table-scroll { max-width: 100%; overflow: auto; }
+.provenance-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); gap: 12px; }
+.provenance-card { min-width: 0; padding: 16px; border: 1px solid var(--border); border-radius: 10px; background: var(--surface); overflow-wrap: anywhere; }
+.provenance-card h4 { margin: 0 0 10px; }
+.provenance-card p { margin: 6px 0; }
 table { width: 100%; border-collapse: collapse; font-size: .9rem; }
 th, td { text-align: left; padding: 10px; border: 1px solid var(--border); overflow-wrap: anywhere; }
 th { background: var(--soft); }

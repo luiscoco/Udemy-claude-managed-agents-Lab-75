@@ -2,6 +2,14 @@ import type { LessonMetadata } from '../../shared/lessons';
 export type LessonContent = Pick<LessonMetadata, 'objective' | 'steps' | 'inspect' | 'challenge'>;
 // Only implemented lessons belong here; reserved IDs are not completed labs.
 export const content: Readonly<Record<number, LessonContent>> = Object.freeze({
+  16: {
+    objective: 'Trace synthetic host configuration precedence, server credential readiness and explicit Managed environment resources without conflating their scopes.',
+    steps: ['Change user and session region overrides; compare which host layer wins.', 'Run the missing-credential and absent-mount fixtures; keep unknown remote values separate.',
+      'Inspect an allowed fixture path and an outside path with the host guard.', 'Review the authored cloud environment definition and server-only manifest.',
+      'Optionally start one bounded live session after independently configuring an approved uploaded file ID.'],
+    inspect: ['shared/lab16-settings-env.ts', 'server/lib/lab16-provenance.ts', 'server/lib/lab16-port.ts', 'server/concepts/16-settings-env.ts'],
+    challenge: 'Change a host configuration layer. Identify its winning provenance and explain why the remote sandbox value does not change automatically.',
+  },
   15: {
     objective: 'Read cumulative session usage and separate overlapping scopes while enforcing platform budgets and bounded host turns.',
     steps: ['Compare an intermediate usage event with the retrieved idle-session snapshot.', 'Repeat usage events and inspect child attribution without double counting.', 'Reach a local turn limit or platform budget, then explicitly decide whether to raise the cap.'],

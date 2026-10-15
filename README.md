@@ -9,14 +9,14 @@ The original application is unchanged. Labs 01 (session event streaming), 02
 08 (delegation and session threads), 09 (system instructions and explicit
 context), 10 (validated reports and interruption), 11 (Managed skills and
 progressive loading), 12 (multiple messages in one session) and 13 (MCP connections
-and reachability), 14 (models and supported effort), and 15 (usage and session budgets) are registered, with offline fixtures and
+and reachability), 14 (models and supported effort), 15 (usage and session budgets), and 16 (environment and configuration provenance) are registered, with offline fixtures and
 source inspection. See
 [Lab 02 guide](Tab2-options.md), [Lab 03 guide](Tab3-tools.md),
 [Lab 04 guide](Tab4-permissions.md), [Lab 05 guide](Tab5-custom-tools.md) and
 [Lab 06 guide](Tab6-sessions.md), [Lab 07 guide](Tab7-hooks.md) and
 [Lab 08 guide](Tab8-subagents.md), [Lab 09 guide](Tab9-system-prompts.md) and
 [Lab 10 guide](Tab10-structured-interrupt.md), [Lab 11 guide](Tab11-skills.md),
-[Lab 12 guide](Tab12-streaming-input.md), [Lab 13 guide](Tab13-mcp-servers.md), [Lab 14 guide](Tab14-thinking-effort-models.md), [Lab 15 guide](Tab15-cost-usage.md)
+[Lab 12 guide](Tab12-streaming-input.md), [Lab 13 guide](Tab13-mcp-servers.md), [Lab 14 guide](Tab14-thinking-effort-models.md), [Lab 15 guide](Tab15-cost-usage.md), [Lab 16 guide](Tab16-settings-env.md)
 for controls, experiments and PowerShell checks.
 The [course repository index](docs/github-repositories.md) links every cumulative
 GitHub checkpoint.
@@ -736,3 +736,24 @@ node scripts/lab15-browser-demonstration.mjs
 ```
 
 Independent private checkpoint: [Udemy-claude-managed-agents-Lab-15](https://github.com/luiscoco/Udemy-claude-managed-agents-Lab-15).
+
+### Lab 16: How it was built, step by step
+
+1. Inspected SDK 0.133.0 Managed environment, session resource and session creation types alongside official environment and file documentation.
+2. Added synthetic host configuration layers with explicit application precedence, a single approved remote file manifest and redacted credential readiness. No personal settings are read.
+3. Added offline scenarios for a winning host layer, missing credential, absent mount and restricted path. Each displays host provenance separately from remote context and records policy decisions without opening files.
+4. Added an explicit live port that retrieves the configured cloud environment and pinned base agent, creates one budgeted session with an allowlisted file resource, verifies the returned resource listing, and reuses the shared SSE/event consumer/session cleanup boundary.
+5. Added the exercise UI, strict routes, guide, focused tests and an offline browser demonstration. See [Lab 16 checkpoint](docs/lab16-checkpoint.md).
+
+```powershell
+npm.cmd run typecheck
+node --import tsx --test tests/lab16-settings-env.test.ts
+npm.cmd run test:offline
+npm.cmd run audit:lesson-guides
+npm.cmd run test:lesson-guides
+npm.cmd run build
+npm.cmd run scan:distribution
+node scripts/lab16-browser-demonstration.mjs
+```
+
+Independent private checkpoint: [Udemy-claude-managed-agents-Lab-16](https://github.com/luiscoco/Udemy-claude-managed-agents-Lab-16).
