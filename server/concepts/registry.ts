@@ -45,6 +45,8 @@ import { lab19Lesson } from '../../shared/lab19-session-management.js';
 import { createLab19Router } from './19-session-management.js';
 import { lab20Lesson } from '../../shared/lab20-hooks-in-depth.js';
 import { createLab20Router } from './20-hooks-in-depth.js';
+import { lab21Lesson } from '../../shared/lab21-slash-commands.js';
+import { createLab21Router } from './21-slash-commands.js';
 
 export type ConceptRecord = LessonMetadata & { router: Router; close?: () => Promise<void> };
 export function registerConcepts(): readonly ConceptRecord[] {
@@ -66,6 +68,7 @@ export function registerConcepts(): readonly ConceptRecord[] {
   const lab18 = createLab18Router();
   const lab19 = createLab19Router();
   const lab20 = createLab20Router();
+  const lab21 = createLab21Router();
   const lab14 = createLab14Router();
   const lab13 = createLab13Router();
   const entries: ConceptRecord[] = [
@@ -89,6 +92,7 @@ export function registerConcepts(): readonly ConceptRecord[] {
     { ...lab18Lesson, ...content[lab18Lesson.id]!, router: lab18.router, close: lab18.close },
     { ...lab19Lesson, ...content[lab19Lesson.id]!, router: lab19.router, close: lab19.close },
     { ...lab20Lesson, ...content[lab20Lesson.id]!, router: lab20.router, close: lab20.close },
+    { ...lab21Lesson, ...content[lab21Lesson.id]!, router: lab21.router, close: lab21.close },
   ];
   validateLessonRegistry(entries.map(({ router: _router, close: _close, ...metadata }) => metadata));
   return entries;

@@ -31,3 +31,4 @@ finish the user's requested lesson workflow.
 | 18 | [Cloud sandbox and host boundaries](https://github.com/luiscoco/Udemy-claude-managed-agents-Lab-18) | Private |
 | 19 | [Session inventory and explicit branches](https://github.com/luiscoco/Udemy-claude-managed-agents-Lab-19) | Private |
 | 20 | [Lifecycle events and host interceptors](https://github.com/luiscoco/Udemy-claude-managed-agents-Lab-20) | Private |
+| 21 | [Host commands and prompt expansion](https://github.com/luiscoco/Udemy-claude-managed-agents-Lab-21) | Private |

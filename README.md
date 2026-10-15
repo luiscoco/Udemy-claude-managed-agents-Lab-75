@@ -16,7 +16,7 @@ source inspection. See
 [Lab 06 guide](Tab6-sessions.md), [Lab 07 guide](Tab7-hooks.md) and
 [Lab 08 guide](Tab8-subagents.md), [Lab 09 guide](Tab9-system-prompts.md) and
 [Lab 10 guide](Tab10-structured-interrupt.md), [Lab 11 guide](Tab11-skills.md),
-[Lab 12 guide](Tab12-streaming-input.md), [Lab 13 guide](Tab13-mcp-servers.md), [Lab 14 guide](Tab14-thinking-effort-models.md), [Lab 15 guide](Tab15-cost-usage.md), [Lab 16 guide](Tab16-settings-env.md), [Lab 17 guide](Tab17-checkpointing.md), [Lab 18 guide](Tab18-sandbox.md), [Lab 19 guide](Tab19-session-management.md), [Lab 20 guide](Tab20-hooks-in-depth.md)
+[Lab 12 guide](Tab12-streaming-input.md), [Lab 13 guide](Tab13-mcp-servers.md), [Lab 14 guide](Tab14-thinking-effort-models.md), [Lab 15 guide](Tab15-cost-usage.md), [Lab 16 guide](Tab16-settings-env.md), [Lab 17 guide](Tab17-checkpointing.md), [Lab 18 guide](Tab18-sandbox.md), [Lab 19 guide](Tab19-session-management.md), [Lab 20 guide](Tab20-hooks-in-depth.md), [Lab 21 guide](Tab21-slash-commands.md)
 for controls, experiments and PowerShell checks.
 The [course repository index](docs/github-repositories.md) links every cumulative
 GitHub checkpoint.
@@ -834,3 +834,21 @@ node scripts/lab20-browser-demonstration.mjs
 ```
 
 Independent private checkpoint: [Udemy-claude-managed-agents-Lab-20](https://github.com/luiscoco/Udemy-claude-managed-agents-Lab-20).
+
+### Lab 21: How it was built, step by step
+
+1. Registered lesson 21 with a React exercise, host command router, strict shared contract, source inspection and [learner guide](Tab21-slash-commands.md).
+2. Authored a fixed registry with two model prompt templates and two local-only commands. Enum and integer argument schemas reject arbitrary paths, executable text and extra fields before any provider operation.
+3. Reused the owned, bounded Lab 15 retained-session runner for model commands. The exact expansion is sent as `user.message`; local inspect/reset never call the provider port.
+4. Added a three-entry host history, explicit close, owner checks and focused API/UI tests. See [Lab 21 checkpoint](docs/lab21-checkpoint.md) for measured validation and limitations.
+
+```powershell
+npm.cmd run typecheck
+node --import tsx --test tests/lab21-slash-commands.test.ts
+npm.cmd run audit:lesson-guides
+npm.cmd run test:lesson-guides
+npm.cmd run build
+node scripts/lab21-browser-demonstration.mjs
+```
+
+Independent private checkpoint: [Udemy-claude-managed-agents-Lab-21](https://github.com/luiscoco/Udemy-claude-managed-agents-Lab-21).

@@ -2,6 +2,16 @@ import type { LessonMetadata } from '../../shared/lessons';
 export type LessonContent = Pick<LessonMetadata, 'objective' | 'steps' | 'inspect' | 'challenge'>;
 // Only implemented lessons belong here; reserved IDs are not completed labs.
 export const content: Readonly<Record<number, LessonContent>> = Object.freeze({
+  21: {
+    objective: 'Validate host commands, inspect exact fixed-template expansion, and distinguish local-only actions from messages sent on an owned session.',
+    steps: ['Prepare one bounded offline command session and inspect the fixed command registry.',
+      'Run a known model command and compare its exact expanded user message with the retained session result.',
+      'Try an invalid argument and an unknown command; confirm both are rejected before a provider send.',
+      'Inspect and reset the bounded local history; compare provider send counts before and after.',
+      'Close the session and inspect the host command implementation and Managed session port.'],
+    inspect: ['shared/lab21-slash-commands.ts', 'server/lib/lab21-commands.ts', 'server/concepts/21-slash-commands.ts'],
+    challenge: 'Why does a local inspect command not create a model turn, while a fixed prompt template does?',
+  },
   20: {
     objective: 'Correlate Managed lifecycle events with host interceptor decisions and actual custom-tool effects without treating observations as SDK hook callbacks.',
     steps: ['Run the passing offline policy and compare provider events, host audit, and the draft file.',
