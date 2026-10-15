@@ -2,6 +2,16 @@ import type { LessonMetadata } from '../../shared/lessons';
 export type LessonContent = Pick<LessonMetadata, 'objective' | 'steps' | 'inspect' | 'challenge'>;
 // Only implemented lessons belong here; reserved IDs are not completed labs.
 export const content: Readonly<Record<number, LessonContent>> = Object.freeze({
+  33: {
+    objective: 'Collect schema-validated human input during a real local MCP tool call, keeping MCP, custom-tool and consent correlation IDs separate.',
+    steps: ['Start the local MCP form and inspect the initialize, tools/list, tools/call and elicitation evidence.',
+      'Submit a valid date and quantity; inspect the correlated MCP tool response and custom-tool result shape.',
+      'Submit invalid values and identify the host schema rejection before an MCP reply.',
+      'Try decline, timeout and abort; confirm there is no accepted form.',
+      'Inspect the fixed local consent demonstration and distinguish it from OAuth.'],
+    inspect: ['shared/lab33-mcp-elicitation.ts', 'server/lib/lab33-elicitation.ts', 'server/concepts/33-mcp-elicitation.ts', 'mcp-servers/lab33-form.mjs'],
+    challenge: 'Submit invalid values and identify the layer that rejects them.',
+  },
   32: {
     objective: 'Review an immutable host-validated plan before a separate restricted execution phase, with file effects checked independently of plan text.',
     steps: ['Start the planning fixture and compare its initial and current file hashes; planning has zero write effects.',
