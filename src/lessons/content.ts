@@ -2,6 +2,16 @@ import type { LessonMetadata } from '../../shared/lessons';
 export type LessonContent = Pick<LessonMetadata, 'objective' | 'steps' | 'inspect' | 'challenge'>;
 // Only implemented lessons belong here; reserved IDs are not completed labs.
 export const content: Readonly<Record<number, LessonContent>> = Object.freeze({
+  41: {
+    objective: 'Compare one-shot, retained and reconnect workflows using current Managed session events, IDs and archive evidence.',
+    steps: ['Start one-shot and inspect the sent user event, streamed agent event, idle confirmation and archive.',
+      'Start retained mode and send a second turn using the same session ID.',
+      'Reconnect by listing history and confirm no additional session is created.',
+      'Interrupt an idle retained session and continue it after the fixture idle confirmation.',
+      'Inspect archived-session refusal and the static historical model panel.'],
+    inspect: ['shared/lab41-v2-session-api.ts', 'server/lib/lab41-lifecycle.ts', 'server/lib/lab06-port.ts', 'server/concepts/41-v2-session-api.ts'],
+    challenge: 'Describe the Managed event sequence for continuing an idle session.',
+  },
   40: {
     objective: 'Choose recovery from a host command/effect ledger without erasing remote history or dropping accepted work.',
     steps: ['Build the kept-turn case and compare remote event, command and effect IDs before and after continuation.',
