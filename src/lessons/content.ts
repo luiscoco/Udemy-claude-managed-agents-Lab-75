@@ -2,6 +2,16 @@ import type { LessonMetadata } from '../../shared/lessons';
 export type LessonContent = Pick<LessonMetadata, 'objective' | 'steps' | 'inspect' | 'challenge'>;
 // Only implemented lessons belong here; reserved IDs are not completed labs.
 export const content: Readonly<Record<number, LessonContent>> = Object.freeze({
+  24: {
+    objective: 'Compare who iterates, executes host tools, holds state and cleans up in a manual Messages loop, the Messages SDK tool runner and Managed session custom tools.',
+    steps: ['Run Reserve 2 in all three offline harnesses and compare typed call adapters and identical host effects.',
+      'Run Reject 5 and confirm the host policy leaves stock unchanged despite the fixture call.',
+      'Run Read then limit with a one-call cap; inspect the read effect and the blocked reservation.',
+      'Read the ownership notes and distinguish fixture answer text from the checked host stock.',
+      'Inspect separate SDK contracts before configuring any billed Messages or Managed run.'],
+    inspect: ['shared/lab24-harnesses.ts', 'server/lib/lab24-harnesses.ts', 'server/lib/lab24-sdk-contracts.ts', 'server/concepts/24-harnesses.ts'],
+    challenge: 'Identify one responsibility the manual loop owns that the Managed session harness supplies.',
+  },
   23: {
     objective: 'Compose a reviewed, hash-pinned host bundle of commands, tools, skills, agent definitions and optional MCP declarations while enforcing worker least privilege.',
     steps: ['Inspect the six contribution hashes and the active host bundle version.',
