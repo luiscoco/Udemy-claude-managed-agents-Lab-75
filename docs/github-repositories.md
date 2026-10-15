@@ -54,3 +54,4 @@ finish the user's requested lesson workflow.
 | 41 | [Managed session lifecycle comparison](https://github.com/luiscoco/Udemy-claude-managed-agents-Lab-41) | Private |
 | 42 | [Bounded web research and citations](https://github.com/luiscoco/Udemy-claude-managed-agents-Lab-42) | Private |
 | 43 | [MCP resources through a host bridge](https://github.com/luiscoco/Udemy-claude-managed-agents-Lab-43) | Private |
+| 44 | [Host telemetry and provider event traces](https://github.com/luiscoco/Udemy-claude-managed-agents-Lab-44) | Private |

@@ -2,6 +2,16 @@ import type { LessonMetadata } from '../../shared/lessons';
 export type LessonContent = Pick<LessonMetadata, 'objective' | 'steps' | 'inspect' | 'challenge'>;
 // Only implemented lessons belong here; reserved IDs are not completed labs.
 export const content: Readonly<Record<number, LessonContent>> = Object.freeze({
+  44: {
+    objective: 'Correlate redacted host OTLP spans with separately labeled Managed model-span event evidence and effect counts.',
+    steps: ['Run a successful tool fixture and follow trace/parent IDs across Express, port, approval, handler and cleanup spans.',
+      'Compare denied and failed-tool cases against effect count and host decisions.',
+      'Inspect a missing provider model-span signal without inferring that no model activity occurred.',
+      'Opt in to fictional content recording and compare attributes with the default redacted run.',
+      'Inspect bounded collector storage and distinguish host export from provider event evidence.'],
+    inspect: ['shared/lab44-otel-observability.ts', 'server/lib/lab44-telemetry.ts', 'server/concepts/44-otel-observability.ts'],
+    challenge: 'Compare denied and executed actions in the host trace and effect ledger.',
+  },
   43: {
     objective: 'Read authenticated, bounded MCP resources through a host bridge without assuming Managed query-control methods.',
     steps: ['Grant local consent and inspect loopback tool, resource/template and prompt listings.',
