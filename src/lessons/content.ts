@@ -2,6 +2,16 @@ import type { LessonMetadata } from '../../shared/lessons';
 export type LessonContent = Pick<LessonMetadata, 'objective' | 'steps' | 'inspect' | 'challenge'>;
 // Only implemented lessons belong here; reserved IDs are not completed labs.
 export const content: Readonly<Record<number, LessonContent>> = Object.freeze({
+  34: {
+    objective: 'Compare trusted host output-instruction files in fresh session snapshots while validating JSON reports independently of style text.',
+    steps: ['Inspect the trusted concise, explanatory and review style catalog and its hashes.',
+      'Compare the same fixed question across styles; each run has a fresh session ID and identical empty capabilities.',
+      'Inspect the exact composed system override and host-file provenance.',
+      'Compare review-v1 with review-v2; older session snapshots stay unchanged.',
+      'Try an unknown style and observe preflight rejection before any session is created.'],
+    inspect: ['shared/lab34-output-styles.ts', 'server/lib/lab34-styles.ts', 'server/concepts/34-output-styles.ts'],
+    challenge: 'Use an unknown style and inspect the preflight rejection.',
+  },
   33: {
     objective: 'Collect schema-validated human input during a real local MCP tool call, keeping MCP, custom-tool and consent correlation IDs separate.',
     steps: ['Start the local MCP form and inspect the initialize, tools/list, tools/call and elicitation evidence.',

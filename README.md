@@ -16,7 +16,7 @@ source inspection. See
 [Lab 06 guide](Tab6-sessions.md), [Lab 07 guide](Tab7-hooks.md) and
 [Lab 08 guide](Tab8-subagents.md), [Lab 09 guide](Tab9-system-prompts.md) and
 [Lab 10 guide](Tab10-structured-interrupt.md), [Lab 11 guide](Tab11-skills.md),
-[Lab 12 guide](Tab12-streaming-input.md), [Lab 13 guide](Tab13-mcp-servers.md), [Lab 14 guide](Tab14-thinking-effort-models.md), [Lab 15 guide](Tab15-cost-usage.md), [Lab 16 guide](Tab16-settings-env.md), [Lab 17 guide](Tab17-checkpointing.md), [Lab 18 guide](Tab18-sandbox.md), [Lab 19 guide](Tab19-session-management.md), [Lab 20 guide](Tab20-hooks-in-depth.md), [Lab 21 guide](Tab21-slash-commands.md), [Lab 22 guide](Tab22-claude-md-memory.md), [Lab 23 guide](Tab23-plugins.md), [Lab 24 guide](Tab24-harnesses.md), [Lab 25 guide](Tab25-compaction-context.md), [Lab 26 guide](Tab26-query-control.md), [Lab 27 guide](Tab27-background-tasks.md), [Lab 28 guide](Tab28-errors-retries.md), [Lab 29 guide](Tab29-images-files.md), [Lab 30 guide](Tab30-todo-tracking.md), [Lab 31 guide](Tab31-ask-user-question.md), [Lab 32 guide](Tab32-plan-mode.md), [Lab 33 guide](Tab33-mcp-elicitation.md)
+[Lab 12 guide](Tab12-streaming-input.md), [Lab 13 guide](Tab13-mcp-servers.md), [Lab 14 guide](Tab14-thinking-effort-models.md), [Lab 15 guide](Tab15-cost-usage.md), [Lab 16 guide](Tab16-settings-env.md), [Lab 17 guide](Tab17-checkpointing.md), [Lab 18 guide](Tab18-sandbox.md), [Lab 19 guide](Tab19-session-management.md), [Lab 20 guide](Tab20-hooks-in-depth.md), [Lab 21 guide](Tab21-slash-commands.md), [Lab 22 guide](Tab22-claude-md-memory.md), [Lab 23 guide](Tab23-plugins.md), [Lab 24 guide](Tab24-harnesses.md), [Lab 25 guide](Tab25-compaction-context.md), [Lab 26 guide](Tab26-query-control.md), [Lab 27 guide](Tab27-background-tasks.md), [Lab 28 guide](Tab28-errors-retries.md), [Lab 29 guide](Tab29-images-files.md), [Lab 30 guide](Tab30-todo-tracking.md), [Lab 31 guide](Tab31-ask-user-question.md), [Lab 32 guide](Tab32-plan-mode.md), [Lab 33 guide](Tab33-mcp-elicitation.md), [Lab 34 guide](Tab34-output-styles.md)
 for controls, experiments and PowerShell checks.
 The [course repository index](docs/github-repositories.md) links every cumulative
 GitHub checkpoint.
@@ -1069,3 +1069,21 @@ node scripts/lab33-browser-demonstration.mjs
 ```
 
 Independent private checkpoint: [Udemy-claude-managed-agents-Lab-33](https://github.com/luiscoco/Udemy-claude-managed-agents-Lab-33).
+
+### Lab 34: How it was built, step by step
+
+1. Registered lesson 34 with a style-comparison exercise, owner-scoped routes, source viewer and [learner guide](Tab34-output-styles.md).
+2. Added four trusted host instruction files and a fixed registry. Each comparison snapshots the selected file text, SHA-256 and exact composed system override with a fresh session ID and unchanged empty tool capabilities.
+3. Rejected unknown names before session creation and validated a closed JSON report independently of output preference. The authored answers illustrate formatting, not live quality.
+4. Added focused tests and a phone/desktop browser demonstration. The [checkpoint](docs/lab34-checkpoint.md) records validation and the unavailable live branch.
+
+```powershell
+node --import tsx --test tests/lab34-output-styles.test.ts
+npm run typecheck
+npm run audit:lesson-guides
+npm run test:lesson-guides
+npm run build
+node scripts/lab34-browser-demonstration.mjs
+```
+
+Independent private checkpoint: [Udemy-claude-managed-agents-Lab-34](https://github.com/luiscoco/Udemy-claude-managed-agents-Lab-34).
