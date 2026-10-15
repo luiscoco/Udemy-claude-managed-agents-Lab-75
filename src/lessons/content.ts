@@ -2,6 +2,16 @@ import type { LessonMetadata } from '../../shared/lessons';
 export type LessonContent = Pick<LessonMetadata, 'objective' | 'steps' | 'inspect' | 'challenge'>;
 // Only implemented lessons belong here; reserved IDs are not completed labs.
 export const content: Readonly<Record<number, LessonContent>> = Object.freeze({
+  19: {
+    objective: 'Inventory owned Managed sessions, inspect bounded history pages and derive a fresh conversation from an explicit host summary.',
+    steps: ['Start an offline session and send a second turn to the same session ID.',
+      'Inspect the inventory and history pages, then branch from a selected host event boundary.',
+      'Compare parent and derived session IDs and the exact summary handoff; the parent history remains intact.',
+      'Rename and tag an idle session, then compare archive with explicit deletion on a separate fixture.',
+      'Inspect provider metadata only when deliberately selected in a live run.'],
+    inspect: ['shared/lab19-session-management.ts', 'server/lib/lab19-sessions.ts', 'server/concepts/19-session-management.ts'],
+    challenge: 'Show why a derived conversation is a new session with explicit selected history, not a native fork carrying hidden state.',
+  },
   18: {
     objective: 'Inspect configured cloud sandbox policy and independently test a disposable host file boundary without conflating either with agent permission flags.',
     steps: ['Read the local platform manifest without starting a session.', 'Run Allowed mount and Outside mount offline; compare actual host read counts and hashes.',

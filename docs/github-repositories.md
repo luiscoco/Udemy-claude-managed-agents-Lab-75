@@ -29,3 +29,4 @@ finish the user's requested lesson workflow.
 | 16 | [Environment and configuration provenance](https://github.com/luiscoco/Udemy-claude-managed-agents-Lab-16) | Private |
 | 17 | [Host snapshots and file restoration](https://github.com/luiscoco/Udemy-claude-managed-agents-Lab-17) | Private |
 | 18 | [Cloud sandbox and host boundaries](https://github.com/luiscoco/Udemy-claude-managed-agents-Lab-18) | Private |
+| 19 | [Session inventory and explicit branches](https://github.com/luiscoco/Udemy-claude-managed-agents-Lab-19) | Private |

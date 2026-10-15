@@ -9,14 +9,14 @@ The original application is unchanged. Labs 01 (session event streaming), 02
 08 (delegation and session threads), 09 (system instructions and explicit
 context), 10 (validated reports and interruption), 11 (Managed skills and
 progressive loading), 12 (multiple messages in one session) and 13 (MCP connections
-and reachability), 14 (models and supported effort), 15 (usage and session budgets), 16 (environment and configuration provenance), 17 (host snapshots and file restoration), and 18 (cloud sandbox and host boundaries) are registered, with offline fixtures and
+and reachability), 14 (models and supported effort), 15 (usage and session budgets), 16 (environment and configuration provenance), 17 (host snapshots and file restoration), 18 (cloud sandbox and host boundaries), and 19 (session inventory and explicit branches) are registered, with offline fixtures and
 source inspection. See
 [Lab 02 guide](Tab2-options.md), [Lab 03 guide](Tab3-tools.md),
 [Lab 04 guide](Tab4-permissions.md), [Lab 05 guide](Tab5-custom-tools.md) and
 [Lab 06 guide](Tab6-sessions.md), [Lab 07 guide](Tab7-hooks.md) and
 [Lab 08 guide](Tab8-subagents.md), [Lab 09 guide](Tab9-system-prompts.md) and
 [Lab 10 guide](Tab10-structured-interrupt.md), [Lab 11 guide](Tab11-skills.md),
-[Lab 12 guide](Tab12-streaming-input.md), [Lab 13 guide](Tab13-mcp-servers.md), [Lab 14 guide](Tab14-thinking-effort-models.md), [Lab 15 guide](Tab15-cost-usage.md), [Lab 16 guide](Tab16-settings-env.md), [Lab 17 guide](Tab17-checkpointing.md), [Lab 18 guide](Tab18-sandbox.md)
+[Lab 12 guide](Tab12-streaming-input.md), [Lab 13 guide](Tab13-mcp-servers.md), [Lab 14 guide](Tab14-thinking-effort-models.md), [Lab 15 guide](Tab15-cost-usage.md), [Lab 16 guide](Tab16-settings-env.md), [Lab 17 guide](Tab17-checkpointing.md), [Lab 18 guide](Tab18-sandbox.md), [Lab 19 guide](Tab19-session-management.md)
 for controls, experiments and PowerShell checks.
 The [course repository index](docs/github-repositories.md) links every cumulative
 GitHub checkpoint.
@@ -796,3 +796,22 @@ node scripts/lab18-browser-demonstration.mjs
 ```
 
 Independent private checkpoint: [Udemy-claude-managed-agents-Lab-18](https://github.com/luiscoco/Udemy-claude-managed-agents-Lab-18).
+
+### Lab 19: How it was built, step by step
+
+1. Registered lesson 19 with a React exercise, bounded Express routes, source inspection and [learner guide](Tab19-session-management.md).
+2. Reused the retained-session turn runner and added an owner-scoped host inventory with strict new/continue, rename, tag, archive and explicit delete operations.
+3. Captured observed user and agent messages, exposed paginated history, and required an explicit selected event boundary to start a new derived session with a visible summary handoff and lineage metadata.
+4. Kept provider listing/retrieval opt-in, checked host ownership before provider reads or writes, and distinguished an archived record from a deleted idle session.
+5. Added focused tests and an offline browser demonstration. See [Lab 19 checkpoint](docs/lab19-checkpoint.md) for verification and limits.
+
+```powershell
+npm.cmd run typecheck
+node --import tsx --test tests/lab19-session-management.test.ts
+npm.cmd run audit:lesson-guides
+npm.cmd run test:lesson-guides
+npm.cmd run build
+node scripts/lab19-browser-demonstration.mjs
+```
+
+Independent private checkpoint: [Udemy-claude-managed-agents-Lab-19](https://github.com/luiscoco/Udemy-claude-managed-agents-Lab-19).
