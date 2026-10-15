@@ -78,7 +78,7 @@ test('injected Messages SDK loop appends a checked tool result; runner callback 
 test('owner concurrency is bounded and shutdown aborts an unfinished run', async () => {
   let started!: () => void; const running = new Promise<void>(resolve => { started = resolve; });
   const feature = createLab24Router(async (_input, signal) => { started(); await new Promise<never>((_resolve, reject) => {
-    signal.addEventListener('abort', () => reject(new Error('stopped')), { once: true });
+    signal!.addEventListener('abort', () => reject(new Error('stopped')), { once: true });
   }); throw new Error('unreachable'); });
   const app = express(); app.use('/api/c24', feature.router);
   const server = app.listen(0, '127.0.0.1'); await new Promise<void>(resolve => server.once('listening', resolve));
