@@ -2,6 +2,16 @@ import type { LessonMetadata } from '../../shared/lessons';
 export type LessonContent = Pick<LessonMetadata, 'objective' | 'steps' | 'inspect' | 'challenge'>;
 // Only implemented lessons belong here; reserved IDs are not completed labs.
 export const content: Readonly<Record<number, LessonContent>> = Object.freeze({
+  45: {
+    objective: 'Separate documented Managed Agents availability, installed client verification and Messages API support before choosing a provider path.',
+    steps: ['Load the dated official capability catalog and compare direct Claude API with Claude Platform on AWS.',
+      'Inspect Bedrock, Vertex and Foundry Messages paths without inferring Managed sessions.',
+      'Run synthetic ready and auth/model/config mismatch cases against the loopback emulator.',
+      'Compare a passed emulator wire check with a disabled AWS Managed route.',
+      'Inspect first-party setup readiness without forwarding credentials or starting a billed run.'],
+    inspect: ['shared/lab45-cloud-providers.ts', 'server/lib/lab45-providers.ts', 'server/concepts/45-cloud-providers.ts'],
+    challenge: 'Identify a preflight check that catches an unsupported provider path.',
+  },
   44: {
     objective: 'Correlate redacted host OTLP spans with separately labeled Managed model-span event evidence and effect counts.',
     steps: ['Run a successful tool fixture and follow trace/parent IDs across Express, port, approval, handler and cleanup spans.',
