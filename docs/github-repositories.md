@@ -49,3 +49,4 @@ finish the user's requested lesson workflow.
 | 36 | [Remote transport and host runners](https://github.com/luiscoco/Udemy-claude-managed-agents-Lab-36) | Private |
 | 37 | [External policy decision service](https://github.com/luiscoco/Udemy-claude-managed-agents-Lab-37) | Private |
 | 38 | [Application follow up suggestions](https://github.com/luiscoco/Udemy-claude-managed-agents-Lab-38) | Private |
+| 39 | [Trusted configuration and untrusted checkouts](https://github.com/luiscoco/Udemy-claude-managed-agents-Lab-39) | Private |

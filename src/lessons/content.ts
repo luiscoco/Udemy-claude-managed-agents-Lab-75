@@ -2,6 +2,16 @@ import type { LessonMetadata } from '../../shared/lessons';
 export type LessonContent = Pick<LessonMetadata, 'objective' | 'steps' | 'inspect' | 'challenge'>;
 // Only implemented lessons belong here; reserved IDs are not completed labs.
 export const content: Readonly<Record<number, LessonContent>> = Object.freeze({
+  39: {
+    objective: 'Verify a host-selected configuration manifest and hash before handling branch data through checked file tools.',
+    steps: ['Create a disposable worktree and compare the trusted host marker with a conflicting CLAUDE.md branch marker.',
+      'Inspect provenance and attempt the branch instruction takeover; confirm no hook ran.',
+      'Read notes.txt as data, then edit only that allowlisted file.',
+      'Try CLAUDE.md as an edit target, traversal and an absolute path; inspect each refusal.',
+      'Repeat with a missing manifest and a changed hash; neither can start a trusted session.'],
+    inspect: ['shared/lab39-project-config-root.ts', 'server/lib/lab39-project-config-root.ts', 'server/concepts/39-project-config-root.ts'],
+    challenge: 'Identify a branch rule the trusted configuration refuses to execute.',
+  },
   38: {
     objective: 'Offer optional application follow-up suggestions bound to a conversation, turn and response version without auto-sending or conflating usage with the answer.',
     steps: ['Start a normal offline conversation and inspect the answer before checking suggestions.',

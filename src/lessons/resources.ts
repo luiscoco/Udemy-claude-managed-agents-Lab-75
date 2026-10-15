@@ -4,7 +4,7 @@ import { selectGuide } from '../lib/presentation';
 export const guides = catalogFromGlob(import.meta.glob<string>('/Tab*.md', { query: '?raw', import: 'default' }));
 // Public teaching code only. Deliberately shallow scopes: no runtime directories,
 // tests, credentials, private config, logs or browser/live-check scripts.
-export const sources = catalogFromGlob(import.meta.glob<string>([
+const standardSources = catalogFromGlob(import.meta.glob<string>([
   '/server/index.ts', '/server/sse.ts', '/server/concepts/*.ts', '/server/concepts/*.mjs',
   '/server/lib/*.ts', '/server/routes/*.ts',
   '/src/concepts/*.tsx', '/src/concepts/*.ts', '/src/components/*.tsx', '/src/lib/*.ts',
@@ -13,6 +13,12 @@ export const sources = catalogFromGlob(import.meta.glob<string>([
   '!/**/*.test.*', '!/**/*.spec.*', '!/**/*live-check*', '!/**/*browser*',
   '!/**/*credential*', '!/**/*secret*', '!/**/*private*', '!/**/*config*',
 ], { query: '?raw', import: 'default' }));
+// Lab 39 deliberately teaches configuration authority; include only its authored
+// source files while the broad catalog still excludes unrelated config files.
+export const sources = { ...standardSources, ...catalogFromGlob(import.meta.glob<string>([
+  '/shared/lab39-project-config-root.ts', '/server/lib/lab39-project-config-root.ts',
+  '/server/concepts/39-project-config-root.ts', '/src/concepts/Concept39ProjectConfigRoot.tsx',
+], { query: '?raw', import: 'default' })) };
 export { loadText, mainSources };
 export async function loadGuide(id: number): Promise<string> {
   // Accepts Tab01.md and descriptive names such as Tab1-query.md; exactly one file may match.
