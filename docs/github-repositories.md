@@ -56,3 +56,4 @@ finish the user's requested lesson workflow.
 | 43 | [MCP resources through a host bridge](https://github.com/luiscoco/Udemy-claude-managed-agents-Lab-43) | Private |
 | 44 | [Host telemetry and provider event traces](https://github.com/luiscoco/Udemy-claude-managed-agents-Lab-44) | Private |
 | 45 | [Provider availability and configuration](https://github.com/luiscoco/Udemy-claude-managed-agents-Lab-45) | Private |
+| 46 | [Observed cache usage and cost](https://github.com/luiscoco/Udemy-claude-managed-agents-Lab-46) | Private |

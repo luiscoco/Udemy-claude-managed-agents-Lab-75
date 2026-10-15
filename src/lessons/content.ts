@@ -2,6 +2,16 @@ import type { LessonMetadata } from '../../shared/lessons';
 export type LessonContent = Pick<LessonMetadata, 'objective' | 'steps' | 'inspect' | 'challenge'>;
 // Only implemented lessons belong here; reserved IDs are not completed labs.
 export const content: Readonly<Record<number, LessonContent>> = Object.freeze({
+  46: {
+    objective: 'Compare supported Managed cache-read and creation counters across equal-scope observations without inventing prompt control or savings.',
+    steps: ['Read the stable authored handbook and dynamic suffixes in the anatomy view.',
+      'Compare two retained-session model-request usage records for reused content.',
+      'Change the prefix and inspect the content hash and observed counter examples.',
+      'Change model or tools in fresh sessions and see why no delta is calculated.',
+      'Try short input and missing usage; zero and unknown are different outcomes.'],
+    inspect: ['shared/lab46-prompt-caching.ts', 'server/lib/lab46-cache-observations.ts', 'server/lib/lab15-accounting.ts', 'server/concepts/46-prompt-caching.ts'],
+    challenge: 'Change a content prefix and compare measured cache counters when available.',
+  },
   45: {
     objective: 'Separate documented Managed Agents availability, installed client verification and Messages API support before choosing a provider path.',
     steps: ['Load the dated official capability catalog and compare direct Claude API with Claude Platform on AWS.',
