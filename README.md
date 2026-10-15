@@ -16,7 +16,7 @@ source inspection. See
 [Lab 06 guide](Tab6-sessions.md), [Lab 07 guide](Tab7-hooks.md) and
 [Lab 08 guide](Tab8-subagents.md), [Lab 09 guide](Tab9-system-prompts.md) and
 [Lab 10 guide](Tab10-structured-interrupt.md), [Lab 11 guide](Tab11-skills.md),
-[Lab 12 guide](Tab12-streaming-input.md), [Lab 13 guide](Tab13-mcp-servers.md), [Lab 14 guide](Tab14-thinking-effort-models.md), [Lab 15 guide](Tab15-cost-usage.md), [Lab 16 guide](Tab16-settings-env.md), [Lab 17 guide](Tab17-checkpointing.md), [Lab 18 guide](Tab18-sandbox.md), [Lab 19 guide](Tab19-session-management.md), [Lab 20 guide](Tab20-hooks-in-depth.md), [Lab 21 guide](Tab21-slash-commands.md), [Lab 22 guide](Tab22-claude-md-memory.md), [Lab 23 guide](Tab23-plugins.md), [Lab 24 guide](Tab24-harnesses.md), [Lab 25 guide](Tab25-compaction-context.md), [Lab 26 guide](Tab26-query-control.md), [Lab 27 guide](Tab27-background-tasks.md), [Lab 28 guide](Tab28-errors-retries.md), [Lab 29 guide](Tab29-images-files.md), [Lab 30 guide](Tab30-todo-tracking.md), [Lab 31 guide](Tab31-ask-user-question.md), [Lab 32 guide](Tab32-plan-mode.md), [Lab 33 guide](Tab33-mcp-elicitation.md), [Lab 34 guide](Tab34-output-styles.md), [Lab 35 guide](Tab35-session-stores.md), [Lab 36 guide](Tab36-process-spawning.md), [Lab 37 guide](Tab37-permission-prompt-tool.md), [Lab 38 guide](Tab38-prompt-suggestions.md), [Lab 39 guide](Tab39-project-config-root.md), [Lab 40 guide](Tab40-resume-drops-turn.md), [Lab 41 guide](Tab41-v2-session-api.md), [Lab 42 guide](Tab42-web-tools.md)
+[Lab 12 guide](Tab12-streaming-input.md), [Lab 13 guide](Tab13-mcp-servers.md), [Lab 14 guide](Tab14-thinking-effort-models.md), [Lab 15 guide](Tab15-cost-usage.md), [Lab 16 guide](Tab16-settings-env.md), [Lab 17 guide](Tab17-checkpointing.md), [Lab 18 guide](Tab18-sandbox.md), [Lab 19 guide](Tab19-session-management.md), [Lab 20 guide](Tab20-hooks-in-depth.md), [Lab 21 guide](Tab21-slash-commands.md), [Lab 22 guide](Tab22-claude-md-memory.md), [Lab 23 guide](Tab23-plugins.md), [Lab 24 guide](Tab24-harnesses.md), [Lab 25 guide](Tab25-compaction-context.md), [Lab 26 guide](Tab26-query-control.md), [Lab 27 guide](Tab27-background-tasks.md), [Lab 28 guide](Tab28-errors-retries.md), [Lab 29 guide](Tab29-images-files.md), [Lab 30 guide](Tab30-todo-tracking.md), [Lab 31 guide](Tab31-ask-user-question.md), [Lab 32 guide](Tab32-plan-mode.md), [Lab 33 guide](Tab33-mcp-elicitation.md), [Lab 34 guide](Tab34-output-styles.md), [Lab 35 guide](Tab35-session-stores.md), [Lab 36 guide](Tab36-process-spawning.md), [Lab 37 guide](Tab37-permission-prompt-tool.md), [Lab 38 guide](Tab38-prompt-suggestions.md), [Lab 39 guide](Tab39-project-config-root.md), [Lab 40 guide](Tab40-resume-drops-turn.md), [Lab 41 guide](Tab41-v2-session-api.md), [Lab 42 guide](Tab42-web-tools.md), [Lab 43 guide](Tab43-remote-mcp-resources.md)
 for controls, experiments and PowerShell checks.
 The [course repository index](docs/github-repositories.md) links every cumulative
 GitHub checkpoint.
@@ -1231,3 +1231,21 @@ node scripts/lab42-browser-demonstration.mjs
 ```
 
 Independent private checkpoint: [Udemy-claude-managed-agents-Lab-42](https://github.com/luiscoco/Udemy-claude-managed-agents-Lab-42).
+
+### Lab 43: How it was built, step by step
+
+1. Registered lesson 43 with a loopback MCP bridge exercise, owner-scoped routes, source viewer and [learner guide](Tab43-remote-mcp-resources.md).
+2. Authored a local MCP JSON-RPC server that lists a tool, resources, a versioned template and a prompt. A server-side toy bearer token gates its calls.
+3. Added a host client that allowlists resource URIs, bounds results, redacts token evidence and returns an approved read as a typed custom-tool-result fixture. Direct Managed URL MCP remains a separate reviewed integration.
+4. Added focused tests and browser demonstrations. The [checkpoint](docs/lab43-checkpoint.md) records verification and the local-only limit.
+
+```powershell
+node --import tsx --test tests/lab43-mcp-bridge.test.ts
+npm run typecheck
+npm run audit:lesson-guides
+npm run test:lesson-guides
+npm run build
+node scripts/lab43-browser-demonstration.mjs
+```
+
+Independent private checkpoint: [Udemy-claude-managed-agents-Lab-43](https://github.com/luiscoco/Udemy-claude-managed-agents-Lab-43).

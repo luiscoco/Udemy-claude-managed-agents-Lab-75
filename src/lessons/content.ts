@@ -2,6 +2,16 @@ import type { LessonMetadata } from '../../shared/lessons';
 export type LessonContent = Pick<LessonMetadata, 'objective' | 'steps' | 'inspect' | 'challenge'>;
 // Only implemented lessons belong here; reserved IDs are not completed labs.
 export const content: Readonly<Record<number, LessonContent>> = Object.freeze({
+  43: {
+    objective: 'Read authenticated, bounded MCP resources through a host bridge without assuming Managed query-control methods.',
+    steps: ['Grant local consent and inspect loopback tool, resource/template and prompt listings.',
+      'Read v1 and v2 server-owned resource URIs and compare versioned results.',
+      'Get the known prompt and inspect the bounded host custom-tool result shape.',
+      'Try bad token, expired token and unknown URI; confirm no result escapes.',
+      'Refresh the bridge token and verify the next authorized read.'],
+    inspect: ['shared/lab43-remote-mcp-resources.ts', 'mcp-servers/lab43-resources.ts', 'server/lib/lab43-mcp-bridge.ts', 'server/concepts/43-remote-mcp-resources.ts'],
+    challenge: 'Refresh the bridge token and inspect the next authorized call.',
+  },
   42: {
     objective: 'Research with bounded, inspected source records and verify citations against returned evidence while refusing unsafe redirects.',
     steps: ['Inspect exact installed Managed web_search and web_fetch config fields in the code view.',
