@@ -2,6 +2,14 @@ import type { LessonMetadata } from '../../shared/lessons';
 export type LessonContent = Pick<LessonMetadata, 'objective' | 'steps' | 'inspect' | 'challenge'>;
 // Only implemented lessons belong here; reserved IDs are not completed labs.
 export const content: Readonly<Record<number, LessonContent>> = Object.freeze({
+  31: {
+    objective: 'Collect one human answer to a bounded host question and correlate a single Managed custom-tool result with the paused event ID.',
+    steps: ['Start the deployment-target or option-selection fixture and inspect the stored run, session and event IDs.',
+      'Submit a valid choice and inspect the one correlated result.', 'Try an invalid choice or incomplete answer and confirm no result was sent.',
+      'Run allowed custom text, expiry and cancellation while waiting.', 'Repeat a decision or use a foreign run ID and compare the errors.'],
+    inspect: ['shared/lab31-ask-user-question.ts', 'server/lib/lab31-questions.ts', 'server/concepts/31-ask-user-question.ts'],
+    challenge: 'Compare a partial answer with a complete validated response.',
+  },
   30: {
     objective: 'Use a host-owned task board and typed custom-tool inputs to enforce dependencies, versions and checked completion evidence independently of agent claims.',
     steps: ['Start the three-step offline board and compare agent claim with host task states.',
