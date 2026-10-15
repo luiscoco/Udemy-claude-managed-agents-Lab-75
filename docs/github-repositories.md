@@ -32,3 +32,4 @@ finish the user's requested lesson workflow.
 | 19 | [Session inventory and explicit branches](https://github.com/luiscoco/Udemy-claude-managed-agents-Lab-19) | Private |
 | 20 | [Lifecycle events and host interceptors](https://github.com/luiscoco/Udemy-claude-managed-agents-Lab-20) | Private |
 | 21 | [Host commands and prompt expansion](https://github.com/luiscoco/Udemy-claude-managed-agents-Lab-21) | Private |
+| 22 | [Explicit project context and memory](https://github.com/luiscoco/Udemy-claude-managed-agents-Lab-22) | Private |

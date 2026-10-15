@@ -2,6 +2,16 @@ import type { LessonMetadata } from '../../shared/lessons';
 export type LessonContent = Pick<LessonMetadata, 'objective' | 'steps' | 'inspect' | 'challenge'>;
 // Only implemented lessons belong here; reserved IDs are not completed labs.
 export const content: Readonly<Record<number, LessonContent>> = Object.freeze({
+  22: {
+    objective: 'Trace exactly which authored project and summary files the host selects for a fresh Managed session without assuming automatic CLAUDE.md discovery.',
+    steps: ['Inspect the four allowlisted fixture files and their content hashes.',
+      'Run nested selection and compare actual host reads with the complete user message.',
+      'Run the conflicting untrusted note and explain why its prose cannot change permissions.',
+      'Run with context disabled, then start a fresh session with the explicit handoff summary.',
+      'Compare local file reads, cloud memory attachment and remote file-read evidence separately.'],
+    inspect: ['shared/lab22-claude-md-memory.ts', 'server/lib/lab22-context.ts', 'server/concepts/22-claude-md-memory.ts'],
+    challenge: 'Disable nested context and select the summary instead. Which authored markers disappear, and which appear in the new session input?',
+  },
   21: {
     objective: 'Validate host commands, inspect exact fixed-template expansion, and distinguish local-only actions from messages sent on an owned session.',
     steps: ['Prepare one bounded offline command session and inspect the fixed command registry.',
