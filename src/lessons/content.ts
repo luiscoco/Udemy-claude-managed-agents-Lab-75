@@ -2,6 +2,14 @@ import type { LessonMetadata } from '../../shared/lessons';
 export type LessonContent = Pick<LessonMetadata, 'objective' | 'steps' | 'inspect' | 'challenge'>;
 // Only implemented lessons belong here; reserved IDs are not completed labs.
 export const content: Readonly<Record<number, LessonContent>> = Object.freeze({
+  25: {
+    objective: 'Distinguish observed Managed compaction events, available cumulative thread usage and a separate host-authored summary handoff without inventing context capacity.',
+    steps: ['Inspect the bounded report files and checked host reads.', 'Replay the authored compaction event and compare it with a stream where no such event appears.',
+      'Run Missing metrics and keep unavailable values distinct from zero.', 'Run Summary omits and inspect which original report fact the new-session summary lost.',
+      'Explain why an offline event cannot establish a real platform compaction threshold.'],
+    inspect: ['shared/lab25-compaction-context.ts', 'server/lib/lab25-compaction-context.ts', 'server/concepts/25-compaction-context.ts'],
+    challenge: 'Compare the authored compaction event with the host summary handoff. Which one could prove a platform action, and which retained facts can you verify from source reports?',
+  },
   24: {
     objective: 'Compare who iterates, executes host tools, holds state and cleans up in a manual Messages loop, the Messages SDK tool runner and Managed session custom tools.',
     steps: ['Run Reserve 2 in all three offline harnesses and compare typed call adapters and identical host effects.',

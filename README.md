@@ -16,7 +16,7 @@ source inspection. See
 [Lab 06 guide](Tab6-sessions.md), [Lab 07 guide](Tab7-hooks.md) and
 [Lab 08 guide](Tab8-subagents.md), [Lab 09 guide](Tab9-system-prompts.md) and
 [Lab 10 guide](Tab10-structured-interrupt.md), [Lab 11 guide](Tab11-skills.md),
-[Lab 12 guide](Tab12-streaming-input.md), [Lab 13 guide](Tab13-mcp-servers.md), [Lab 14 guide](Tab14-thinking-effort-models.md), [Lab 15 guide](Tab15-cost-usage.md), [Lab 16 guide](Tab16-settings-env.md), [Lab 17 guide](Tab17-checkpointing.md), [Lab 18 guide](Tab18-sandbox.md), [Lab 19 guide](Tab19-session-management.md), [Lab 20 guide](Tab20-hooks-in-depth.md), [Lab 21 guide](Tab21-slash-commands.md), [Lab 22 guide](Tab22-claude-md-memory.md), [Lab 23 guide](Tab23-plugins.md), [Lab 24 guide](Tab24-harnesses.md)
+[Lab 12 guide](Tab12-streaming-input.md), [Lab 13 guide](Tab13-mcp-servers.md), [Lab 14 guide](Tab14-thinking-effort-models.md), [Lab 15 guide](Tab15-cost-usage.md), [Lab 16 guide](Tab16-settings-env.md), [Lab 17 guide](Tab17-checkpointing.md), [Lab 18 guide](Tab18-sandbox.md), [Lab 19 guide](Tab19-session-management.md), [Lab 20 guide](Tab20-hooks-in-depth.md), [Lab 21 guide](Tab21-slash-commands.md), [Lab 22 guide](Tab22-claude-md-memory.md), [Lab 23 guide](Tab23-plugins.md), [Lab 24 guide](Tab24-harnesses.md), [Lab 25 guide](Tab25-compaction-context.md)
 for controls, experiments and PowerShell checks.
 The [course repository index](docs/github-repositories.md) links every cumulative
 GitHub checkpoint.
@@ -906,3 +906,21 @@ node scripts/lab24-browser-demonstration.mjs
 ```
 
 Independent private checkpoint: [Udemy-claude-managed-agents-Lab-24](https://github.com/luiscoco/Udemy-claude-managed-agents-Lab-24).
+
+### Lab 25: How it was built, step by step
+
+1. Registered lesson 25 with a React exercise, strict server routes, source viewer and [learner guide](Tab25-compaction-context.md).
+2. Added three bounded, allowlisted host report reads with byte hashes and checked facts. The offline replay sends typed Managed event fixtures through the shared event consumer and records `agent.thread_context_compacted` only when present.
+3. Displayed cumulative thread usage separately from unavailable context-window, free-context and compaction-threshold values. A missing metric stays unavailable.
+4. Added an explicit host summary handoff with a new fixture session ID and checked fact retention; one scenario deliberately omits a fact to show the limitation. See [Lab 25 checkpoint](docs/lab25-checkpoint.md) for validation and limits.
+
+```powershell
+npm.cmd run typecheck
+node --import tsx --test tests/lab25-compaction-context.test.ts
+npm.cmd run audit:lesson-guides
+npm.cmd run test:lesson-guides
+npm.cmd run build
+node scripts/lab25-browser-demonstration.mjs
+```
+
+Independent private checkpoint: [Udemy-claude-managed-agents-Lab-25](https://github.com/luiscoco/Udemy-claude-managed-agents-Lab-25).
