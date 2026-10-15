@@ -2,6 +2,16 @@ import type { LessonMetadata } from '../../shared/lessons';
 export type LessonContent = Pick<LessonMetadata, 'objective' | 'steps' | 'inspect' | 'challenge'>;
 // Only implemented lessons belong here; reserved IDs are not completed labs.
 export const content: Readonly<Record<number, LessonContent>> = Object.freeze({
+  35: {
+    objective: 'Persist a bounded local mirror of canonical session events by thread without claiming ownership of remote Managed session state.',
+    steps: ['Start eager and batched mirrors and compare persisted versus pending canonical events.',
+      'Simulate a crash and restart before flushing a batch; identify the lost local pending records.',
+      'Try an append failure, restore appends and reconcile canonical history without duplicates.',
+      'Inspect missing-thread and archived-session cases; the mirror cannot invent history or restore a sandbox.',
+      'Compare the conversation index, thread partitions and separate empty effect ledger.'],
+    inspect: ['shared/lab35-session-stores.ts', 'server/lib/lab35-mirror.ts', 'server/concepts/35-session-stores.ts'],
+    challenge: 'Compare flush strategies and identify which records survive a simulated crash.',
+  },
   34: {
     objective: 'Compare trusted host output-instruction files in fresh session snapshots while validating JSON reports independently of style text.',
     steps: ['Inspect the trusted concise, explanatory and review style catalog and its hashes.',
