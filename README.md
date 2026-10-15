@@ -9,14 +9,14 @@ The original application is unchanged. Labs 01 (session event streaming), 02
 08 (delegation and session threads), 09 (system instructions and explicit
 context), 10 (validated reports and interruption), 11 (Managed skills and
 progressive loading), 12 (multiple messages in one session) and 13 (MCP connections
-and reachability), 14 (models and supported effort), 15 (usage and session budgets), and 16 (environment and configuration provenance) are registered, with offline fixtures and
+and reachability), 14 (models and supported effort), 15 (usage and session budgets), 16 (environment and configuration provenance), and 17 (host snapshots and file restoration) are registered, with offline fixtures and
 source inspection. See
 [Lab 02 guide](Tab2-options.md), [Lab 03 guide](Tab3-tools.md),
 [Lab 04 guide](Tab4-permissions.md), [Lab 05 guide](Tab5-custom-tools.md) and
 [Lab 06 guide](Tab6-sessions.md), [Lab 07 guide](Tab7-hooks.md) and
 [Lab 08 guide](Tab8-subagents.md), [Lab 09 guide](Tab9-system-prompts.md) and
 [Lab 10 guide](Tab10-structured-interrupt.md), [Lab 11 guide](Tab11-skills.md),
-[Lab 12 guide](Tab12-streaming-input.md), [Lab 13 guide](Tab13-mcp-servers.md), [Lab 14 guide](Tab14-thinking-effort-models.md), [Lab 15 guide](Tab15-cost-usage.md), [Lab 16 guide](Tab16-settings-env.md)
+[Lab 12 guide](Tab12-streaming-input.md), [Lab 13 guide](Tab13-mcp-servers.md), [Lab 14 guide](Tab14-thinking-effort-models.md), [Lab 15 guide](Tab15-cost-usage.md), [Lab 16 guide](Tab16-settings-env.md), [Lab 17 guide](Tab17-checkpointing.md)
 for controls, experiments and PowerShell checks.
 The [course repository index](docs/github-repositories.md) links every cumulative
 GitHub checkpoint.
@@ -757,3 +757,23 @@ node scripts/lab16-browser-demonstration.mjs
 ```
 
 Independent private checkpoint: [Udemy-claude-managed-agents-Lab-16](https://github.com/luiscoco/Udemy-claude-managed-agents-Lab-16).
+
+### Lab 17: How it was built, step by step
+
+1. Registered lesson 17 in the cumulative React and Express registries, with its source panel and [learner guide](Tab17-checkpointing.md).
+2. Defined closed host snapshot, restore-plan and report contracts. The lesson records session, host event and observed Managed stream event IDs separately.
+3. Created a guarded fixture tree under `generated/lab17/` with two tracked files and one untracked file. Only explicit, allowlisted host handlers can read or change those paths.
+4. Reused the retained-session turn and SSE boundary. A host file action runs after a confirmed-idle turn; the model's text does not authorize a file change.
+5. Added snapshot hashes, exact dry-run restore plans, owner/version/current-hash checks and a confirmed restore that leaves the conversation and untracked path intact. Session-scoped remote outputs are inspected separately.
+6. Added deterministic tests and an offline browser demonstration. See [Lab 17 checkpoint](docs/lab17-checkpoint.md) for actual verification and limitations.
+
+```powershell
+npm.cmd run typecheck
+node --import tsx --test tests/lab17-checkpointing.test.ts
+npm.cmd run audit:lesson-guides
+npm.cmd run test:lesson-guides
+npm.cmd run build
+node scripts/lab17-browser-demonstration.mjs
+```
+
+Independent private checkpoint: [Udemy-claude-managed-agents-Lab-17](https://github.com/luiscoco/Udemy-claude-managed-agents-Lab-17).

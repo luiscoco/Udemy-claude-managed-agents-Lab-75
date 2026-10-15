@@ -2,6 +2,14 @@ import type { LessonMetadata } from '../../shared/lessons';
 export type LessonContent = Pick<LessonMetadata, 'objective' | 'steps' | 'inspect' | 'challenge'>;
 // Only implemented lessons belong here; reserved IDs are not completed labs.
 export const content: Readonly<Record<number, LessonContent>> = Object.freeze({
+  17: {
+    objective: 'Restore tracked host fixture files from an owned snapshot while the retained Managed conversation remains intact.',
+    steps: ['Prepare an offline fixture session and take a snapshot of notes.md and absent draft.md.', 'Send turns that edit notes.md, create draft.md and create untracked scratch.md.',
+      'Dry-run restoration to inspect exact tracked restores and deletes.', 'Confirm only with the current host version and matching plan ID; inspect files and unchanged conversation history.',
+      'Try an unknown snapshot, then inspect remote outputs separately and close the session.'],
+    inspect: ['shared/lab17-checkpointing.ts', 'server/lib/lab17-files.ts', 'server/lib/lab17-run.ts', 'server/concepts/17-checkpointing.ts'],
+    challenge: 'Explain why restoring notes.md and deleting draft.md leaves the conversation and untracked scratch.md intact.',
+  },
   16: {
     objective: 'Trace synthetic host configuration precedence, server credential readiness and explicit Managed environment resources without conflating their scopes.',
     steps: ['Change user and session region overrides; compare which host layer wins.', 'Run the missing-credential and absent-mount fixtures; keep unknown remote values separate.',

@@ -14,7 +14,7 @@ try {
     for (let attempt = 0; ; attempt++) {
       if (api.exitCode !== null) throw new Error('Backend exited before readiness.');
       try { const response = await fetch('http://127.0.0.1:3086/api/health', { signal: AbortSignal.timeout(500) }); if (response.ok) break; } catch {}
-      if (attempt >= 50) throw new Error('Backend readiness timed out.');
+      if (attempt >= 300) throw new Error('Backend readiness timed out.');
       await delay(100);
     }
   }
