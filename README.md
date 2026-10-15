@@ -9,14 +9,14 @@ The original application is unchanged. Labs 01 (session event streaming), 02
 08 (delegation and session threads), 09 (system instructions and explicit
 context), 10 (validated reports and interruption), 11 (Managed skills and
 progressive loading), 12 (multiple messages in one session) and 13 (MCP connections
-and reachability), 14 (models and supported effort), 15 (usage and session budgets), 16 (environment and configuration provenance), and 17 (host snapshots and file restoration) are registered, with offline fixtures and
+and reachability), 14 (models and supported effort), 15 (usage and session budgets), 16 (environment and configuration provenance), 17 (host snapshots and file restoration), and 18 (cloud sandbox and host boundaries) are registered, with offline fixtures and
 source inspection. See
 [Lab 02 guide](Tab2-options.md), [Lab 03 guide](Tab3-tools.md),
 [Lab 04 guide](Tab4-permissions.md), [Lab 05 guide](Tab5-custom-tools.md) and
 [Lab 06 guide](Tab6-sessions.md), [Lab 07 guide](Tab7-hooks.md) and
 [Lab 08 guide](Tab8-subagents.md), [Lab 09 guide](Tab9-system-prompts.md) and
 [Lab 10 guide](Tab10-structured-interrupt.md), [Lab 11 guide](Tab11-skills.md),
-[Lab 12 guide](Tab12-streaming-input.md), [Lab 13 guide](Tab13-mcp-servers.md), [Lab 14 guide](Tab14-thinking-effort-models.md), [Lab 15 guide](Tab15-cost-usage.md), [Lab 16 guide](Tab16-settings-env.md), [Lab 17 guide](Tab17-checkpointing.md)
+[Lab 12 guide](Tab12-streaming-input.md), [Lab 13 guide](Tab13-mcp-servers.md), [Lab 14 guide](Tab14-thinking-effort-models.md), [Lab 15 guide](Tab15-cost-usage.md), [Lab 16 guide](Tab16-settings-env.md), [Lab 17 guide](Tab17-checkpointing.md), [Lab 18 guide](Tab18-sandbox.md)
 for controls, experiments and PowerShell checks.
 The [course repository index](docs/github-repositories.md) links every cumulative
 GitHub checkpoint.
@@ -777,3 +777,22 @@ node scripts/lab17-browser-demonstration.mjs
 ```
 
 Independent private checkpoint: [Udemy-claude-managed-agents-Lab-17](https://github.com/luiscoco/Udemy-claude-managed-agents-Lab-17).
+
+### Lab 18: How it was built, step by step
+
+1. Registered lesson 18 with its React exercise, Express routes, source inspection and [learner guide](Tab18-sandbox.md).
+2. Added a local platform manifest that displays the configured environment ID and optional agent version pin without provider calls. The SDK has no environment version field; an explicit metadata read shows `updated_at` separately.
+3. Built disposable offline host tests for exact allowlisted file access, outside path denial, authored blocked-network policy and missing-environment failure. Actual file reads are hashed; denied paths cause no read or socket call.
+4. Added a deliberate live environment read and a separate budgeted diagnostic. It rechecks a restricted cloud policy, enables only `bash` with host confirmation and approves only exact `pwd` in the remote sandbox.
+5. Added strict request/report contracts, effect evidence, focused tests and a phone/desktop offline browser demonstration. See [Lab 18 checkpoint](docs/lab18-checkpoint.md) for actual validation and limits.
+
+```powershell
+npm.cmd run typecheck
+node --import tsx --test tests/lab18-sandbox.test.ts
+npm.cmd run audit:lesson-guides
+npm.cmd run test:lesson-guides
+npm.cmd run build
+node scripts/lab18-browser-demonstration.mjs
+```
+
+Independent private checkpoint: [Udemy-claude-managed-agents-Lab-18](https://github.com/luiscoco/Udemy-claude-managed-agents-Lab-18).

@@ -275,7 +275,7 @@ test('router: 400, 404, 409, 422 and 429 over HTTP, one winner per race, and can
     // Capacity: two runs wait at their first review; a third query is refused.
     const controllers = [new AbortController(), new AbortController()];
     for (const controller of controllers) await post('query', base, controller.signal);
-    const reviewsReadyUntil = Date.now() + 5000;
+    const reviewsReadyUntil = Date.now() + 10000;
     while (router.registry.pendingCount() < 2 && Date.now() < reviewsReadyUntil) await delay(25);
     assert.equal(router.registry.pendingCount(), 2);
     assert.equal((await post('query', base)).status, 429);

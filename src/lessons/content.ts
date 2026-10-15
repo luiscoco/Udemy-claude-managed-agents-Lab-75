@@ -2,6 +2,15 @@ import type { LessonMetadata } from '../../shared/lessons';
 export type LessonContent = Pick<LessonMetadata, 'objective' | 'steps' | 'inspect' | 'challenge'>;
 // Only implemented lessons belong here; reserved IDs are not completed labs.
 export const content: Readonly<Record<number, LessonContent>> = Object.freeze({
+  18: {
+    objective: 'Inspect configured cloud sandbox policy and independently test a disposable host file boundary without conflating either with agent permission flags.',
+    steps: ['Read the local platform manifest without starting a session.', 'Run Allowed mount and Outside mount offline; compare actual host read counts and hashes.',
+      'Run Blocked network and Missing environment; inspect the fail-closed results and zero socket calls.',
+      'Explicitly inspect live cloud metadata, then optionally start a bounded billed pwd diagnostic with host confirmation.',
+      'Check tool use and result evidence; explain why local path checks do not attest cloud containment.'],
+    inspect: ['shared/lab18-sandbox.ts', 'server/lib/lab18-sandbox.ts', 'server/concepts/18-sandbox.ts'],
+    challenge: 'Explain why an unavailable configured environment fails closed before a session and why an offline host path denial does not prove cloud OS containment.',
+  },
   17: {
     objective: 'Restore tracked host fixture files from an owned snapshot while the retained Managed conversation remains intact.',
     steps: ['Prepare an offline fixture session and take a snapshot of notes.md and absent draft.md.', 'Send turns that edit notes.md, create draft.md and create untracked scratch.md.',

@@ -28,3 +28,4 @@ finish the user's requested lesson workflow.
 | 15 | [Usage and session budgets](https://github.com/luiscoco/Udemy-claude-managed-agents-Lab-15) | Private |
 | 16 | [Environment and configuration provenance](https://github.com/luiscoco/Udemy-claude-managed-agents-Lab-16) | Private |
 | 17 | [Host snapshots and file restoration](https://github.com/luiscoco/Udemy-claude-managed-agents-Lab-17) | Private |
+| 18 | [Cloud sandbox and host boundaries](https://github.com/luiscoco/Udemy-claude-managed-agents-Lab-18) | Private |
