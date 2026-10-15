@@ -2,6 +2,16 @@ import type { LessonMetadata } from '../../shared/lessons';
 export type LessonContent = Pick<LessonMetadata, 'objective' | 'steps' | 'inspect' | 'challenge'>;
 // Only implemented lessons belong here; reserved IDs are not completed labs.
 export const content: Readonly<Record<number, LessonContent>> = Object.freeze({
+  36: {
+    objective: 'Inspect the host HTTP/event boundary, bounded event consumption, fixed host worker lifecycle and remote cleanup without spawning Claude Code.',
+    steps: ['Run the successful loopback Managed-port fixture and inspect host request and remote lifecycle events.',
+      'Compare connection failure with an early stream close; neither produces a verified completed turn.',
+      'Run handler-worker failure and confirm one child exit with private stderr withheld.',
+      'Cancel during a pending stream; inspect local abort and unconfirmed remote cleanup.',
+      'Identify which code runs on the host and which lifecycle belongs to a remote session.'],
+    inspect: ['shared/lab36-process-spawning.ts', 'server/lib/lab36-transport.ts', 'server/concepts/36-process-spawning.ts', 'mcp-servers/lab36-worker.mjs'],
+    challenge: 'Identify which work runs on the host and which belongs to the remote session.',
+  },
   35: {
     objective: 'Persist a bounded local mirror of canonical session events by thread without claiming ownership of remote Managed session state.',
     steps: ['Start eager and batched mirrors and compare persisted versus pending canonical events.',

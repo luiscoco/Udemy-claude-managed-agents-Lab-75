@@ -46,3 +46,4 @@ finish the user's requested lesson workflow.
 | 33 | [Human forms during tool work](https://github.com/luiscoco/Udemy-claude-managed-agents-Lab-33) | Private |
 | 34 | [Output instruction variants](https://github.com/luiscoco/Udemy-claude-managed-agents-Lab-34) | Private |
 | 35 | [Event mirrors and conversation indexes](https://github.com/luiscoco/Udemy-claude-managed-agents-Lab-35) | Private |
+| 36 | [Remote transport and host runners](https://github.com/luiscoco/Udemy-claude-managed-agents-Lab-36) | Private |
