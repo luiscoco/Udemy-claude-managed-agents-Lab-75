@@ -77,6 +77,8 @@ import { lab35Lesson } from '../../shared/lab35-session-stores.js';
 import { createLab35Router } from './35-session-stores.js';
 import { lab36Lesson } from '../../shared/lab36-process-spawning.js';
 import { createLab36Router } from './36-process-spawning.js';
+import { lab37Lesson } from '../../shared/lab37-permission-prompt-tool.js';
+import { createLab37Router } from './37-permission-prompt-tool.js';
 
 export type ConceptRecord = LessonMetadata & { router: Router; close?: () => Promise<void> };
 export function registerConcepts(): readonly ConceptRecord[] {
@@ -114,6 +116,7 @@ export function registerConcepts(): readonly ConceptRecord[] {
   const lab34 = createLab34Router();
   const lab35 = createLab35Router();
   const lab36 = createLab36Router();
+  const lab37 = createLab37Router();
   const lab14 = createLab14Router();
   const lab13 = createLab13Router();
   const entries: ConceptRecord[] = [
@@ -153,6 +156,7 @@ export function registerConcepts(): readonly ConceptRecord[] {
     { ...lab34Lesson, ...content[lab34Lesson.id]!, router: lab34.router, close: lab34.close },
     { ...lab35Lesson, ...content[lab35Lesson.id]!, router: lab35.router, close: lab35.close },
     { ...lab36Lesson, ...content[lab36Lesson.id]!, router: lab36.router, close: lab36.close },
+    { ...lab37Lesson, ...content[lab37Lesson.id]!, router: lab37.router, close: lab37.close },
   ];
   validateLessonRegistry(entries.map(({ router: _router, close: _close, ...metadata }) => metadata));
   return entries;

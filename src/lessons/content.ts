@@ -2,6 +2,16 @@ import type { LessonMetadata } from '../../shared/lessons';
 export type LessonContent = Pick<LessonMetadata, 'objective' | 'steps' | 'inspect' | 'challenge'>;
 // Only implemented lessons belong here; reserved IDs are not completed labs.
 export const content: Readonly<Record<number, LessonContent>> = Object.freeze({
+  37: {
+    objective: 'Ask a host-only policy service about an exact paused action and send one correlated confirmation only after a valid gate decision and independent path check.',
+    steps: ['Start a preallowed observation and see that no gate request or confirmation is needed.',
+      'Run the worker deny and inspect the exact sevt_ ID, deny_message and unchanged fixture file.',
+      'Try malformed output and timeout; neither can produce a confirmation or file effect.',
+      'Run host-refusal: the worker allows but the fixed host path limit denies.',
+      'Compare a local reviewer decision with the isolated policy worker and replay a decision.'],
+    inspect: ['shared/lab37-permission-prompt-tool.ts', 'server/lib/lab37-policy-gate.ts', 'server/concepts/37-permission-prompt-tool.ts', 'mcp-servers/lab37-policy.mjs'],
+    challenge: 'Return an invalid gate response and inspect the prevented effect.',
+  },
   36: {
     objective: 'Inspect the host HTTP/event boundary, bounded event consumption, fixed host worker lifecycle and remote cleanup without spawning Claude Code.',
     steps: ['Run the successful loopback Managed-port fixture and inspect host request and remote lifecycle events.',
