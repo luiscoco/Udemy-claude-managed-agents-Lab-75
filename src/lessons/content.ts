@@ -2,6 +2,16 @@ import type { LessonMetadata } from '../../shared/lessons';
 export type LessonContent = Pick<LessonMetadata, 'objective' | 'steps' | 'inspect' | 'challenge'>;
 // Only implemented lessons belong here; reserved IDs are not completed labs.
 export const content: Readonly<Record<number, LessonContent>> = Object.freeze({
+  47: {
+    objective: 'Compare native Managed worker threads with a host pipeline of independent sessions using closed reports and verified sales fixtures.',
+    steps: ['Choose a native or host orchestration route and inspect session versus thread identity.',
+      'Run regional sales and compare raw worker text with verified reports.',
+      'Run incorrect total and inspect the single corrective round before handoff.',
+      'Run delayed worker and dependency failure to see why parent prose cannot pass the gate.',
+      'Compare shared native session usage with the host aggregate of independent sessions.'],
+    inspect: ['shared/lab47-multi-agent.ts', 'server/lib/lab47-multi-agent.ts', 'server/concepts/47-multi-agent.ts'],
+    challenge: 'Stop one worker and inspect the effect on dependent tasks.',
+  },
   46: {
     objective: 'Compare supported Managed cache-read and creation counters across equal-scope observations without inventing prompt control or savings.',
     steps: ['Read the stable authored handbook and dynamic suffixes in the anatomy view.',
