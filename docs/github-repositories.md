@@ -48,3 +48,4 @@ finish the user's requested lesson workflow.
 | 35 | [Event mirrors and conversation indexes](https://github.com/luiscoco/Udemy-claude-managed-agents-Lab-35) | Private |
 | 36 | [Remote transport and host runners](https://github.com/luiscoco/Udemy-claude-managed-agents-Lab-36) | Private |
 | 37 | [External policy decision service](https://github.com/luiscoco/Udemy-claude-managed-agents-Lab-37) | Private |
+| 38 | [Application follow up suggestions](https://github.com/luiscoco/Udemy-claude-managed-agents-Lab-38) | Private |

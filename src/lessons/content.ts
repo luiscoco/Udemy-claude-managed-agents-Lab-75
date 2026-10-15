@@ -2,6 +2,16 @@ import type { LessonMetadata } from '../../shared/lessons';
 export type LessonContent = Pick<LessonMetadata, 'objective' | 'steps' | 'inspect' | 'challenge'>;
 // Only implemented lessons belong here; reserved IDs are not completed labs.
 export const content: Readonly<Record<number, LessonContent>> = Object.freeze({
+  38: {
+    objective: 'Offer optional application follow-up suggestions bound to a conversation, turn and response version without auto-sending or conflating usage with the answer.',
+    steps: ['Start a normal offline conversation and inspect the answer before checking suggestions.',
+      'Copy a suggestion into the input and confirm the explicit send count does not change.',
+      'Press Send message to submit it as a separate user turn.',
+      'Try delayed, suppressed and disabled suggestions; absence is valid.',
+      'Create a newer turn and confirm an older suggestion is stale and rejected.'],
+    inspect: ['shared/lab38-prompt-suggestions.ts', 'server/lib/lab38-suggestions.ts', 'server/concepts/38-prompt-suggestions.ts'],
+    challenge: 'Explain why a suggestion may be absent and why accepting one needs a separate send.',
+  },
   37: {
     objective: 'Ask a host-only policy service about an exact paused action and send one correlated confirmation only after a valid gate decision and independent path check.',
     steps: ['Start a preallowed observation and see that no gate request or confirmation is needed.',
