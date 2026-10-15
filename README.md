@@ -16,7 +16,7 @@ source inspection. See
 [Lab 06 guide](Tab6-sessions.md), [Lab 07 guide](Tab7-hooks.md) and
 [Lab 08 guide](Tab8-subagents.md), [Lab 09 guide](Tab9-system-prompts.md) and
 [Lab 10 guide](Tab10-structured-interrupt.md), [Lab 11 guide](Tab11-skills.md),
-[Lab 12 guide](Tab12-streaming-input.md), [Lab 13 guide](Tab13-mcp-servers.md), [Lab 14 guide](Tab14-thinking-effort-models.md), [Lab 15 guide](Tab15-cost-usage.md), [Lab 16 guide](Tab16-settings-env.md), [Lab 17 guide](Tab17-checkpointing.md), [Lab 18 guide](Tab18-sandbox.md), [Lab 19 guide](Tab19-session-management.md), [Lab 20 guide](Tab20-hooks-in-depth.md), [Lab 21 guide](Tab21-slash-commands.md), [Lab 22 guide](Tab22-claude-md-memory.md), [Lab 23 guide](Tab23-plugins.md), [Lab 24 guide](Tab24-harnesses.md), [Lab 25 guide](Tab25-compaction-context.md), [Lab 26 guide](Tab26-query-control.md), [Lab 27 guide](Tab27-background-tasks.md), [Lab 28 guide](Tab28-errors-retries.md), [Lab 29 guide](Tab29-images-files.md), [Lab 30 guide](Tab30-todo-tracking.md), [Lab 31 guide](Tab31-ask-user-question.md)
+[Lab 12 guide](Tab12-streaming-input.md), [Lab 13 guide](Tab13-mcp-servers.md), [Lab 14 guide](Tab14-thinking-effort-models.md), [Lab 15 guide](Tab15-cost-usage.md), [Lab 16 guide](Tab16-settings-env.md), [Lab 17 guide](Tab17-checkpointing.md), [Lab 18 guide](Tab18-sandbox.md), [Lab 19 guide](Tab19-session-management.md), [Lab 20 guide](Tab20-hooks-in-depth.md), [Lab 21 guide](Tab21-slash-commands.md), [Lab 22 guide](Tab22-claude-md-memory.md), [Lab 23 guide](Tab23-plugins.md), [Lab 24 guide](Tab24-harnesses.md), [Lab 25 guide](Tab25-compaction-context.md), [Lab 26 guide](Tab26-query-control.md), [Lab 27 guide](Tab27-background-tasks.md), [Lab 28 guide](Tab28-errors-retries.md), [Lab 29 guide](Tab29-images-files.md), [Lab 30 guide](Tab30-todo-tracking.md), [Lab 31 guide](Tab31-ask-user-question.md), [Lab 32 guide](Tab32-plan-mode.md)
 for controls, experiments and PowerShell checks.
 The [course repository index](docs/github-repositories.md) links every cumulative
 GitHub checkpoint.
@@ -1033,3 +1033,21 @@ node scripts/lab31-browser-demonstration.mjs
 ```
 
 Independent private checkpoint: [Udemy-claude-managed-agents-Lab-31](https://github.com/luiscoco/Udemy-claude-managed-agents-Lab-31).
+
+### Lab 32: How it was built, step by step
+
+1. Registered lesson 32 with a plan-review exercise, owner-scoped routes, source viewer and [learner guide](Tab32-plan-mode.md).
+2. Added a host-owned plan contract with a version and SHA-256 hash. The offline planning phase reads a disposable fictional fixture and rejects write attempts.
+3. Kept reviewer approval separate and single-use. A current approval creates a distinct restricted execution session ID and permits only one checked append to the fixed fixture file; revised plans invalidate older decisions.
+4. Added focused tests and a phone/desktop browser demonstration. The [checkpoint](docs/lab32-checkpoint.md) records validation and the unavailable live branch.
+
+```powershell
+node --import tsx --test tests/lab32-plan-mode.test.ts
+npm run typecheck
+npm run audit:lesson-guides
+npm run test:lesson-guides
+npm run build
+node scripts/lab32-browser-demonstration.mjs
+```
+
+Independent private checkpoint: [Udemy-claude-managed-agents-Lab-32](https://github.com/luiscoco/Udemy-claude-managed-agents-Lab-32).

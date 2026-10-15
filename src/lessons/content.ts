@@ -2,6 +2,16 @@ import type { LessonMetadata } from '../../shared/lessons';
 export type LessonContent = Pick<LessonMetadata, 'objective' | 'steps' | 'inspect' | 'challenge'>;
 // Only implemented lessons belong here; reserved IDs are not completed labs.
 export const content: Readonly<Record<number, LessonContent>> = Object.freeze({
+  32: {
+    objective: 'Review an immutable host-validated plan before a separate restricted execution phase, with file effects checked independently of plan text.',
+    steps: ['Start the planning fixture and compare its initial and current file hashes; planning has zero write effects.',
+      'Try a planning write and an unselected execution tool; inspect the host denials.',
+      'Request a revision and try the older approval; the version and hash must fail.',
+      'Approve the current plan and inspect the fresh execution session and one checked file change.',
+      'Reject or cancel another pending plan; confirm it cannot execute.'],
+    inspect: ['shared/lab32-plan-mode.ts', 'server/lib/lab32-plan-gate.ts', 'server/concepts/32-plan-mode.ts'],
+    challenge: 'Request a revision and verify an older approval cannot authorize the new plan.',
+  },
   31: {
     objective: 'Collect one human answer to a bounded host question and correlate a single Managed custom-tool result with the paused event ID.',
     steps: ['Start the deployment-target or option-selection fixture and inspect the stored run, session and event IDs.',
