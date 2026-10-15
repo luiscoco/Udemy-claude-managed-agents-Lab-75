@@ -2,6 +2,15 @@ import type { LessonMetadata } from '../../shared/lessons';
 export type LessonContent = Pick<LessonMetadata, 'objective' | 'steps' | 'inspect' | 'challenge'>;
 // Only implemented lessons belong here; reserved IDs are not completed labs.
 export const content: Readonly<Record<number, LessonContent>> = Object.freeze({
+  30: {
+    objective: 'Use a host-owned task board and typed custom-tool inputs to enforce dependencies, versions and checked completion evidence independently of agent claims.',
+    steps: ['Start the three-step offline board and compare agent claim with host task states.',
+      'Attempt review or publish completion before dependencies are done; inspect the correlated is_error result.',
+      'Complete draft, review and publish with exact checked evidence in order.', 'Replay a tool event ID and confirm no second effect.',
+      'Try invalid whole-plan replacement and a conflicting version; inspect the deterministic gate.'],
+    inspect: ['shared/lab30-todo-tracking.ts', 'server/lib/lab30-board.ts', 'server/concepts/30-todo-tracking.ts'],
+    challenge: 'Try a plan change and locate the deterministic accepting or refusing gate.',
+  },
   29: {
     objective: 'Compare checked inline image/document blocks, explicit file mounts and separate downloaded output evidence using small fictional fixtures.',
     steps: ['Inspect the checked PNG, PDF and text inventory without uploading anything.',
