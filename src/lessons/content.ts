@@ -2,6 +2,14 @@ import type { LessonMetadata } from '../../shared/lessons';
 export type LessonContent = Pick<LessonMetadata, 'objective' | 'steps' | 'inspect' | 'challenge'>;
 // Only implemented lessons belong here; reserved IDs are not completed labs.
 export const content: Readonly<Record<number, LessonContent>> = Object.freeze({
+  26: {
+    objective: 'Operate an owned session through a strict catalog and compare updates that require idle with an explicit fresh-session model handoff.',
+    steps: ['Open a slow offline session and send a turn.', 'Attempt the idle tool update while running, then interrupt and confirm idle.',
+      'Remove a tool and MCP server by full replacement and inspect the result.', 'Try a budget increase without opt-in, then opt in explicitly.',
+      'Create a fresh model session with a short summary; inspect its parent ID and resolved fixture model.', 'Archive an idle session and confirm further mutations fail.'],
+    inspect: ['shared/lab26-query-control.ts', 'server/lib/lab26-controls.ts', 'server/concepts/26-query-control.ts'],
+    challenge: 'Change model through a fresh session and inspect its resolved configuration.',
+  },
   25: {
     objective: 'Distinguish observed Managed compaction events, available cumulative thread usage and a separate host-authored summary handoff without inventing context capacity.',
     steps: ['Inspect the bounded report files and checked host reads.', 'Replay the authored compaction event and compare it with a stream where no such event appears.',

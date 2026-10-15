@@ -16,7 +16,7 @@ source inspection. See
 [Lab 06 guide](Tab6-sessions.md), [Lab 07 guide](Tab7-hooks.md) and
 [Lab 08 guide](Tab8-subagents.md), [Lab 09 guide](Tab9-system-prompts.md) and
 [Lab 10 guide](Tab10-structured-interrupt.md), [Lab 11 guide](Tab11-skills.md),
-[Lab 12 guide](Tab12-streaming-input.md), [Lab 13 guide](Tab13-mcp-servers.md), [Lab 14 guide](Tab14-thinking-effort-models.md), [Lab 15 guide](Tab15-cost-usage.md), [Lab 16 guide](Tab16-settings-env.md), [Lab 17 guide](Tab17-checkpointing.md), [Lab 18 guide](Tab18-sandbox.md), [Lab 19 guide](Tab19-session-management.md), [Lab 20 guide](Tab20-hooks-in-depth.md), [Lab 21 guide](Tab21-slash-commands.md), [Lab 22 guide](Tab22-claude-md-memory.md), [Lab 23 guide](Tab23-plugins.md), [Lab 24 guide](Tab24-harnesses.md), [Lab 25 guide](Tab25-compaction-context.md)
+[Lab 12 guide](Tab12-streaming-input.md), [Lab 13 guide](Tab13-mcp-servers.md), [Lab 14 guide](Tab14-thinking-effort-models.md), [Lab 15 guide](Tab15-cost-usage.md), [Lab 16 guide](Tab16-settings-env.md), [Lab 17 guide](Tab17-checkpointing.md), [Lab 18 guide](Tab18-sandbox.md), [Lab 19 guide](Tab19-session-management.md), [Lab 20 guide](Tab20-hooks-in-depth.md), [Lab 21 guide](Tab21-slash-commands.md), [Lab 22 guide](Tab22-claude-md-memory.md), [Lab 23 guide](Tab23-plugins.md), [Lab 24 guide](Tab24-harnesses.md), [Lab 25 guide](Tab25-compaction-context.md), [Lab 26 guide](Tab26-query-control.md)
 for controls, experiments and PowerShell checks.
 The [course repository index](docs/github-repositories.md) links every cumulative
 GitHub checkpoint.
@@ -924,3 +924,21 @@ node scripts/lab25-browser-demonstration.mjs
 ```
 
 Independent private checkpoint: [Udemy-claude-managed-agents-Lab-25](https://github.com/luiscoco/Udemy-claude-managed-agents-Lab-25).
+
+### Lab 26: How it was built, step by step
+
+1. Registered lesson 26 with a React exercise, strict local routes, source viewer and [learner guide](Tab26-query-control.md).
+2. Read the installed Managed `SessionUpdateParams` type and exposed only documented control categories, including idle-only full-replacement tools/MCP fields and explicit budget opt-in.
+3. Built a bounded owned-session fixture with a slow turn, interrupt and confirmed idle, history, title/metadata, tool/MCP and budget updates, archive and a new-model session with explicit summary handoff.
+4. Added focused route and state tests plus a phone/desktop browser demonstration. The [checkpoint](docs/lab26-checkpoint.md) records validation and the unavailable live branch.
+
+```powershell
+node --import tsx --test tests/lab26-query-control.test.ts
+npm run typecheck
+npm run audit:lesson-guides
+npm run test:lesson-guides
+npm run build
+node scripts/lab26-browser-demonstration.mjs
+```
+
+Independent private checkpoint: [Udemy-claude-managed-agents-Lab-26](https://github.com/luiscoco/Udemy-claude-managed-agents-Lab-26).

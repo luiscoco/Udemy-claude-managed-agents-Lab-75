@@ -36,3 +36,4 @@ finish the user's requested lesson workflow.
 | 23 | [Reusable capability bundles](https://github.com/luiscoco/Udemy-claude-managed-agents-Lab-23) | Private |
 | 24 | [Who owns the agent loop](https://github.com/luiscoco/Udemy-claude-managed-agents-Lab-24) | Private |
 | 25 | [Context growth and compaction evidence](https://github.com/luiscoco/Udemy-claude-managed-agents-Lab-25) | Private |
+| 26 | [Session controls and supported updates](https://github.com/luiscoco/Udemy-claude-managed-agents-Lab-26) | Private |
