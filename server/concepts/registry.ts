@@ -57,6 +57,8 @@ import { lab25Lesson } from '../../shared/lab25-compaction-context.js';
 import { createLab25Router } from './25-compaction-context.js';
 import { lab26Lesson } from '../../shared/lab26-query-control.js';
 import { createLab26Router } from './26-query-control.js';
+import { lab27Lesson } from '../../shared/lab27-background-tasks.js';
+import { createLab27Router } from './27-background-tasks.js';
 
 export type ConceptRecord = LessonMetadata & { router: Router; close?: () => Promise<void> };
 export function registerConcepts(): readonly ConceptRecord[] {
@@ -84,6 +86,7 @@ export function registerConcepts(): readonly ConceptRecord[] {
   const lab24 = createLab24Router();
   const lab25 = createLab25Router();
   const lab26 = createLab26Router();
+  const lab27 = createLab27Router();
   const lab14 = createLab14Router();
   const lab13 = createLab13Router();
   const entries: ConceptRecord[] = [
@@ -113,6 +116,7 @@ export function registerConcepts(): readonly ConceptRecord[] {
     { ...lab24Lesson, ...content[lab24Lesson.id]!, router: lab24.router, close: lab24.close },
     { ...lab25Lesson, ...content[lab25Lesson.id]!, router: lab25.router, close: lab25.close },
     { ...lab26Lesson, ...content[lab26Lesson.id]!, router: lab26.router, close: lab26.close },
+    { ...lab27Lesson, ...content[lab27Lesson.id]!, router: lab27.router, close: lab27.close },
   ];
   validateLessonRegistry(entries.map(({ router: _router, close: _close, ...metadata }) => metadata));
   return entries;

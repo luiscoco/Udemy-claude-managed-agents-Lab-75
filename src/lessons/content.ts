@@ -2,6 +2,15 @@ import type { LessonMetadata } from '../../shared/lessons';
 export type LessonContent = Pick<LessonMetadata, 'objective' | 'steps' | 'inspect' | 'challenge'>;
 // Only implemented lessons belong here; reserved IDs are not completed labs.
 export const content: Readonly<Record<number, LessonContent>> = Object.freeze({
+  27: {
+    objective: 'Track authored remote work in a host ledger across browser detach and reconnect without creating duplicate sessions or task cards.',
+    steps: ['Open a slow offline task and inspect separate task, session, thread and browser identities.',
+      'Detach the browser and confirm the task still runs.', 'Reconnect the same task and inspect deduplicated event IDs and unchanged create count.',
+      'Wait for authored completion, then inspect the unverified report.', 'Open another task and explicitly stop it; close only after confirmed idle.',
+      'Disable host background policy and confirm creation is rejected.'],
+    inspect: ['shared/lab27-background-tasks.ts', 'server/lib/lab27-ledger.ts', 'server/concepts/27-background-tasks.ts'],
+    challenge: 'Reconnect and identify evidence that the original task stopped.',
+  },
   26: {
     objective: 'Operate an owned session through a strict catalog and compare updates that require idle with an explicit fresh-session model handoff.',
     steps: ['Open a slow offline session and send a turn.', 'Attempt the idle tool update while running, then interrupt and confirm idle.',
