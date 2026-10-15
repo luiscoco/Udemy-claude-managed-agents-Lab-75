@@ -16,7 +16,7 @@ source inspection. See
 [Lab 06 guide](Tab6-sessions.md), [Lab 07 guide](Tab7-hooks.md) and
 [Lab 08 guide](Tab8-subagents.md), [Lab 09 guide](Tab9-system-prompts.md) and
 [Lab 10 guide](Tab10-structured-interrupt.md), [Lab 11 guide](Tab11-skills.md),
-[Lab 12 guide](Tab12-streaming-input.md), [Lab 13 guide](Tab13-mcp-servers.md), [Lab 14 guide](Tab14-thinking-effort-models.md), [Lab 15 guide](Tab15-cost-usage.md), [Lab 16 guide](Tab16-settings-env.md), [Lab 17 guide](Tab17-checkpointing.md), [Lab 18 guide](Tab18-sandbox.md), [Lab 19 guide](Tab19-session-management.md), [Lab 20 guide](Tab20-hooks-in-depth.md), [Lab 21 guide](Tab21-slash-commands.md), [Lab 22 guide](Tab22-claude-md-memory.md), [Lab 23 guide](Tab23-plugins.md), [Lab 24 guide](Tab24-harnesses.md), [Lab 25 guide](Tab25-compaction-context.md), [Lab 26 guide](Tab26-query-control.md), [Lab 27 guide](Tab27-background-tasks.md), [Lab 28 guide](Tab28-errors-retries.md)
+[Lab 12 guide](Tab12-streaming-input.md), [Lab 13 guide](Tab13-mcp-servers.md), [Lab 14 guide](Tab14-thinking-effort-models.md), [Lab 15 guide](Tab15-cost-usage.md), [Lab 16 guide](Tab16-settings-env.md), [Lab 17 guide](Tab17-checkpointing.md), [Lab 18 guide](Tab18-sandbox.md), [Lab 19 guide](Tab19-session-management.md), [Lab 20 guide](Tab20-hooks-in-depth.md), [Lab 21 guide](Tab21-slash-commands.md), [Lab 22 guide](Tab22-claude-md-memory.md), [Lab 23 guide](Tab23-plugins.md), [Lab 24 guide](Tab24-harnesses.md), [Lab 25 guide](Tab25-compaction-context.md), [Lab 26 guide](Tab26-query-control.md), [Lab 27 guide](Tab27-background-tasks.md), [Lab 28 guide](Tab28-errors-retries.md), [Lab 29 guide](Tab29-images-files.md)
 for controls, experiments and PowerShell checks.
 The [course repository index](docs/github-repositories.md) links every cumulative
 GitHub checkpoint.
@@ -978,3 +978,22 @@ node scripts/lab28-browser-demonstration.mjs
 ```
 
 Independent private checkpoint: [Udemy-claude-managed-agents-Lab-28](https://github.com/luiscoco/Udemy-claude-managed-agents-Lab-28).
+
+### Lab 29: How it was built, step by step
+
+1. Registered lesson 29 with a React comparison, strict fixture routes, source viewer and [learner guide](Tab29-images-files.md).
+2. Generated a fictional PNG, one-page PDF and text observation, then rendered and inspected the PDF and image fixtures.
+3. Checked allowlisted filenames, MIME signatures, base64 and decoded sizes before building the pinned Managed `user.message` image/document blocks or file resource metadata. Request previews redact file bytes.
+4. Kept the authored downloaded output separate from agent text and left usage unavailable in offline mode. The [checkpoint](docs/lab29-checkpoint.md) records validation and the unavailable live upload branch.
+
+```powershell
+python scripts/generate-lab29-fixtures.py
+node --import tsx --test tests/lab29-images-files.test.ts
+npm run typecheck
+npm run audit:lesson-guides
+npm run test:lesson-guides
+npm run build
+node scripts/lab29-browser-demonstration.mjs
+```
+
+Independent private checkpoint: [Udemy-claude-managed-agents-Lab-29](https://github.com/luiscoco/Udemy-claude-managed-agents-Lab-29).

@@ -2,6 +2,15 @@ import type { LessonMetadata } from '../../shared/lessons';
 export type LessonContent = Pick<LessonMetadata, 'objective' | 'steps' | 'inspect' | 'challenge'>;
 // Only implemented lessons belong here; reserved IDs are not completed labs.
 export const content: Readonly<Record<number, LessonContent>> = Object.freeze({
+  29: {
+    objective: 'Compare checked inline image/document blocks, explicit file mounts and separate downloaded output evidence using small fictional fixtures.',
+    steps: ['Inspect the checked PNG, PDF and text inventory without uploading anything.',
+      'Run the same fixture through the inline and file-resource previews; compare redacted block and mount metadata.',
+      'Inspect the downloaded output preview separately from agent answer text.', 'Submit malformed base64 and an oversized text payload; confirm rejection.',
+      'Explain why a host filesystem path is not a Managed sandbox path.'],
+    inspect: ['shared/lab29-images-files.ts', 'server/lib/lab29-files.ts', 'server/concepts/29-images-files.ts'],
+    challenge: 'Send the same fixture through two supported routes and compare observed usage.',
+  },
   28: {
     objective: 'Classify authored transport, event, handler and cleanup faults while bounding read retries and reconciling uncertain mutations without duplicate effects.',
     steps: ['Run Read rate limit and inspect three bounded GET attempts.', 'Run Missing create response and explain why another create is unsafe without an ID.',

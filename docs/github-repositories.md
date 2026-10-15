@@ -39,3 +39,4 @@ finish the user's requested lesson workflow.
 | 26 | [Session controls and supported updates](https://github.com/luiscoco/Udemy-claude-managed-agents-Lab-26) | Private |
 | 27 | [Remote work beyond a browser connection](https://github.com/luiscoco/Udemy-claude-managed-agents-Lab-27) | Private |
 | 28 | [Errors, retries and reconciliation](https://github.com/luiscoco/Udemy-claude-managed-agents-Lab-28) | Private |
+| 29 | [Images, documents and mounted files](https://github.com/luiscoco/Udemy-claude-managed-agents-Lab-29) | Private |
