@@ -16,7 +16,7 @@ Implemented the workbook's session-management lesson in the cumulative Managed A
 - Full sequential offline regression: **237 passed, 0 failed**. Four focused Lab 19 tests cover closed contracts, two-turn continuation, distinct derived IDs, selected-history handoff, pagination, ownership, archive/delete and HTTP validation.
 - Final combined browser run: **10 passed, 0 failed** (two Lab 19 and eight shared shell/navigation checks). An offline demonstration passed at 390 and 1440 pixels with no horizontal overflow.
 - Typecheck, production build, guide/source audit for IDs 1–19, and four guide tests passed.
-- Distribution scan passed for 1371 files without reading `.env` contents. No paid session, upload or provisioning occurred. Generated screenshots are ignored under `artifacts/lab19/`.
+- Distribution scan passed for 1372 files without reading `.env` contents. No paid session, upload or provisioning occurred. Generated screenshots are ignored under `artifacts/lab19/`.
 
 ## Reproduce
 
