@@ -2,6 +2,16 @@ import type { LessonMetadata } from '../../shared/lessons';
 export type LessonContent = Pick<LessonMetadata, 'objective' | 'steps' | 'inspect' | 'challenge'>;
 // Only implemented lessons belong here; reserved IDs are not completed labs.
 export const content: Readonly<Record<number, LessonContent>> = Object.freeze({
+  20: {
+    objective: 'Correlate Managed lifecycle events with host interceptor decisions and actual custom-tool effects without treating observations as SDK hook callbacks.',
+    steps: ['Run the passing offline policy and compare provider events, host audit, and the draft file.',
+      'Run denied pre-execution, tool failure, and interceptor exception; identify which boundary prevented or attempted execution.',
+      'Use the virtual-time deadline fixture and inspect cleanup without waiting for a real provider timeout.',
+      'Run final validation failure and distinguish the completed provider turn from a rejected application report.',
+      'Inspect source and, only with isolated setup, deliberately run a bounded live custom-tool session.'],
+    inspect: ['shared/lab20-hooks-in-depth.ts', 'server/lib/lab20-run.ts', 'server/concepts/20-hooks-in-depth.ts'],
+    challenge: 'Compare a host interceptor exception with a failed tool execution. Which one reached the handler, and what did the fixture file prove?',
+  },
   19: {
     objective: 'Inventory owned Managed sessions, inspect bounded history pages and derive a fresh conversation from an explicit host summary.',
     steps: ['Start an offline session and send a second turn to the same session ID.',
