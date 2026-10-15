@@ -2,6 +2,16 @@ import type { LessonMetadata } from '../../shared/lessons';
 export type LessonContent = Pick<LessonMetadata, 'objective' | 'steps' | 'inspect' | 'challenge'>;
 // Only implemented lessons belong here; reserved IDs are not completed labs.
 export const content: Readonly<Record<number, LessonContent>> = Object.freeze({
+  40: {
+    objective: 'Choose recovery from a host command/effect ledger without erasing remote history or dropping accepted work.',
+    steps: ['Build the kept-turn case and compare remote event, command and effect IDs before and after continuation.',
+      'Try host-only undo and confirm it refuses to erase accepted work.',
+      'Compare uncertain send and pending effect; both require reconciliation before continuation or retry.',
+      'Inspect a queued follow-up and explain why fresh derivation would lose accepted work.',
+      'Use the clean snapshot case to restore only a versioned host draft.'],
+    inspect: ['shared/lab40-resume-drops-turn.ts', 'server/lib/lab40-recovery.ts', 'server/concepts/40-resume-drops-turn.ts'],
+    challenge: 'Explain how queued work changes the safe recovery boundary.',
+  },
   39: {
     objective: 'Verify a host-selected configuration manifest and hash before handling branch data through checked file tools.',
     steps: ['Create a disposable worktree and compare the trusted host marker with a conflicting CLAUDE.md branch marker.',
