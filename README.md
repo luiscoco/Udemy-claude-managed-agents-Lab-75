@@ -1665,3 +1665,21 @@ node scripts/lab66-browser-demonstration.mjs
 ```
 
 Independent private checkpoint: [Udemy-claude-managed-agents-Lab-66](https://github.com/luiscoco/Udemy-claude-managed-agents-Lab-66).
+
+### Lab 67: How it was built, step by step
+
+1. Registered a two-tenant workshop with synthetic sign-in controls and a [learner guide](Tab67-multi-tenant-saas.md).
+2. Mapped opaque local tokens to host-selected tenant/project identities. Every run, session, source, transcript and cancellation checks that mapping; closed schemas reject tenant authority in caller input.
+3. Added per-tenant concurrency reservations, illustrative usage quotas, request deduplication and a release/charge ledger. Failure and cancellation release once without charging.
+4. Added focused and browser tests for foreign-object access, missing identity, concurrent tenants and admission limits. The [checkpoint](docs/lab67-checkpoint.md) records local simulation limits.
+
+```powershell
+node --import tsx --test tests/lab67-multi-tenant-saas.test.ts
+npm run typecheck
+npm run audit:lesson-guides
+npm run test:lesson-guides
+npm run build
+node scripts/lab67-browser-demonstration.mjs
+```
+
+Independent private checkpoint: [Udemy-claude-managed-agents-Lab-67](https://github.com/luiscoco/Udemy-claude-managed-agents-Lab-67).

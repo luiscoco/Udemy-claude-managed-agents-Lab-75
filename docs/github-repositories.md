@@ -77,3 +77,4 @@ finish the user's requested lesson workflow.
 | 64 | [Browser tools across host and cloud](https://github.com/luiscoco/Udemy-claude-managed-agents-Lab-64) | Private |
 | 65 | [Human approval over Slack, Teams or email](https://github.com/luiscoco/Udemy-claude-managed-agents-Lab-65) | Private |
 | 66 | [Real-time frontends over WebSocket](https://github.com/luiscoco/Udemy-claude-managed-agents-Lab-66) | Private |
+| 67 | [A multi-tenant SaaS architecture](https://github.com/luiscoco/Udemy-claude-managed-agents-Lab-67) | Private |

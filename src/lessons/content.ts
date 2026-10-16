@@ -2,6 +2,15 @@ import type { LessonMetadata } from '../../shared/lessons';
 export type LessonContent = Pick<LessonMetadata, 'objective' | 'steps' | 'inspect' | 'challenge'>;
 // Only implemented lessons belong here; reserved IDs are not completed labs.
 export const content: Readonly<Record<number, LessonContent>> = Object.freeze({
+  67: {
+    objective: 'Enforce tenant ownership across project sources, runs, sessions, transcripts, cancellation and quota reservations.',
+    steps: ['Simulate Alice/Acme and Bob/Birch sign-ins; inspect host-selected tenant and project identities.',
+      'Start both tenants concurrently and inspect separate reservation and usage ledgers.',
+      'Probe Birch objects as Acme and compare five refusals with the still-running Birch run.',
+      'Try another active run, a failed runner and exhausted quota; confirm reservations release once.'],
+    inspect: ['shared/lab67-multi-tenant-saas.ts', 'server/concepts/67-multi-tenant-saas.ts'],
+    challenge: 'Add a tenant field to a model tool input or start body and explain why it cannot choose authority.',
+  },
   66: {
     objective: 'Stream a bounded offline or explicitly started Managed turn over authenticated local WebSocket, with replay after reconnect.',
     steps: ['Start a guided run, send one message and inspect ordered chunks and the terminal event.',
