@@ -13,7 +13,8 @@ export function mainSources(catalog: TextCatalog, id: number): string[] {
   const padded = String(id).padStart(2, '0');
   return Object.keys(catalog).filter((path) =>
     new RegExp(`^src/concepts/Concept${padded}(?:[A-Z_-]|\\.)`).test(path)
-    || new RegExp(`^server/concepts/${padded}(?:[-_.])`).test(path)).sort();
+    || new RegExp(`^server/concepts/${padded}(?:[-_.])`).test(path)
+    || id === 69 && /^extensions\/lab69\/(src\/extension\.ts|package\.json)$/.test(path)).sort();
 }
 export function resolveImport(catalog: TextCatalog, from: string, specifier: string): string | undefined {
   if (!Object.hasOwn(catalog, from) || !specifier.startsWith('.')) return undefined;

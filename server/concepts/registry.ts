@@ -141,6 +141,8 @@ import { lab67Lesson } from '../../shared/lab67-multi-tenant-saas.js';
 import { createLab67Router } from './67-multi-tenant-saas.js';
 import { lab68Lesson } from '../../shared/lab68-scheduled-event-driven.js';
 import { createLab68Router } from './68-scheduled-event-driven.js';
+import { lab69Lesson } from '../../shared/lab69-embedding-sdk.js';
+import { createLab69Router } from './69-embedding-sdk.js';
 
 export type ConceptRecord = LessonMetadata & { router: Router; close?: () => Promise<void>;
   attach?: (server: import('node:http').Server) => void };
@@ -211,6 +213,7 @@ export function registerConcepts(): readonly ConceptRecord[] {
   const lab66 = createLab66Router();
   const lab67 = createLab67Router();
   const lab68 = createLab68Router();
+  const lab69 = createLab69Router();
   const lab14 = createLab14Router();
   const lab13 = createLab13Router();
   const entries: ConceptRecord[] = [
@@ -282,6 +285,7 @@ export function registerConcepts(): readonly ConceptRecord[] {
     { ...lab66Lesson, ...content[lab66Lesson.id]!, router: lab66.router, close: lab66.close, attach: lab66.attach },
     { ...lab67Lesson, ...content[lab67Lesson.id]!, router: lab67.router, close: lab67.close },
     { ...lab68Lesson, ...content[lab68Lesson.id]!, router: lab68.router, close: lab68.close },
+    { ...lab69Lesson, ...content[lab69Lesson.id]!, router: lab69.router, close: lab69.close },
   ];
   validateLessonRegistry(entries.map(({ router: _router, close: _close, attach: _attach, ...metadata }) => metadata));
   return entries;

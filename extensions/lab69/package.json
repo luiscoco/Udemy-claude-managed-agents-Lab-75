@@ -1,0 +1,18 @@
+{
+  "name": "managed-agents-lab69-host",
+  "displayName": "Managed Agents Lab 69 Host",
+  "description": "Explicit document context and reviewed edits through a trusted local backend.",
+  "version": "0.1.0",
+  "publisher": "managed-agents-labs",
+  "engines": { "vscode": "^1.100.0" },
+  "main": "./dist/extension.cjs",
+  "activationEvents": ["onCommand:managedLabs69.open"],
+  "capabilities": { "untrustedWorkspaces": { "supported": false, "description": "Document context and edits require a trusted workspace." } },
+  "contributes": {
+    "commands": [{ "command": "managedLabs69.open", "title": "Managed Labs 69: Review Active Document" }],
+    "configuration": { "title": "Managed Labs 69", "properties": {
+      "managedLabs69.backendOrigin": { "type": "string", "default": "http://127.0.0.1:3076", "scope": "application",
+        "description": "Loopback Node backend origin. Provider credentials stay on the backend." }
+    } }
+  }
+}

@@ -2,6 +2,16 @@ import type { LessonMetadata } from '../../shared/lessons';
 export type LessonContent = Pick<LessonMetadata, 'objective' | 'steps' | 'inspect' | 'challenge'>;
 // Only implemented lessons belong here; reserved IDs are not completed labs.
 export const content: Readonly<Record<number, LessonContent>> = Object.freeze({
+  69: {
+    objective: 'Supply explicit document context from a trusted host and apply a reviewed patch only when version and hash still match.',
+    steps: ['Start a guided review and inspect preview events and the proposed replacement before applying.',
+      'Change the local document after proposal and confirm the older patch is rejected.',
+      'Compare cancellation and transport failure with independent cleanup evidence.',
+      'Build the VS Code extension and inspect host trust, file scope and typed webview messages separately.'],
+    inspect: ['shared/lab69-embedding-sdk.ts', 'server/lib/lab69-host.ts', 'server/concepts/69-embedding-sdk.ts',
+      'extensions/lab69/src/extension.ts', 'extensions/lab69/package.json'],
+    challenge: 'Change a document after its context snapshot and explain why a valid remote patch still cannot apply.',
+  },
   68: {
     objective: 'Admit scheduled and signed incident jobs into a bounded queue, then explicitly claim, retry or cancel them.',
     steps: ['Create a five-second schedule, advance the scheduling clock and coalesce missed intervals with a tick.',

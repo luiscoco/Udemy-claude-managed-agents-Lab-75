@@ -29,6 +29,7 @@ export const sources = { ...standardSources, ...catalogFromGlob(import.meta.glob
 ], { query: '?raw', import: 'default' })), ...catalogFromGlob(import.meta.glob<string>([
   '/shared/lab64-browser-playwright-mcp.ts', '/server/concepts/64-browser-playwright-mcp.ts',
   '/src/concepts/Concept64BrowserPlaywrightMcp.tsx',
+  '/extensions/lab69/src/extension.ts', '/extensions/lab69/package.json',
 ], { query: '?raw', import: 'default' })) };
 export { loadText, mainSources };
 export async function loadGuide(id: number): Promise<string> {

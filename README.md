@@ -1701,3 +1701,21 @@ node scripts/lab68-browser-demonstration.mjs
 ```
 
 Independent private checkpoint: [Udemy-claude-managed-agents-Lab-68](https://github.com/luiscoco/Udemy-claude-managed-agents-Lab-68).
+
+### Lab 69: How it was built, step by step
+
+1. Registered an explicit-context document review exercise and [learner guide](Tab69-embedding-sdk.md).
+2. Added correlated backend runs, preview/final outcomes, cleanup lookup and closed patch JSON. Applying a patch checks the original document identity, version and hash.
+3. Authored a runnable [VS Code extension](extensions/lab69/README.md) with a trusted host, restricted webview, real-path file scope and reviewed editor-buffer edits. Provider credentials stay in Node backend configuration.
+4. Tested file guards, stale messages, conflicts, disposal and the bundled extension under a mocked VS Code API. The [checkpoint](docs/lab69-checkpoint.md) distinguishes that evidence from an interactive extension launch.
+
+```powershell
+node --import tsx --test tests/lab69-embedding-sdk.test.ts tests/lab69-extension.test.ts
+npm run typecheck
+npm run audit:lesson-guides
+npm run test:lesson-guides
+npm run build
+node scripts/lab69-browser-demonstration.mjs
+```
+
+Independent private checkpoint: [Udemy-claude-managed-agents-Lab-69](https://github.com/luiscoco/Udemy-claude-managed-agents-Lab-69).

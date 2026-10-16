@@ -79,3 +79,4 @@ finish the user's requested lesson workflow.
 | 66 | [Real-time frontends over WebSocket](https://github.com/luiscoco/Udemy-claude-managed-agents-Lab-66) | Private |
 | 67 | [A multi-tenant SaaS architecture](https://github.com/luiscoco/Udemy-claude-managed-agents-Lab-67) | Private |
 | 68 | [Scheduled and event-driven agents](https://github.com/luiscoco/Udemy-claude-managed-agents-Lab-68) | Private |
+| 69 | [Desktop and IDE host integration](https://github.com/luiscoco/Udemy-claude-managed-agents-Lab-69) | Private |
