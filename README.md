@@ -1629,3 +1629,21 @@ node scripts/lab64-browser-demonstration.mjs
 ```
 
 Independent private checkpoint: [Udemy-claude-managed-agents-Lab-64](https://github.com/luiscoco/Udemy-claude-managed-agents-Lab-64).
+
+### Lab 65: How it was built, step by step
+
+1. Registered a human-approval lesson with a local reviewer session, source viewer and [learner guide](Tab65-human-approval.md).
+2. Added a closed custom-tool proposal whose immutable action, arguments, reviewer and expiry are separate from its `sevt_` event ID. The tool result only creates a pending proposal.
+3. Added local-first notification, gated Slack/Teams/Graph delivery adapters and a reviewer decision endpoint. A unique SQLite business key executes the fictional archive once after a valid approval; reject, tamper, wrong reviewer, expiry and replay have no new effect.
+4. Added focused and browser tests. The [checkpoint](docs/lab65-checkpoint.md) records verification and the local-identity limitation.
+
+```powershell
+node --import tsx --test tests/lab65-human-approval.test.ts
+npm run typecheck
+npm run audit:lesson-guides
+npm run test:lesson-guides
+npm run build
+node scripts/lab65-browser-demonstration.mjs
+```
+
+Independent private checkpoint: [Udemy-claude-managed-agents-Lab-65](https://github.com/luiscoco/Udemy-claude-managed-agents-Lab-65).

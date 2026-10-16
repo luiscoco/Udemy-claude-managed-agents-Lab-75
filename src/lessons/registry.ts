@@ -63,6 +63,7 @@ import { lab61Lesson } from '../../shared/lab61-agent-mcp-server';
 import { lab62Lesson } from '../../shared/lab62-retrieval-rag';
 import { lab63Lesson } from '../../shared/lab63-safe-database-agent';
 import { lab64Lesson } from '../../shared/lab64-browser-playwright-mcp';
+import { lab65Lesson } from '../../shared/lab65-human-approval';
 import { lab14Lesson } from '../../shared/lab14-models';
 import { lab13Lesson } from '../../shared/lab13-mcp';
 import { lab10Lesson } from '../../shared/lab10-structured-interrupt';
@@ -141,6 +142,7 @@ const lab61: LessonMetadata = { ...lab61Lesson, ...content[lab61Lesson.id]! };
 const lab62: LessonMetadata = { ...lab62Lesson, ...content[lab62Lesson.id]! };
 const lab63: LessonMetadata = { ...lab63Lesson, ...content[lab63Lesson.id]! };
 const lab64: LessonMetadata = { ...lab64Lesson, ...content[lab64Lesson.id]! };
+const lab65: LessonMetadata = { ...lab65Lesson, ...content[lab65Lesson.id]! };
 // Register a lesson only when its UI, router, guide and scripted/guided path exist.
 export const lessons: readonly LessonRecord[] = Object.freeze(validateLessonRecords<ComponentType>([
   { ...lab01, component: workspace(lab01, () => import('../concepts/Concept01Query')) },
@@ -207,4 +209,5 @@ export const lessons: readonly LessonRecord[] = Object.freeze(validateLessonReco
   { ...lab62, component: workspace(lab62, () => import('../concepts/Concept62RetrievalRag')) },
   { ...lab63, component: workspace(lab63, () => import('../concepts/Concept63SafeDatabaseAgent')) },
   { ...lab64, component: workspace(lab64, () => import('../concepts/Concept64BrowserPlaywrightMcp')) },
+  { ...lab65, component: workspace(lab65, () => import('../concepts/Concept65HumanApproval')) },
 ]));

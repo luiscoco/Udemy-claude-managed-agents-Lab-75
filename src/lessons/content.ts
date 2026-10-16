@@ -2,6 +2,15 @@ import type { LessonMetadata } from '../../shared/lessons';
 export type LessonContent = Pick<LessonMetadata, 'objective' | 'steps' | 'inspect' | 'challenge'>;
 // Only implemented lessons belong here; reserved IDs are not completed labs.
 export const content: Readonly<Record<number, LessonContent>> = Object.freeze({
+  65: {
+    objective: 'Bind a fictional case archive to one trusted reviewer decision after an immutable proposal and local notification.',
+    steps: ['Preview a closed-schema custom-tool proposal; inspect its event ID and separate business key.',
+      'Notify locally, inspect the reviewer and immutable action, then approve or reject.',
+      'Try duplicate clicks, changed action arguments, a wrong reviewer and an expired proposal.',
+      'Compare the SQLite effect ledger and audit with agent text and optional notification channels.'],
+    inspect: ['shared/lab65-human-approval.ts', 'server/concepts/65-human-approval.ts'],
+    challenge: 'Approve twice or approve a second proposal for the same case and explain why the effect ledger stays at one.',
+  },
   64: {
     objective: 'Automate a fixture page through host-side Playwright MCP and verify the actual DOM and screenshot.',
     steps: ['Inspect a fictional product through an isolated local browser and MCP snapshot.',

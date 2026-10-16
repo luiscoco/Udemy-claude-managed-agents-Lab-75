@@ -133,6 +133,8 @@ import { lab63Lesson } from '../../shared/lab63-safe-database-agent.js';
 import { createLab63Router } from './63-safe-database-agent.js';
 import { lab64Lesson } from '../../shared/lab64-browser-playwright-mcp.js';
 import { createLab64Router } from './64-browser-playwright-mcp.js';
+import { lab65Lesson } from '../../shared/lab65-human-approval.js';
+import { createLab65Router } from './65-human-approval.js';
 
 export type ConceptRecord = LessonMetadata & { router: Router; close?: () => Promise<void> };
 export function registerConcepts(): readonly ConceptRecord[] {
@@ -198,6 +200,7 @@ export function registerConcepts(): readonly ConceptRecord[] {
   const lab62 = createLab62Router();
   const lab63 = createLab63Router();
   const lab64 = createLab64Router();
+  const lab65 = createLab65Router();
   const lab14 = createLab14Router();
   const lab13 = createLab13Router();
   const entries: ConceptRecord[] = [
@@ -265,6 +268,7 @@ export function registerConcepts(): readonly ConceptRecord[] {
     { ...lab62Lesson, ...content[lab62Lesson.id]!, router: lab62.router, close: lab62.close },
     { ...lab63Lesson, ...content[lab63Lesson.id]!, router: lab63.router, close: lab63.close },
     { ...lab64Lesson, ...content[lab64Lesson.id]!, router: lab64.router, close: lab64.close },
+    { ...lab65Lesson, ...content[lab65Lesson.id]!, router: lab65.router, close: lab65.close },
   ];
   validateLessonRegistry(entries.map(({ router: _router, close: _close, ...metadata }) => metadata));
   return entries;
