@@ -2,6 +2,16 @@ import type { LessonMetadata } from '../../shared/lessons';
 export type LessonContent = Pick<LessonMetadata, 'objective' | 'steps' | 'inspect' | 'challenge'>;
 // Only implemented lessons belong here; reserved IDs are not completed labs.
 export const content: Readonly<Record<number, LessonContent>> = Object.freeze({
+  53: {
+    objective: 'Reproduce a session or host failure and identify its first useful redacted event, decision or effect.',
+    steps: ['Run the valid control and compare the host refund ledger with replayed event outcome.',
+      'Inspect malformed report and denied tool traces; identify the first host gate that explains each.',
+      'Run missing idle, stream EOF and local turn limit; separate incomplete local evidence from remote state.',
+      'Run cleanup timeout and inspect why archival and remote stop remain unconfirmed.'],
+    inspect: ['shared/lab53-debugging.ts', 'server/debugging/lab53.ts', 'server/concepts/53-debugging.ts',
+      'server/lib/session-events.ts', 'server/capstone/tools.ts', 'server/capstone/store.ts'],
+    challenge: 'Change one trace variable and explain whether it fixes the first evidenced cause without inventing a remote outcome.',
+  },
   52: {
     objective: 'Compare deterministic host safety checks with optional judge output and gate candidate promotion against a recorded baseline.',
     steps: ['Run the baseline for two trials and inspect ledger-backed holdout results.',
