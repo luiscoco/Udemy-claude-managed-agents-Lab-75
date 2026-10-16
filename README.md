@@ -1763,3 +1763,11 @@ Independent private checkpoint: [Udemy-claude-managed-agents-Lab-71](https://git
 3. Added three closed host tools, per-run skill copies and hash checks, fixed no-shell execution and independent ZIP/document inspection.
 4. Added incident, ordinary, injection, invalid-spec, placeholder and tamper exercises, owner-scoped opaque downloads and command policy probes.
 5. Tested deterministic bytes and failure gates, opened both sample documents read-only in Word and inspected exported page images. Cloud upload and model execution remain explicit separate setup.
+
+## Lab 73: How it was built, step by step
+
+1. Created an actual disposable Git fixture with main, feature, a rounding bug and behavioral Node tests.
+2. Parsed changed-line mappings and routed only high-confidence actionable findings to the constrained fixer.
+3. Added closed role tools, path/junction checks, scrubbed fixed process arguments, scope/diff/test-gaming gates and bounded attempts.
+4. Committed only after host checks, reran the full fixture suite, and retained patch, hashes and ready/draft handoff evidence.
+5. Tested all six scenarios and demonstrated browser gates at desktop and mobile widths. No fixture GitHub push or billed model call occurs.

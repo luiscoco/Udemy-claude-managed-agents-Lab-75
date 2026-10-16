@@ -1,0 +1,9 @@
+# Lab 73 checkpoint
+
+Lab 73 and supplement 73A implement a real disposable Git repository, numbered changed lines, closed reviewer findings, deterministic finding disposition, role-bound tools and a constrained fixer. Scope, protected files, changed size, skip/only/todo and actual Node tests gate the host commit. The full suite runs again after commit. Main remains unchanged. Failed evidence and fixture history remain available.
+
+The four focused tests pass: diff mapping and finding routing; real fix/commit/history and ownership; out-of-scope, test gaming, unresolved, malformed review and timeout; sanitized environments, paths and junction rejection. Typecheck/build, four guide checks, nine browser/shell tests and the desktop/mobile demonstration passed. A patch-view test exposed comparison against main, which hid a repair returning code to the original implementation; it now compares against the reviewed feature commit. The distribution scan follows the completed production build.
+
+No remote fixture write or Anthropic call occurred. Roles are scripted local fixtures, not measured model behavior. Live PR execution is not configured. Host helpers are exported for the capstone, and tests run with fixed arguments and no provider key. This environment is not OS containment for arbitrary untrusted repository code; a production integration needs an isolated runner. Retained sessions are process-local and capped at twelve; fix calls are limited to two rounds and two active processes.
+
+The distribution scanner caught a retained junction from the path-policy acceptance probe. The probe now unlinks its own junction after verification, leaving its target intact. Stale probe junctions were removed before rerunning the unchanged scanner. The mobile gate table has its own horizontal scroll region to preserve readable columns.

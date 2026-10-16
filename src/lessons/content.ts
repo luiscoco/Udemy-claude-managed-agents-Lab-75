@@ -2,6 +2,15 @@ import type { LessonMetadata } from '../../shared/lessons';
 export type LessonContent = Pick<LessonMetadata, 'objective' | 'steps' | 'inspect' | 'challenge'>;
 // Only implemented lessons belong here; reserved IDs are not completed labs.
 export const content: Readonly<Record<number, LessonContent>> = Object.freeze({
+  73: {
+    objective: 'Route changed-line review findings to a constrained fixer and commit only after independent host gates and real tests.',
+    steps: ['Run the good fix and inspect numbered diff, gates and local commit hash.',
+      'Compare out-of-scope changes, skipped tests, unresolved findings and process timeout.',
+      'Inspect the reviewable patch and draft handoff after a rejected fix.',
+      'Explain why a high-confidence claim does not authorize Git or protected file changes.'],
+    inspect: ['shared/lab73-pr-reviewer-fixer.ts', 'server/lib/lab73-prbot.ts', 'server/concepts/73-pr-reviewer-fixer.ts'],
+    challenge: 'Route a low-confidence finding and a question to a person without granting fixer authority.',
+  },
   72: {
     objective: 'Generate a deterministic Word document from a closed specification and independently inspect the package and immutable skill bundle.',
     steps: ['Build an incident report and inspect the two progressive reference reads.',
