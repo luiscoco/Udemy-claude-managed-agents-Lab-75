@@ -2,6 +2,15 @@ import type { LessonMetadata } from '../../shared/lessons';
 export type LessonContent = Pick<LessonMetadata, 'objective' | 'steps' | 'inspect' | 'challenge'>;
 // Only implemented lessons belong here; reserved IDs are not completed labs.
 export const content: Readonly<Record<number, LessonContent>> = Object.freeze({
+  49: {
+    objective: 'Classify bounded headless Managed session work into machine-readable CI outcomes with explicit cleanup evidence.',
+    steps: ['Run the pass fixture and inspect its validated report and zero exit code.',
+      'Run validation, limit and execution-error scenarios and compare failure exit codes.',
+      'Try SIGTERM, capacity rejection and unconfirmed remote stop; inspect cleanup state.',
+      'Read the authored runner, worker, Dockerfile and sample workflow before any live opt-in.'],
+    inspect: ['shared/lab49-deploy-ci-headless.ts', 'server/lib/lab49-headless.ts', 'server/concepts/49-deploy-ci-headless.ts', 'server/lib/lab01-run.ts'],
+    challenge: 'Explain which outcome should fail CI and what remote cleanup evidence is required.',
+  },
   48: {
     objective: 'Use host-enforced tool input, path and egress checks to distinguish hostile attempts from observed local effects.',
     steps: ['Compare a naive prompt-only policy with layered host enforcement.',

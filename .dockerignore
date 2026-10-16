@@ -1,0 +1,17 @@
+.git
+node_modules
+dist
+artifacts
+test-results
+playwright-report
+generated
+managed
+**/.aws
+**/.claude
+**/.codex
+**/.agents
+**/.env*
+**/*credential*
+**/*secret*
+*.pem
+*.key

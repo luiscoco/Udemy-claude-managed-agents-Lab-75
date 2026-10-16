@@ -1,0 +1,41 @@
+name: Managed Agents headless sample
+on:
+  workflow_dispatch:
+    inputs:
+      live:
+        description: 'Explicitly run one billed Managed CI session'
+        required: true
+        default: false
+        type: boolean
+jobs:
+  offline:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+      - run: npm ci
+      - run: node ci-kit/runner.mjs scripted pass
+  live:
+    if: ${{ inputs.live == true }}
+    needs: offline
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    env:
+      CI_MANAGED_LIVE_OPT_IN: 'true'
+      MANAGED_LIVE_ENABLED: 'true'
+      ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+      CLAUDE_MANAGED_AGENT_ID: ${{ vars.CLAUDE_MANAGED_AGENT_ID }}
+      CLAUDE_MANAGED_ENVIRONMENT_ID: ${{ vars.CLAUDE_MANAGED_ENVIRONMENT_ID }}
+      MANAGED_BUDGET_CENTS: '50'
+      MANAGED_DEADLINE_MS: '120000'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+      - run: npm ci
+      - run: node ci-kit/runner.mjs live pass
