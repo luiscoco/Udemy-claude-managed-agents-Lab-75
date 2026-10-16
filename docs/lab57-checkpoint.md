@@ -1,0 +1,7 @@
+# Lab 57 checkpoint
+
+The host creates a disposable Git repository, two worker branches and independent worktrees. It checks the exact changed and untracked paths and runs behavioral tests before committing. Passing commits are cherry-picked serially and tested together. Competing greeting edits cause a conflict; the host aborts the cherry-pick and preserves worker branches. Failed and cancelled workers block integration.
+
+Verification: three focused tests, typecheck, guide audit through Lab 57, four guide tests and the production build passed. Nine focused browser and shell tests passed, as did the desktop/mobile browser demonstration. The distribution scan passed across 2,452 files. One full cumulative offline suite run failed when a Windows Git path-inspection subprocess exceeded its original five-second deadline; a second cumulative run stalled in the Git fixture and was stopped. The affected focused test passed after increasing bounded local command timeouts. The full cumulative suite has not been confirmed for this checkpoint.
+
+Limitations: this is an offline, authored-worker Git fixture. No Managed worker sessions, provider requests, API-key access, provisioning or billed runs occurred. Worker actions run sequentially rather than concurrently. Worktrees isolate files and refs, not the OS or tenant. Retained repositories under ignored `artifacts/lab57/runs/` are capped at eight runs per server instance; they are local evidence, not distributed artifacts. The browser demonstration verifies behavior, not live delegation.

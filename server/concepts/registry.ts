@@ -117,6 +117,8 @@ import { lab55Lesson } from '../../shared/lab55-upgrading-sdk.js';
 import { createLab55Router } from './55-upgrading-sdk.js';
 import { lab56Lesson } from '../../shared/lab56-agent-teams.js';
 import { createLab56Router } from './56-agent-teams.js';
+import { lab57Lesson } from '../../shared/lab57-parallel-worktrees.js';
+import { createLab57Router } from './57-parallel-worktrees.js';
 
 export type ConceptRecord = LessonMetadata & { router: Router; close?: () => Promise<void> };
 export function registerConcepts(): readonly ConceptRecord[] {
@@ -174,6 +176,7 @@ export function registerConcepts(): readonly ConceptRecord[] {
   const lab54 = createLab54Router();
   const lab55 = createLab55Router();
   const lab56 = createLab56Router();
+  const lab57 = createLab57Router();
   const lab14 = createLab14Router();
   const lab13 = createLab13Router();
   const entries: ConceptRecord[] = [
@@ -233,6 +236,7 @@ export function registerConcepts(): readonly ConceptRecord[] {
     { ...lab54Lesson, ...content[lab54Lesson.id]!, router: lab54.router, close: lab54.close },
     { ...lab55Lesson, ...content[lab55Lesson.id]!, router: lab55.router, close: lab55.close },
     { ...lab56Lesson, ...content[lab56Lesson.id]!, router: lab56.router, close: lab56.close },
+    { ...lab57Lesson, ...content[lab57Lesson.id]!, router: lab57.router, close: lab57.close },
   ];
   validateLessonRegistry(entries.map(({ router: _router, close: _close, ...metadata }) => metadata));
   return entries;

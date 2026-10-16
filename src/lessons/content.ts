@@ -2,6 +2,15 @@ import type { LessonMetadata } from '../../shared/lessons';
 export type LessonContent = Pick<LessonMetadata, 'objective' | 'steps' | 'inspect' | 'challenge'>;
 // Only implemented lessons belong here; reserved IDs are not completed labs.
 export const content: Readonly<Record<number, LessonContent>> = Object.freeze({
+  57: {
+    objective: 'Rehearse isolated Git worktrees and host-verified, serialized integration of two worker edits.',
+    steps: ['Run the serial fixture and inspect base SHA, worker branches, allowed paths and behavioral tests.',
+      'Compare a competing greeting edit and confirm conflict abort preserves branch refs.',
+      'Run failed-worker and cancelled-worker fixtures; neither may integrate.',
+      'Distinguish local authored worker actions from Managed sessions and cloud /workspace.'],
+    inspect: ['shared/lab57-parallel-worktrees.ts', 'server/worktrees/lab57.ts', 'server/concepts/57-parallel-worktrees.ts'],
+    challenge: 'Explain why a worker claim cannot substitute for host path checks, tests or serialized cherry-pick.',
+  },
   56: {
     objective: 'Coordinate two application roles with checked evidence, stable envelopes and explicit completion gates.',
     steps: ['Replay blocked review and competing claim to see task ownership and dependencies enforced.',
