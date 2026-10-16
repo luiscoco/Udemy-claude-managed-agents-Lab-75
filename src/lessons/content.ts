@@ -2,6 +2,17 @@ import type { LessonMetadata } from '../../shared/lessons';
 export type LessonContent = Pick<LessonMetadata, 'objective' | 'steps' | 'inspect' | 'challenge'>;
 // Only implemented lessons belong here; reserved IDs are not completed labs.
 export const content: Readonly<Record<number, LessonContent>> = Object.freeze({
+  50: {
+    objective: 'Resolve fictional support cases through customer-owned tools, retained sessions, trusted host review and a verified refund ledger.',
+    steps: ['Select C-1 and inspect its orders, then ask for a partial damaged-item refund.',
+      'Inspect the pending immutable approval and deny it; verify no ledger entry appears.',
+      'Request another refund and approve it once; compare remaining cents and audit entries.',
+      'Switch to C-2 and try a foreign order or malicious note; the host gate must reject the effect.',
+      'Resume a conversation, inspect correlated event IDs, close it and run the four offline evals.'],
+    inspect: ['shared/lab50-capstone.ts', 'server/capstone/store.ts', 'server/capstone/tools.ts',
+      'server/capstone/agent.ts', 'server/capstone/desk.ts', 'server/capstone/evals.ts', 'server/concepts/50-capstone.ts'],
+    challenge: 'Deny a refund and verify that no refund is recorded.',
+  },
   49: {
     objective: 'Classify bounded headless Managed session work into machine-readable CI outcomes with explicit cleanup evidence.',
     steps: ['Run the pass fixture and inspect its validated report and zero exit code.',

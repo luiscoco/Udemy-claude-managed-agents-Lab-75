@@ -60,3 +60,4 @@ finish the user's requested lesson workflow.
 | 47 | [Model driven and host driven orchestration](https://github.com/luiscoco/Udemy-claude-managed-agents-Lab-47) | Private |
 | 48 | [Security hardening](https://github.com/luiscoco/Udemy-claude-managed-agents-Lab-48) | Private |
 | 49 | [Headless host and CI outcomes](https://github.com/luiscoco/Udemy-claude-managed-agents-Lab-49) | Private |
+| 50 | [Full stack capstone](https://github.com/luiscoco/Udemy-claude-managed-agents-Lab-50) | Private |

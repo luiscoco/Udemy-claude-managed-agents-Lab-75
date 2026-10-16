@@ -1,0 +1,7 @@
+# Lab 50 checkpoint
+
+The Acme Support Desk capstone uses the Lab 50 domain store and closed custom-tool handlers for two fictional customers. The retained scripted session exercises chat, tool-event correlation, pending refund review, denial or trusted approval, resume and explicit archive. Host checks, not agent prose, decide ownership, policy, positive integer cents, remaining paid amount and the single-use refund effect. The policy expert is an authored read-only fixture with a separate identity; it is not a second live Managed session.
+
+Verification: `npm run capstone:check` validated authored metadata without a provider call. Eleven focused capstone tests and all 374 cumulative offline tests passed. Typecheck, production build, guide audit through Lab 50, four guide tests, nine browser tests and desktop/mobile browser demonstration passed. The distribution scan passed across 1,953 files. Screenshots and test logs are in ignored `artifacts/lab50/`.
+
+Limitations: no dedicated agent was provisioned, and no billed Managed request or live refund trial was run. Live mode requires explicit resource provisioning and opt-in, with a version-pinned dedicated agent whose resolved custom tools match the host's closed schemas. The local reviewer identity and in-memory records teach the boundary; they are not production authentication or durable accounting. Local cancellation alone does not establish a remote stop, and missing usage is reported as unknown.

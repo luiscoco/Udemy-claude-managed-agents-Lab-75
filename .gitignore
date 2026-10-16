@@ -6,6 +6,7 @@ managed/resources.local.json
 managed/lab05-resources.local.json
 managed/lab07-resources.local.json
 managed/lab08-resources.local.json
+managed/lab50-resources.local.json
 node_modules/
 dist/
 coverage/
@@ -83,3 +84,4 @@ artifacts/lab46/
 artifacts/lab47/
 artifacts/lab48/
 artifacts/lab49/
+artifacts/lab50/
