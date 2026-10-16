@@ -2,6 +2,15 @@ import type { LessonMetadata } from '../../shared/lessons';
 export type LessonContent = Pick<LessonMetadata, 'objective' | 'steps' | 'inspect' | 'challenge'>;
 // Only implemented lessons belong here; reserved IDs are not completed labs.
 export const content: Readonly<Record<number, LessonContent>> = Object.freeze({
+  58: {
+    objective: 'Search a 64-tool application catalog with a bounded host scorer and dispatch only through a checked schema and host context.',
+    steps: ['Inspect initial names and confirm no definitions are reported as loaded.',
+      'Compare good and vague metadata for the INV-2042 refund query.',
+      'Inspect the five-result bound and estimated returned context size.',
+      'Try a wrong tool and unauthorized refund, then run the authorized offline fixture.'],
+    inspect: ['shared/lab58-tool-search.ts', 'server/tool-search/lab58.ts', 'server/concepts/58-tool-search.ts'],
+    challenge: 'Rewrite a catalog description to promise authority and explain why the fixed dispatcher still rejects an unauthorized refund.',
+  },
   57: {
     objective: 'Rehearse isolated Git worktrees and host-verified, serialized integration of two worker edits.',
     steps: ['Run the serial fixture and inspect base SHA, worker branches, allowed paths and behavioral tests.',

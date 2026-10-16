@@ -9,6 +9,7 @@ const standardSources = catalogFromGlob(import.meta.glob<string>([
   '/server/lib/*.ts', '/server/routes/*.ts', '/server/capstone/*.ts', '/server/unit-testing/*.ts', '/server/evals/*.ts', '/server/debugging/*.ts', '/server/tool-design/*.ts', '/server/upgrades/*.ts',
   '/server/teams/*.ts',
   '/server/worktrees/*.ts',
+  '/server/tool-search/*.ts',
   '/src/concepts/*.tsx', '/src/concepts/*.ts', '/src/components/*.tsx', '/src/lib/*.ts',
   '/shared/contracts.ts', '/shared/health.ts', '/shared/lessons.ts', '/shared/lab[0-9][0-9]-*.ts',
   '/mcp-servers/*.ts', '/mcp-servers/*.mjs',
