@@ -26,6 +26,9 @@ const standardSources = catalogFromGlob(import.meta.glob<string>([
 export const sources = { ...standardSources, ...catalogFromGlob(import.meta.glob<string>([
   '/shared/lab39-project-config-root.ts', '/server/lib/lab39-project-config-root.ts',
   '/server/concepts/39-project-config-root.ts', '/src/concepts/Concept39ProjectConfigRoot.tsx',
+], { query: '?raw', import: 'default' })), ...catalogFromGlob(import.meta.glob<string>([
+  '/shared/lab64-browser-playwright-mcp.ts', '/server/concepts/64-browser-playwright-mcp.ts',
+  '/src/concepts/Concept64BrowserPlaywrightMcp.tsx',
 ], { query: '?raw', import: 'default' })) };
 export { loadText, mainSources };
 export async function loadGuide(id: number): Promise<string> {

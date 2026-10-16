@@ -2,6 +2,15 @@ import type { LessonMetadata } from '../../shared/lessons';
 export type LessonContent = Pick<LessonMetadata, 'objective' | 'steps' | 'inspect' | 'challenge'>;
 // Only implemented lessons belong here; reserved IDs are not completed labs.
 export const content: Readonly<Record<number, LessonContent>> = Object.freeze({
+  64: {
+    objective: 'Automate a fixture page through host-side Playwright MCP and verify the actual DOM and screenshot.',
+    steps: ['Inspect a fictional product through an isolated local browser and MCP snapshot.',
+      'Fill the fictional form using allowlisted MCP tools, then check its DOM confirmation.',
+      'Try blocked external navigation and a missing-browser scenario.',
+      'Compare tool events with independent browser proof and cloud reachability limits.'],
+    inspect: ['shared/lab64-browser-playwright-mcp.ts', 'server/concepts/64-browser-playwright-mcp.ts'],
+    challenge: 'Explain why successful MCP tool prose without DOM and screenshot checks is insufficient browser proof.',
+  },
   63: {
     objective: 'Read tenant-scoped orders through fixed queries and let a separate human endpoint commit one checked cancellation.',
     steps: ['Create a disposable SQLite session and inspect query-only state.',

@@ -1611,3 +1611,21 @@ node scripts/lab63-browser-demonstration.mjs
 ```
 
 Independent private checkpoint: [Udemy-claude-managed-agents-Lab-63](https://github.com/luiscoco/Udemy-claude-managed-agents-Lab-63).
+
+### Lab 64: How it was built, step by step
+
+1. Registered the browser lesson with a local fixture, guided controls, source viewer and [learner guide](Tab64-browser-playwright-mcp.md).
+2. Pinned `@playwright/mcp@0.0.83` and connected it to a fresh host browser context through an in-memory MCP client. The [checkpoint](docs/lab64-checkpoint.md) records the required attached-context setting.
+3. Restricted navigation and requests to the fixture, checked browser snapshot text, and retained owner-scoped PNG proof for the verified page. Fresh contexts close after each run.
+4. Added focused integration and browser tests for the product, fictional form, blocked external URL, missing browser and proof access.
+
+```powershell
+node --import tsx --test tests/lab64-browser-playwright-mcp.test.ts
+npm run typecheck
+npm run audit:lesson-guides
+npm run test:lesson-guides
+npm run build
+node scripts/lab64-browser-demonstration.mjs
+```
+
+Independent private checkpoint: [Udemy-claude-managed-agents-Lab-64](https://github.com/luiscoco/Udemy-claude-managed-agents-Lab-64).

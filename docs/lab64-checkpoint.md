@@ -1,0 +1,7 @@
+# Lab 64 checkpoint: browser tools across host and cloud
+
+Lab 64 adds a local fixture page, an owner-scoped browser run endpoint, a restricted in-memory MCP client/server pair, real Playwright browser actions, independent DOM and snapshot checks, and screenshot proof. The browser uses a fresh temporary profile, a fixture-only request route and closes after every run. The host refuses an external navigation before MCP dispatch. The missing-browser scenario reports no proof. No Anthropic session runs.
+
+The authored prompt requested the pinned `@playwright/mcp` server. Version `0.0.83` is installed and exercised. The first attempt supplied a host browser context with `isolated: true`, which asked `SimpleBrowserContextFactory` to create a second context and failed. Setting `isolated: false` reuses the fresh host context and passed the focused integration tests. The host MCP client issues only the four fixed operations and a screenshot; the package's other exposed tools are never bridged to a model or caller.
+
+Focused integration tests cover schema refusal, owner isolation, product state and screenshot, form effect, external navigation refusal, and missing browser. TypeScript, guide audit, build and browser demonstration results are recorded in the commit history. Cloud Managed sessions cannot access the host loopback fixture. A remote browser/MCP service was not configured. Browser proof establishes this local fixture only.
