@@ -34,7 +34,8 @@
     "skills:upload": "node --env-file-if-exists=.env --import tsx scripts/lab11-skills-setup.ts upload",
     "test:docgen": "node --import tsx --test tests/lab72-document-generation-skills.test.ts",
     "docgen:package": "node scripts/lab72-skill-package.mjs",
-    "test:prbot": "node --import tsx --test tests/lab73-pr-reviewer-fixer.test.ts"
+    "test:prbot": "node --import tsx --test tests/lab73-pr-reviewer-fixer.test.ts",
+    "test:redteam": "node --import tsx --test tests/lab74-prompt-injection-redteam.test.ts"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "0.133.0",

@@ -10,7 +10,7 @@ import { LessonGuide } from '../src/components/LessonGuide';
 import type * as Resources from '../src/lessons/resources';
 
 test('every completed ID has an authored guide, objective and real UI/server sources', async () => {
-  assert.deepEqual(await auditLessonGuides(), Array.from({ length: 73 }, (_, index) => index + 1));
+  assert.deepEqual(await auditLessonGuides(), Array.from({ length: 74 }, (_, index) => index + 1));
 });
 test('actual Vite raw catalog excludes acceptance probes and private/runtime files', async () => {
   const server = await createServer({ server: { middlewareMode: true }, appType: 'custom' });
@@ -20,7 +20,7 @@ test('actual Vite raw catalog excludes acceptance probes and private/runtime fil
     assert.ok(paths.length > 10);
     assert.equal(paths.some(path => /dummy|tests\//i.test(path)), false);
     const { registerConcepts } = await server.ssrLoadModule('/server/concepts/registry.ts');
-    assert.deepEqual(registerConcepts().map(({ id, serverPrefix }: { id: number; serverPrefix: string }) => [id, serverPrefix]), Array.from({ length: 73 }, (_, index) => [index + 1, `/api/c${index + 1}`]));
+    assert.deepEqual(registerConcepts().map(({ id, serverPrefix }: { id: number; serverPrefix: string }) => [id, serverPrefix]), Array.from({ length: 74 }, (_, index) => [index + 1, `/api/c${index + 1}`]));
     for (const path of paths) {
       if (path.startsWith('docgen-skills/')) {
         assert.ok(['SKILL.md', 'reference/spec-format.md', 'reference/incident-report.md', 'assets/brand.json', 'scripts/build-docx.mjs'].some(file => path === `docgen-skills/atmira-docx/${file}`));
@@ -38,7 +38,7 @@ test('actual Vite raw catalog excludes acceptance probes and private/runtime fil
         assert.ok(['extensions/lab69/src/extension.ts', 'extensions/lab69/package.json'].includes(path));
         continue;
       }
-      assert.match(path, /^(server\/(?:index\.ts|sse\.ts|concepts\/[^/]+\.(?:ts|mjs)|lib\/[^/]+\.ts|routes\/[^/]+\.ts|capstone\/[^/]+\.ts|unit-testing\/[^/]+\.ts|evals\/[^/]+\.ts|debugging\/[^/]+\.ts|tool-design\/[^/]+\.ts|upgrades\/[^/]+\.ts|teams\/[^/]+\.ts|worktrees\/[^/]+\.ts|tool-search\/[^/]+\.ts|routing\/[^/]+\.ts|durable\/[^/]+\.ts|mcp-agent\/[^/]+\.ts|retrieval\/[^/]+\.ts|database\/[^/]+\.ts)|src\/(?:concepts\/[^/]+\.tsx?|components\/[^/]+\.tsx|lib\/[^/]+\.ts)|shared\/(?:contracts|health|lessons|lab\d{2}-[a-z0-9-]+)\.ts|mcp-servers\/[^/]+\.(?:ts|mjs))$/);
+      assert.match(path, /^(server\/(?:index\.ts|sse\.ts|concepts\/[^/]+\.(?:ts|mjs)|lib\/[^/]+\.ts|routes\/[^/]+\.ts|capstone\/[^/]+\.ts|unit-testing\/[^/]+\.ts|evals\/[^/]+\.ts|debugging\/[^/]+\.ts|tool-design\/[^/]+\.ts|upgrades\/[^/]+\.ts|teams\/[^/]+\.ts|worktrees\/[^/]+\.ts|tool-search\/[^/]+\.ts|routing\/[^/]+\.ts|durable\/[^/]+\.ts|mcp-agent\/[^/]+\.ts|retrieval\/[^/]+\.ts|database\/[^/]+\.ts|redteam\/[^/]+\.ts)|src\/(?:concepts\/[^/]+\.tsx?|components\/[^/]+\.tsx|lib\/[^/]+\.ts)|shared\/(?:contracts|health|lessons|lab\d{2}-[a-z0-9-]+)\.ts|mcp-servers\/[^/]+\.(?:ts|mjs))$/);
       if (!/^((shared\/lab64-browser-playwright-mcp\.ts)|(server\/concepts\/64-browser-playwright-mcp\.ts)|(src\/concepts\/Concept64BrowserPlaywrightMcp\.tsx))$/.test(path))
         assert.doesNotMatch(path, /(?:test\.|spec\.|browser|live-check|credential|secret|private|(?:^|\/)(?:logs|workspaces?|sandbox)\/|\.env)/i);
       if (!path.includes('lab39-project-config-root') && !path.includes('39-project-config-root') && !path.includes('Concept39ProjectConfigRoot')) assert.doesNotMatch(path, /config/i);

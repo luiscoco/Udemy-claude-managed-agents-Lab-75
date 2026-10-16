@@ -1,0 +1,7 @@
+# Lab 74 checkpoint
+
+Lab 74 and supplement 74A implement thirteen explicit fictional attacks, five cumulative defense layers plus a baseline, randomized fake canaries and untrusted markers, bounded detector normalization/quarantine, fixed support-tool policy, output guard and hashed third-party metadata pins. An independent oracle checks attempted/executed effects, final output and safe draft utility. Matrix statistics include per-attack and per-goal trial counts; empty samples are null. Adaptive mutations have iteration, fictional budget and deadline caps.
+
+The five focused tests passed, including all thirteen baseline compromises, deterministic safety/utility floor, independent oracle fixtures for encoded/split/punctuated canaries, executed compromise versus denied attempts, clean-work utility, detector normalization, metadata changes and an unrecognized-payload policy denial. Typecheck/build, four guide checks, nine browser/shell checks and a 390/1440-pixel browser demonstration passed. The completed build is distribution-scanned before publishing.
+
+No real mail, refund, third-party request or provider session occurred. Raw evidence contains only randomized fake canaries; the downloadable aggregate report omits them. Prompt guidance and markers are deliberately not treated as enforcement. Offline success/failure rates are observations of an authored worst-case model, not measured Claude robustness or immunity. Live and model-driven adaptive runs require a dedicated adapter and are explicitly unavailable rather than silently simulated.

@@ -2,6 +2,15 @@ import type { LessonMetadata } from '../../shared/lessons';
 export type LessonContent = Pick<LessonMetadata, 'objective' | 'steps' | 'inspect' | 'challenge'>;
 // Only implemented lessons belong here; reserved IDs are not completed labs.
 export const content: Readonly<Record<number, LessonContent>> = Object.freeze({
+  74: {
+    objective: 'Measure attempted and executed prompt-injection effects alongside safe support-desk utility.',
+    steps: ['Run an attack without defenses and inspect the fictional effect ledger and final output.',
+      'Compare five cumulative defenses against all thirteen attacks.',
+      'Inspect raw payloads, normalization rules, metadata pins and safe utility.',
+      'Run bounded adaptive mutations and distinguish assumed costs from billed usage.'],
+    inspect: ['shared/lab74-prompt-injection-redteam.ts', 'server/redteam/corpus.ts', 'server/lib/lab74-redteam.ts', 'server/concepts/74-prompt-injection-redteam.ts'],
+    challenge: 'Show why a canary-free answer can still hide an executed refund or exfiltration effect.',
+  },
   73: {
     objective: 'Route changed-line review findings to a constrained fixer and commit only after independent host gates and real tests.',
     steps: ['Run the good fix and inspect numbered diff, gates and local commit hash.',

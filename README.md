@@ -1771,3 +1771,11 @@ Independent private checkpoint: [Udemy-claude-managed-agents-Lab-71](https://git
 3. Added closed role tools, path/junction checks, scrubbed fixed process arguments, scope/diff/test-gaming gates and bounded attempts.
 4. Committed only after host checks, reran the full fixture suite, and retained patch, hashes and ready/draft handoff evidence.
 5. Tested all six scenarios and demonstrated browser gates at desktop and mobile widths. No fixture GitHub push or billed model call occurs.
+
+## Lab 74: How it was built, step by step
+
+1. Authored thirteen fictional prompt-injection attacks across tickets, email, KB, web and third-party metadata.
+2. Built a worst-case scripted model, closed support tools and a ledger separating attempted from executed fictional effects.
+3. Added five cumulative layers, bounded normalization, metadata pins and independent output/effect/utility checks.
+4. Added a defense matrix, per-goal statistics, clean-inbox utility gate, bounded adaptive mutations and sanitized report download.
+5. Tested known compromises, denied effects, encoded canaries, detector bypass and safety/utility regression gates without external traffic.
