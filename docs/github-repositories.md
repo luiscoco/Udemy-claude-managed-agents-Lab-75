@@ -66,3 +66,4 @@ finish the user's requested lesson workflow.
 | 53 | [Debugging session and host traces](https://github.com/luiscoco/Udemy-claude-managed-agents-Lab-53) | Private |
 | 54 | [Designing tools the model uses well](https://github.com/luiscoco/Udemy-claude-managed-agents-Lab-54) | Private |
 | 55 | [Official SDK and API upgrades](https://github.com/luiscoco/Udemy-claude-managed-agents-Lab-55) | Private |
+| 56 | [Teams and evidence messages](https://github.com/luiscoco/Udemy-claude-managed-agents-Lab-56) | Private |

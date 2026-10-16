@@ -2,6 +2,15 @@ import type { LessonMetadata } from '../../shared/lessons';
 export type LessonContent = Pick<LessonMetadata, 'objective' | 'steps' | 'inspect' | 'challenge'>;
 // Only implemented lessons belong here; reserved IDs are not completed labs.
 export const content: Readonly<Record<number, LessonContent>> = Object.freeze({
+  56: {
+    objective: 'Coordinate two application roles with checked evidence, stable envelopes and explicit completion gates.',
+    steps: ['Replay blocked review and competing claim to see task ownership and dependencies enforced.',
+      'Compare a queued envelope, delivery and acknowledgment; none alone completes the review.',
+      'Reject 30, verify 37 using host arithmetic, then perform a clean shutdown.',
+      'Inspect the optional live route and identify why native delegation is unavailable without checked setup.'],
+    inspect: ['shared/lab56-agent-teams.ts', 'server/teams/lab56.ts', 'server/concepts/56-agent-teams.ts'],
+    challenge: 'Try to acknowledge evidence before delivery and explain which state transition must occur first.',
+  },
   55: {
     objective: 'Rehearse SDK and Managed API compatibility gates, canary, promotion and rollback without changing the locked teaching app.',
     steps: ['Inspect the installed 0.133.0 baseline and separate npm, API and pinned resource identities.',
