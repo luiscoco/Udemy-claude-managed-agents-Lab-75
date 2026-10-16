@@ -35,7 +35,14 @@
     "test:docgen": "node --import tsx --test tests/lab72-document-generation-skills.test.ts",
     "docgen:package": "node scripts/lab72-skill-package.mjs",
     "test:prbot": "node --import tsx --test tests/lab73-pr-reviewer-fixer.test.ts",
-    "test:redteam": "node --import tsx --test tests/lab74-prompt-injection-redteam.test.ts"
+    "test:redteam": "node --import tsx --test tests/lab74-prompt-injection-redteam.test.ts",
+    "test:team": "node --import tsx --test tests/lab75-autonomous-engineering-team.test.ts tests/lab75-live-team.test.ts",
+    "test:ui:live-actions": "node scripts/run-browser-tests.mjs live-actions.spec.ts",
+    "test:course": "node --import tsx --test tests/course-coverage.test.ts",
+    "package:course": "node scripts/package-course.mjs",
+    "team:cleanup": "node --import tsx scripts/lab75-cleanup.ts",
+    "team:ready": "node --env-file-if-exists=.env --import tsx scripts/lab75-setup.ts ready",
+    "team:provision": "node --env-file-if-exists=.env --import tsx scripts/lab75-setup.ts provision"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "0.133.0",

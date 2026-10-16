@@ -2,6 +2,15 @@ import type { LessonMetadata } from '../../shared/lessons';
 export type LessonContent = Pick<LessonMetadata, 'objective' | 'steps' | 'inspect' | 'challenge'>;
 // Only implemented lessons belong here; reserved IDs are not completed labs.
 export const content: Readonly<Record<number, LessonContent>> = Object.freeze({
+  75: {
+    objective: 'Coordinate real worker branches through a validated task graph, independent verification, bounded review rework and a durable release gate.',
+    steps: ['Validate good and rejected plan presets without creating workers.',
+      'Run the happy path and inspect dependency waves, test gates, authors and merge hashes.',
+      'Compare test gaming, hidden-boundary failure, ownership correction and budget exhaustion.',
+      'Interrupt after wave one, resume, and verify retained costs and no repeated completed calls.'],
+    inspect: ['shared/lab75-autonomous-engineering-team.ts', 'server/team/team.ts', 'server/team/policy.ts', 'server/team/orchestrator.ts', 'server/team/scripted.ts', 'server/team/live.ts', 'server/team/journal.ts', 'server/concepts/75-autonomous-engineering-team.ts'],
+    challenge: 'Explain why a green worker suite and a done report cannot establish readiness without host acceptance, review, ownership and known costs.',
+  },
   74: {
     objective: 'Measure attempted and executed prompt-injection effects alongside safe support-desk utility.',
     steps: ['Run an attack without defenses and inspect the fictional effect ledger and final output.',

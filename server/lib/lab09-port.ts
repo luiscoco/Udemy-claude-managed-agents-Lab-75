@@ -29,8 +29,12 @@ export function createLiveLab09Port(input: Lab09Request, sdk?: Anthropic, env = 
     const resolved = session.agent;
     port.effective = { agentId: resolved.id, agentVersion: resolved.version, model: resolved.model.id, system: resolved.system,
       systemSource: port.composition.overrideIncluded ? 'overridden' : 'inherited', tools: resolved.tools.length, mcpServers: resolved.mcp_servers.length, skills: resolved.skills.length };
-    if (resolved.id !== agent.id || resolved.version !== agent.version || resolved.system !== port.composition.configuredSystem || resolved.model.id !== agent.model.id)
-      throw new LabError('Resolved session differs from the requested base reference, model or system; no prompt was sent.');
+    if (resolved.id !== agent.id || resolved.version !== agent.version || resolved.system !== port.composition.configuredSystem || resolved.model.id !== agent.model.id) {
+      // create() has not returned its ID to the shared runner yet, so it cannot
+      // clean up this freshly created session on our behalf.
+      const archived = await client.beta.sessions.archive(session.id, {}, { timeout: 3000 }).then(() => true, () => false);
+      throw new LabError(`Resolved session differs from the requested base reference, model or system; no prompt was sent. Session ${session.id}: cleanup ${archived ? 'archived' : 'pending; inspect the owned session before retrying'}.`);
+    }
     return { source: 'managed-api', id: session.id, status: session.status, agentId: resolved.id, agentVersion: resolved.version,
       environmentId: session.environment_id, budget: session.budget ? `${session.budget.max_list_cost.amount} USD` : null,
       toolCount: resolved.tools.length + resolved.skills.length + (resolved.multiagent ? 1 : 0), mcpServerCount: resolved.mcp_servers.length };

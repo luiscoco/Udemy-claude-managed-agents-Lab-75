@@ -1,10 +1,10 @@
 import { expect, test } from '@playwright/test';
 const harness = '/browser-tests/harness.html';
-test('runtime has Labs 01 to 74: Start link works and Lab 00 has no route', async ({ page, request }) => {
+test('runtime has Labs 01 to 75: Start link works and Lab 00 has no route', async ({ page, request }) => {
   await page.goto('/');
-  await expect(page.locator('.sidebar')).toContainText('74 implemented lessons');
+  await expect(page.locator('.sidebar')).toContainText('75 implemented lessons');
   await expect(page.getByRole('link', { name: /Start with Lab 01/ })).toBeVisible();
-  for (const id of ['0', '00', '75', 'bad', '', '0&lesson=0']) {
+  for (const id of ['0', '00', '76', 'bad', '', '0&lesson=0']) {
     await page.goto(`/?lesson=${id}`);
     await expect(page.getByRole('heading', { name: /That lesson.*available yet/ })).toBeVisible();
     expect(new URL(page.url()).search).toBe('');

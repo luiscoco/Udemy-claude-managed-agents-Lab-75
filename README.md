@@ -1,33 +1,17 @@
 # Claude Managed Agents Learning
 
-A separate learning app migrated from the reusable Claude Agent SDK Learning
-foundation on 2026-10-12. React, Vite, strict TypeScript, Express and Zod remain;
-agent execution uses the official `@anthropic-ai/sdk` Managed Agents APIs.
-The original application is unchanged. Labs 01 (session event streaming), 02
-(session options), 03 (built-in tools), 04 (permissions), 05 (custom tools),
-06 (sessions and retained context), 07 (tool policy and execution audit) and
-08 (delegation and session threads), 09 (system instructions and explicit
-context), 10 (validated reports and interruption), 11 (Managed skills and
-progressive loading), 12 (multiple messages in one session) and 13 (MCP connections
-and reachability), 14 (models and supported effort), 15 (usage and session budgets), 16 (environment and configuration provenance), 17 (host snapshots and file restoration), 18 (cloud sandbox and host boundaries), 19 (session inventory and explicit branches), and 20 (lifecycle events and host interceptors) are registered, with offline fixtures and
-source inspection. See
-[Lab 02 guide](Tab2-options.md), [Lab 03 guide](Tab3-tools.md),
-[Lab 04 guide](Tab4-permissions.md), [Lab 05 guide](Tab5-custom-tools.md) and
-[Lab 06 guide](Tab6-sessions.md), [Lab 07 guide](Tab7-hooks.md) and
-[Lab 08 guide](Tab8-subagents.md), [Lab 09 guide](Tab9-system-prompts.md) and
-[Lab 10 guide](Tab10-structured-interrupt.md), [Lab 11 guide](Tab11-skills.md),
-[Lab 12 guide](Tab12-streaming-input.md), [Lab 13 guide](Tab13-mcp-servers.md), [Lab 14 guide](Tab14-thinking-effort-models.md), [Lab 15 guide](Tab15-cost-usage.md), [Lab 16 guide](Tab16-settings-env.md), [Lab 17 guide](Tab17-checkpointing.md), [Lab 18 guide](Tab18-sandbox.md), [Lab 19 guide](Tab19-session-management.md), [Lab 20 guide](Tab20-hooks-in-depth.md), [Lab 21 guide](Tab21-slash-commands.md), [Lab 22 guide](Tab22-claude-md-memory.md), [Lab 23 guide](Tab23-plugins.md), [Lab 24 guide](Tab24-harnesses.md), [Lab 25 guide](Tab25-compaction-context.md), [Lab 26 guide](Tab26-query-control.md), [Lab 27 guide](Tab27-background-tasks.md), [Lab 28 guide](Tab28-errors-retries.md), [Lab 29 guide](Tab29-images-files.md), [Lab 30 guide](Tab30-todo-tracking.md), [Lab 31 guide](Tab31-ask-user-question.md), [Lab 32 guide](Tab32-plan-mode.md), [Lab 33 guide](Tab33-mcp-elicitation.md), [Lab 34 guide](Tab34-output-styles.md), [Lab 35 guide](Tab35-session-stores.md), [Lab 36 guide](Tab36-process-spawning.md), [Lab 37 guide](Tab37-permission-prompt-tool.md), [Lab 38 guide](Tab38-prompt-suggestions.md), [Lab 39 guide](Tab39-project-config-root.md), [Lab 40 guide](Tab40-resume-drops-turn.md), [Lab 41 guide](Tab41-v2-session-api.md), [Lab 42 guide](Tab42-web-tools.md), [Lab 43 guide](Tab43-remote-mcp-resources.md), [Lab 44 guide](Tab44-otel-observability.md), [Lab 45 guide](Tab45-cloud-providers.md), [Lab 46 guide](Tab46-prompt-caching.md), [Lab 47 guide](Tab47-multi-agent.md), [Lab 48 guide](Tab48-security-hardening.md), [Lab 49 guide](Tab49-deploy-ci-headless.md), [Lab 50 guide](Tab50-capstone.md), [Lab 51 guide](Tab51-unit-testing.md), [Lab 52 guide](Tab52-evals.md), [Lab 53 guide](Tab53-debugging.md), [Lab 54 guide](Tab54-tool-design.md), [Lab 55 guide](Tab55-upgrading-sdk.md), [Lab 56 guide](Tab56-agent-teams.md), [Lab 57 guide](Tab57-parallel-worktrees.md), [Lab 58 guide](Tab58-tool-search.md), [Lab 59 guide](Tab59-model-routing.md), [Lab 60 guide](Tab60-durable-agents.md), [Lab 61 guide](Tab61-agent-as-mcp-server.md), [Lab 62 guide](Tab62-retrieval-rag.md), [Lab 63 guide](Tab63-safe-database-agent.md)
-for controls, experiments and PowerShell checks.
-The [course repository index](docs/github-repositories.md) links every cumulative
-GitHub checkpoint.
+The platform contains 75 numbered lessons with React exercises, Express routes, authored guides and source inspection. It uses the official `@anthropic-ai/sdk` 0.133.0 for supported Managed API operations. Host implementations and Agent SDK replacements are labeled in each lesson; offline fixtures are distinguished from provider observations.
+
+Use the sidebar by topic or lesson number, search by title or objective, and switch between Learn, Run the exercise and TypeScript source. See the [repository index](docs/github-repositories.md) for the independent private lesson checkpoints and the [final validation report](docs/course-validation.md) for executed checks and remaining live prerequisites.
 
 ## Run locally
 
-Requires Node 24 or newer.
+Requires Node 24 or newer and Git on PATH. On Windows use PowerShell and npm.cmd. Chrome is used by browser acceptance tests and Lab 64; no model key is needed for offline exercises.
 
 ```powershell
 Set-Location C:\claude-managed-agents
 npm.cmd ci
+if (-not (Test-Path -LiteralPath .env)) { Copy-Item .env.example .env }
 npm.cmd run dev
 ```
 
@@ -43,6 +27,27 @@ node 'C:\Users\luisc\AppData\Local\Author Software\nvm\installs\v24.21.0\node_mo
 
 The developer supervisor allows 40 seconds for remote cleanup before forcing
 child termination.
+
+Use a second PowerShell terminal for checks; leave the dev terminal running. Stop the platform with Ctrl+C and wait for cleanup before restarting.
+
+```powershell
+npm.cmd run typecheck
+npm.cmd run test:offline
+npm.cmd run test:lesson-guides
+npm.cmd run test:dev-server
+npm.cmd run test:sse
+npm.cmd run test:browser
+npm.cmd run test:ui:live-actions
+npm.cmd run build
+npm.cmd run scan:distribution
+npm.cmd run package:course
+```
+
+Live readiness requires server-side credentials and existing configured resources. A Claude web, desktop or CLI login does not supply an isolated lab key. Installation, startup, readiness and offline checks do not provision resources or start paid sessions. See [setup](docs/managed-setup.md).
+
+Optional prerequisites vary by lesson: Lab 44 can use a separately configured telemetry collector; Lab 45 cloud adapters require their own verified infrastructure; Lab 64 uses pinned Playwright MCP and Chrome; Lab 65 notification transports require explicit provider setup and approval; Lab 69 builds a VS Code extension but interactive IDE installation is manual; Lab 70 needs a selected Python interpreter and explicit isolated requirements installation for live work; Lab 72 can generate offline DOCX and uses Word for visual inspection; Lab 75 requires an isolated API key and three pinned role agents for live execution. Authored adapters and configuration examples are not evidence that those integrations ran.
+
+The sanitized course ZIP uses an explicit source allowlist and hash manifest. It excludes keys, local resource manifests, node_modules, builds, logs, session stores, browser profiles and runtime repositories. It preserves the learner workspace and does not delete files to sanitize the distribution.
 
 ## Foundation check
 
@@ -1779,3 +1784,12 @@ Independent private checkpoint: [Udemy-claude-managed-agents-Lab-71](https://git
 3. Added five cumulative layers, bounded normalization, metadata pins and independent output/effect/utility checks.
 4. Added a defense matrix, per-goal statistics, clean-inbox utility gate, bounded adaptive mutations and sanitized report download.
 5. Tested known compromises, denied effects, encoded canaries, detector bypass and safety/utility regression gates without external traffic.
+
+## Lab 75: How it was built, step by step
+
+1. Authored issue 7 and a disposable notes API fixture with unchanged main and a separate integration worktree.
+2. Validated closed plans, ownership, new tests and acyclic dependencies before creating worker branches.
+3. Bound role tools and board messages to trusted task identities, fixed file scope and bounded process/test handlers.
+4. Verified real worker changes and tests, committed with task trailers, and integrated serially before review/rework.
+5. Added host-only acceptance probes, a durable hash-chained journal, cost reservations, safe replay and a ready/draft release gate.
+6. Connected scripted and dedicated Managed role adapters through the same orchestrator, then tested all seven offline scenarios and provider-shaped injected fixtures. The final course audit checks every registered lesson and distribution boundaries.

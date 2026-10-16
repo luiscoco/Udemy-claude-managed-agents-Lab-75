@@ -28,6 +28,8 @@ try {
     await page.getByRole('button', { name: 'Compare defense matrix' }).click();
     await expect(page.getByRole('status', { name: 'Lab 74 status' })).toContainText('Safety floor: PASS.');
     if (await page.evaluate(() => document.documentElement.scrollWidth > innerWidth)) throw new Error(`Overflow at ${width}`);
+    await page.locator('#lab74-heading').scrollIntoViewIfNeeded();
+    await page.screenshot({ path: `artifacts/lab74/exercise-${width}.png` });
     await page.evaluate(() => window.scrollTo(0, 0));
     await page.screenshot({ path: `artifacts/lab74/upgrades-${width}.png`, fullPage: true });
   }

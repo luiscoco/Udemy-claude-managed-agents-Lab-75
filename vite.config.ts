@@ -10,6 +10,6 @@ export default defineConfig({
     strictPort: false,
     proxy: { '/api': { target: `http://127.0.0.1:${process.env.LEARNING_API_PORT ?? 3076}`, changeOrigin: false, ws: true } },
     watch: { ignored: ['**/*-lab/**', '**/sandbox/**', '**/generated/**', '**/logs/**', '**/sessions/**'] },
-    fs: { deny: ['.env', '.env.*', '**/.git/**', '**/.claude/**', '**/sessions/**', '**/*-lab/**', '**/sandbox/**', '**/workspaces/**'] },
+    fs: { deny: ['.env', '.env.*', '**/.git/**', '**/.claude/**', '**/sessions/**', '**/*-lab/**', '**/sandbox/**', '**/workspaces/**', '**/server/acceptance/**'] },
   },
 });

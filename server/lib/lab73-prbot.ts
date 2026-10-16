@@ -16,7 +16,7 @@ export function runProcess(executable: string, args: readonly string[], cwd: str
     child.once('close', code => { clearTimeout(timer); resolveResult({ code: code ?? -1, text: text.slice(0, 65536), timedOut: timedOut || overflow }); });
   });
 }
-const gitCommands = new Set(['init', 'config', 'add', 'commit', 'checkout', 'diff', 'rev-parse', 'ls-files', 'status', 'worktree', 'merge', 'reset', 'clean', 'show', 'log']);
+const gitCommands = new Set(['init', 'config', 'add', 'commit', 'checkout', 'diff', 'rev-parse', 'ls-files', 'status', 'worktree', 'merge', 'reset', 'clean', 'show', 'log', 'restore']);
 export async function hostGit(root: string, ...args: string[]) {
   if (!gitCommands.has(args[0] ?? '')) throw new Error('Host Git operation rejected.');
   const result = await runProcess('git', ['-c', 'core.hooksPath=NUL', '-c', 'commit.gpgsign=false', '-c', 'core.autocrlf=false', ...args], root, 20000);

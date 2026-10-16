@@ -113,3 +113,16 @@ test('live creation failures report safe connection and access diagnostics befor
     }finally{await lab.close();server.closeAllConnections();await new Promise<void>((resolve)=>server.close(()=>resolve()));}
   }
 });
+
+test('live end_turn waits for lagging idle status before retaining a verified report', async () => {
+  const runs = new Lab10Runs(1, 0), request = { ...input, mode: 'live' as const };
+  const port = createFixtureLab10Port(request, 0), status = port.status;
+  let checks = 0;
+  port.status = async id => ++checks < 3 ? 'running' : status(id);
+  const entry = await runs.create('alice', request, port);
+  try {
+    await runs.enqueue(entry, request, signal, () => {}).work;
+    assert.equal(entry.state, 'idle'); assert.equal(entry.turns[0]?.outcome, 'verified');
+    assert.equal(port.calls.includes('interrupt'), false); assert.equal(port.calls.includes('archive'), false);
+  } finally { await runs.close(); }
+});

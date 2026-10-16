@@ -80,3 +80,16 @@ test('HTTP context is authored and validation rejects injection before provider 
     const response=await post({...input,variant:'base-plus-project-context'}); assert.equal(response.status,200); assert.match(await response.text(),/offline capture|offline observation|offline capture/i);
   } finally { await lab.close(); server.closeAllConnections(); await new Promise<void>((resolve)=>server.close(()=>resolve())); }
 });
+
+test('resolved mismatch archives the created session before create rejects and reports pending cleanup', async () => {
+  for (const archiveFails of [false, true]) {
+    let archived = 0;
+    const agent = { id: 'agent_test', version: 3, model: { id: 'base-model' }, system: 'Base.', multiagent: null };
+    const sdk = { beta: { agents: { retrieve: async () => agent }, sessions: {
+      create: async () => ({ id: 'sesn_mismatch', status: 'idle', agent: { ...agent, model: { id: 'unexpected' }, tools: [], mcp_servers: [], skills: [] } }),
+      archive: async () => { archived++; if (archiveFails) throw new Error('Authored transport failure'); },
+    } } } as unknown as Anthropic;
+    const port = createLiveLab09Port({ ...input, mode: 'live' }, sdk, env);
+    await assert.rejects(port.create(), archiveFails ? /cleanup pending/ : /cleanup archived/); assert.equal(archived, 1);
+  }
+});

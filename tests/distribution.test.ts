@@ -15,7 +15,7 @@ test('distribution blocks secret patterns and runtime paths without reading .env
     assert.equal((await scanFiles(['unsafe.txt'], root)).length, 1);
     // .env does not exist: rejection must happen before any file read.
     assert.equal((await scanFiles(['.env'], root)).length, 1);
-    for (const path of ['sessions/run.json', 'sandbox/result.ts', 'server/demo-lab/output.ts', 'workspaces/run/file.ts']) assert(forbiddenPath(path));
+    for (const path of ['artifacts/course/live-smoke.json', 'sessions/run.json', 'sandbox/result.ts', 'server/demo-lab/output.ts', 'workspaces/run/file.ts']) assert(forbiddenPath(path));
     assert.equal(forbiddenPath('.env.example'), false);
   } finally { await rm(root, { recursive: true, force: true }); }
 });

@@ -85,3 +85,4 @@ finish the user's requested lesson workflow.
 | 72 | [Document generation with Skills](https://github.com/luiscoco/Udemy-claude-managed-agents-Lab-72) | Private |
 | 73 | [An autonomous PR reviewer and fixer](https://github.com/luiscoco/Udemy-claude-managed-agents-Lab-73) | Private |
 | 74 | [Prompt injection red teaming](https://github.com/luiscoco/Udemy-claude-managed-agents-Lab-74) | Private |
+| 75 | [Capstone 2 an autonomous engineering team](https://github.com/luiscoco/Udemy-claude-managed-agents-Lab-75) | Private |

@@ -7,7 +7,7 @@ import { fileURLToPath } from 'node:url';
 const root = fileURLToPath(new URL('../', import.meta.url));
 const excluded = new Set(['.git', '.venv', '.build', 'node_modules', 'dist', 'coverage', 'test-results', 'playwright-report']);
 export const forbiddenPath = path => path.split(/[\\/]/).some(part =>
-  /^(?:\.env(?:\..*)?|\.aws|\.claude|\.f\d+-build|\.build|sandbox|generated|sessions|workspaces|logs|generated-(?:config|logs|sessions))$/i.test(part) && part !== '.env.example'
+  /^(?:\.env(?:\..*)?|\.aws|\.claude|\.f\d+-build|\.build|artifacts|sandbox|generated|sessions|workspaces|logs|generated-(?:config|logs|sessions))$/i.test(part) && part !== '.env.example'
   || /-lab$/i.test(part) || /\.(?:jsonl|log)$/i.test(part));
 // Match credential forms, never print a matching value or .env contents.
 export const secretPatterns = [

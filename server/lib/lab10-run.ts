@@ -75,7 +75,13 @@ export class Lab10Runs {
       } finally {clearTimeout(timer);turn.reportedUsage=usage.requests ? usage : null;}
       if(controller.signal.reason === 'deadline') await this.stop(e,true);
       else if(!e.closing && !e.control && (e.state as Lab10Snapshot['state']) !== 'cleanup-pending') {
-        const status=await e.port.status(e.session.id).catch(()=>'unknown'); if(status === 'idle') e.state='idle'; else await this.stop(e,true);
+        let status=await e.port.status(e.session.id).catch(()=>'unknown');
+        // An end_turn event can precede the retrieve status becoming idle. Confirm it
+        // with bounded reads before deciding that completed work needs interruption.
+        if(turn.outcome === 'verified' && e.mode === 'live') for(let attempt=0;status !== 'idle' && attempt<10;attempt++) {
+          await delay(Math.max(50,this.pollMs)); status=await e.port.status(e.session.id).catch(()=>'unknown');
+        }
+        if(status === 'idle') e.state='idle'; else await this.stop(e,true);
       }
     } finally {signal.removeEventListener('abort',abort);e.jobs.delete(job);e.message=`Turn ${turn.turnId}: ${turn.outcome}. Report verification is application schema validation.`;}})();
     e.tail=job.work.catch(()=>{}); return {turnId:turn.turnId,work:job.work};
@@ -87,7 +93,7 @@ export class Lab10Runs {
     for(const job of e.jobs) {job.controller.abort(archive ? 'aborted' : 'interrupt'); if(job.turn.state === 'queued') {job.turn.state=archive ? 'aborted' : 'interrupted';job.turn.outcome=archive ? 'aborted' : 'interrupted';}}
     const work=(async()=>{let status=await e.port.status(e.session.id).catch(()=>'unknown');
       if(status !== 'idle') {try {await e.port.interrupt(e.session.id);e.interruption='acknowledged';}catch{e.interruption='unconfirmed';}
-        for(let i=0;i<5;i++) {status=await e.port.status(e.session.id).catch(()=>'unknown'); if(status === 'idle') break; await delay(this.pollMs);}}
+        for(let i=0;i<(e.mode === 'live' ? 20 : 5);i++) {status=await e.port.status(e.session.id).catch(()=>'unknown'); if(status === 'idle') break; await delay(e.mode === 'live' ? Math.max(50,this.pollMs) : this.pollMs);}}
       if(status !== 'idle') {e.interruption='unconfirmed';e.cleanup=archive ? 'pending' : 'not-needed';e.state='cleanup-pending';e.message='Interrupt acknowledgment did not confirm idle. Remote stop is unconfirmed.';return this.snapshot(e);}
       e.interruption='idle-confirmed';
       if(archive) {try{await e.port.archive(e.session.id);e.state='closed';e.cleanup=e.port.source === 'authored-fixture' ? 'simulated' : 'archived';e.message='Idle was confirmed and the session was archived. Future sends are rejected.';}catch{e.state='cleanup-pending';e.cleanup='pending';e.message='Idle confirmed; archive is pending.';}}
