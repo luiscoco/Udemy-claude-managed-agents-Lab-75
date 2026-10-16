@@ -2,6 +2,15 @@ import type { LessonMetadata } from '../../shared/lessons';
 export type LessonContent = Pick<LessonMetadata, 'objective' | 'steps' | 'inspect' | 'challenge'>;
 // Only implemented lessons belong here; reserved IDs are not completed labs.
 export const content: Readonly<Record<number, LessonContent>> = Object.freeze({
+  62: {
+    objective: 'Retrieve tenant-filtered current policy chunks and verify answer citations against the exact returned set.',
+    steps: ['Search current Acme policy and compare stable heading IDs with archived and foreign documents.',
+      'Run a grounded 30-day answer and inspect quote and ID verification.',
+      'Run fabricated citation, archived 60-day answer, no-match and hostile-note scenarios.',
+      'Compare lexical scores with evidence validity; imported text cannot set host policy.'],
+    inspect: ['shared/lab62-retrieval-rag.ts', 'server/retrieval/lab62.ts', 'server/concepts/62-retrieval-rag.ts'],
+    challenge: 'Cite an archived or foreign-tenant policy ID and explain why the run’s filtered result set rejects it.',
+  },
   61: {
     objective: 'Expose a typed fictional support/refund review through a bearer-protected local MCP transport.',
     steps: ['Run the local client and compare transport request, MCP session and agent session IDs.',
