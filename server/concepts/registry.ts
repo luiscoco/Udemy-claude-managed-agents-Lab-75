@@ -145,6 +145,8 @@ import { lab69Lesson } from '../../shared/lab69-embedding-sdk.js';
 import { createLab69Router } from './69-embedding-sdk.js';
 import { lab70Lesson } from '../../shared/lab70-python-sdk.js';
 import { createLab70Router } from './70-python-sdk.js';
+import { lab72Lesson } from '../../shared/lab72-document-generation-skills.js';
+import { createLab72Router } from './72-document-generation-skills.js';
 import { lab71Lesson } from '../../shared/lab71-data-analysis-agent.js';
 import { createLab71Router } from './71-data-analysis-agent.js';
 
@@ -219,6 +221,7 @@ export function registerConcepts(): readonly ConceptRecord[] {
   const lab68 = createLab68Router();
   const lab69 = createLab69Router();
   const lab70 = createLab70Router();
+  const lab72 = createLab72Router();
   const lab71 = createLab71Router();
   const lab14 = createLab14Router();
   const lab13 = createLab13Router();
@@ -294,6 +297,7 @@ export function registerConcepts(): readonly ConceptRecord[] {
     { ...lab69Lesson, ...content[lab69Lesson.id]!, router: lab69.router, close: lab69.close },
     { ...lab70Lesson, ...content[lab70Lesson.id]!, router: lab70.router, close: lab70.close },
     { ...lab71Lesson, ...content[lab71Lesson.id]!, router: lab71.router, close: lab71.close },
+    { ...lab72Lesson, ...content[lab72Lesson.id]!, router: lab72.router, close: lab72.close },
   ];
   validateLessonRegistry(entries.map(({ router: _router, close: _close, attach: _attach, ...metadata }) => metadata));
   return entries;

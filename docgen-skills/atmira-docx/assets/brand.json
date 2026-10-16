@@ -1,0 +1,10 @@
+{
+  "bodyFont": "Arial",
+  "bodySizeHalfPoints": 22,
+  "titleSizeHalfPoints": 44,
+  "headingSizeHalfPoints": 30,
+  "textColor": "000000",
+  "tableHeaderFill": "17365D",
+  "tableHeaderText": "FFFFFF",
+  "classifications": ["Internal", "Public"]
+}

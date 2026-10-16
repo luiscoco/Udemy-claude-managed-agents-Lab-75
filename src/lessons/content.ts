@@ -2,6 +2,15 @@ import type { LessonMetadata } from '../../shared/lessons';
 export type LessonContent = Pick<LessonMetadata, 'objective' | 'steps' | 'inspect' | 'challenge'>;
 // Only implemented lessons belong here; reserved IDs are not completed labs.
 export const content: Readonly<Record<number, LessonContent>> = Object.freeze({
+  72: {
+    objective: 'Generate a deterministic Word document from a closed specification and independently inspect the package and immutable skill bundle.',
+    steps: ['Build an incident report and inspect the two progressive reference reads.',
+      'Compare an ordinary document with the incident contract.',
+      'Run invalid spec, placeholder and skill tamper scenarios and inspect rejection.',
+      'Probe command policy and download only verified documents for visual review.'],
+    inspect: ['shared/lab72-document-generation-skills.ts', 'server/lib/lab72-docgen.ts', 'server/concepts/72-document-generation-skills.ts'],
+    challenge: 'Explain why a valid OOXML package does not prove factual correctness or good pagination in Word.',
+  },
   71: {
     objective: 'Build a sales analysis from scoped CSV data, executable calculations and ledger-cited reports and charts.',
     steps: ['Create a session and compare raw/clean profiles, duplicate removal and per-product IQR fences.',

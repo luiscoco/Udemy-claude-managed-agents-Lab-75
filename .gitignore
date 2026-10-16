@@ -110,3 +110,5 @@ artifacts/lab70/
 **/__pycache__/
 *.pyc
 artifacts/lab71/
+artifacts/lab72/
+docgen-lab/

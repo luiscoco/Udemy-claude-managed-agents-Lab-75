@@ -1755,3 +1755,11 @@ node scripts/lab71-browser-demonstration.mjs
 ```
 
 Independent private checkpoint: [Udemy-claude-managed-agents-Lab-71](https://github.com/luiscoco/Udemy-claude-managed-agents-Lab-71).
+
+## Lab 72: How it was built, step by step
+
+1. Authored the atmira-docx skill with progressive references, brand assets and a strict JSON document format.
+2. Built a dependency-free deterministic OOXML writer with native Word styles, tables, list restarts, classification and page footer.
+3. Added three closed host tools, per-run skill copies and hash checks, fixed no-shell execution and independent ZIP/document inspection.
+4. Added incident, ordinary, injection, invalid-spec, placeholder and tamper exercises, owner-scoped opaque downloads and command policy probes.
+5. Tested deterministic bytes and failure gates, opened both sample documents read-only in Word and inspected exported page images. Cloud upload and model execution remain explicit separate setup.

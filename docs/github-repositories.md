@@ -82,3 +82,4 @@ finish the user's requested lesson workflow.
 | 69 | [Desktop and IDE host integration](https://github.com/luiscoco/Udemy-claude-managed-agents-Lab-69) | Private |
 | 70 | [Python client for Managed Agents](https://github.com/luiscoco/Udemy-claude-managed-agents-Lab-70) | Private |
 | 71 | [A data analysis agent](https://github.com/luiscoco/Udemy-claude-managed-agents-Lab-71) | Private |
+| 72 | [Document generation with Skills](https://github.com/luiscoco/Udemy-claude-managed-agents-Lab-72) | Private |

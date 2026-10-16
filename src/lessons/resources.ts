@@ -32,6 +32,9 @@ export const sources = { ...standardSources, ...catalogFromGlob(import.meta.glob
   '/extensions/lab69/src/extension.ts', '/extensions/lab69/package.json',
   '/python/lab70/worker.py', '/python/lab70/requirements.txt',
   '/fixtures/lab71/sales.csv',
+  '/docgen-skills/atmira-docx/SKILL.md', '/docgen-skills/atmira-docx/reference/spec-format.md',
+  '/docgen-skills/atmira-docx/reference/incident-report.md', '/docgen-skills/atmira-docx/assets/brand.json',
+  '/docgen-skills/atmira-docx/scripts/build-docx.mjs',
 ], { query: '?raw', import: 'default' })) };
 export { loadText, mainSources };
 export async function loadGuide(id: number): Promise<string> {

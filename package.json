@@ -31,7 +31,9 @@
     "test:lesson-guides": "node --import tsx --test tests/lesson-guides.test.ts",
     "audit:lesson-guides": "node --import tsx scripts/audit-lesson-guides.ts",
     "skills:check": "node --env-file-if-exists=.env --import tsx scripts/lab11-skills-setup.ts check",
-    "skills:upload": "node --env-file-if-exists=.env --import tsx scripts/lab11-skills-setup.ts upload"
+    "skills:upload": "node --env-file-if-exists=.env --import tsx scripts/lab11-skills-setup.ts upload",
+    "test:docgen": "node --import tsx --test tests/lab72-document-generation-skills.test.ts",
+    "docgen:package": "node scripts/lab72-skill-package.mjs"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "0.133.0",
