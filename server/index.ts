@@ -18,6 +18,7 @@ if (!Number.isInteger(port) || port < 1024 || port > 65535) throw new Error('Inv
 const server = app.listen(port, '127.0.0.1', () => {
   console.info(`Backend ready at http://127.0.0.1:${port}`);
 });
+for (const lesson of concepts) lesson.attach?.(server);
 server.requestTimeout = 10_000;
 server.headersTimeout = 10_000;
 server.on('error', (error) => { console.error(error.message); process.exitCode = 1; });

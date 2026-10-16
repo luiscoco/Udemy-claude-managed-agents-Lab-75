@@ -2,6 +2,15 @@ import type { LessonMetadata } from '../../shared/lessons';
 export type LessonContent = Pick<LessonMetadata, 'objective' | 'steps' | 'inspect' | 'challenge'>;
 // Only implemented lessons belong here; reserved IDs are not completed labs.
 export const content: Readonly<Record<number, LessonContent>> = Object.freeze({
+  66: {
+    objective: 'Stream a bounded offline or explicitly started Managed turn over authenticated local WebSocket, with replay after reconnect.',
+    steps: ['Start a guided run, send one message and inspect ordered chunks and the terminal event.',
+      'Disconnect midstream, reconnect with the same start command and replay from the last sequence.',
+      'Repeat a message command and confirm it does not start a second turn.',
+      'Cancel a fresh run and compare transport close with host run cancellation.'],
+    inspect: ['shared/lab66-realtime-websocket.ts', 'server/concepts/66-realtime-websocket.ts', 'server/index.ts'],
+    challenge: 'Reconnect after a terminal frame and show the same run ID and sequence without another accepted message.',
+  },
   65: {
     objective: 'Bind a fictional case archive to one trusted reviewer decision after an immutable proposal and local notification.',
     steps: ['Preview a closed-schema custom-tool proposal; inspect its event ID and separate business key.',

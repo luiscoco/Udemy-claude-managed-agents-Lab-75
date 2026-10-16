@@ -135,8 +135,11 @@ import { lab64Lesson } from '../../shared/lab64-browser-playwright-mcp.js';
 import { createLab64Router } from './64-browser-playwright-mcp.js';
 import { lab65Lesson } from '../../shared/lab65-human-approval.js';
 import { createLab65Router } from './65-human-approval.js';
+import { lab66Lesson } from '../../shared/lab66-realtime-websocket.js';
+import { createLab66Router } from './66-realtime-websocket.js';
 
-export type ConceptRecord = LessonMetadata & { router: Router; close?: () => Promise<void> };
+export type ConceptRecord = LessonMetadata & { router: Router; close?: () => Promise<void>;
+  attach?: (server: import('node:http').Server) => void };
 export function registerConcepts(): readonly ConceptRecord[] {
   const lab01 = createLab01Router();
   const lab02 = createLab02Router();
@@ -201,6 +204,7 @@ export function registerConcepts(): readonly ConceptRecord[] {
   const lab63 = createLab63Router();
   const lab64 = createLab64Router();
   const lab65 = createLab65Router();
+  const lab66 = createLab66Router();
   const lab14 = createLab14Router();
   const lab13 = createLab13Router();
   const entries: ConceptRecord[] = [
@@ -269,7 +273,8 @@ export function registerConcepts(): readonly ConceptRecord[] {
     { ...lab63Lesson, ...content[lab63Lesson.id]!, router: lab63.router, close: lab63.close },
     { ...lab64Lesson, ...content[lab64Lesson.id]!, router: lab64.router, close: lab64.close },
     { ...lab65Lesson, ...content[lab65Lesson.id]!, router: lab65.router, close: lab65.close },
+    { ...lab66Lesson, ...content[lab66Lesson.id]!, router: lab66.router, close: lab66.close, attach: lab66.attach },
   ];
-  validateLessonRegistry(entries.map(({ router: _router, close: _close, ...metadata }) => metadata));
+  validateLessonRegistry(entries.map(({ router: _router, close: _close, attach: _attach, ...metadata }) => metadata));
   return entries;
 }

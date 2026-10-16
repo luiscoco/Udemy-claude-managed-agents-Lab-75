@@ -1647,3 +1647,21 @@ node scripts/lab65-browser-demonstration.mjs
 ```
 
 Independent private checkpoint: [Udemy-claude-managed-agents-Lab-65](https://github.com/luiscoco/Udemy-claude-managed-agents-Lab-65).
+
+### Lab 66: How it was built, step by step
+
+1. Attached a same-origin, cookie-authenticated WebSocket upgrade route to the existing HTTP server and registered the [learner guide](Tab66-realtime-websocket.md).
+2. Added closed start/message/cancel/ack commands, sequenced events, 64-frame replay and bounds on payload, connections and buffered output. A reconnect repeats the start command without creating another run.
+3. Streamed an authored offline custom-tool reply over a real socket. Explicit live mode reuses the Lab 01 Managed event consumer and cleanup port; no live run starts during setup or tests.
+4. Added focused and browser tests for authorization, order, duplicates, replay, cancellation and shutdown. The [checkpoint](docs/lab66-checkpoint.md) records verification and limits.
+
+```powershell
+node --import tsx --test tests/lab66-realtime-websocket.test.ts
+npm run typecheck
+npm run audit:lesson-guides
+npm run test:lesson-guides
+npm run build
+node scripts/lab66-browser-demonstration.mjs
+```
+
+Independent private checkpoint: [Udemy-claude-managed-agents-Lab-66](https://github.com/luiscoco/Udemy-claude-managed-agents-Lab-66).
