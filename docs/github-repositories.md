@@ -73,3 +73,4 @@ finish the user's requested lesson workflow.
 | 60 | [Durable long running agents](https://github.com/luiscoco/Udemy-claude-managed-agents-Lab-60) | Private |
 | 61 | [Exposing an agent as an MCP server](https://github.com/luiscoco/Udemy-claude-managed-agents-Lab-61) | Private |
 | 62 | [Retrieval RAG through custom tools](https://github.com/luiscoco/Udemy-claude-managed-agents-Lab-62) | Private |
+| 63 | [A safe database agent](https://github.com/luiscoco/Udemy-claude-managed-agents-Lab-63) | Private |

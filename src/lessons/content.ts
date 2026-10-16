@@ -2,6 +2,16 @@ import type { LessonMetadata } from '../../shared/lessons';
 export type LessonContent = Pick<LessonMetadata, 'objective' | 'steps' | 'inspect' | 'challenge'>;
 // Only implemented lessons belong here; reserved IDs are not completed labs.
 export const content: Readonly<Record<number, LessonContent>> = Object.freeze({
+  63: {
+    objective: 'Read tenant-scoped orders through fixed queries and let a separate human endpoint commit one checked cancellation.',
+    steps: ['Create a disposable SQLite session and inspect query-only state.',
+      'Read the host tenant order, propose cancellation and confirm no order row changed.',
+      'Approve or reject through the human endpoint and inspect changed-row and audit evidence.',
+      'Repeat with changed row version, expired proposal, foreign tenant and arbitrary SQL fixtures.'],
+    inspect: ['shared/lab63-safe-database-agent.ts', 'server/database/lab63.ts',
+      'server/concepts/63-safe-database-agent.ts'],
+    challenge: 'Change the order version after proposal and show why the checked UPDATE rolls back rather than cancelling it.',
+  },
   62: {
     objective: 'Retrieve tenant-filtered current policy chunks and verify answer citations against the exact returned set.',
     steps: ['Search current Acme policy and compare stable heading IDs with archived and foreign documents.',

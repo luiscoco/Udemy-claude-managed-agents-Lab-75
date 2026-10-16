@@ -1,0 +1,7 @@
+# Lab 63 checkpoint
+
+Each offline session creates a disposable `node:sqlite` database with two tenant orders. Fixed parameterized reads include the host-selected tenant; agent tools can read or propose cancellation but cannot execute arbitrary SQL or commit the order. A proposal captures the row version, five-minute expiry, stable effect key and audit entry. A separate human decision uses `BEGIN IMMEDIATE` and a tenant/status/version-checked UPDATE that must change exactly one row. Rejected, stale and expired proposals change zero order rows; decided proposals reject replay. Both connections report query-only outside host-controlled writes.
+
+Verification: four focused tests, typecheck, guide audit through Lab 63, four guide tests, production build, desktop/mobile browser demonstration and all nine focused browser/shell tests passed. The distribution scan passed across 2,579 files. An initial browser demonstration exceeded the backend readiness window before reaching the UI; the window was widened and the rerun passed. The full cumulative offline suite was not rerun after the Lab 57 Git-fixture stall; see [Lab 57 checkpoint](lab57-checkpoint.md).
+
+Limitations: this is a local SQLite fixture, not a production database or a live Managed session. The Zod-derived custom-tool facade and `sevt_` result shape are tested offline. No payment, email, provisioning, provider request, arbitrary SQL execution or caller-selected workspace occurred.
