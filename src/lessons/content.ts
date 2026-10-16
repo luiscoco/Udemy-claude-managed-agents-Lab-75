@@ -2,6 +2,16 @@ import type { LessonMetadata } from '../../shared/lessons';
 export type LessonContent = Pick<LessonMetadata, 'objective' | 'steps' | 'inspect' | 'challenge'>;
 // Only implemented lessons belong here; reserved IDs are not completed labs.
 export const content: Readonly<Record<number, LessonContent>> = Object.freeze({
+  55: {
+    objective: 'Rehearse SDK and Managed API compatibility gates, canary, promotion and rollback without changing the locked teaching app.',
+    steps: ['Inspect the installed 0.133.0 baseline and separate npm, API and pinned resource identities.',
+      'Analyze each candidate fixture and identify which server check blocks it.',
+      'Run the compatible fixture through authored canary, promotion and host-code rollback.',
+      'Observe that a client eligible hint grants nothing and rollback cannot rewind remote sessions.'],
+    inspect: ['shared/lab55-upgrading-sdk.ts', 'server/upgrades/lab55.ts', 'server/concepts/55-upgrading-sdk.ts',
+      'server/lib/session-events.ts'],
+    challenge: 'Make one candidate fixture lose a required event type and explain why a version bump alone cannot authorize promotion.',
+  },
   54: {
     objective: 'Compare vague and explicit Managed custom-tool contracts while keeping refund policy and idempotency in the host handler.',
     steps: ['Inspect both tool names, descriptions, Zod-derived schemas and linter findings.',
