@@ -2,6 +2,16 @@ import type { LessonMetadata } from '../../shared/lessons';
 export type LessonContent = Pick<LessonMetadata, 'objective' | 'steps' | 'inspect' | 'challenge'>;
 // Only implemented lessons belong here; reserved IDs are not completed labs.
 export const content: Readonly<Record<number, LessonContent>> = Object.freeze({
+  70: {
+    objective: 'Compare the Managed session protocol through an isolated Python worker and the TypeScript host bridge.',
+    steps: ['Check selected interpreter readiness without installing packages or contacting Anthropic.',
+      'Run one-shot and retained offline turns, then close the confirmed-idle handle.',
+      'Run the host custom-tool round trip and inspect its sevt_ correlation.',
+      'Compare malformed stdout, bounded stderr, missing Python and cancellation with cleanup evidence.'],
+    inspect: ['shared/lab70-python-sdk.ts', 'server/lib/lab70-python.ts', 'server/concepts/70-python-sdk.ts',
+      'python/lab70/worker.py', 'python/lab70/requirements.txt'],
+    challenge: 'Terminate a worker and explain why process exit cannot prove a remote Managed session has stopped.',
+  },
   69: {
     objective: 'Supply explicit document context from a trusted host and apply a reviewed patch only when version and hash still match.',
     steps: ['Start a guided review and inspect preview events and the proposed replacement before applying.',

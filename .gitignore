@@ -106,3 +106,6 @@ artifacts/lab67/
 artifacts/lab68/
 artifacts/lab69/
 extensions/lab69/dist/
+artifacts/lab70/
+**/__pycache__/
+*.pyc

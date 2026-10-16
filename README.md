@@ -1719,3 +1719,21 @@ node scripts/lab69-browser-demonstration.mjs
 ```
 
 Independent private checkpoint: [Udemy-claude-managed-agents-Lab-69](https://github.com/luiscoco/Udemy-claude-managed-agents-Lab-69).
+
+### Lab 70: How it was built, step by step
+
+1. Registered a Python-client comparison exercise and [learner guide](Tab70-python-sdk.md), with an independent `anthropic==1.7.0` requirement verified from the installed official package surface.
+2. Added a fixed-argument isolated Python worker and a narrow Node bridge with bounded JSON-lines output and diagnostics. Readiness never installs packages or calls a provider.
+3. Implemented one-shot and retained session flows, Node-hosted custom-tool results, graceful cancellation and explicit cleanup evidence. Owner-scoped handles prevent caller-selected remote session IDs.
+4. Tested real offline worker processes, malformed output, stderr bounds and retained ownership. The [checkpoint](docs/lab70-checkpoint.md) records that live mode awaits explicit venv setup and was not tested against the provider.
+
+```powershell
+node --import tsx --test tests/lab70-python-sdk.test.ts
+npm run typecheck
+npm run audit:lesson-guides
+npm run test:lesson-guides
+npm run build
+node scripts/lab70-browser-demonstration.mjs
+```
+
+Independent private checkpoint: [Udemy-claude-managed-agents-Lab-70](https://github.com/luiscoco/Udemy-claude-managed-agents-Lab-70).

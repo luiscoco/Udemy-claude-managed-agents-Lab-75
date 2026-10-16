@@ -1,0 +1,2 @@
+# Independently verified Python pin; npm uses @anthropic-ai/sdk 0.133.0.
+anthropic==1.7.0
