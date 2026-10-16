@@ -2,6 +2,16 @@ import type { LessonMetadata } from '../../shared/lessons';
 export type LessonContent = Pick<LessonMetadata, 'objective' | 'steps' | 'inspect' | 'challenge'>;
 // Only implemented lessons belong here; reserved IDs are not completed labs.
 export const content: Readonly<Record<number, LessonContent>> = Object.freeze({
+  61: {
+    objective: 'Expose a typed fictional support/refund review through a bearer-protected local MCP transport.',
+    steps: ['Run the local client and compare transport request, MCP session and agent session IDs.',
+      'Inspect one listed closed-schema tool, progress events and validated structured output.',
+      'Try timeout, cancellation and concurrent calls; then compare foreign-session and unauthorized tests.',
+      'Confirm the bearer token and tenant/customer mapping stay on the host.'],
+    inspect: ['shared/lab61-agent-mcp-server.ts', 'server/mcp-agent/lab61.ts',
+      'server/mcp-agent/lab61-client.ts', 'server/concepts/61-agent-as-mcp-server.ts'],
+    challenge: 'Send a valid MCP session ID with a different bearer identity and explain why authentication precedes lookup.',
+  },
   60: {
     objective: 'Recover a fictional refund batch from atomic host journals and a stable idempotent ledger.',
     steps: ['Read the eight-item 30-day, 200 EUR, unused-item policy and Zod-derived host tool definitions.',

@@ -1,0 +1,7 @@
+# Lab 61 checkpoint
+
+A bearer-protected local MCP endpoint implements a narrow 2025-11-25 sessionful Streamable HTTP JSON/SSE contract. Authentication precedes decoding and session lookup. Host-issued bearer identities bind tenant/customer context, four MCP client sessions are allowed, and one call may run per session. The local client lists a closed-schema support/refund review tool, observes progress, validates structured output, and exercises timeout, cancellation and concurrent-call rejection. Transport request IDs, MCP session IDs, `sevt_` custom-tool IDs and fictional agent-session IDs remain distinct.
+
+Verification: four focused tests, typecheck, guide audit through Lab 61, four guide tests, production build, desktop/mobile browser demonstration and all nine focused browser/shell tests passed. The distribution scan passed across 2,545 files. Focused tests and typecheck passed again after origin and malformed-JSON handling were tightened. The full cumulative offline suite was not rerun after the Lab 57 Git-fixture stall; see [Lab 57 checkpoint](lab57-checkpoint.md).
+
+Limitations: this is an application-authored 2025-11-25 transport subset, not a general MCP SDK server or the 2026-07-28 stateless protocol. The review output is an offline host fixture, not observed Managed agent text. The Managed custom-tool facade is validated but no live Managed session invokes it. No payment, email, provisioning or billed provider request occurred. A production MCP service would need broader protocol conformance and operational authentication controls.
