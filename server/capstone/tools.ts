@@ -2,7 +2,7 @@ import { readFileSync } from 'node:fs';
 import { randomUUID } from 'node:crypto';
 import { z } from 'zod';
 import { CapstoneError, CapstoneStore, cleanNote } from './store.js';
-import type { CustomerId } from './store.js';
+import type { CustomerId, Order } from './store.js';
 
 export const capstoneToolShapes = {
   list_orders: z.strictObject({}),
@@ -30,6 +30,9 @@ export interface CapstoneToolCall { id: string; name: string; input: unknown }
 export interface CapstoneToolResult { type: 'user.custom_tool_result'; custom_tool_use_id: string; content: [{ type: 'text'; text: string }]; is_error: boolean }
 const result = (id: string, value: unknown, isError = false): CapstoneToolResult => ({
   type: 'user.custom_tool_result', custom_tool_use_id: id, content: [{ type: 'text', text: JSON.stringify(value).slice(0, 3000) }], is_error: isError });
+export function eligibleDamageRefund(order: Order, now: number, windowDays = 30) {
+  return order.damaged && now - Date.parse(`${order.purchasedAt}T00:00:00Z`) <= windowDays * 86400000;
+}
 export function handleCapstoneTool(store: CapstoneStore, context: CapstoneToolContext, call: CapstoneToolCall): CapstoneToolResult {
   if (!/^sevt_[A-Za-z0-9_-]{1,80}$/.test(call.id)) throw new CapstoneError(400, 'Invalid custom-tool event ID.');
   const name = call.name as CapstoneToolName;
@@ -52,7 +55,7 @@ export function handleCapstoneTool(store: CapstoneStore, context: CapstoneToolCo
       store.tickets.set(ticket.id, ticket); store.audit(context.customerId, 'ticket-created', ticket.id); return result(call.id, ticket); }
     const input = capstoneToolShapes.propose_refund.parse(call.input);
     const order = store.order(context.customerId, input.orderId);
-    if (!order.damaged || store.clock() - Date.parse(`${order.purchasedAt}T00:00:00Z`) > 30 * 86400000)
+    if (!eligibleDamageRefund(order, store.clock()))
       throw new CapstoneError(422, 'Damaged-item refund policy does not cover this order.');
     if (input.amountCents > store.remaining(order.id)) throw new CapstoneError(422, 'Refund exceeds the remaining paid amount.');
     const actionKey = store.actionKey(conversation.id, order.id, input.amountCents);

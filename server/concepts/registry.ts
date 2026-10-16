@@ -105,6 +105,8 @@ import { lab49Lesson } from '../../shared/lab49-deploy-ci-headless.js';
 import { createLab49Router } from './49-deploy-ci-headless.js';
 import { lab50Lesson } from '../../shared/lab50-capstone.js';
 import { createLab50Router } from './50-capstone.js';
+import { lab51Lesson } from '../../shared/lab51-unit-testing.js';
+import { createLab51Router } from './51-unit-testing.js';
 
 export type ConceptRecord = LessonMetadata & { router: Router; close?: () => Promise<void> };
 export function registerConcepts(): readonly ConceptRecord[] {
@@ -156,6 +158,7 @@ export function registerConcepts(): readonly ConceptRecord[] {
   const lab48 = createLab48Router();
   const lab49 = createLab49Router();
   const lab50 = createLab50Router();
+  const lab51 = createLab51Router();
   const lab14 = createLab14Router();
   const lab13 = createLab13Router();
   const entries: ConceptRecord[] = [
@@ -209,6 +212,7 @@ export function registerConcepts(): readonly ConceptRecord[] {
     { ...lab48Lesson, ...content[lab48Lesson.id]!, router: lab48.router, close: lab48.close },
     { ...lab49Lesson, ...content[lab49Lesson.id]!, router: lab49.router, close: lab49.close },
     { ...lab50Lesson, ...content[lab50Lesson.id]!, router: lab50.router, close: lab50.close },
+    { ...lab51Lesson, ...content[lab51Lesson.id]!, router: lab51.router, close: lab51.close },
   ];
   validateLessonRegistry(entries.map(({ router: _router, close: _close, ...metadata }) => metadata));
   return entries;

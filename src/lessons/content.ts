@@ -2,6 +2,16 @@ import type { LessonMetadata } from '../../shared/lessons';
 export type LessonContent = Pick<LessonMetadata, 'objective' | 'steps' | 'inspect' | 'challenge'>;
 // Only implemented lessons belong here; reserved IDs are not completed labs.
 export const content: Readonly<Record<number, LessonContent>> = Object.freeze({
+  51: {
+    objective: 'Verify the real Acme Support Desk host logic and event consumption without a provider request.',
+    steps: ['Run the full offline suite and inspect the handler and ledger assertions.',
+      'Run malformed input, foreign-order, denial and cancellation cases individually.',
+      'Replay child-thread, duplicate and missing-terminal events through the shared consumer.',
+      'Run the virtual-time policy mutation and identify the expected failed assertion.'],
+    inspect: ['shared/lab51-unit-testing.ts', 'server/unit-testing/lab51.ts', 'server/concepts/51-unit-testing.ts',
+      'server/capstone/store.ts', 'server/capstone/tools.ts', 'server/capstone/desk.ts', 'server/lib/session-events.ts'],
+    challenge: 'Enable the 60-day mutation and explain why the 30-day policy assertion fails for the same order and clock.',
+  },
   50: {
     objective: 'Resolve fictional support cases through customer-owned tools, retained sessions, trusted host review and a verified refund ledger.',
     steps: ['Select C-1 and inspect its orders, then ask for a partial damaged-item refund.',
