@@ -62,3 +62,4 @@ finish the user's requested lesson workflow.
 | 49 | [Headless host and CI outcomes](https://github.com/luiscoco/Udemy-claude-managed-agents-Lab-49) | Private |
 | 50 | [Full stack capstone](https://github.com/luiscoco/Udemy-claude-managed-agents-Lab-50) | Private |
 | 51 | [Testing the Managed host offline](https://github.com/luiscoco/Udemy-claude-managed-agents-Lab-51) | Private |
+| 52 | [Evals, judges and regression baselines](https://github.com/luiscoco/Udemy-claude-managed-agents-Lab-52) | Private |

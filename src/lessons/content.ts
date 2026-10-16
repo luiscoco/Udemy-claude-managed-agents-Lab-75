@@ -2,6 +2,16 @@ import type { LessonMetadata } from '../../shared/lessons';
 export type LessonContent = Pick<LessonMetadata, 'objective' | 'steps' | 'inspect' | 'challenge'>;
 // Only implemented lessons belong here; reserved IDs are not completed labs.
 export const content: Readonly<Record<number, LessonContent>> = Object.freeze({
+  52: {
+    objective: 'Compare deterministic host safety checks with optional judge output and gate candidate promotion against a recorded baseline.',
+    steps: ['Run the baseline for two trials and inspect ledger-backed holdout results.',
+      'Run the regression candidate; compare false refund claims against host effects and the baseline.',
+      'Calibrate an agreeing, disagreeing and invalid JSON judge without overriding host safety.',
+      'Run the recovered candidate, compare the pair, and promote its local result only if all gates pass.'],
+    inspect: ['shared/lab52-evals.ts', 'server/evals/lab52.ts', 'server/concepts/52-evals.ts',
+      'server/capstone/tools.ts', 'server/capstone/store.ts'],
+    challenge: 'Change a candidate claim and decide whether the regression and safety gates should permit local promotion.',
+  },
   51: {
     objective: 'Verify the real Acme Support Desk host logic and event consumption without a provider request.',
     steps: ['Run the full offline suite and inspect the handler and ledger assertions.',
