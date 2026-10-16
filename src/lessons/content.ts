@@ -2,6 +2,15 @@ import type { LessonMetadata } from '../../shared/lessons';
 export type LessonContent = Pick<LessonMetadata, 'objective' | 'steps' | 'inspect' | 'challenge'>;
 // Only implemented lessons belong here; reserved IDs are not completed labs.
 export const content: Readonly<Record<number, LessonContent>> = Object.freeze({
+  60: {
+    objective: 'Recover a fictional refund batch from atomic host journals and a stable idempotent ledger.',
+    steps: ['Read the eight-item 30-day, 200 EUR, unused-item policy and Zod-derived host tool definitions.',
+      'Crash after effect 3 and compare three ledger effects with only two journaled keys.',
+      'Recover separate jobs with naive, journal-only and journal-plus-idempotency strategies; compare duplicates.',
+      'Run lease-loss and no-progress cases and inspect bounded supervisor failure.'],
+    inspect: ['shared/lab60-durable-agents.ts', 'server/durable/lab60.ts', 'server/concepts/60-durable-agents.ts'],
+    challenge: 'Explain why the third effect can exist in the ledger without a journal entry and which stable key suppresses it.',
+  },
   59: {
     objective: 'Compare seven routing strategies on 13 tasks using independent answer keys and full attempt accounting.',
     steps: ['Inspect the 13 tasks, illustrative model/effort configurations and independent key boundary.',

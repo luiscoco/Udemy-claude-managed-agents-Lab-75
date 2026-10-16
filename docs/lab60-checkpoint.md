@@ -1,0 +1,7 @@
+# Lab 60 checkpoint
+
+An eight-item fictional refund batch uses a 30-day, 200 EUR, unused-item host policy. The host writes a journal and ledger through temporary files and atomic rename, derives stable effect keys separately from `sevt_` tool-event IDs, and bounds each owner to eight jobs. A crash after effect 3 leaves three ledger effects but two journaled keys. Naive restart creates three duplicate effects, journal-only one, and journal plus idempotency zero. Lease loss and no-progress stop the supervisor.
+
+Verification: four focused tests, typecheck, guide audit through Lab 60, four guide tests, production build, desktop/mobile browser demonstration and all nine focused browser/shell tests passed. The distribution scan passed across 2,526 files. A Windows file-lock race initially blocked journal replacement in the browser; bounded atomic-rename retries fixed it and the browser and focused tests passed afterward. The full cumulative offline suite was not rerun after the Lab 57 Git-fixture stall; see [Lab 57 checkpoint](lab57-checkpoint.md).
+
+Limitations: the ledger is fictional and local. No real payment, email, Managed session, provisioning or billed run occurred. The offline custom-tool handler demonstrates closed inputs and event-ID response shape, but a live tool session is not configured. A real payment system would need provider-side idempotency and reconciliation across uncertain sends; a transcript is not durable business state.

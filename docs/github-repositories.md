@@ -70,3 +70,4 @@ finish the user's requested lesson workflow.
 | 57 | [Workers in host Git worktrees](https://github.com/luiscoco/Udemy-claude-managed-agents-Lab-57) | Private |
 | 58 | [Tool catalogs and bounded discovery](https://github.com/luiscoco/Udemy-claude-managed-agents-Lab-58) | Private |
 | 59 | [Routing with verified outcomes](https://github.com/luiscoco/Udemy-claude-managed-agents-Lab-59) | Private |
+| 60 | [Durable long running agents](https://github.com/luiscoco/Udemy-claude-managed-agents-Lab-60) | Private |
