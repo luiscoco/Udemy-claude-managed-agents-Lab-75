@@ -64,3 +64,4 @@ finish the user's requested lesson workflow.
 | 51 | [Testing the Managed host offline](https://github.com/luiscoco/Udemy-claude-managed-agents-Lab-51) | Private |
 | 52 | [Evals, judges and regression baselines](https://github.com/luiscoco/Udemy-claude-managed-agents-Lab-52) | Private |
 | 53 | [Debugging session and host traces](https://github.com/luiscoco/Udemy-claude-managed-agents-Lab-53) | Private |
+| 54 | [Designing tools the model uses well](https://github.com/luiscoco/Udemy-claude-managed-agents-Lab-54) | Private |

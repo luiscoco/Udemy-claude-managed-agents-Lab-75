@@ -2,6 +2,16 @@ import type { LessonMetadata } from '../../shared/lessons';
 export type LessonContent = Pick<LessonMetadata, 'objective' | 'steps' | 'inspect' | 'challenge'>;
 // Only implemented lessons belong here; reserved IDs are not completed labs.
 export const content: Readonly<Record<number, LessonContent>> = Object.freeze({
+  54: {
+    objective: 'Compare vague and explicit Managed custom-tool contracts while keeping refund policy and idempotency in the host handler.',
+    steps: ['Inspect both tool names, descriptions, Zod-derived schemas and linter findings.',
+      'Run invalid input, domain rejection and missing prerequisite cases; check that no refund is issued.',
+      'Run the idempotent action and distinguish sevt_ correlation from a stable business action key.',
+      'Compare scripted choice and recovery traces without treating them as live model measurements.'],
+    inspect: ['shared/lab54-tool-design.ts', 'server/tool-design/lab54.ts', 'server/concepts/54-tool-design.ts',
+      'server/capstone/tools.ts', 'server/capstone/store.ts'],
+    challenge: 'Improve one vague field name or error message and predict how the linter and host effects should differ.',
+  },
   53: {
     objective: 'Reproduce a session or host failure and identify its first useful redacted event, decision or effect.',
     steps: ['Run the valid control and compare the host refund ledger with replayed event outcome.',

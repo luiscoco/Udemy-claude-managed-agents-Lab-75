@@ -1,0 +1,7 @@
+# Lab 54 checkpoint
+
+The tool-design workshop compares vague and explicit Managed custom-tool names, descriptions and Zod-generated closed schemas. Its host metadata records financial risk, pending-review effect and business-key idempotency separately from the installed SDK tool type. Scripted choice/recovery traces call the real Acme Support Desk `propose_refund` handler and record one `user.custom_tool_result` per `sevt_` use ID. Invalid input, undamaged orders and missing conversations have no approval or refund effect. The correct action reuses a stable business key for a pending approval, then one trusted review creates one refund; later replay is denied.
+
+Verification: four focused tests and all 387 cumulative offline tests passed. Typecheck, production build, guide audit through Lab 54, four guide tests, nine browser tests and desktop/mobile browser demonstration passed. The distribution scan passed across 2,030 files. Screenshots and logs are in ignored `artifacts/lab54/`.
+
+Limitations: choice and recovery traces are authored, not observed model behavior. No live choice frequency, success score, model usage, provider cost or Managed request is claimed. The installed SDK's custom-tool type supports name, description and input schema but has no native annotation field; risk and effect notes remain host-side. Tool descriptions do not authorize an effect; the handler and reviewer do.

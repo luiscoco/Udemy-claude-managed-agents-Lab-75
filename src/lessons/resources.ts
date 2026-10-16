@@ -6,7 +6,7 @@ export const guides = catalogFromGlob(import.meta.glob<string>('/Tab*.md', { que
 // tests, credentials, private config, logs or browser/live-check scripts.
 const standardSources = catalogFromGlob(import.meta.glob<string>([
   '/server/index.ts', '/server/sse.ts', '/server/concepts/*.ts', '/server/concepts/*.mjs',
-  '/server/lib/*.ts', '/server/routes/*.ts', '/server/capstone/*.ts', '/server/unit-testing/*.ts', '/server/evals/*.ts', '/server/debugging/*.ts',
+  '/server/lib/*.ts', '/server/routes/*.ts', '/server/capstone/*.ts', '/server/unit-testing/*.ts', '/server/evals/*.ts', '/server/debugging/*.ts', '/server/tool-design/*.ts',
   '/src/concepts/*.tsx', '/src/concepts/*.ts', '/src/components/*.tsx', '/src/lib/*.ts',
   '/shared/contracts.ts', '/shared/health.ts', '/shared/lessons.ts', '/shared/lab[0-9][0-9]-*.ts',
   '/mcp-servers/*.ts', '/mcp-servers/*.mjs',
