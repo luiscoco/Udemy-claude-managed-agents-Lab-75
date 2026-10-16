@@ -2,6 +2,16 @@ import type { LessonMetadata } from '../../shared/lessons';
 export type LessonContent = Pick<LessonMetadata, 'objective' | 'steps' | 'inspect' | 'challenge'>;
 // Only implemented lessons belong here; reserved IDs are not completed labs.
 export const content: Readonly<Record<number, LessonContent>> = Object.freeze({
+  48: {
+    objective: 'Use host-enforced tool input, path and egress checks to distinguish hostile attempts from observed local effects.',
+    steps: ['Compare a naive prompt-only policy with layered host enforcement.',
+      'Try a fake secret read and inspect whether the canary is exposed.',
+      'Try an out-of-scope write and inspect the outside-file state.',
+      'Try injected egress and inspect the loopback collector hit count.',
+      'Compare the custom-tool event ID with the separate business idempotency key.'],
+    inspect: ['shared/lab48-security-hardening.ts', 'server/lib/lab48-security-range.ts', 'server/concepts/48-security-hardening.ts'],
+    challenge: 'Identify the host check that protects data when the model is misled.',
+  },
   47: {
     objective: 'Compare native Managed worker threads with a host pipeline of independent sessions using closed reports and verified sales fixtures.',
     steps: ['Choose a native or host orchestration route and inspect session versus thread identity.',

@@ -99,6 +99,8 @@ import { lab46Lesson } from '../../shared/lab46-prompt-caching.js';
 import { createLab46Router } from './46-prompt-caching.js';
 import { lab47Lesson } from '../../shared/lab47-multi-agent.js';
 import { createLab47Router } from './47-multi-agent.js';
+import { lab48Lesson } from '../../shared/lab48-security-hardening.js';
+import { createLab48Router } from './48-security-hardening.js';
 
 export type ConceptRecord = LessonMetadata & { router: Router; close?: () => Promise<void> };
 export function registerConcepts(): readonly ConceptRecord[] {
@@ -147,6 +149,7 @@ export function registerConcepts(): readonly ConceptRecord[] {
   const lab45 = createLab45Router();
   const lab46 = createLab46Router();
   const lab47 = createLab47Router();
+  const lab48 = createLab48Router();
   const lab14 = createLab14Router();
   const lab13 = createLab13Router();
   const entries: ConceptRecord[] = [
@@ -197,6 +200,7 @@ export function registerConcepts(): readonly ConceptRecord[] {
     { ...lab45Lesson, ...content[lab45Lesson.id]!, router: lab45.router, close: lab45.close },
     { ...lab46Lesson, ...content[lab46Lesson.id]!, router: lab46.router, close: lab46.close },
     { ...lab47Lesson, ...content[lab47Lesson.id]!, router: lab47.router, close: lab47.close },
+    { ...lab48Lesson, ...content[lab48Lesson.id]!, router: lab48.router, close: lab48.close },
   ];
   validateLessonRegistry(entries.map(({ router: _router, close: _close, ...metadata }) => metadata));
   return entries;
