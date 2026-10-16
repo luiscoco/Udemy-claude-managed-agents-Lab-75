@@ -19,6 +19,7 @@
     "test": "npm run test:offline",
     "test:offline": "node --import tsx --test --test-concurrency=1 tests/*.test.ts",
     "test:capstone": "node --import tsx --test tests/lab50-capstone-domain.test.ts tests/lab50-capstone-agent.test.ts",
+    "test:analysis": "node --import tsx --test tests/lab71-data-analysis-agent.test.ts",
     "capstone:check": "node --env-file-if-exists=.env --import tsx scripts/lab50-setup.ts check",
     "capstone:provision": "node --env-file-if-exists=.env --import tsx scripts/lab50-setup.ts provision",
     "test:browser": "node scripts/run-browser-tests.mjs",

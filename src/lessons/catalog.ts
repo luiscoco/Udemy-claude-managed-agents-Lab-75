@@ -15,7 +15,8 @@ export function mainSources(catalog: TextCatalog, id: number): string[] {
     new RegExp(`^src/concepts/Concept${padded}(?:[A-Z_-]|\\.)`).test(path)
     || new RegExp(`^server/concepts/${padded}(?:[-_.])`).test(path)
     || id === 69 && /^extensions\/lab69\/(src\/extension\.ts|package\.json)$/.test(path)
-    || id === 70 && /^python\/lab70\/(worker\.py|requirements\.txt)$/.test(path)).sort();
+    || id === 70 && /^python\/lab70\/(worker\.py|requirements\.txt)$/.test(path)
+    || id === 71 && path === 'fixtures/lab71/sales.csv').sort();
 }
 export function resolveImport(catalog: TextCatalog, from: string, specifier: string): string | undefined {
   if (!Object.hasOwn(catalog, from) || !specifier.startsWith('.')) return undefined;

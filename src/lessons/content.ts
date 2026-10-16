@@ -2,6 +2,15 @@ import type { LessonMetadata } from '../../shared/lessons';
 export type LessonContent = Pick<LessonMetadata, 'objective' | 'steps' | 'inspect' | 'challenge'>;
 // Only implemented lessons belong here; reserved IDs are not completed labs.
 export const content: Readonly<Record<number, LessonContent>> = Object.freeze({
+  71: {
+    objective: 'Build a sales analysis from scoped CSV data, executable calculations and ledger-cited reports and charts.',
+    steps: ['Create a session and compare raw/clean profiles, duplicate removal and per-product IQR fences.',
+      'Aggregate numeric metrics or ratios of eligible sums; inspect n and skipped empty counts.',
+      'Run the scripted analyst and inspect computation C IDs and ledger-derived chart G IDs.',
+      'Tamper a report value or citation and verify rejection without changing its evidence ledger.'],
+    inspect: ['shared/lab71-data-analysis-agent.ts', 'server/lib/lab71-analysis.ts', 'server/concepts/71-data-analysis-agent.ts', 'fixtures/lab71/sales.csv'],
+    challenge: 'Explain why averaging row return rates differs from the host ratio of summed returns to summed units.',
+  },
   70: {
     objective: 'Compare the Managed session protocol through an isolated Python worker and the TypeScript host bridge.',
     steps: ['Check selected interpreter readiness without installing packages or contacting Anthropic.',

@@ -10,7 +10,7 @@ import { LessonGuide } from '../src/components/LessonGuide';
 import type * as Resources from '../src/lessons/resources';
 
 test('every completed ID has an authored guide, objective and real UI/server sources', async () => {
-  assert.deepEqual(await auditLessonGuides(), Array.from({ length: 70 }, (_, index) => index + 1));
+  assert.deepEqual(await auditLessonGuides(), Array.from({ length: 71 }, (_, index) => index + 1));
 });
 test('actual Vite raw catalog excludes acceptance probes and private/runtime files', async () => {
   const server = await createServer({ server: { middlewareMode: true }, appType: 'custom' });
@@ -20,8 +20,12 @@ test('actual Vite raw catalog excludes acceptance probes and private/runtime fil
     assert.ok(paths.length > 10);
     assert.equal(paths.some(path => /dummy|tests\//i.test(path)), false);
     const { registerConcepts } = await server.ssrLoadModule('/server/concepts/registry.ts');
-    assert.deepEqual(registerConcepts().map(({ id, serverPrefix }: { id: number; serverPrefix: string }) => [id, serverPrefix]), Array.from({ length: 70 }, (_, index) => [index + 1, `/api/c${index + 1}`]));
+    assert.deepEqual(registerConcepts().map(({ id, serverPrefix }: { id: number; serverPrefix: string }) => [id, serverPrefix]), Array.from({ length: 71 }, (_, index) => [index + 1, `/api/c${index + 1}`]));
     for (const path of paths) {
+      if (path.startsWith('fixtures/')) {
+        assert.equal(path, 'fixtures/lab71/sales.csv');
+        continue;
+      }
       if (path.startsWith('python/')) {
         assert.ok(['python/lab70/worker.py', 'python/lab70/requirements.txt'].includes(path));
         continue;

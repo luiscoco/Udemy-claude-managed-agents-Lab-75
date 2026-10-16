@@ -1737,3 +1737,21 @@ node scripts/lab70-browser-demonstration.mjs
 ```
 
 Independent private checkpoint: [Udemy-claude-managed-agents-Lab-70](https://github.com/luiscoco/Udemy-claude-managed-agents-Lab-70).
+
+### Lab 71: How it was built, step by step
+
+1. Registered the data-analysis lesson and [71/71A guide](Tab71-data-analysis-agent.md) with a six-month CSV containing the specified quality defects and hostile note.
+2. Added a bounded RFC 4180 reader, explicit duplicate/IQR cleaning, missing-cell handling, reductions, ratios of sums and period comparisons, tested with independent small fixtures.
+3. Recorded validated computations as C IDs and SVG charts as G IDs. Closed host custom tools and the scripted analyst share the same ledger and report verifier; unsupported values, units, quality and chart IDs fail.
+4. Added chart/report browser checks and tamper controls. The [checkpoint](docs/lab71-checkpoint.md) records the optional-live and causal-interpretation limits.
+
+```powershell
+npm run test:analysis
+npm run typecheck
+npm run audit:lesson-guides
+npm run test:lesson-guides
+npm run build
+node scripts/lab71-browser-demonstration.mjs
+```
+
+Independent private checkpoint: [Udemy-claude-managed-agents-Lab-71](https://github.com/luiscoco/Udemy-claude-managed-agents-Lab-71).
