@@ -69,3 +69,4 @@ finish the user's requested lesson workflow.
 | 56 | [Teams and evidence messages](https://github.com/luiscoco/Udemy-claude-managed-agents-Lab-56) | Private |
 | 57 | [Workers in host Git worktrees](https://github.com/luiscoco/Udemy-claude-managed-agents-Lab-57) | Private |
 | 58 | [Tool catalogs and bounded discovery](https://github.com/luiscoco/Udemy-claude-managed-agents-Lab-58) | Private |
+| 59 | [Routing with verified outcomes](https://github.com/luiscoco/Udemy-claude-managed-agents-Lab-59) | Private |

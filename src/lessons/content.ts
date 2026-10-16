@@ -2,6 +2,16 @@ import type { LessonMetadata } from '../../shared/lessons';
 export type LessonContent = Pick<LessonMetadata, 'objective' | 'steps' | 'inspect' | 'challenge'>;
 // Only implemented lessons belong here; reserved IDs are not completed labs.
 export const content: Readonly<Record<number, LessonContent>> = Object.freeze({
+  59: {
+    objective: 'Compare seven routing strategies on 13 tasks using independent answer keys and full attempt accounting.',
+    steps: ['Inspect the 13 tasks, illustrative model/effort configurations and independent key boundary.',
+      'Run fixed tiers, rule routing, classifier, cascade and draft/review with the same budget.',
+      'Compare verified correctness, assumed spend per correct, median time and all session attempts.',
+      'Lower the budget and verify admission stops before another assumed session.'],
+    inspect: ['shared/lab59-model-routing.ts', 'server/routing/lab59.ts', 'server/routing/lab59-keys.ts',
+      'server/concepts/59-model-routing.ts'],
+    challenge: 'Find a high-confidence wrong answer and explain why confidence cannot replace the independent host key.',
+  },
   58: {
     objective: 'Search a 64-tool application catalog with a bounded host scorer and dispatch only through a checked schema and host context.',
     steps: ['Inspect initial names and confirm no definitions are reported as loaded.',
