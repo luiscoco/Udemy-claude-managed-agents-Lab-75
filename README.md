@@ -1683,3 +1683,21 @@ node scripts/lab67-browser-demonstration.mjs
 ```
 
 Independent private checkpoint: [Udemy-claude-managed-agents-Lab-67](https://github.com/luiscoco/Udemy-claude-managed-agents-Lab-67).
+
+### Lab 68: How it was built, step by step
+
+1. Registered a scheduled/event-driven queue exercise and [learner guide](Tab68-scheduled-event-driven.md).
+2. Mounted raw webhook bytes before JSON parsing and verified HMAC timestamp/body signatures against real time. Scheduling clock advances stay separate and owner-scoped.
+3. Added coalesced ticks, event deduplication, synchronous worker claims, bounded retry/dead-letter behavior and cancellation. A closed triage tool records one SQLite effect per stable business key.
+4. Added focused and browser tests. The [checkpoint](docs/lab68-checkpoint.md) records the local queue and explicit-worker limits.
+
+```powershell
+node --import tsx --test tests/lab68-scheduled-event-driven.test.ts
+npm run typecheck
+npm run audit:lesson-guides
+npm run test:lesson-guides
+npm run build
+node scripts/lab68-browser-demonstration.mjs
+```
+
+Independent private checkpoint: [Udemy-claude-managed-agents-Lab-68](https://github.com/luiscoco/Udemy-claude-managed-agents-Lab-68).

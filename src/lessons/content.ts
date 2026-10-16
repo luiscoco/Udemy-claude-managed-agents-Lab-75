@@ -2,6 +2,15 @@ import type { LessonMetadata } from '../../shared/lessons';
 export type LessonContent = Pick<LessonMetadata, 'objective' | 'steps' | 'inspect' | 'challenge'>;
 // Only implemented lessons belong here; reserved IDs are not completed labs.
 export const content: Readonly<Record<number, LessonContent>> = Object.freeze({
+  68: {
+    objective: 'Admit scheduled and signed incident jobs into a bounded queue, then explicitly claim, retry or cancel them.',
+    steps: ['Create a five-second schedule, advance the scheduling clock and coalesce missed intervals with a tick.',
+      'Admit a signed incident twice and compare the same job ID with duplicate admission.',
+      'Run one worker per click; fail three attempts with one- and two-second retry delays.',
+      'Try stale signatures after advancing the scheduling clock, then inspect cancellation and effect keys.'],
+    inspect: ['shared/lab68-scheduled-event-driven.ts', 'server/concepts/68-scheduled-event-driven.ts'],
+    challenge: 'Show why an HTTP 202 trigger and an advanced schedule clock cannot prove execution or signature freshness.',
+  },
   67: {
     objective: 'Enforce tenant ownership across project sources, runs, sessions, transcripts, cancellation and quota reservations.',
     steps: ['Simulate Alice/Acme and Bob/Birch sign-ins; inspect host-selected tenant and project identities.',
