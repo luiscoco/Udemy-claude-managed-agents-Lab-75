@@ -11,7 +11,7 @@ import { apiError } from '../lib/errors.js';
 
 type Run = { id: string; owner: string; correlationId: string; context: Lab69Context; source: 'authored-fixture' | 'managed-api';
   state: 'running' | 'completed' | 'cancelled' | 'error'; events: { seq: number; type: string; text: string }[];
-  patch: Lab69Patch | null; cleanup: string; controller: AbortController; work?: Promise<void> };
+  patch: Lab69Patch | null; sessionId: string | null; cleanup: string; controller: AbortController; work?: Promise<void> };
 export class Lab69Backend {
   private readonly runs = new Map<string, Run>(); private readonly documents = new Map<string, Lab69Context>(); private closing = false;
   document(owner: string) { let document = this.documents.get(owner); if (!document) {
@@ -24,7 +24,7 @@ export class Lab69Backend {
     this.documents.set(owner, document); return document; }
   private owned(owner: string, id: string) { const run = this.runs.get(id); if (!run || run.owner !== owner) throw new Error('Run not found.'); return run; }
   snapshot(owner: string, id: string) { const run = this.owned(owner, id); return { id: run.id, correlationId: run.correlationId,
-    state: run.state, source: run.source, events: [...run.events], patch: run.patch, cleanup: run.cleanup }; }
+    state: run.state, source: run.source, events: [...run.events], patch: run.patch, sessionId: run.sessionId, cleanup: run.cleanup }; }
   correlation(owner: string, correlationId: string) { const run = [...this.runs.values()].find(item => item.owner === owner && item.correlationId === correlationId);
     if (!run) throw new Error('Run not found.'); return this.snapshot(owner, run.id); }
   start(owner: string, input: unknown) { const request = lab69RunSchema.parse(input);
@@ -38,7 +38,7 @@ export class Lab69Backend {
       [...this.runs.values()].filter(run => run.state === 'running').length >= 2) throw new Error('Active run capacity reached.');
     const run: Run = { id: randomUUID(), owner, correlationId: request.correlationId, context: request.context,
       source: request.mode === 'offline' ? 'authored-fixture' : 'managed-api', state: 'running', events: [], patch: null,
-      cleanup: 'pending', controller: new AbortController() }; this.runs.set(run.id, run);
+      sessionId: null, cleanup: 'pending', controller: new AbortController() }; this.runs.set(run.id, run);
     const emit = (type: string, text: string) => { if (run.events.length < 40) run.events.push({ seq: run.events.length + 1, type, text: text.slice(0, 2000) }); };
     const deadline = setTimeout(() => run.controller.abort('deadline'), request.mode === 'offline' ? 3000 : 35000); deadline.unref();
     run.work = (async () => { try {
@@ -56,7 +56,7 @@ export class Lab69Backend {
           documentId: request.context.documentId, baseVersion: request.context.version, baseHash: request.context.hash, text: request.context.text })}`;
         const result = await runLab01({ mode: 'live', prompt, port: createLiveLab01Port(), signal: run.controller.signal,
           deadlineMs: 25000, cleanupWaitMs: 5000, emit: frame => { if (frame.kind === 'preview') emit('preview', frame.text); } });
-        run.cleanup = result.cleanup;
+        run.sessionId = result.sessionId; run.cleanup = result.cleanup;
         if (result.outcome.kind !== 'completed') throw new Error('Managed turn did not complete.');
         const text = result.messages.at(-1)?.text ?? ''; run.patch = lab69PatchSchema.parse(JSON.parse(text));
         checkedPatch(request.context, request.context, run.patch, request.correlationId, true);
