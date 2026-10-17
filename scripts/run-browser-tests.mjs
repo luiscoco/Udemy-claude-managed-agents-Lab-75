@@ -20,6 +20,10 @@ try {
       if (attempt >= 300) throw new Error('Backend readiness timed out.');
       await delay(100);
     }
+    // Complete Vite's initial static-import transforms before starting the
+    // first timed browser test, especially after installing server adapters.
+    await web.transformRequest('/src/main.tsx');
+    await web.waitForRequestsIdle();
   }
   const runner = spawn(process.execPath, ['node_modules/@playwright/test/cli.js', 'test', ...process.argv.slice(2)], {
     stdio: 'inherit', env: { ...process.env, LEARNING_BROWSER_EXTERNAL_SERVERS: '1' },

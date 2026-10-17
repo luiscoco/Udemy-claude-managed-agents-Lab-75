@@ -42,10 +42,17 @@
     "package:course": "node scripts/package-course.mjs",
     "team:cleanup": "node --import tsx scripts/lab75-cleanup.ts",
     "team:ready": "node --env-file-if-exists=.env --import tsx scripts/lab75-setup.ts ready",
-    "team:provision": "node --env-file-if-exists=.env --import tsx scripts/lab75-setup.ts provision"
+    "team:provision": "node --env-file-if-exists=.env --import tsx scripts/lab75-setup.ts provision",
+    "integrations:ready": "node --env-file-if-exists=.env --import tsx scripts/integration-readiness.ts",
+    "notifications:ready": "node --env-file-if-exists=.env --import tsx scripts/lab65-notification-readiness.ts",
+    "test:editor:real": "npm run lab69:extension:build && node --import tsx scripts/lab69-real-editor.ts"
   },
   "dependencies": {
+    "@anthropic-ai/aws-sdk": "0.8.0",
     "@anthropic-ai/sdk": "0.133.0",
+    "@azure/monitor-opentelemetry-exporter": "1.0.0-beta.46",
+    "@opentelemetry/resources": "2.12.0",
+    "@opentelemetry/sdk-trace-base": "2.12.0",
     "express": "^5.2.1",
     "react": "^19.3.0",
     "react-dom": "^19.3.0",

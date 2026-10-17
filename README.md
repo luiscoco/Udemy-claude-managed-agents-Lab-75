@@ -1794,3 +1794,9 @@ Independent private checkpoint: [Udemy-claude-managed-agents-Lab-71](https://git
 5. Added host-only acceptance probes, a durable hash-chained journal, cost reservations, safe replay and a ready/draft release gate.
 6. Connected scripted and dedicated Managed role adapters through the same orchestrator, then tested all seven offline scenarios and provider-shaped injected fixtures. The final course audit checks every registered lesson and distribution boundaries.
 7. Provisioned three pinned role agents after explicit authorization and ran the actual live team. Fixed the issue contract, review feedback and empty rework gate exposed by the first draft. The Unicode follow-up also reached Ready without reviewer questions; all seventeen sessions across three attempts were archived. [Live evidence and limits](docs/course-validation.md) record reported costs and remaining infrastructure prerequisites. The configured key stays unchanged at the user's request.
+
+### Integration verification follow-up
+
+Run npm run integrations:ready to inspect missing setup without provider calls or secret values. Lab 65 exposes validated per-channel readiness and explicit send controls. Lab 69 now has a repeatable actual-editor check: npm run test:editor:real. Installed VS Code 1.142.0 passed guided patch application and concurrent-edit rejection in an isolated fictional workspace. See docs/course-validation.md for verified results and external prerequisites.
+
+Azure Monitor is the selected external telemetry target. Lab 44 has an official Azure exporter and a dedicated monitoring template; the explicitly approved North Europe deployment is configured locally and accepted a five-span ingestion test, with all five records verified by query. The existing Anthropic key is preserved. External notifications still require a channel destination and credentials in local server settings.
