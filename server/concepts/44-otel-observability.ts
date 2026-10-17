@@ -1,5 +1,5 @@
 import { Router, json } from 'express';
-import { lab44PrivacySchema, lab44RunSchema } from '../../shared/lab44-otel-observability.js';
+import { lab44PrivacySchema, lab44RunSchema, lab44IdSchema } from '../../shared/lab44-otel-observability.js';
 import { Lab44Error, Lab44Telemetry } from '../lib/lab44-telemetry.js';
 import { apiError, apiErrorHandler } from '../lib/errors.js';
 
@@ -16,6 +16,12 @@ export function createLab44Router(manager = new Lab44Telemetry()) {
   router.get('/code', (_request, response) => response.json({ source: 'host-otlp-fixture', files: [
     'shared/lab44-otel-observability.ts', 'server/lib/lab44-telemetry.ts', 'server/concepts/44-otel-observability.ts'], remoteExportObserved: false }));
   router.get('/facts', (_request, response) => response.json(manager.facts()));
+  router.post('/export-remote', (request, response) => { const parsed = lab44IdSchema.safeParse(request.body);
+    if (!parsed.success) { response.status(400).json(apiError('INVALID_REQUEST', 'Choose one owned trace run.')); return; }
+    void reply(response, () => manager.exportRemote(String(request.headers['x-lab-owner']), parsed.data.runId)); });
+  router.post('/export-azure', (request, response) => { const parsed = lab44IdSchema.safeParse(request.body);
+    if (!parsed.success) { response.status(400).json(apiError('INVALID_REQUEST', 'Choose one owned trace run.')); return; }
+    void reply(response, () => manager.exportAzure(String(request.headers['x-lab-owner']), parsed.data.runId)); });
   for (const path of ['/signals', '/exporters', '/collector']) router.post(path, (request, response) => {
     if (Object.keys(request.body ?? {}).length) { response.status(400).json(apiError('INVALID_REQUEST', 'Inspection takes no fields.')); return; }
     response.json(path === '/signals' ? { source: 'host-only', hostSignals: ['express.request', 'managed-port.send', 'host.approval.wait', 'host.custom-tool', 'host.cleanup'],

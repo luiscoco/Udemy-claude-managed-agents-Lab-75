@@ -2,8 +2,15 @@ import { randomBytes, randomUUID } from 'node:crypto';
 import { createServer } from 'node:http';
 import { lab44SnapshotSchema, lab44SpanSchema } from '../../shared/lab44-otel-observability.js';
 import type { Lab44Scenario } from '../../shared/lab44-otel-observability.js';
+import { azureTelemetryReadiness, exportAzureHostTrace } from './lab44-azure.js';
 
 export class Lab44Error extends Error { constructor(public statusCode: number, message: string) { super(message); } }
+export function remoteTelemetryReadiness(env: NodeJS.ProcessEnv = process.env) {
+  const enabled = env.LAB44_REMOTE_EXPORT_ENABLED === '1', missing = env.LAB44_OTLP_ENDPOINT?.trim() ? [] : ['LAB44_OTLP_ENDPOINT'];
+  const invalid: string[] = [];
+  if (!missing.length) { try { const url = new URL(env.LAB44_OTLP_ENDPOINT!); if (url.protocol !== 'https:' || url.username || url.password || url.search || url.hash) invalid.push('LAB44_OTLP_ENDPOINT'); } catch { invalid.push('LAB44_OTLP_ENDPOINT'); } }
+  return { enabled, ready: enabled && !missing.length && !invalid.length, missing, invalid, enableSetting: 'LAB44_REMOTE_EXPORT_ENABLED=1', source: 'authored-fixture-host-spans', providerTraceObserved: false };
+}
 type Span = ReturnType<typeof lab44SpanSchema.parse>;
 type OtlpSpan = { traceId: string; spanId: string; parentSpanId?: string; name: string; kind: number;
   startTimeUnixNano: string; endTimeUnixNano: string; attributes: Array<{ key: string; value: { stringValue: string } }> };
@@ -29,17 +36,22 @@ export class Lab44Collector {
   close() { this.server.closeAllConnections(); return new Promise<void>(resolve => this.server.close(() => resolve())); }
 }
 export class Lab44Exporter {
-  constructor(private endpoint: string) {}
+  constructor(private endpoint: string, private fetcher: typeof fetch = fetch, private token?: string) {}
   async export(spans: Span[]) {
     const now = BigInt(Date.now()) * 1_000_000n;
     const otlp: OtlpSpan[] = spans.map(span => ({ traceId: span.traceId, spanId: span.spanId,
       ...(span.parentSpanId ? { parentSpanId: span.parentSpanId } : {}), name: span.name, kind: 1,
       startTimeUnixNano: String(now), endTimeUnixNano: String(now + BigInt(Math.ceil(span.durationMs * 1_000_000))),
       attributes: Object.entries(span.attributes).map(([key, value]) => ({ key, value: { stringValue: value } })) }));
-    const response = await fetch(this.endpoint, { method: 'POST', headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ resourceSpans: [{ resource: { attributes: [{ key: 'service.name', value: { stringValue: 'managed-labs-host' } }] },
-        scopeSpans: [{ scope: { name: 'lab44-host' }, spans: otlp }] }] }), signal: AbortSignal.timeout(2000) });
-    if (!response.ok) throw new Lab44Error(502, 'Local OTLP collector refused bounded span batch.');
+    const response = await this.fetcher(this.endpoint, { method: 'POST', headers: { 'Content-Type': 'application/json', ...(this.token ? { Authorization: `Bearer ${this.token}` } : {}) },
+      body: JSON.stringify({ resourceSpans: [{ resource: { attributes: [{ key: 'service.name', value: { stringValue: 'managed-labs-host' } }, { key: 'lab44.data_source', value: { stringValue: 'authored-fixture' } }] },
+        scopeSpans: [{ scope: { name: 'lab44-host' }, spans: otlp }] }] }), redirect: 'error', signal: AbortSignal.timeout(2000) });
+    if (!response.ok) { await response.body?.cancel(); throw new Lab44Error(502, 'OTLP collector refused bounded span batch.'); }
+    const reader = response.body?.getReader(); let body = '', bytes = 0;
+    if (reader) { for (;;) { const part = await reader.read(); if (part.done) break; bytes += part.value.byteLength;
+      if (bytes > 4096) { await reader.cancel(); throw new Lab44Error(502, 'OTLP response exceeded its bound.'); } body += new TextDecoder().decode(part.value); } }
+    if (body.trim()) { let result; try { result = JSON.parse(body); } catch { throw new Lab44Error(502, 'Invalid OTLP collector response.'); }
+      if (Number(result.partialSuccess?.rejectedSpans ?? result.partial_success?.rejected_spans ?? 0) > 0) throw new Lab44Error(502, 'OTLP collector rejected spans.'); }
   }
 }
 const hex = (bytes: number) => randomBytes(bytes).toString('hex');
@@ -47,11 +59,36 @@ function span(traceId: string, name: string, parentSpanId: string | null, status
   return lab44SpanSchema.parse({ traceId, spanId: hex(8), parentSpanId, name, source: 'host-otel', status, attributes, durationMs: 3 });
 }
 export class Lab44Telemetry {
+  constructor(private env: NodeJS.ProcessEnv = process.env, private fetcher: typeof fetch = fetch) {}
+  private owners = new Map<string, string>(); private remoteSent = new Set<string>(); private remoteActive = false;
   private collector: Lab44Collector | null = null; private exporter: Lab44Exporter | null = null;
   private entries = new Map<string, ReturnType<typeof lab44SnapshotSchema.parse>>(); private recording = new Map<string, boolean>(); private closed = false;
   async ready() { if (this.collector) return; this.collector = new Lab44Collector(); this.exporter = new Lab44Exporter(await this.collector.listen()); }
   facts() { return { source: 'host-only', protocol: 'OTLP HTTP JSON', providerModelSpanEventTypes: ['span.model_request_start', 'span.model_request_end'],
-    hostExporter: 'bounded loopback collector', remoteOtlpExportObserved: false, claudeCodeChildTelemetryApplicable: false, providerCalls: 0 }; }
+    hostExporter: 'bounded loopback collector', azureSetup: azureTelemetryReadiness(this.env), remoteSetup: remoteTelemetryReadiness(this.env), remoteOtlpExportObserved: false, claudeCodeChildTelemetryApplicable: false, providerCalls: 0 }; }
+  async exportAzure(owner: string, runId: string) {
+    if (this.owners.get(runId) !== owner) throw new Lab44Error(404, 'Unknown owned trace run.');
+    if (!azureTelemetryReadiness(this.env).ready) throw new Lab44Error(422, 'Configure and enable Azure telemetry in server settings.');
+    if (this.remoteActive) throw new Lab44Error(429, 'Remote export already active.');
+    const key = `azure:${runId}`; if (this.remoteSent.has(key)) return { collectorAccepted: true, repeated: true, providerTraceObserved: false };
+    this.remoteActive = true;
+    try { const result = await exportAzureHostTrace(this.env, this.get(runId).hostSpans); this.remoteSent.add(key); return result; }
+    catch { throw new Lab44Error(502, 'Azure telemetry export failed; acceptance is unconfirmed.'); } finally { this.remoteActive = false; }
+  }
+  async exportRemote(owner: string, runId: string) {
+    if (this.owners.get(runId) !== owner) throw new Lab44Error(404, 'Unknown owned trace run.');
+    if (!remoteTelemetryReadiness(this.env).ready) throw new Lab44Error(422, 'Configure and enable remote telemetry in server settings.');
+    if (this.remoteActive) throw new Lab44Error(429, 'Remote export already active.');
+    const result = { runId, source: 'authored-fixture-host-spans', collectorAccepted: true, providerTraceObserved: false };
+    if (this.remoteSent.has(runId)) return { ...result, repeated: true };
+    this.remoteActive = true;
+    try { const allowed = new Set(['http.route', 'session.id', 'thread.id', 'event.id', 'decision', 'effect']);
+      const spans = this.get(runId).hostSpans.map(span => ({ ...span, attributes: Object.fromEntries(Object.entries(span.attributes).filter(([key]) => allowed.has(key))) }));
+      await new Lab44Exporter(this.env.LAB44_OTLP_ENDPOINT!, this.fetcher, this.env.LAB44_OTLP_BEARER_TOKEN).export(spans);
+      this.remoteSent.add(runId); return { ...result, repeated: false };
+    } catch (error) { if (error instanceof Lab44Error) throw error; throw new Lab44Error(502, 'Remote telemetry transport failed; acceptance is unconfirmed.'); }
+    finally { this.remoteActive = false; }
+  }
   privacy(owner: string, value: boolean) { this.recording.set(owner, value); return { recordFictionalContent: value, source: 'host-only', providerCalls: 0 }; }
   state() { return this.collector?.state() ?? { spanCount: 0, maxSpans: 128, rejectedBatches: 0, transport: 'loopback-otlp-json' as const }; }
   get(runId: string) { const item = this.entries.get(runId); if (!item) throw new Lab44Error(404, 'Unknown trace run.'); return item; }
@@ -79,7 +116,7 @@ export class Lab44Telemetry {
       evidence: ['Host spans exported over loopback OTLP HTTP JSON.', 'Provider model-span event records are authored stream fixtures, not host spans.',
         scenario === 'missing-provider-span' ? 'No provider model-span signal observed in this fixture.' : 'Provider model-span start/end IDs are correlated only as event evidence.',
         recordContent ? 'Explicit fictional content recording enabled.' : 'Prompt and tool content redacted by default.'] });
-    this.entries.set(snapshot.runId, snapshot); return snapshot;
+    this.entries.set(snapshot.runId, snapshot); this.owners.set(snapshot.runId, owner); return snapshot;
   }
-  async close() { this.closed = true; await this.collector?.close(); this.collector = null; this.exporter = null; this.entries.clear(); this.recording.clear(); }
+  async close() { this.closed = true; await this.collector?.close(); this.collector = null; this.exporter = null; this.entries.clear(); this.recording.clear(); this.owners.clear(); this.remoteSent.clear(); }
 }

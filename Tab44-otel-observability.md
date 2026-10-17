@@ -22,7 +22,7 @@ If no fictional prompt attribute appears, enable recording before starting a new
 
 ## Limitations
 
-The collector is local and never exports to a remote OTLP destination. Model-span event fixtures do not prove remote OTLP export or full provider traces. This lab makes zero Anthropic calls. Claude Code child-process telemetry environment variables do not apply to the Managed cloud harness.
+The default collector is local. An explicit remote export adapter is also available: configure LAB44_OTLP_ENDPOINT with a reviewed HTTPS /v1/traces destination, optional LAB44_OTLP_BEARER_TOKEN and LAB44_REMOTE_EXPORT_ENABLED=1, then restart the backend. Remote collector setup reports missing or invalid setting names. Export redacted host trace sends only an owned run, strips recorded content and provider event fixtures, labels the payload authored-fixture, rejects redirects and bounded/partial-failure responses, and deduplicates confirmed exports. Collector acceptance proves transport acceptance of fixture spans, not a genuine provider model trace. Model-span event fixtures do not prove remote OTLP export or full provider traces. This lab makes zero Anthropic calls. Claude Code child-process telemetry environment variables do not apply to the Managed cloud harness.
 
 ## Challenge
 
@@ -38,3 +38,13 @@ npm run test:lesson-guides
 npm run build
 node scripts/lab44-browser-demonstration.mjs
 ```
+
+## Azure Monitor
+
+Azure is the selected monitoring target. The official Azure Monitor OpenTelemetry exporter is pinned at 1.0.0-beta.46 with OpenTelemetry 2.12.0. Configure APPLICATIONINSIGHTS_CONNECTION_STRING and LAB44_AZURE_EXPORT_ENABLED=1 to enable the explicit Azure export button. It sends authored span names, status and source correlation IDs only, with an authored-fixture resource label. Recorded content and provider event fixtures are excluded. Acceptance is transport evidence, not a provider model trace. A fake transport with the actual OTel pipeline verifies success and rejection locally.
+
+The prepared scripts/azure-monitor-resources.json template creates only a dedicated North Europe Log Analytics workspace and Application Insights resource, with 30-day retention and a 1 GB daily ingestion quota. That quota is not a spending cap. scripts/azure-monitor-setup.ps1 defaults to read-only inspection; -Provision creates the resources and stores connection information only in ignored .env, preserving the Anthropic key. Actual provisioning requires explicit cost authorization. No hosting deployment or notification is included.
+
+References: [Microsoft Azure exporter](https://learn.microsoft.com/en-us/javascript/api/overview/azure/monitor-opentelemetry-exporter-readme), [workspace-based Application Insights](https://learn.microsoft.com/en-us/azure/azure-monitor/app/create-workspace-resource). Native Azure OTLP ingestion uses a separate Entra-authenticated collector path; this adapter uses the official Azure exporter.
+
+The configured workspace successfully accepted a five-span Azure smoke test after explicit provisioning approval. Repeat deliberately with node --env-file-if-exists=.env --import tsx scripts/live-azure-monitor-smoke.ts --execute-approved-azure-test. It emits only redacted authored host metadata and incurs Azure ingestion, not an Anthropic model call.
