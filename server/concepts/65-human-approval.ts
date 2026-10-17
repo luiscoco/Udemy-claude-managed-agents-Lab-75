@@ -125,7 +125,9 @@ export class Lab65ApprovalStore {
     return this.snapshot(owner); }
   decide(owner: string, token: string | undefined, id: string, decision: 'approve' | 'reject') {
     const reviewer = this.reviewer(token, owner); const proposal = this.get(id, owner); this.refresh(proposal);
-    if (proposal.reviewer !== reviewer || proposal.state !== 'pending') throw new Error('Wrong reviewer, expired or already decided.');
+    if (proposal.reviewer !== reviewer) throw new Error('Wrong reviewer for this proposal.');
+    if (proposal.state === 'expired') throw new Error('Proposal expired before review.');
+    if (proposal.state !== 'pending') throw new Error(`Proposal already decided (${proposal.state}); no additional effect executed.`);
     if (!proposal.notified) throw new Error('Notify and inspect the proposal first.');
     if (decision === 'reject') { proposal.state = 'rejected'; proposal.audit.push(`Rejected by ${reviewer}; no effect.`); return this.snapshot(owner); }
     const row = this.db.prepare('INSERT OR IGNORE INTO effects (business_key, case_id, proposal_id, executed_at) VALUES (?, ?, ?, ?)')

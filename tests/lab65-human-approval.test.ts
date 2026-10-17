@@ -62,7 +62,8 @@ test('reviewer identity, notification, tamper, expiry and replay gate effect', a
   assert.throws(() => store.decide(owner, other, first, 'approve'), /reviewer/);
   assert.equal(store.snapshot(owner).effects.length, 0);
   assert.equal(store.decide(owner, reviewer, first, 'approve').effects.length, 1);
-  assert.throws(() => store.decide(owner, reviewer, first, 'approve'), /decided/);
+  assert.throws(() => store.decide(owner, reviewer, first, 'approve'), /already decided \(approved\); no additional effect executed/);
+  assert.equal(store.snapshot(owner).effects.length, 1, 'duplicate rejection preserves the single effect');
   const second = store.propose(owner).toolResult.proposalId; await store.notify(owner, second, 'local');
   assert.equal(store.decide(owner, reviewer, second, 'approve').effects.length, 1, 'stable business key executes once');
   const third = store.propose(owner).toolResult.proposalId; await store.notify(owner, third, 'local');

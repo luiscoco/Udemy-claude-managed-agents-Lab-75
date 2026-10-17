@@ -46,14 +46,17 @@ export default function Concept65HumanApproval() {
       <button disabled={busy || !selected} onClick={() => void run('wrong-reviewer')}>Wrong reviewer</button>
       <button disabled={busy || !selected} onClick={() => void run('expire')}>Expire proposal</button></div>
     <p role="status" aria-label="Lab 65 status">{status}</p>
-    <h3>Notification setup</h3><p>Settings are checked locally. Delivery is verified only after an explicit send.</p>
-    <ul>{setup.map(item => <li key={item.channel}><strong>{item.channel}</strong>: {item.ready ? 'configured; delivery not yet verified' : 'setup required'}.
+    <h3>Notification setup</h3><p>Settings are checked locally. Provider acceptance is recorded after an explicit send; confirm inbox delivery separately.</p>
+    <ul>{setup.map(item => <li key={item.channel}><strong>{item.channel}</strong>: {item.ready ? 'configured' : 'setup required'}.
+      <p>{snapshot?.proposals.some(proposal => proposal.notified === item.channel)
+        ? 'Notification accepted by provider in this experiment; inbox delivery requires confirmation.'
+        : 'No accepted notification recorded for this channel in this experiment.'}</p>
       {!item.enabled && <p>Enable {item.enableSetting} on the server.</p>}
       {item.missing.length > 0 && <p>Missing: {item.missing.join(', ')}.</p>}
       {item.invalid.length > 0 && <p>Invalid: {item.invalid.join(', ')}.</p>}
       <button disabled={busy || !item.ready || selected?.state !== 'pending'} onClick={() => void run('notify', item.channel)}>Send {item.channel} notification</button>
     </li>)}</ul>
-    {snapshot && <><p>Reviewer mode: {snapshot.reviewerMode}. Provider calls: {snapshot.providerCalls}.</p>
+    {snapshot && <><p>Reviewer mode: {snapshot.reviewerMode}. Model provider calls: {snapshot.providerCalls}. External notification requests are separate.</p>
       {snapshot.proposals.map(proposal => <article key={proposal.id}><h3>{proposal.action}: {proposal.args.caseId}</h3>
         <p>Immutable reason: {proposal.args.reason}. State: {proposal.state}. Notified: {proposal.notified ?? 'no'}.</p>
         <p>Tool event: <code>{proposal.eventId}</code>. Business key: <code>{proposal.businessKey}</code>.</p>

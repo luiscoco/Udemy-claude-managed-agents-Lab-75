@@ -23,3 +23,7 @@ The helper saves the short-lived access token, delegated mode, expiry and notifi
 The opt-in test records Graph acceptance and zero business effects in ignored `artifacts/lab65/live-email.json`. Acceptance does not prove inbox delivery. Notification never approves or executes the fictional archive.
 
 References: [Microsoft device flow](https://learn.microsoft.com/en-us/entra/identity-platform/v2-oauth2-device-code), [Graph sendMail](https://learn.microsoft.com/en-us/graph/api/user-sendmail), [Mail.Send permission](https://learn.microsoft.com/en-us/graph/permissions-reference#mail-send).
+
+## Live result: 18 October 2026
+
+The user confirmed actual email inbox delivery, then application reviewer approval with exactly one fictional effect. A duplicate click was rejected and the ledger remained at one. The UI distinguishes model calls from notification requests and displays provider acceptance separately from configuration readiness and inbox confirmation. These live results use user-supplied application output and inbox screenshots; automated tests use injected notification transport. Slack and Teams remain unconfigured and untested live.
