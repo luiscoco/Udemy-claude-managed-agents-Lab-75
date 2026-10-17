@@ -119,3 +119,5 @@ artifacts/lab75/
 team-lab/
 artifacts/course/
 managed/lab75-resources.local.json
+artifacts/learning-guide/
+artifacts/learning-guide*.png

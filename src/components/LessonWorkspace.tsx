@@ -4,6 +4,9 @@ import type { LessonMetadata } from '../../shared/lessons';
 import { LessonGuide } from './LessonGuide';
 import { SourceViewer } from './SourceViewer';
 import { TextResource } from './TextResource';
+import { LearningGuide } from './LearningGuide';
+import { GuideExplanation } from './GuideExplanation';
+import { learningGuide } from '../../shared/learning-guide';
 import type { TextCatalog, TextLoader } from '../lessons/catalog';
 
 export type ExerciseLoader = () => Promise<{ default: ComponentType }>;
@@ -11,6 +14,8 @@ export function LessonWorkspace({ lesson, loadGuide, sources, mainSources, loadE
   lesson: LessonMetadata; loadGuide: TextLoader; sources: TextCatalog; mainSources: readonly string[]; loadExercise: ExerciseLoader;
 }) {
   const id = useId(); const tabs = ['Learn', 'Run the exercise', 'TypeScript source'];
+  const workspace = useRef<HTMLDivElement>(null);
+  const tour = learningGuide(lesson.id);
   const [active, setActive] = useState(() => {
     try {
       if (sessionStorage.getItem('lesson-exercise-retry') === String(lesson.id)) return 1;
@@ -39,7 +44,8 @@ export function LessonWorkspace({ lesson, loadGuide, sources, mainSources, loadE
   function activate(index: number, focus = false) {
     setActive(index); if (index === 1) setVisited(true); if (focus) buttons.current[index]?.focus();
   }
-  return <div className="lesson-workspace">
+  return <div className="lesson-workspace" ref={workspace}>
+    <LearningGuide lessonId={lesson.id} view={active} onView={activate} workspace={workspace} />
     <div role="tablist" aria-label={`${lesson.title} views`} className="workspace-tabs">
       {tabs.map((name, index) => <button type="button" key={name} id={`${id}-tab-${index}`} role="tab"
         ref={(element) => { buttons.current[index] = element; }} aria-selected={active === index}
@@ -50,7 +56,9 @@ export function LessonWorkspace({ lesson, loadGuide, sources, mainSources, loadE
         }}>{name}</button>)}
     </div>
     <div role="tabpanel" id={`${id}-panel-0`} aria-labelledby={`${id}-tab-0`} hidden={active !== 0} tabIndex={0}>
-      <section className="learning-card"><p className="phase-label">01 / Understand</p><h2>Your lab path</h2><p><strong>Objective:</strong> {lesson.objective}</p><ol>{lesson.steps.map((step) => <li key={step}>{step}</li>)}</ol>
+      <section className="learning-card"><p className="phase-label">01 / Understand</p><h2>Your lab path</h2><p><strong>Objective:</strong> {lesson.objective}</p>
+        <GuideExplanation step={tour[0]!} /><GuideExplanation step={tour[1]!} />
+        <ol>{lesson.steps.map((step) => <li key={step}>{step}</li>)}</ol>
         <p><strong>Inspect:</strong> {lesson.inspect.join(', ')}</p><p><strong>Challenge:</strong> {lesson.challenge}</p>
         <button type="button" onClick={() => activate(1, true)}>Open exercise</button>
         <details open={reopenGuide || undefined}><summary>Detailed guide</summary><TextResource load={loadGuide} label="guide">{(markdown) => <LessonGuide lessonId={lesson.id} markdown={markdown} />}</TextResource></details></section>
@@ -70,12 +78,13 @@ export function LessonWorkspace({ lesson, loadGuide, sources, mainSources, loadE
         </aside>
         <div className="exercise-content">
           <div className="exercise-frame"><p className="phase-label">02 / Do the exercise</p>
+      <GuideExplanation step={tour[2]!} /><GuideExplanation step={tour[3]!} />
       {visited && (Exercise ? <Exercise /> : error ? <section role="alert"><h2>Exercise could not load</h2><p>Check your connection and that the local web server is running. Your lesson is still available.</p><p>Retry refreshes the page and reopens the exercise.</p><button onClick={retry}>Retry loading exercise</button></section> : <p role="status">Loading exercise…</p>)}
           </div>
-          <section className="review-card"><p className="phase-label">03 / Review</p><h2>Check your result</h2><p><strong>Inspect:</strong> {lesson.inspect.join(', ')}</p><p><strong>Challenge:</strong> {lesson.challenge}</p><p>Compare the reported outcome and evidence with the lesson objective.</p></section>
+          <section className="review-card"><p className="phase-label">03 / Review</p><h2>Check your result</h2><GuideExplanation step={tour[4]!} /><p><strong>Inspect:</strong> {lesson.inspect.join(', ')}</p><p><strong>Challenge:</strong> {lesson.challenge}</p><GuideExplanation step={tour[6]!} /><p>Compare the reported outcome and evidence with the lesson objective.</p></section>
         </div>
       </div>
     </div>
-    <div role="tabpanel" id={`${id}-panel-2`} aria-labelledby={`${id}-tab-2`} hidden={active !== 2} tabIndex={0}><SourceViewer sources={sources} mainSources={mainSources} /></div>
+    <div role="tabpanel" id={`${id}-panel-2`} aria-labelledby={`${id}-tab-2`} hidden={active !== 2} tabIndex={0}><GuideExplanation step={tour[5]!} /><SourceViewer sources={sources} mainSources={mainSources} /></div>
   </div>;
 }

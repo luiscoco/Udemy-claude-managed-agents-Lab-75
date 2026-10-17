@@ -1,4 +1,5 @@
 import { createManagedRouter } from './routes/managed.js';
+import { createLearningGuideRouter } from './routes/learning-guide.js';
 import express from 'express';
 import { createHealthRouter } from './routes/health.js';
 import { registerConcepts } from './concepts/registry.js';
@@ -7,6 +8,7 @@ import { apiError, apiErrorHandler } from './lib/errors.js';
 const app = express();
 app.disable('x-powered-by');
 app.use('/api', createHealthRouter());
+app.use('/api/learning-guide', createLearningGuideRouter());
 const managed = createManagedRouter();
 app.use('/api/managed', managed.router);
 const concepts = registerConcepts();

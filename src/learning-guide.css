@@ -1,0 +1,35 @@
+.learning-voice-guide { border: 2px solid var(--blue); border-radius: 12px; background: var(--blue-tint); color: var(--ink); padding: 22px; margin: 0 0 24px; }
+.learning-voice-guide.guide-active { position: fixed; z-index: 40; right: 20px; bottom: 16px; width: min(440px, calc(100vw - 40px)); max-height: calc(100dvh - 100px); overflow: auto; margin: 0; box-shadow: 0 8px 40px rgb(0 0 0 / 25%); box-sizing: border-box; }
+.guide-active .guide-heading .phase-label { display: none; }
+.guide-active .guide-heading h2 { font-size: 1.1rem; }
+.guide-active h3 { font-size: 1.1rem; margin: 10px 0; }
+.guide-scroll-body { max-height: 26dvh; overflow: auto; padding: 0 6px 0 0; }
+.guide-active .guide-toolbar { gap: 8px; margin: 10px 0; }
+.guide-active .guide-toolbar button { font-size: .85rem; padding: 8px 10px; }
+.guide-heading, .guide-toolbar { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
+.guide-heading { justify-content: space-between; }
+.guide-heading h2 { margin: 0; }
+.guide-toolbar { margin: 14px 0; }
+.guide-toolbar button, .guide-toolbar select { min-height: 44px; }
+.guide-toolbar label { display: flex; gap: 8px; align-items: center; }
+.learning-voice-guide audio { width: min(100%, 620px); display: block; margin: 12px 0; }
+.guide-voice-status, .guide-transcript { max-width: 80ch; }
+.guide-explanation { background: var(--surface); color: var(--ink); padding: 18px; border: 1px solid var(--border); border-radius: 8px; margin: 18px 0; scroll-margin-block: 90px; }
+.guide-explanation summary { cursor: pointer; font-weight: 750; line-height: 1.7; }
+.guide-explanation summary span { display: inline-block; margin-left: 14px; font-size: .85em; font-weight: 400; }
+.guide-explanation p, .guide-transcript p { max-width: 78ch; line-height: 1.8; }
+.guide-your-turn { padding: 12px 16px; border-left: 4px solid var(--blue); background: var(--blue-tint); }
+.learning-guide-highlight { outline: 4px solid #ed2424 !important; outline-offset: 5px; box-shadow: 0 0 0 8px rgb(237 36 36 / 12%); }
+.guide-checkpoint { display: flex; align-items: baseline; gap: 12px; margin: 12px 0; }
+.learning-voice-guide input[type='checkbox'] { width: 20px; height: 20px; accent-color: var(--blue); flex-shrink: 0; }
+.learning-voice-guide [role='status']:empty { display: none; }
+@media (max-width: 600px) {
+  .learning-voice-guide.guide-active { right: 12px; bottom: 12px; width: calc(100vw - 24px); max-height: 68dvh; }
+  .guide-active .guide-toolbar button { flex: 1 1 auto; }
+  .guide-scroll-body { max-height: 20dvh; }
+  .learning-voice-guide { padding: 18px; }
+  .guide-toolbar { gap: 8px; }
+  .guide-toolbar button { flex: 1 1 130px; }
+  .guide-explanation { padding: 14px; }
+  .guide-explanation summary span { display: block; margin: 0; }
+}

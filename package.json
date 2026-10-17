@@ -46,6 +46,7 @@
     "integrations:ready": "node --env-file-if-exists=.env --import tsx scripts/integration-readiness.ts",
     "notifications:ready": "node --env-file-if-exists=.env --import tsx scripts/lab65-notification-readiness.ts",
     "notifications:signin": "node --env-file-if-exists=.env --import tsx scripts/lab65-mail-signin.ts --interactive-personal-signin",
+    "guide:live:test": "node --env-file-if-exists=.env --import tsx scripts/learning-guide-live.ts --execute-authorized-narration-test",
     "test:editor:real": "npm run lab69:extension:build && node --import tsx scripts/lab69-real-editor.ts"
   },
   "dependencies": {

@@ -6,6 +6,8 @@ Use the sidebar by topic or lesson number, search by title or objective, and swi
 
 ## Run locally
 
+The [Learning Guide](docs/learning-guide.md) adds section-by-section explanations, red highlighting, Inworld voice narration and a saved self-assessment checklist to all 75 labs. Start a guided tour from any lesson. Written guidance works without a voice key; narration requires explicit server configuration and a Play action.
+
 Requires Node 24 or newer and Git on PATH. On Windows use PowerShell and npm.cmd. Chrome is used by browser acceptance tests and Lab 64; no model key is needed for offline exercises.
 
 ```powershell
