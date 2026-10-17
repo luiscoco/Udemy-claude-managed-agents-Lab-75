@@ -2,16 +2,17 @@ import { createServer } from 'node:http';
 import { lab45CapabilitySchema, lab45SnapshotSchema } from '../../shared/lab45-cloud-providers.js';
 import type { Lab45Target, Lab45Scenario } from '../../shared/lab45-cloud-providers.js';
 import { managedSettings } from './managed-config.js';
+import { awsReadiness, awsManagedSurface, checkAwsResources } from './lab45-aws.js';
 
 export class Lab45Error extends Error { constructor(public statusCode: number, message: string) { super(message); } }
 const catalog = [
   { id: 'claude-api', label: 'Direct Claude API', messagesApi: true, managedDocumented: true, installedManagedClientVerified: true, managedRouteEnabled: true,
     authShape: 'Server-side Anthropic API key', prerequisites: ['Agent ID', 'Environment ID', 'Live opt-in', 'Budget and deadline'], limitations: [],
     documentation: 'https://platform.claude.com/docs/en/api/overview' },
-  { id: 'claude-platform-aws', label: 'Claude Platform on AWS', messagesApi: true, managedDocumented: true, installedManagedClientVerified: false, managedRouteEnabled: false,
+  { id: 'claude-platform-aws', label: 'Claude Platform on AWS', messagesApi: true, managedDocumented: true, installedManagedClientVerified: awsManagedSurface(), managedRouteEnabled: false,
     authShape: 'AWS SigV4 or Claude Platform on AWS API key; workspace and regional endpoint',
     prerequisites: ['Workspace ID', 'Regional endpoint', 'IAM authorization', 'Managed agent and environment', 'Installed Managed AWS client verification'],
-    limitations: ['Outcomes and multi-agent sessions unavailable per current AWS feature support', 'Autonomous sessions require credential refresh within six hours'],
+    limitations: ['Read-only resource preflight is implemented; this lesson does not launch AWS model sessions. Account availability still requires verification.'],
     documentation: 'https://docs.aws.amazon.com/claude-platform/latest/userguide/feature-support.html' },
   { id: 'bedrock', label: 'Amazon Bedrock', messagesApi: true, managedDocumented: false, installedManagedClientVerified: false, managedRouteEnabled: false,
     authShape: 'AWS Bedrock credentials and endpoint', prerequisites: ['Bedrock model access and region'],
@@ -26,16 +27,19 @@ const catalog = [
 const synthetic = 'synthetic-local-token';
 export class Lab45Providers {
   private closed = false; private active = 0;
-  facts() { const ready = managedSettings(); return { source: 'host-only', catalogChecked: '2026-10-15',
+  constructor(private env: NodeJS.ProcessEnv = process.env) {}
+  async checkAws() { if (this.closed || this.active >= 4) throw new Lab45Error(429, 'Provider check capacity reached.'); this.active++;
+    try { return await checkAwsResources(this.env); } catch { throw new Lab45Error(422, 'AWS resource check unavailable or refused. Inspect setup and regional account permissions; no session was created.'); } finally { this.active--; } }
+  facts() { const ready = managedSettings(this.env); return { source: 'host-only', catalogChecked: '2026-10-17',
     firstParty: { configured: ready.configured, liveReady: ready.liveReady, missing: ready.missing, sdkCompatible: ready.sdkCompatible },
-    providerCalls: 0, noAutoProvisioning: true, documentation: ['https://platform.claude.com/docs/en/api/overview',
+    awsSetup: awsReadiness(this.env), providerCalls: 0, noAutoProvisioning: true, documentation: ['https://platform.claude.com/docs/en/api/overview',
       'https://docs.aws.amazon.com/claude-platform/latest/userguide/feature-support.html',
       'https://docs.aws.amazon.com/claude-platform/latest/userguide/authentication.html'] }; }
-  catalog() { return { source: 'official-docs-and-installed-sdk', checkedAt: '2026-10-15', targets: catalog, providerCalls: 0 }; }
+  catalog() { return { source: 'official-docs-and-installed-sdk', checkedAt: '2026-10-17', targets: catalog, providerCalls: 0 }; }
   same(target: Lab45Target) { const item = catalog.find(row => row.id === target)!;
     return { target, messagesApi: item.messagesApi, managedDocumented: item.managedDocumented,
       managedRouteEnabled: item.managedRouteEnabled, distinction: item.managedRouteEnabled ? 'Installed first-party Managed session types verified.' :
-        item.managedDocumented ? 'Documented Managed platform, but this installed TypeScript client path is not verified.' :
+        item.installedManagedClientVerified ? 'Installed AWS Managed client verified locally; only read-only resource preflight is available here.' : item.managedDocumented ? 'Documented Managed platform, but this installed TypeScript client path is not verified.' :
           'Messages support does not imply Managed sessions.', providerCalls: 0 }; }
   async emulate(target: Lab45Target, scenario: Lab45Scenario) {
     if (this.closed || this.active >= 4) throw new Lab45Error(429, 'Provider emulator capacity reached.');
@@ -55,7 +59,7 @@ export class Lab45Providers {
         'X-Config': scenario === 'missing-config' ? 'fixture-missing' : 'fixture-ready',
       }, signal: AbortSignal.timeout(2000) });
       const status = !item.managedRouteEnabled || scenario === 'missing-feature' ? 'refused' : response.ok ? 'ready' : 'refused';
-      const reason = !item.managedRouteEnabled ? item.managedDocumented ?
+      const reason = !item.managedRouteEnabled ? item.installedManagedClientVerified ? 'AWS model-session route disabled; account access remains unverified until explicit read-only preflight.' : item.managedDocumented ?
         'Managed documented, but installed client/endpoint path is unverified; route remains unavailable.' :
         'Messages provider path does not establish Managed session support.' : scenario === 'missing-feature' ?
           'Required Managed feature missing from selected target.' : response.ok ? 'Synthetic loopback preflight passed.' :

@@ -16,6 +16,8 @@ export function createLab45Router(manager = new Lab45Providers()) {
   router.get('/code', (_request, response) => response.json({ source: 'official-catalog-and-installed-sdk', files: [
     'shared/lab45-cloud-providers.ts', 'server/lib/lab45-providers.ts', 'server/concepts/45-cloud-providers.ts'], noProviderCalls: true }));
   router.get('/facts', (_request, response) => response.json(manager.facts()));
+  router.post('/aws/check', (request, response) => { if (Object.keys(request.body ?? {}).length) { response.status(400).json(apiError('INVALID_REQUEST', 'AWS resource check takes no fields.')); return; }
+    void reply(response, () => manager.checkAws()); });
   router.post('/catalog', (request, response) => { if (Object.keys(request.body ?? {}).length) { response.status(400).json(apiError('INVALID_REQUEST', 'Catalog takes no fields.')); return; }
     response.json(manager.catalog()); });
   router.post('/same', (request, response) => { const parsed = lab45TargetSchema.safeParse(request.body);

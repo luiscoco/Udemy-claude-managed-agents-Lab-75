@@ -3,12 +3,30 @@ import { after, test } from 'node:test';
 import express from 'express';
 import { Lab45Providers } from '../server/lib/lab45-providers.js';
 import { createLab45Router } from '../server/concepts/45-cloud-providers.js';
+import { awsReadiness, awsManagedSurface, checkAwsResources } from '../server/lib/lab45-aws.js';
+
+test('installed AWS Managed SDK uses a fixed regional endpoint, isolated key and workspace for read-only lookups', async () => {
+  assert.equal(awsManagedSurface(), true); assert.equal(awsReadiness({ ANTHROPIC_API_KEY: 'shared-fixture' }).ready, false);
+  const env = { LAB45_AWS_LIVE_ENABLED: '1', ANTHROPIC_AWS_API_KEY: 'aws-fixture-key', ANTHROPIC_AWS_WORKSPACE_ID: 'workspace_fixture',
+    LAB45_AWS_REGION: 'us-east-1', LAB45_AWS_AGENT_ID: 'agent_fixture', LAB45_AWS_ENVIRONMENT_ID: 'env_fixture' };
+  const calls: string[] = [];
+  const result = await checkAwsResources(env, async (input, init) => {
+    const request = new Request(input, init); calls.push(request.url); assert.equal(request.method, 'GET');
+    assert.equal(new URL(request.url).origin, 'https://aws-external-anthropic.us-east-1.api.aws');
+    assert.equal(request.headers.get('anthropic-workspace-id'), 'workspace_fixture');
+    return Response.json({ id: request.url.includes('/agents/') ? 'agent_fixture' : 'env_fixture', archived_at: null });
+  });
+  assert.equal(calls.length, 2); assert.equal(result.resourcesAccessible, true); assert.equal(result.sessionCreated, false);
+  assert.equal(JSON.stringify(result).includes('aws-fixture-key'), false);
+  let failedCalls = 0; await assert.rejects(checkAwsResources(env, async () => { failedCalls++; return Response.json({ error: { type: 'authentication_error', message: 'private diagnostics' } }, { status: 401 }); }), /AWS resource check failed/);
+  assert.equal(failedCalls, 1);
+});
 
 test('catalog separates documented Managed availability from installed client and Messages support', () => {
   const manager = new Lab45Providers(); const rows = manager.catalog().targets;
   const first = rows.find(item => item.id === 'claude-api')!, aws = rows.find(item => item.id === 'claude-platform-aws')!;
   assert.equal(first.managedRouteEnabled, true); assert.equal(first.installedManagedClientVerified, true);
-  assert.equal(aws.managedDocumented, true); assert.equal(aws.installedManagedClientVerified, false);
+  assert.equal(aws.managedDocumented, true); assert.equal(aws.installedManagedClientVerified, true);
   assert.equal(aws.managedRouteEnabled, false); assert.match(aws.authShape, /SigV4/);
   for (const id of ['bedrock', 'vertex', 'foundry']) {
     const item = rows.find(row => row.id === id)!; assert.equal(item.messagesApi, true);

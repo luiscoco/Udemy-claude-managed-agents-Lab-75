@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { lab45CapabilitySchema, lab45Targets, lab45SnapshotSchema } from '../../shared/lab45-cloud-providers';
 
 type Capability = ReturnType<typeof lab45CapabilitySchema.parse>;
@@ -9,12 +9,15 @@ export default function Concept45CloudProviders() {
   const [scenario, setScenario] = useState<(typeof scenarios)[number]>('ready'); const [catalog, setCatalog] = useState<Capability[]>([]);
   const [snapshot, setSnapshot] = useState<Snapshot>(); const [busy, setBusy] = useState(false);
   const [status, setStatus] = useState('Ready. Catalog facts and emulator requests never contact a cloud provider.');
+  const [awsSetup, setAwsSetup] = useState<{ ready: boolean; enabled: boolean; missing: string[]; invalid: string[] }>();
+  useEffect(() => { void fetch('/api/c45/facts', { headers: { 'X-Lab-Owner': owner.current } }).then(response => response.json()).then(data => setAwsSetup(data.awsSetup)).catch(() => {}); }, []);
   async function post(route: string, body: object) { setBusy(true); try {
     const response = await fetch(`/api/c45/${route}`, { method: 'POST', headers: { 'Content-Type': 'application/json', 'X-Lab-Owner': owner.current },
-      body: JSON.stringify(body), signal: AbortSignal.timeout(7000) }); const data = await response.json();
+      body: JSON.stringify(body), signal: AbortSignal.timeout(route === 'aws/check' ? 15000 : 7000) }); const data = await response.json();
     if (!response.ok) throw new Error(data.error?.message ?? `HTTP ${response.status}`);
     if (route === 'catalog') { setCatalog(data.targets.map((item: unknown) => lab45CapabilitySchema.parse(item))); setStatus(`${data.targets.length} provider paths cataloged from official documentation.`); }
     else if (route === 'same') setStatus(data.distinction);
+    else if (route === 'aws/check') setStatus(`AWS agent and environment accessible: ${data.resourcesAccessible}. No session created; model execution remains unverified.`);
     else { const checked = lab45SnapshotSchema.parse(data); setSnapshot(checked); setStatus(`${checked.status}: ${checked.reason}`); }
   } catch (error) { setStatus(error instanceof Error ? error.message : 'Provider request failed.'); } finally { setBusy(false); } }
   return <section aria-labelledby="lab45-heading"><h2 id="lab45-heading">Provider availability and configuration</h2>
@@ -36,5 +39,8 @@ export default function Concept45CloudProviders() {
       <h3>Host evidence</h3><ul>{snapshot.evidence.map((item, index) => <li key={index}>{item}</li>)}</ul></>}
     <p role="status" aria-label="Lab 45 status">{status}</p>
     <p>Emulated wire shapes stay labeled offline. No cloud account, deployment or billable test starts automatically.</p>
+    <h3>AWS resource setup</h3><p>The official AWS client is installed. The explicit check reads two existing resources and creates no model session.</p>
+    {awsSetup && <p>{awsSetup.ready ? 'Configured; account access has not been verified by this inspection.' : `Setup required. ${!awsSetup.enabled ? 'Set LAB45_AWS_LIVE_ENABLED=1. ' : ''}Missing: ${awsSetup.missing.join(', ') || 'none'}. Invalid: ${awsSetup.invalid.join(', ') || 'none'}.`}</p>}
+    <button disabled={busy || !awsSetup?.ready} onClick={() => void post('aws/check', {})}>Check AWS resources (read-only)</button>
   </section>;
 }
