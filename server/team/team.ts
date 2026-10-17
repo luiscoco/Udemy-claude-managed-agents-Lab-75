@@ -16,8 +16,10 @@ export function validatePlan(raw: unknown) {
     for (const file of [...task.files, task.testFile]) { if (owners.has(file)) errors.push(`Duplicate owner for ${file}: ${owners.get(file)} and ${task.id}`); owners.set(file, task.id); }
     if (task.testFile === 'tests/notes.test.mjs') errors.push(`${task.id} cannot overwrite an existing test`);
     if (task.files.includes('src/notes.mjs')) errors.push(`${task.id} cannot modify the base notes module`);
+    for (const file of task.files) if (!['src/tags.mjs', 'src/search.mjs', 'src/report.mjs'].includes(file)) errors.push(`${task.id} source ${file} is outside the issue 7 module contract`);
     if (new Set(task.dependsOn).size !== task.dependsOn.length) errors.push(`Duplicate dependencies in ${task.id}`);
   }
+  for (const file of ['src/tags.mjs', 'src/search.mjs', 'src/report.mjs']) if (!owners.has(file)) errors.push(`Required issue 7 module has no owner: ${file}`);
   for (const task of plan.tasks) for (const dependency of task.dependsOn) if (!ids.has(dependency)) errors.push(`Unknown dependency ${dependency} in ${task.id}`);
   const visiting: string[] = [], done = new Set<string>();
   const visit = (id: string) => { if (visiting.includes(id)) { errors.push(`Dependency cycle: ${[...visiting.slice(visiting.indexOf(id)), id].join(' -> ')}`); return; }
@@ -30,7 +32,7 @@ export function validatePlan(raw: unknown) {
 export const goodPlan: Plan = { tasks: [
   { id: 'T1', files: ['src/tags.mjs'], testFile: 'tests/tags.test.mjs', dependsOn: [], spec: 'normalizeTag trims and lowercases strings; reject nonstring, empty or more than 20 characters after trim. parseTags validates an array and deduplicates normalized tags in first-seen order.', acceptance: ['20 characters accepted; 21 rejected', 'Stable deduplication'] },
   { id: 'T2', files: ['src/search.mjs'], testFile: 'tests/search.test.mjs', dependsOn: ['T1'], spec: 'findByTag(notes, tag) normalizes query and note tags, returns matching original notes in original order.', acceptance: ['Normalized matching', 'Empty matches return []'] },
-  { id: 'T3', files: ['src/report.mjs'], testFile: 'tests/report.test.mjs', dependsOn: ['T1'], spec: 'tagCounts(notes) returns {tag,count} records, counts each normalized tag at most once per note; sort descending count, then ascending codepoint tag for ties.', acceptance: ['Distinct notes counted', 'Stable tie ordering'] },
+  { id: 'T3', files: ['src/report.mjs'], testFile: 'tests/report.test.mjs', dependsOn: ['T1'], spec: 'tagCounts(notes) returns {tag,count} records, counts each normalized tag at most once per note; sort descending count, then ascending Unicode codepoint tag for ties, comparing numeric code points with shorter prefixes first (not UTF-16 string ordering).', acceptance: ['Distinct notes counted', 'Stable tie ordering'] },
 ] };
 export function planPreset(name: string): unknown { const plan = structuredClone(goodPlan);
   if (name === 'protected-deletion') plan.tasks[0]!.files = ['.github/workflows/ci.yml'];

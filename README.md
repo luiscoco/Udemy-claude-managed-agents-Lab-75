@@ -1730,7 +1730,7 @@ Independent private checkpoint: [Udemy-claude-managed-agents-Lab-69](https://git
 1. Registered a Python-client comparison exercise and [learner guide](Tab70-python-sdk.md), with an independent `anthropic==1.7.0` requirement verified from the installed official package surface.
 2. Added a fixed-argument isolated Python worker and a narrow Node bridge with bounded JSON-lines output and diagnostics. Readiness never installs packages or calls a provider.
 3. Implemented one-shot and retained session flows, Node-hosted custom-tool results, graceful cancellation and explicit cleanup evidence. Owner-scoped handles prevent caller-selected remote session IDs.
-4. Tested real offline worker processes, malformed output, stderr bounds and retained ownership. The [checkpoint](docs/lab70-checkpoint.md) records that live mode awaits explicit venv setup and was not tested against the provider.
+4. Tested real offline worker processes, malformed output, stderr bounds and retained ownership. After explicit venv setup, actual retained-session reuse, close and custom-tool tests passed; the [checkpoint](docs/lab70-checkpoint.md) records the live-discovered wire-type and shutdown fixes.
 
 ```powershell
 node --import tsx --test tests/lab70-python-sdk.test.ts
@@ -1793,3 +1793,4 @@ Independent private checkpoint: [Udemy-claude-managed-agents-Lab-71](https://git
 4. Verified real worker changes and tests, committed with task trailers, and integrated serially before review/rework.
 5. Added host-only acceptance probes, a durable hash-chained journal, cost reservations, safe replay and a ready/draft release gate.
 6. Connected scripted and dedicated Managed role adapters through the same orchestrator, then tested all seven offline scenarios and provider-shaped injected fixtures. The final course audit checks every registered lesson and distribution boundaries.
+7. Provisioned three pinned role agents after explicit authorization and ran the actual live team. Fixed the issue contract, review feedback and empty rework gate exposed by the first draft. The Unicode follow-up also reached Ready without reviewer questions; all seventeen sessions across three attempts were archived. [Live evidence and limits](docs/course-validation.md) record reported costs and remaining infrastructure prerequisites. The configured key stays unchanged at the user's request.

@@ -8,7 +8,7 @@ const roots = ['src', 'shared', 'server', 'scripts', 'tests', 'browser-tests', '
 const rootFiles = ['package.json', 'package-lock.json', 'tsconfig.json', 'vite.config.ts', 'playwright.config.ts', 'index.html', '.env.example', '.gitignore', '.npmignore', 'README.md'];
 const allowed = path => !forbiddenPath(path) && !/\.(?:local|tmp|lock)\.json$|\.local\.|(?:^|\/)(?:dist|node_modules|__pycache__|artifacts|\.git|\.venv)(?:\/|$)/i.test(path)
   && (rootFiles.includes(path) || /^Tab\d+(?:-[a-z0-9-]+)?\.md$/.test(path)
-    || /^(?:src|shared|server|scripts|tests|browser-tests|fixtures|docgen-skills|skills|mcp-servers|managed|ci-kit|python\/lab70|extensions\/lab69)\/[^\0]+\.(?:ts|tsx|mjs|js|json|md|html|css|svg|png|csv|txt|py|yaml|yml)$/.test(path)
+    || /^(?:src|shared|server|scripts|tests|browser-tests|fixtures|docgen-skills|skills|mcp-servers|managed|ci-kit|python\/lab70|extensions\/lab69)\/[^\0]+\.(?:ts|tsx|mjs|js|json|md|html|css|svg|png|csv|txt|py|ps1|yaml|yml)$/.test(path)
     || path === 'ci-kit/Dockerfile' || /^docs\/managed-foundation-(?:390|1280)\.png$/.test(path) || /^docs\/[^\0]+\.(?:md|docx)$/.test(path));
 const paths = new Set(rootFiles);
 async function walk(path) { for (const entry of await readdir(path, { withFileTypes: true })) { const name = `${path}/${entry.name}`;

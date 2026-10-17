@@ -111,18 +111,20 @@ export class TeamWorkshop {
         if (round === 2) throw new Error('Review still has actionable findings after one rework.');
         for (const id of [...new Set(routed.automated.map(finding => state.plan!.tasks.find(task => task.files.includes(finding.file))?.id))]) {
           if (!id) throw new Error('Review finding lacks a source owner.'); const task = state.plan!.tasks.find(task => task.id === id)!, taskState = state.tasks.find(task => task.id === id)!;
-          taskState.reworks++; if (taskState.reworks > 1) throw new Error('Rework cap exceeded.'); await this.develop(runtime, team, task, taskState, true); if (taskState.state !== 'verified') throw new Error('Review rework failed.'); await this.integrate(runtime, taskState);
+          const feedback = routed.automated.filter(finding => task.files.includes(finding.file)).map(finding => `${finding.file}:${finding.line} ${finding.severity}: ${finding.message}`);
+          taskState.reworks++; if (taskState.reworks > 1) throw new Error('Rework cap exceeded.'); await this.develop(runtime, team, task, taskState, true, feedback); if (taskState.state !== 'verified') throw new Error('Review rework failed.'); await this.integrate(runtime, taskState);
         }
       }
       const final = await fixtureTests(state.integration, (await visibleFiles(state.integration)).filter(file => file.startsWith('tests/')), runtime.controller.signal); state.integrationPass = final.code === 0 && !final.timedOut;
       state.holdouts = await teamHoldouts(state.integration, runtime.controller.signal); await runtime.journal.append('holdouts', state.holdouts);
-      const changed = await changedPaths(state.integration, 'main'); state.protectedPass = changed.every(path => /^src\/(?:tags|search|report)\.mjs$|^tests\/(?:tags|search|report)\.test\.mjs$/.test(path));
+      const changed = await changedPaths(state.integration, 'main'), ownedPaths = new Set(state.plan.tasks.flatMap(task => [...task.files, task.testFile]));
+      state.protectedPass = changed.every(path => ownedPaths.has(path));
       if (await hostGit(state.repo, 'rev-parse', 'main') !== state.base) state.protectedPass = false;
       state.state = 'completed';
     } finally { clearTimeout(timeout); }
   }
-  private async develop(runtime: Runtime, team: Team, task: Task, taskState: TaskState, rework: boolean) {
-    const state = runtime.state, root = resolve(state.root, 'tasks', task.id); let feedback: string[] = [];
+  private async develop(runtime: Runtime, team: Team, task: Task, taskState: TaskState, rework: boolean, initialFeedback: string[] = []) {
+    const state = runtime.state, root = resolve(state.root, 'tasks', task.id); let feedback = [...initialFeedback];
     if (!taskState.base) await runtime.mutex.run(async () => { taskState.base = await hostGit(state.integration, 'rev-parse', 'HEAD'); taskState.branch = `team/${task.id}`;
       await mkdir(resolve(state.root, 'tasks'), { recursive: true }); await hostGit(state.repo, 'worktree', 'add', '-qb', taskState.branch, root, taskState.base); await runtime.journal.append('worktree', { task: task.id, base: taskState.base }); });
     const attempts = rework ? 1 : 2;
@@ -130,6 +132,7 @@ export class TeamWorkshop {
       taskState.rounds++; taskState.state = 'running'; await this.checkpoint(runtime);
       const raw = await this.call(runtime, team, 'developer', root, taskState.rounds, feedback, task); const report = DevReportSchema.parse(raw);
       state.questions.push(...report.questions); taskState.checks = await verifyTask(root, task, taskState.base!, runtime.controller.signal);
+      taskState.checks.push({ name: 'new work since last commit', pass: (await changedPaths(root)).length > 0, detail: 'A completed report without a new working-tree change cannot create a fix commit.' });
       if (report.status === 'done' && taskState.checks.every(check => check.pass)) {
         await runtime.mutex.run(async () => { await runtime.journal.append('commit-intent', { task: task.id, planHash: state.planHash }); await hostGit(root, 'add', '--', ...task.files, task.testFile);
           await hostGit(root, 'commit', '--author', `team-dev-${task.id} <${task.id.toLowerCase()}@example.invalid>`, '-qm', `Implement ${task.id} for issue 7\n\nTask: ${task.id}\nRefs: #7\nPlan-hash: ${state.planHash}`);

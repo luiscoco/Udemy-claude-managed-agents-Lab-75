@@ -6,8 +6,9 @@ export function parseTags(tags) { if(!Array.isArray(tags)) throw Error('Tags mus
 const search = `import {normalizeTag,parseTags} from './tags.mjs';
 export const findByTag=(notes,tag)=>{const normalized=normalizeTag(tag);return notes.filter(note=>parseTags(note.tags).includes(normalized));};\n`;
 const report = (correct: boolean) => `import {parseTags} from './tags.mjs';
+function compareTags(a,b) { const left=Array.from(a,character=>character.codePointAt(0)),right=Array.from(b,character=>character.codePointAt(0)); for(let index=0;index<Math.min(left.length,right.length);index++)if(left[index]!==right[index])return left[index]-right[index]; return left.length-right.length; }
 export function tagCounts(notes) { const counts=new Map(); for(const note of notes)for(const tag of parseTags(note.tags))counts.set(tag,(counts.get(tag)||0)+1);
-return [...counts].map(([tag,count])=>({tag,count})).sort((a,b)=>b.count-a.count${correct ? ' || (a.tag<b.tag?-1:a.tag>b.tag?1:0)' : ''}); }\n`;
+return [...counts].map(([tag,count])=>({tag,count})).sort((a,b)=>b.count-a.count${correct ? ' || compareTags(a.tag,b.tag)' : ''}); }\n`;
 const prefix = `import {test} from 'node:test'; import assert from 'node:assert/strict';\n`;
 const taskTests: Record<string, string> = {
   T1: prefix + `import {normalizeTag,parseTags} from '../src/tags.mjs'; test('normalizes',()=>assert.equal(normalizeTag(' Work '),'work')); test('deduplicates in order',()=>assert.deepEqual(parseTags(['B','a','b']),['b','a']));\n`,

@@ -1,4 +1,4 @@
-# Course validation on 16 October 2026
+# Course validation: 16-17 October 2026
 
 The runtime contains exactly 75 implemented numbered lessons and no Lab 00. Each has an exercise component, mounted router, objective, steps, inspect references, challenge, authored guide and actual teaching sources. The automated coverage check inspects registered operations without sending exercise POSTs. Native Managed operations and local host replacements remain distinguished in the guides.
 
@@ -10,7 +10,7 @@ The runtime contains exactly 75 implemented numbered lessons and no Lab 00. Each
 | Production build and Lab 69 extension build | Passed; existing Vite dynamic-import warnings remain |
 | Full offline suite | 475 passed, zero failed, in 282 seconds |
 | Added course coverage and live adapter fixture checks | Five passed separately after their addition |
-| Lab 75 team and live-boundary suite | Nine passed, including all seven real Git/Node scenarios |
+| Lab 75 team and live-boundary suite | Eleven passed, including all seven real Git/Node scenarios, no-op rework and Unicode acceptance regressions |
 | Lab 09/10 lifecycle and cleanup regression suites | Twenty-one passed after the live follow-up fixes |
 | Guide/objective/source audit | Passed for every ID 1 through 75 |
 | Guide/raw-catalog suite | Four passed; host-only acceptance implementation excluded |
@@ -18,10 +18,14 @@ The runtime contains exactly 75 implemented numbered lessons and no Lab 00. Each
 | SSE transport suite | Seventeen passed |
 | All-lessons browser suite | 146 passed; the Lab 75 case was interrupted by a guide/source HMR update during ongoing edits |
 | Affected Lab 10, Lab 75 and shell rerun after edits stopped | Thirteen passed |
+| Final Lab 75 and shell browser rerun | Ten passed after the Unicode change |
+| Final Lab 69/70 browser rerun | Two passed after the Python live fixes |
+| Lab 69/70 focused checks | Nine passed; five Python checks passed again after the shutdown fix |
 | Host-only acceptance browser boundary | Direct development-server access rejected; focused two-test Lab 75 suite passed |
 | Read-only live-action fixtures | Five passed; no model backend involved |
 | Phone/desktop demonstrations | Lab 72, 73, 74 and 75 passed at 390 and 1440 pixels without page overflow |
-| Explicit allowlist course package | Created and scanned locally; includes 75 guides and a SHA256 manifest |
+| Explicit allowlist course package | Rebuilt: 882 authored files, 75 guides and a SHA256 manifest; credentials excluded |
+| Final distribution scan | Passed across 2,307 authored/build/package files; .env contents never read |
 
 The full suite predates the added coverage/live-boundary tests and the Lab 09/10 cleanup regressions. Those additions and affected implementation changes were verified by the focused runs above. Test counts are not added together as if repeated tests were distinct coverage. Browser tests exercise navigation, search, history, guides, source links/copy, retained exercise state, cancellation, keyboard controls, themes and narrow layouts. Unsupported optional live features have no pretend success controls.
 
@@ -35,11 +39,34 @@ Lab 10's first live attempt did not continue successfully. Read-only reconciliat
 
 Six test sessions were created in total, each with a ten-cent cap. A separate read-only final audit confirmed all six were archived. The provider then reported six USD cents in aggregate cumulative list costs. Those reported costs are not a complete final invoice or a guarantee about later adjustments. Raw session identifiers and detailed live evidence remain only in ignored local artifacts.
 
-Lab 75's actual live team remains blocked by missing LAB75_ANTHROPIC_API_KEY and the three separately pinned role agents/versions. The shared credential was not silently substituted. Its adapter was tested through injected provider-shaped events, including inventory mismatch, stream-before-send, report correlation, usage and cleanup; this is not an actual planner/developer/reviewer provider run. `team:ready` is local-only. `team:provision` is a separate deliberate setup command requiring that isolated key and a reviewed model; it was not executed.
+After the user explicitly supplied and authorized a key for Lab 75, it was configured under LAB75_ANTHROPIC_API_KEY in ignored local settings. Three dedicated planner/developer/reviewer agents were provisioned and their immutable versions and exact tool inventories verified. They have no MCP servers, skills or multiagent capability. Keys and resource pins remain outside the published source.
+
+The first actual team run stopped as a draft. It exposed an incomplete public issue contract, missing reviewer feedback on rework and an empty-fix commit path. The issue now names every required module/export and behavior; plans must cover those modules, rework receives its routed findings, new work since the last commit is required, and protected-path checks honor validated owned test filenames. Focused regressions cover these changes.
+
+A fresh actual provider run reached Ready: three tasks merged, full integration and protected-file checks passed, and all four independent acceptance probes passed. Its reviewer raised a low-confidence Unicode ordering question, addressed in the subsequent follow-up below. Five sessions were confirmed archived and the provider reported 42 USD cents. The earlier draft's seven sessions were also archived and reported 55 cents: twelve archived sessions and 97 reported cents across the two Lab 75 runs. The first run used a 300-cent reference cap and the retest 200 cents; individual sessions were capped at 30 cents. Reported list costs are not a final invoice. Fixture branches were never pushed. Detailed evidence remains in ignored artifacts.
+
+On 17 October, the issue and task contract were clarified to require numeric Unicode codepoint comparison, including prefix ordering. The scripted implementation now follows that rule. The existing count/tie acceptance probe also checks BMP versus astral characters and prefixes. A regression proves that otherwise visible-green UTF-16 ordering is rejected. A third actual live team run passed every gate and all strengthened probes, with no reviewer questions. Its five sessions were archived and reported 46 cents. A final read-only audit confirmed all seventeen Lab 75 test sessions archived, with 143 reported USD cents across all three attempts.
+
+Lab 69's actual backend produced a schema-validated patch, preserved the original document until host apply, and applied the patch once. Its snapshot now retains the remote session ID so cleanup can be audited. Interactive VS Code execution remains distinct from this backend test.
+
+Lab 70's pinned requirements were deliberately installed in workspace-local .venv. Actual testing exposed and fixed a numeric budget wire value (now an integer decimal string) and a buffered-stdin daemon reader that failed at interpreter shutdown (now bounded descriptor reads). The shutdown regression passes with stdin still open. The fresh live run confirmed two turns in one retained session, explicit close, and a correlated custom-tool call in a separate one-shot session, all with clean worker exits. The sessions from earlier diagnostic attempts were reconciled too: five total Lab 69/70 sessions were archived, with three reported cents. The successful smoke run is reproducible with `node --env-file-if-exists=.env --import tsx scripts/live-host-integrations-smoke.ts --execute-authorized-live-tests`. Evidence stays in ignored artifacts.
+
+`team:ready` remains local-only; startup does not provision or run a model. The explicit live smoke command is documented in the Lab 75 guide. The current key was retained unchanged at the user's explicit request. The optional secure local helper is available for future changes.
 
 ## Manual or infrastructure checks still pending
 
-Live scenarios that require additional lesson-specific agents, isolated keys, cloud resources, vaults, Python environment packages, telemetry collectors or notification transports remain conditional on their setup. No real Slack/Teams/email message, payment/refund, arbitrary remote PR publication, cloud deployment or skill upload was performed in this validation. Lab 69's extension was tested with a mocked VS Code host; interactive IDE installation remains manual. Python 70's isolated interpreter requires explicit dependency installation for live use. Offline fixtures cannot prove remote account availability or cleanup of sessions they never created.
+The remaining integration limits were checked against the implemented routes and local configuration:
+
+| Integration | Remaining requirement or boundary |
+| --- | --- |
+| Lab 44 remote provider telemetry | The lesson implements a local OTLP collector; its live route deliberately refuses remote execution. A remote collector/provider trace adapter is separate future work, not enabled by an API key. |
+| Lab 45 alternate clouds | Provider routes remain disabled until a separately reviewed cloud account, regional/workspace settings and verified compatible client are supplied. The emulator does not prove cloud authentication. |
+| Lab 64 browser MCP | The lesson uses actual local Playwright MCP; cloud access to host localhost is not supported. |
+| Lab 65 Slack/Teams/email | External notifications are disabled and all channel secrets are absent. A destination and credentials must be configured before an authorized delivery test. No message was sent. |
+| Lab 69 interactive editor | The backend live run passed; the extension was exercised through a mocked VS Code host. Interactive editor installation/launch remains manual. |
+| Other infrastructure-dependent scenarios | Account-specific resources, vaults and deployment destinations remain prerequisites; the current validation does not claim every optional live scenario ran. |
+
+No payment/refund, arbitrary remote PR publication, cloud deployment or skill upload occurred in this validation. Offline fixtures cannot prove remote account availability or cleanup of sessions they never created.
 
 ## Distribution and checkpoints
 

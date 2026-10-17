@@ -10,7 +10,7 @@ Validate plan only tests good/sequential, protected deletion, duplicate owner, d
 
 ## Evidence to inspect
 
-The good plan has T1 tags followed by T2 search and T3 report concurrently. All tasks have one source owner and a new test file. The host validates a closed plan, rejects cycles with their path, and permits one corrective planner round. Tags are trimmed/lowercased, nonempty strings, at most twenty characters after trimming, with ordered deduplication. Search returns original matching notes. Counts count a normalized tag once per note and sort by descending count then ascending codepoint tag.
+The good plan has T1 tags followed by T2 search and T3 report concurrently. All tasks have one source owner and a new test file. The host validates a closed plan, rejects cycles with their path, and permits one corrective planner round. Tags are trimmed/lowercased, nonempty strings, at most twenty characters after trimming, with ordered deduplication. Search returns original matching notes. Counts count a normalized tag once per note and sort by descending count then ascending Unicode codepoint tag, comparing numeric code points with shorter prefixes first.
 
 Workers use checked custom tools only. Planner and reviewer tools are read-only. A developer can write only its owned files and new test. Paths reject traversal, protected data and links; directory reads suggest glob_files. The board binds sender identity to the role/task, allows only known recipients, six messages per sender and 600 characters, and deduplicates stable envelope IDs. Peer text remains untrusted. There is no shell/Git tool.
 
@@ -39,3 +39,5 @@ Compare hidden-boundary with happy-rework. Explain why review plus independent a
 ## Run locally
 
 Run `npm run dev` and open lesson 75. Run `npm run test:team`, typecheck, build, guide checks and the focused browser demonstration. For a retained fixture inspect `git -C team-lab/runs/<id>/int log --all --format=full`. Review journal and handoff before any manual publication.
+
+To replace the isolated local key without echoing it, run `powershell -File scripts/set-lab75-key.ps1`, then restart the backend. Existing role pins stay in ignored local settings. After readiness, an explicitly billed command-line smoke run is `node --env-file-if-exists=.env --import tsx scripts/live-lab75-smoke.ts --execute-authorized-live-test --budget-cents=200`. It writes ignored evidence under artifacts/lab75 and independently checks archival of every created session. It does not publish fixture branches. See [actual live results](docs/course-validation.md), including the resolved Unicode ordering follow-up.
