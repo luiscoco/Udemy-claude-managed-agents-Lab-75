@@ -25,6 +25,8 @@ The four learning checkboxes are self-assessment saved per lab in this browser. 
 
 An explicitly requested live smoke test is available as `npm run guide:live:test`. It synthesizes one Lab 65 objective clip, checks the MP3 header and writes audio plus redacted evidence to ignored `artifacts/learning-guide`. This incurs one provider request; it does not run a lesson agent. Listen to the saved clip separately to assess pronunciation and delivery.
 
+The authorized initial live test passed on 18 October 2026 with Yash and inworld-tts-2. One request returned a 259,584-byte MP3 (32.448 seconds, 48 kHz mono), decoded without errors by FFmpeg. The local API key remains ignored; narration requires restarting the backend after configuration changes. The live test is separate from offline checks and does not claim every lab recording has been generated.
+
 ## How it was built, step by step
 
 1. Inspected the named [reference repository](https://github.com/luiscoco/Udemy-Claude-Agent-SDK-Learning-Platform-v2), local checkout commit `6fb4c239d5ad1458f54ae14a1f2381306c9e7d47`, especially SectionTour, SectionExplanation, GuidedLesson and its audio-generation script.
