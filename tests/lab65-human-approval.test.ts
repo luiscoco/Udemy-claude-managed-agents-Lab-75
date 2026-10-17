@@ -2,7 +2,16 @@ import assert from 'node:assert/strict';
 import { randomUUID } from 'node:crypto';
 import { after, test } from 'node:test';
 import express from 'express';
-import { Lab65ApprovalStore, createLab65Router } from '../server/concepts/65-human-approval.js';
+import { Lab65ApprovalStore, createLab65Router, notificationReadiness } from '../server/concepts/65-human-approval.js';
+
+test('notification readiness reveals missing names and invalid destinations without secrets or transport', () => {
+  const empty = notificationReadiness({}); assert.ok(empty.every(item => !item.ready && !item.enabled));
+  assert.deepEqual(empty[0]?.missing, ['LAB65_SLACK_WEBHOOK_URL']);
+  const secret = 'private-webhook-value', configured = notificationReadiness({ LAB65_EXTERNAL_NOTIFICATIONS: '1', LAB65_SLACK_WEBHOOK_URL: `https://hooks.slack.com/services/${secret}` });
+  assert.equal(configured[0]?.ready, true); assert.equal(JSON.stringify(configured).includes(secret), false);
+  const wrong = notificationReadiness({ LAB65_EXTERNAL_NOTIFICATIONS: '1', LAB65_SLACK_WEBHOOK_URL: `https://hooks.slack.com.evil.test/${secret}` });
+  assert.equal(wrong[0]?.ready, false); assert.deepEqual(wrong[0]?.invalid, ['LAB65_SLACK_WEBHOOK_URL']);
+});
 
 const store = new Lab65ApprovalStore(`artifacts/lab65/test-${randomUUID()}.sqlite`, () => 1000000,
   {}, async () => { throw new Error('External notification must not be called.'); });

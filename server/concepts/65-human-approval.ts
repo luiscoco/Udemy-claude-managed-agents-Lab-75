@@ -8,6 +8,24 @@ import { lab65RunSchema, lab65ToolInputSchema } from '../../shared/lab65-human-a
 import { apiError } from '../lib/errors.js';
 
 type Channel = 'local' | 'slack' | 'teams' | 'email';
+export function notificationReadiness(env: NodeJS.ProcessEnv = process.env) {
+  const enabled = env.LAB65_EXTERNAL_NOTIFICATIONS === '1';
+  const fields = { slack: ['LAB65_SLACK_WEBHOOK_URL'], teams: ['LAB65_TEAMS_WORKFLOW_URL'],
+    email: ['LAB65_GRAPH_SENDER', 'LAB65_GRAPH_RECIPIENT', 'LAB65_GRAPH_TOKEN'] } as const;
+  return (['slack', 'teams', 'email'] as const).map(channel => {
+    const missing = fields[channel].filter(key => !env[key]?.trim()), invalid: string[] = [];
+    if (!missing.length && channel === 'email') {
+      for (const key of ['LAB65_GRAPH_SENDER', 'LAB65_GRAPH_RECIPIENT']) if (!/^[^@\s]+@[^@\s]+$/.test(env[key]!)) invalid.push(key);
+    } else if (!missing.length) {
+      const key = fields[channel][0];
+      try { const url = new URL(env[key]!); const allowed = channel === 'slack' ? url.hostname === 'hooks.slack.com' : /(^|\.)logic\.azure\.com$|(^|\.)powerautomate\.com$/.test(url.hostname);
+        if (url.protocol !== 'https:' || url.username || url.password || url.hash || !allowed) invalid.push(key); }
+      catch { invalid.push(key); }
+    }
+    return { channel, ready: enabled && !missing.length && !invalid.length, enabled, missing, invalid,
+      enableSetting: 'LAB65_EXTERNAL_NOTIFICATIONS=1', deliveryVerified: false };
+  });
+}
 type Proposal = { id: string; owner: string; reviewer: string; action: 'archive_fictional_case';
   args: Readonly<{ caseId: 'CASE-2042'; reason: string }>; eventId: string; businessKey: string;
   createdAt: number; expiresAt: number; state: 'pending' | 'approved' | 'rejected' | 'expired';
@@ -22,6 +40,7 @@ const safeOwner = (value: unknown): value is string => typeof value === 'string'
 async function deliver(channel: Exclude<Channel, 'local'>, proposal: Proposal, env: NodeJS.ProcessEnv,
   fetcher: typeof fetch) {
   if (env.LAB65_EXTERNAL_NOTIFICATIONS !== '1') throw new Error('External notifications are disabled.');
+  if (!notificationReadiness(env).find(item => item.channel === channel)?.ready) throw new Error('External notification configuration is missing or invalid; inspect readiness.');
   const message = `Review fictional ${proposal.action} for ${proposal.args.caseId}. Proposal ${proposal.id}. Open the local learning platform; this notification is not approval.`;
   let url: string; let headers: Record<string, string> = { 'Content-Type': 'application/json' }; let body: unknown;
   if (channel === 'slack') {
@@ -58,6 +77,7 @@ export class Lab65ApprovalStore {
     this.db.exec('CREATE TABLE IF NOT EXISTS effects (business_key TEXT PRIMARY KEY, case_id TEXT NOT NULL, proposal_id TEXT NOT NULL, executed_at INTEGER NOT NULL)');
   }
   close() { this.db.close(); }
+  notificationSetup() { return notificationReadiness(this.env); }
   reviewerSession(owner: string) { const token = randomBytes(24).toString('base64url');
     if (this.reviewers.size >= 100) this.reviewers.delete(this.reviewers.keys().next().value!);
     this.reviewers.set(token, { owner, reviewer: reviewerFor(owner), expiresAt: this.now() + 900000 }); return token; }
@@ -134,7 +154,7 @@ export function createLab65Router(store = new Lab65ApprovalStore()) {
         ? error.message : 'Approval operation rejected.')); } };
   router.get('/facts', (_request, response) => response.json({ source: 'offline-host-fixture', providerCalls: 0,
     toolDefinition: lab65ToolDefinition, builtInTools: false, mcp: false, skills: false,
-    notificationDefault: 'local; no message sent', decisionMode: 'same-origin local reviewer session' }));
+    notificationDefault: 'local; no message sent', notificationSetup: store.notificationSetup(), decisionMode: 'same-origin local reviewer session' }));
   router.get('/code', (_request, response) => response.json({ files: ['shared/lab65-human-approval.ts',
     'server/concepts/65-human-approval.ts'], note: 'Tool result proposes; reviewer decision alone may execute.' }));
   router.get('/review', (request, response) => { const existing = token(request);
