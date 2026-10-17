@@ -16,6 +16,7 @@ export function notificationReadiness(env: NodeJS.ProcessEnv = process.env) {
     const missing = fields[channel].filter(key => !env[key]?.trim()), invalid: string[] = [];
     if (!missing.length && channel === 'email') {
       for (const key of ['LAB65_GRAPH_SENDER', 'LAB65_GRAPH_RECIPIENT']) if (!/^[^@\s]+@[^@\s]+$/.test(env[key]!)) invalid.push(key);
+      if (env.LAB65_GRAPH_TOKEN_EXPIRES_AT && (!Number.isFinite(Date.parse(env.LAB65_GRAPH_TOKEN_EXPIRES_AT)) || Date.parse(env.LAB65_GRAPH_TOKEN_EXPIRES_AT) <= Date.now())) invalid.push('LAB65_GRAPH_TOKEN_EXPIRES_AT');
     } else if (!missing.length) {
       const key = fields[channel][0];
       try { const url = new URL(env[key]!); const allowed = channel === 'slack' ? url.hostname === 'hooks.slack.com' : /(^|\.)logic\.azure\.com$|(^|\.)powerautomate\.com$/.test(url.hostname);
@@ -57,7 +58,7 @@ async function deliver(channel: Exclude<Channel, 'local'>, proposal: Proposal, e
     const sender = env.LAB65_GRAPH_SENDER, recipient = env.LAB65_GRAPH_RECIPIENT, token = env.LAB65_GRAPH_TOKEN;
     if (!sender || !recipient || !token || !/^[^@\s]+@[^@\s]+$/.test(sender) || !/^[^@\s]+@[^@\s]+$/.test(recipient))
       throw new Error('Graph sender, recipient and token are required.');
-    url = `https://graph.microsoft.com/v1.0/users/${encodeURIComponent(sender)}/sendMail`;
+    url = env.LAB65_GRAPH_AUTH_MODE === 'delegated' ? 'https://graph.microsoft.com/v1.0/me/sendMail' : `https://graph.microsoft.com/v1.0/users/${encodeURIComponent(sender)}/sendMail`;
     headers = { ...headers, Authorization: `Bearer ${token}` };
     body = { message: { subject: `Review ${proposal.args.caseId}`,
       body: { contentType: 'Text', content: message }, toRecipients: [{ emailAddress: { address: recipient } }] }, saveToSentItems: false };

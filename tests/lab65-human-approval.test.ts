@@ -15,6 +15,30 @@ test('notification readiness reveals missing names and invalid destinations with
 
 const store = new Lab65ApprovalStore(`artifacts/lab65/test-${randomUUID()}.sqlite`, () => 1000000,
   {}, async () => { throw new Error('External notification must not be called.'); });
+
+test('delegated personal mail uses me endpoint, rejects expired tokens and never approves', async () => {
+  const env = { LAB65_EXTERNAL_NOTIFICATIONS: '1', LAB65_GRAPH_AUTH_MODE: 'delegated',
+    LAB65_GRAPH_SENDER: 'sender@hotmail.com', LAB65_GRAPH_RECIPIENT: 'sender@hotmail.com',
+    LAB65_GRAPH_TOKEN: 'opaque-personal-token', LAB65_GRAPH_TOKEN_EXPIRES_AT: new Date(Date.now() + 60000).toISOString() };
+  let calls = 0;
+  const delegated = new Lab65ApprovalStore(`artifacts/lab65/delegated-${randomUUID()}.sqlite`, Date.now, env,
+    (async (url, options) => {
+      calls++; assert.equal(url, 'https://graph.microsoft.com/v1.0/me/sendMail');
+      assert.equal((options?.headers as Record<string, string>).Authorization, 'Bearer opaque-personal-token');
+      assert.equal(JSON.parse(options?.body as string).message.toRecipients[0].emailAddress.address, env.LAB65_GRAPH_RECIPIENT);
+      return new Response(null, { status: 202 });
+    }) as typeof fetch);
+  try {
+    await delegated.notify('personal-owner', delegated.propose('personal-owner').toolResult.proposalId, 'email');
+    assert.equal(calls, 1); assert.equal(delegated.snapshot('personal-owner').effects.length, 0);
+    assert.equal(JSON.stringify(delegated.notificationSetup()).includes(env.LAB65_GRAPH_TOKEN), false);
+    env.LAB65_GRAPH_TOKEN_EXPIRES_AT = '2000-01-01T00:00:00Z';
+    await assert.rejects(delegated.notify('personal-owner', delegated.propose('personal-owner').toolResult.proposalId, 'email'), /configuration/);
+    assert.equal(calls, 1);
+    env.LAB65_GRAPH_TOKEN_EXPIRES_AT = 'invalid';
+    assert.deepEqual(notificationReadiness(env)[2]?.invalid, ['LAB65_GRAPH_TOKEN_EXPIRES_AT']);
+  } finally { delegated.close(); }
+});
 after(() => store.close());
 test('closed Managed tool event creates only an immutable pending proposal and correlated result', () => {
   assert.throws(() => store.handleTool('owner-a', { type: 'agent.custom_tool_use', id: 'bad',
