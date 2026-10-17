@@ -17,7 +17,17 @@ def emit(kind, **values):
 
 
 def read_line():
-    line = sys.stdin.buffer.readline(MAX_LINE + 1)
+    # A live control reader can still be blocked when the interpreter exits.
+    # Read the file descriptor directly so no buffered-stdin lock survives
+    # in that daemon thread during Python's finalization.
+    line = bytearray()
+    while len(line) <= MAX_LINE:
+        character = os.read(sys.stdin.fileno(), 1)
+        if not character:
+            break
+        line.extend(character)
+        if character == b"\n":
+            break
     if not line or len(line) > MAX_LINE:
         raise ValueError("Bounded input required")
     return json.loads(line)
@@ -141,7 +151,7 @@ async def live(request):
                 agent={"type": "agent_with_overrides", "id": agent_id, "tools": tools, "mcp_servers": [], "skills": [],
                        "system": "Answer briefly. Use format_observation when it is provided; no other tools are available."},
                 environment_id=environment_id, title="Lab 70 Python client",
-                budget={"type": "limit", "max_list_cost": {"amount": 100, "currency": "USD"}}, timeout=10.0)
+                budget={"type": "limit", "max_list_cost": {"amount": "100", "currency": "USD"}}, timeout=10.0)
             session_id = session.id
         emit("session", id=session_id, status=session.status)
         expected_tools = 1 if request["scenario"] == "custom-tool" else 0

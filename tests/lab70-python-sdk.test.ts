@@ -1,5 +1,7 @@
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
+import { spawn } from 'node:child_process';
+import { once } from 'node:events';
 import { runLab70Python, selectLab70Python } from '../server/lib/lab70-python.js';
 import { Lab70Workshop } from '../server/concepts/70-python-sdk.js';
 
@@ -20,6 +22,15 @@ test('isolated readiness and offline worker use a bounded JSON-lines protocol', 
   assert.ok(tool && tool.type === 'tool_use' && tool.id.startsWith('sevt_'));
   const final = custom.frames.find(frame => frame.type === 'result'); assert.ok(final && final.type === 'result');
   assert.match(final.text, /3 fictional Aurora Finch/);
+});
+test('a blocked live control reader permits clean interpreter shutdown with stdin still open', { skip, timeout: 10000 }, async () => {
+  const child = spawn(selectLab70Python()!, ['-I', '-u', '-B', '-c',
+    "import runpy,threading,time; worker=runpy.run_path('python/lab70/worker.py'); threading.Thread(target=worker['read_line'],daemon=True).start(); time.sleep(0.15); print('reader started')"],
+    { windowsHide: true, stdio: ['pipe', 'pipe', 'pipe'] });
+  let output = '', errors = ''; child.stdout.on('data', chunk => { output += chunk; }); child.stderr.on('data', chunk => { errors += chunk; });
+  const timeout = setTimeout(() => child.kill(), 5000);
+  try { const [code] = await once(child, 'exit'); assert.equal(code, 0, errors); assert.match(output, /reader started/); assert.doesNotMatch(errors, /Fatal Python error|_enter_buffered_busy/); }
+  finally { clearTimeout(timeout); child.stdin.destroy(); if (child.exitCode === null) child.kill(); }
 });
 test('malformed stdout, bounded stderr and graceful local cancellation stay distinct', { skip }, async () => {
   const malformed = await run('malformed-stdout'); assert.match(malformed.protocolError ?? '', /Malformed/);

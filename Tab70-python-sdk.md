@@ -38,7 +38,7 @@ If readiness says not installed, create the venv and install the exact requireme
 
 ## Limitations
 
-The global Python 1.7.0 package surface was inspected, while the selected isolated interpreter lacks that package in this checkpoint. Live mode therefore remains disabled until explicit venv setup and a successful probe. No live session or installation was run during checks. Offline retained IDs and cleanup are authored simulations. Killing a worker cannot establish remote stop; inspect interruption/cleanup or perform an owner-authorized follow-up through the provider API.
+After explicit setup, the pinned Python 1.7.0 requirements were installed in the local .venv and capability probing passed. Actual live tests verified retained-session reuse, explicit close and a correlated host-tool call. The budget uses integer decimal strings, and descriptor-based control reads permit clean shutdown with stdin open. See [live evidence](https://github.com/luiscoco/Udemy-claude-managed-agents-Lab-75/blob/main/docs/course-validation.md). A fresh checkout still requires the explicit venv setup and probe. Offline retained IDs and cleanup are authored simulations. Killing a worker cannot establish remote stop; inspect interruption/cleanup or perform an owner-authorized follow-up through the provider API.
 
 ## Challenge
 
