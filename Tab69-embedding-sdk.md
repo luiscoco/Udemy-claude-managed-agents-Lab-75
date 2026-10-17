@@ -36,7 +36,7 @@ A changed document is expected to reject an older patch; capture fresh context a
 
 ## Limitations
 
-The browser is a simulation of a host document. Tests execute the bundled extension in a mocked VS Code host and validate actual file guards; an interactive VS Code launch is not claimed. The fixture does not grant arbitrary file tools or cloud access to local paths. Live mode reuses the existing text-only Managed runner and validates final JSON; the later authorized live backend smoke test validated a patch and host apply, then confirmed remote archival. This does not establish interactive editor execution. See [live evidence](https://github.com/luiscoco/Udemy-claude-managed-agents-Lab-75/blob/main/docs/course-validation.md).
+The browser is a simulation of a host document. Tests execute the bundled extension in a mocked VS Code host and validate actual file guards; a separate real VS Code 1.142.0 run also passed the actual command/webview, guided patch apply and concurrent-edit conflict checks. The fixture does not grant arbitrary file tools or cloud access to local paths. Live mode reuses the existing text-only Managed runner and validates final JSON; the later authorized live backend smoke test validated a patch and host apply, then confirmed remote archival. Run npm run test:editor:real separately to repeat the installed-editor check. It uses an isolated disposable profile and copied fictional document, with zero provider calls; workspace trust is disabled only in that fixture profile. Set LAB69_VSCODE_EXECUTABLE if needed. See [live evidence](https://github.com/luiscoco/Udemy-claude-managed-agents-Lab-75/blob/main/docs/course-validation.md).
 
 ## Challenge
 
