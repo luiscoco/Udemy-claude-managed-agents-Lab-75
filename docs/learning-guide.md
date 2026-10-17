@@ -4,6 +4,10 @@ Every implemented Lab 01-75 has a seven-section Learning Guide: objective, prepa
 
 Use **Next section**, **Previous section**, **Show section**, **Minimize guide** or **Close guide**. Escape closes the tour and removes the highlight. Switching tabs preserves exercise state and pauses narration; Show section returns to the current guide step. The tour never clicks an exercise control, runs an agent, sends email or approves an effect.
 
+Your last visited section is saved per lab in this browser. Returning to a lab offers **Resume saved tour**; it does not resume automatically or start audio. **Finish tour** clears that saved position. Use **Jump to section** to move directly to any explanation.
+
+When a relevant exercise input, control group, result panel or source block is visible, a second red rectangle marks it. **Show exercise target** scrolls to that element without focusing, clicking or changing it. If a lesson has no separate result panel yet, the guide explains that you must run the example yourself and inspect its output. Dynamically loaded targets are detected as the exercise renders.
+
 ## Voice setup
 
 Set these in the server's ignored `.env`, then restart `npm run dev`:
@@ -37,6 +41,6 @@ The authorized initial live test passed on 18 October 2026 with Yash and inworld
 6. Added bounded caching by text, voice and model. Provider errors are sanitized. Tour navigation does not submit an exercise request.
 7. Added tests for all 525 authored sections, closed synthesis input, origin/header checks, authentication, caching, credential redaction, browser highlighting and mobile controls.
 
-The guide highlights explanations rather than automatically selecting or activating exercise controls. The reference's Agent SDK narration was adapted to Managed Agents concepts and host evidence.
+The guide highlights explanations and visible exercise targets without selecting values or activating controls. The reference's Agent SDK narration was adapted to Managed Agents concepts and host evidence.
 
 API references: [Inworld synthesis](https://docs.inworld.ai/api-reference/ttsAPI/texttospeech/synthesize-speech), [workspace voice catalog](https://docs.inworld.ai/api-reference/voiceAPI/voiceservice/list-voices).

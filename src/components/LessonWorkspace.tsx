@@ -79,12 +79,12 @@ export function LessonWorkspace({ lesson, loadGuide, sources, mainSources, loadE
         <div className="exercise-content">
           <div className="exercise-frame"><p className="phase-label">02 / Do the exercise</p>
       <GuideExplanation step={tour[2]!} /><GuideExplanation step={tour[3]!} />
-      {visited && (Exercise ? <Exercise /> : error ? <section role="alert"><h2>Exercise could not load</h2><p>Check your connection and that the local web server is running. Your lesson is still available.</p><p>Retry refreshes the page and reopens the exercise.</p><button onClick={retry}>Retry loading exercise</button></section> : <p role="status">Loading exercise…</p>)}
+      <div data-guide-exercise>{visited && (Exercise ? <Exercise /> : error ? <section role="alert"><h2>Exercise could not load</h2><p>Check your connection and that the local web server is running. Your lesson is still available.</p><p>Retry refreshes the page and reopens the exercise.</p><button onClick={retry}>Retry loading exercise</button></section> : <p role="status">Loading exercise…</p>)}</div>
           </div>
           <section className="review-card"><p className="phase-label">03 / Review</p><h2>Check your result</h2><GuideExplanation step={tour[4]!} /><p><strong>Inspect:</strong> {lesson.inspect.join(', ')}</p><p><strong>Challenge:</strong> {lesson.challenge}</p><GuideExplanation step={tour[6]!} /><p>Compare the reported outcome and evidence with the lesson objective.</p></section>
         </div>
       </div>
     </div>
-    <div role="tabpanel" id={`${id}-panel-2`} aria-labelledby={`${id}-tab-2`} hidden={active !== 2} tabIndex={0}><GuideExplanation step={tour[5]!} /><SourceViewer sources={sources} mainSources={mainSources} /></div>
+    <div role="tabpanel" id={`${id}-panel-2`} aria-labelledby={`${id}-tab-2`} hidden={active !== 2} tabIndex={0}><GuideExplanation step={tour[5]!} /><div data-guide-source><SourceViewer sources={sources} mainSources={mainSources} /></div></div>
   </div>;
 }

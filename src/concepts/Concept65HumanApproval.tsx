@@ -62,7 +62,7 @@ export default function Concept65HumanApproval() {
         <p>Tool event: <code>{proposal.eventId}</code>. Business key: <code>{proposal.businessKey}</code>.</p>
         <p>Reviewer: {proposal.reviewer}. Expires: {new Date(proposal.expiresAt).toLocaleTimeString()}.</p>
         <ol>{proposal.audit.map((entry, index) => <li key={index}>{entry}</li>)}</ol></article>)}
-      <p>Executed effects: {snapshot.effects.length}.</p></>}
+      <p data-guide-evidence>Executed effects: {snapshot.effects.length}.</p></>}
     <p>Slack, Teams Workflow and Graph email are optional server-configured notification adapters. They are disabled by default and never approve a proposal; only a reviewed same-origin decision does.</p>
   </section>;
 }

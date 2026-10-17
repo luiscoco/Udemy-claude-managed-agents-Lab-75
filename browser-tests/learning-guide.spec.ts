@@ -17,11 +17,25 @@ test('Learning Guide highlights explanations across views without running an exe
   await expect(page.getByRole('tab', { name: 'Run the exercise' })).toHaveAttribute('aria-selected', 'true');
   await expect(page.locator('[data-guide-target="example"]')).toHaveClass(/learning-guide-highlight/);
   await expect(page.getByRole('button', { name: 'Preview proposal', exact: true })).toBeVisible();
+  await guide.getByRole('combobox', { name: 'Guide section' }).selectOption('3');
+  await expect(page.locator('[data-learning-guide-focus="controls"]')).toContainText('Preview proposal');
+  await guide.getByRole('button', { name: 'Show exercise target' }).click();
+  await guide.getByRole('combobox', { name: 'Guide section' }).selectOption('4');
+  await expect(page.locator('[data-learning-guide-focus="evidence"]')).toContainText('Executed effects: 0');
+  await guide.getByRole('combobox', { name: 'Guide section' }).selectOption('5');
+  await expect(page.locator('[data-learning-guide-focus="source"]')).toBeVisible();
+  await guide.getByRole('combobox', { name: 'Guide section' }).selectOption('3');
   await page.screenshot({ path: 'artifacts/learning-guide-desktop.png', fullPage: true });
   expect(runs).toBe(0); expect(narration).toBe(0);
   await page.keyboard.press('Escape');
   await expect(page.locator('.learning-guide-highlight')).toHaveCount(0);
   await expect(guide.getByRole('button', { name: 'Start guided tour' })).toBeFocused();
+  await expect(page.locator('.learning-guide-control-highlight')).toHaveCount(0);
+  await page.reload();
+  await guide.getByRole('button', { name: 'Resume saved tour' }).click();
+  await expect(guide.getByRole('heading', { name: 'Run at your own pace' })).toBeVisible();
+  await expect(page.locator('[data-learning-guide-focus="controls"]')).toBeVisible();
+  expect(runs).toBe(0); expect(narration).toBe(0);
 });
 
 test('guide handles missing voice, narration failure and persisted self-assessment', async ({ page }) => {
