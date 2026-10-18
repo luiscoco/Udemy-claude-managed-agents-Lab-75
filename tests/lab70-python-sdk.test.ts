@@ -57,3 +57,16 @@ test('host owns retained handles, confirms idle reuse and closes the same sessio
     assert.equal(store.facts().liveReady, false);
   } finally { await store.close(); }
 });
+
+test('an explicit deadline stops a hanging worker without claiming unconfirmed cleanup', { skip, timeout: 15000 }, async () => {
+  const reply = await runLab70Python({ mode: 'offline', operation: 'one-shot', scenario: 'hang', prompt: 'Wait.' },
+    { signal: new AbortController().signal, deadlineMs: 2500 });
+  if (reply.killed) {
+    assert.match(reply.protocolError ?? '', /unconfirmed/);
+    assert.ok(!reply.frames.some(frame => frame.type === 'result' && frame.outcome === 'completed'));
+  } else {
+    const final = reply.frames.find(frame => frame.type === 'result');
+    assert.ok(final && final.type === 'result'); assert.equal(final.outcome, 'cancelled');
+    assert.equal(final.cleanup, 'simulated-archive');
+  }
+});

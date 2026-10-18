@@ -11,9 +11,9 @@ export default function Concept70PythonSdk() {
   const [run, setRun] = useState<Run>(); const [operation, setOperation] = useState('one-shot'); const [scenario, setScenario] = useState('normal');
   const [prompt, setPrompt] = useState('Format a fictional observation of three Aurora Finches.');
   const [status, setStatus] = useState('Ready. Offline Python uses standard-library fixtures and never installs packages.'); const [busy, setBusy] = useState(false);
-  async function api(path: string, body?: unknown) { const response = await fetch(`/api/c70/${path}`, { method: body === undefined ? 'GET' : 'POST',
+  async function api(path: string, body?: unknown, timeoutMs = 10000) { const response = await fetch(`/api/c70/${path}`, { method: body === undefined ? 'GET' : 'POST',
     headers: { 'Content-Type': 'application/json', 'X-Lab-Owner': owner.current }, ...(body === undefined ? {} : { body: JSON.stringify(body) }),
-    signal: AbortSignal.timeout(10000) }); const data = await response.json(); if (!response.ok) throw new Error(data.error?.message ?? `HTTP ${response.status}`); return data; }
+    signal: AbortSignal.timeout(timeoutMs) }); const data = await response.json(); if (!response.ok) throw new Error(data.error?.message ?? `HTTP ${response.status}`); return data; }
   useEffect(() => { void api('facts').then(data => setFacts(data as Facts)).catch(() => {}); }, []);
   useEffect(() => { if (!run || run.state !== 'running') return; let alive = true;
     const timer = setInterval(() => { void api(`runs/${run.id}`).then(async data => { if (!alive) return;
@@ -28,7 +28,7 @@ export default function Concept70PythonSdk() {
       ...(['retained-turn', 'close'].includes(operation) && session ? { sessionHandle: session.handle } : {}) });
     setRun(data as Run); setStatus('Python worker started with fixed arguments and a narrow environment.');
   } catch (error) { setStatus(error instanceof Error ? error.message : 'Python bridge failed.'); } finally { setBusy(false); } }
-  async function probe() { setBusy(true); try { setFacts(await api('probe', {}) as Facts); setStatus('Readiness checked locally; no package install or provider request.'); }
+  async function probe() { setBusy(true); try { setFacts(await api('probe', {}, 20000) as Facts); setStatus('Readiness checked locally; no package install or provider request.'); }
     catch (error) { setStatus(error instanceof Error ? error.message : 'Readiness failed.'); } finally { setBusy(false); } }
   const final = run?.frames.find((frame): frame is Extract<Lab70Frame, { type: 'result' }> => frame.type === 'result');
   return <section aria-labelledby="lab70-heading"><h2 id="lab70-heading">Python client for Managed Agents</h2>

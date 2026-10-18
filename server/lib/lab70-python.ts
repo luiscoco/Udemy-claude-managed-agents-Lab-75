@@ -43,7 +43,9 @@ export function runLab70Python(request: PythonRequest, options: { signal: AbortS
     const fail = (message: string) => { protocolError ??= message; kill(); };
     const write = (value: unknown) => { if (!closed && child.stdin.writable) child.stdin.write(`${JSON.stringify(value)}\n`); };
     const cancel = () => { write({ type: 'cancel' }); if (!grace) grace = setTimeout(kill, request.mode === 'live' ? 10000 : 1500); };
-    const deadline = setTimeout(cancel, options.deadlineMs ?? (request.mode === 'live' ? 45000 : 5000));
+    // Include isolated-interpreter startup in the bounded local budget. Cold
+    // Windows startup can exceed five seconds even without a provider request.
+    const deadline = setTimeout(cancel, options.deadlineMs ?? (request.mode === 'live' ? 45000 : 15000));
     options.signal.addEventListener('abort', cancel, { once: true });
     child.stdin.on('error', () => {}); child.stdout.setEncoding('utf8'); child.stderr.setEncoding('utf8');
     child.stdout.on('data', (chunk: string) => { stdoutBytes += Buffer.byteLength(chunk);
