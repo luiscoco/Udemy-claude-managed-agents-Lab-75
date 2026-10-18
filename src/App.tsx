@@ -115,6 +115,11 @@ export function App({ lessons = implementedLessons }: { lessons?: readonly Lesso
     </dialog>
     <main id="main" ref={main} tabIndex={-1}>
       {selected && Component ? <><p className="eyebrow">Course / {selected.topic} / LAB {String(selected.id).padStart(2, '0')}</p><h1>{selected.title}</h1><p className="lead">{selected.objective}</p>
+        <div className="lesson-guide-shortcut"><button type="button" aria-controls={`learning-guide-${selected.id}`} onClick={() => {
+          const guide = document.getElementById(`learning-guide-${selected.id}`);
+          guide?.scrollIntoView({ block: 'start', behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth' });
+          guide?.focus({ preventScroll: true });
+        }}>Open Learning Guide</button><p>Voice narration, highlighted steps, your checklist and personal notebook.</p></div>
         <nav className="lab-strip" aria-label="Implemented lessons">{ordered.map((lesson) => <a key={lesson.id} href={routeHref(lesson.id)} aria-current={lesson.id === selected.id ? 'page' : undefined} onClick={(event) => navigate(event, lesson.id)}>Lab {String(lesson.id).padStart(2, '0')}</a>)}</nav>
         <Component key={selected.id} />
         <nav className="lesson-pagination" aria-label="Previous and next lessons">

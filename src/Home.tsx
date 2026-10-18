@@ -45,6 +45,7 @@ export function Home({ invalid, lessonCount, startHref, onStart, progress }: { i
     <h1>Understand the system.<br /><span>Then build it.</span></h1>
     <p className="lead">A hands-on course in Claude Managed Agents. Follow a request across the browser, the backend, and the runtime—with real source and evidence you can inspect.</p>
     <div className="hero-actions">{startHref ? <a className="button" href={startHref} onClick={onStart}>Start with Lab 01 <span aria-hidden="true">&rarr;</span></a> : <span className="muted">Lab 01 is coming next.</span>}<span className="muted">{lessonCount} implemented {lessonCount === 1 ? 'lesson' : 'lessons'}</span></div>
+    <p className="home-guide-hint">For voice narration, highlighted steps and personal notes, open a lab and choose <strong>Open Learning Guide</strong> beside its title.</p>
     {progress}
     <section className="learning-card" aria-labelledby="system-heading"><p className="eyebrow">THE FOUR PARTS</p><h2 id="system-heading">Know what runs where.</h2>
       <div className="system-grid">

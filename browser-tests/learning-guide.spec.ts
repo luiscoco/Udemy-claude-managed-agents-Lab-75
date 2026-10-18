@@ -8,6 +8,9 @@ test('Learning Guide highlights explanations across views without running an exe
   });
   await page.goto('/?lesson=65');
   const guide = page.getByRole('complementary', { name: 'Learning Guide', exact: true });
+  await page.getByRole('button', { name: 'Open Learning Guide', exact: true }).click();
+  await expect(guide).toBeFocused();
+  expect(runs).toBe(0); expect(narration).toBe(0);
   await guide.getByRole('button', { name: 'Start guided tour' }).click();
   await expect(page.locator('[data-guide-target="goal"]')).toHaveClass(/learning-guide-highlight/);
   await expect(page.locator('[data-guide-transcript="goal"]')).toBeVisible();

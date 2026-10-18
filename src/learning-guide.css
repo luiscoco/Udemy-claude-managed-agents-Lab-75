@@ -1,4 +1,8 @@
 .learning-voice-guide { border: 2px solid var(--blue); border-radius: 12px; background: var(--blue-tint); color: var(--ink); padding: 22px; margin: 0 0 24px; }
+.learning-voice-guide { scroll-margin-top: 110px; }
+.lesson-guide-shortcut { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px; margin: 20px 0; }
+.lesson-guide-shortcut p { margin: 0; max-width: 58ch; color: var(--shell-ink); }
+.home-guide-hint { color: var(--shell-ink); max-width: 76ch; }
 .learning-voice-guide.guide-active { position: fixed; z-index: 40; right: 20px; bottom: 16px; width: min(440px, calc(100vw - 40px)); max-height: calc(100dvh - 100px); overflow: auto; margin: 0; box-shadow: 0 8px 40px rgb(0 0 0 / 25%); box-sizing: border-box; }
 .guide-active .guide-heading .phase-label { display: none; }
 .guide-active .guide-heading h2 { font-size: 1.1rem; }

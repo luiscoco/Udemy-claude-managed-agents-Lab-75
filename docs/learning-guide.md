@@ -2,6 +2,8 @@
 
 Every implemented Lab 01-75 has a seven-section Learning Guide: objective, preparation, example, controls, evidence, source and practice. Select **Start guided tour**. The guide opens the appropriate view, expands the explanation and draws a red rectangle around it. Its floating player stays available while you read.
 
+To find it, open any lesson and select **Open Learning Guide** beside the lesson title. This shortcut scrolls to and focuses the guide without starting audio or an exercise. The guide normally sits below the numbered lab links and above the three lesson tabs. **My lesson notebook** is inside the guide, below the learning checklist.
+
 Use **Next section**, **Previous section**, **Show section**, **Minimize guide** or **Close guide**. Escape closes the tour and removes the highlight. Switching tabs preserves exercise state and pauses narration; Show section returns to the current guide step. The tour never clicks an exercise control, runs an agent, sends email or approves an effect.
 
 Your last visited section is saved per lab in this browser. Returning to a lab offers **Resume saved tour**; it does not resume automatically or start audio. **Finish tour** clears that saved position. Use **Jump to section** to move directly to any explanation.

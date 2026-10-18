@@ -104,7 +104,7 @@ export function LearningGuide({ lessonId, view, onView, workspace }: {
     document.querySelectorAll('audio').forEach(item => { if (item !== audio.current) item.pause(); });
     try { await audio.current.play(); } catch { setNotice('Use the audio player Play control to start the recording.'); }
   }
-  return <aside className={`learning-voice-guide${index !== null ? ' guide-active' : ''}${compact ? ' guide-compact' : ''}`} aria-label="Learning Guide">
+  return <aside id={`learning-guide-${lessonId}`} tabIndex={-1} className={`learning-voice-guide${index !== null ? ' guide-active' : ''}${compact ? ' guide-compact' : ''}`} aria-label="Learning Guide">
     <div className="guide-heading"><div><p className="phase-label">Listen / Read / Practice</p><h2>Learning Guide</h2></div>
       <button ref={start} type="button" onClick={() => select(0)}>{index === null ? 'Start guided tour' : 'Restart tour'}</button></div>
     {index === null ? <><p>Follow this lab section by section with explanations, voice narration and a red highlight. You control every exercise action.</p>
