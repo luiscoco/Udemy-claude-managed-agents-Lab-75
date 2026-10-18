@@ -4,6 +4,7 @@ import { nextLearningLesson, type LearningProgress } from '../lib/learning-progr
 import { routeHref } from '../lessons/navigation';
 import { LearningBackupControls } from './LearningBackupControls';
 import { LearningPaths } from './LearningPaths';
+import { LearningMilestones } from './LearningMilestones';
 
 export function CourseProgress({ progress, lessons, onNavigate, selectedPathId, onSelectPath, pathStatus }: {
   progress: LearningProgress; lessons: readonly LessonMetadata[];
@@ -19,7 +20,7 @@ export function CourseProgress({ progress, lessons, onNavigate, selectedPathId, 
   }
   return <section className="course-progress learning-card" aria-labelledby="course-progress-heading">
     <p className="phase-label">Your learning journey</p><h2 id="course-progress-heading">Course progress</h2>
-    <nav className="guide-toolbar" aria-label="Learning overview sections"><button type="button" aria-controls="course-learning-paths" onClick={() => jumpTo('course-learning-paths')}>Learning paths</button><button type="button" aria-controls="course-review-queue" onClick={() => jumpTo('course-review-queue')}>Review queue</button></nav>
+    <nav className="guide-toolbar" aria-label="Learning overview sections"><button type="button" aria-controls="course-learning-paths" onClick={() => jumpTo('course-learning-paths')}>Learning paths</button><button type="button" aria-controls="course-review-queue" onClick={() => jumpTo('course-review-queue')}>Review queue</button><button type="button" aria-controls="course-learning-milestones" onClick={() => jumpTo('course-learning-milestones')}>Milestone projects</button></nav>
     <p>Self-assessment saved in this browser. Checklists do not certify exercise results or live execution.</p>
     {!progress.storageAvailable && <p role="status">Browser storage is unavailable. Your progress cannot be restored after leaving this page.</p>}
     <div className="progress-summary"><p><strong>{progress.completed} / {lessons.length}</strong><span>checklists complete</span></p><p><strong>{progress.started}</strong><span>in progress</span></p><p><strong>{lessons.length - progress.completed - progress.started}</strong><span>not started</span></p></div>
@@ -44,6 +45,7 @@ export function CourseProgress({ progress, lessons, onNavigate, selectedPathId, 
         <a href={routeHref(lesson.id)} onClick={event => onNavigate(event, lesson.id)}>Lab {String(lesson.id).padStart(2, '0')}: {lesson.title}</a></li>)}</ul>
     </details>
     <LearningPaths lessons={lessons} progress={progress} selectedId={selectedPathId} onSelect={onSelectPath} status={pathStatus} onNavigate={onNavigate} />
+    <LearningMilestones selectedPathId={selectedPathId} availableIds={lessons.map(lesson => lesson.id)} onNavigate={onNavigate} />
     <LearningBackupControls lessonIds={lessons.map(lesson => lesson.id)} storageAvailable={progress.storageAvailable} />
   </section>;
 }

@@ -16,6 +16,8 @@ Each lab includes an authored **Knowledge check** with explained answers and ret
 
 Home also offers four suggested **Learning paths** and a **Review queue** for incorrect knowledge answers and bookmarks. Paths are optional; every lab remains available.
 
+The [offline milestone projects](docs/learning-milestones.md) provide downloadable Node 24 starters and local tests for an event viewer, SSE endpoint and fictional approval ledger. No dependency installation or provider key is required; initial starter failures are intentional. Instructor validation: `npm run milestones:check`.
+
 Requires Node 24 or newer and Git on PATH. On Windows use PowerShell and npm.cmd. Chrome is used by browser acceptance tests and Lab 64; no model key is needed for offline exercises.
 
 ```powershell

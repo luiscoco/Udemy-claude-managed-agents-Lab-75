@@ -1,5 +1,6 @@
 import { createManagedRouter } from './routes/managed.js';
 import { createLearningGuideRouter } from './routes/learning-guide.js';
+import { createLearningMilestonesRouter } from './routes/learning-milestones.js';
 import express from 'express';
 import { createHealthRouter } from './routes/health.js';
 import { registerConcepts } from './concepts/registry.js';
@@ -9,6 +10,7 @@ const app = express();
 app.disable('x-powered-by');
 app.use('/api', createHealthRouter());
 app.use('/api/learning-guide', createLearningGuideRouter());
+app.use('/api/learning-milestones', createLearningMilestonesRouter());
 const managed = createManagedRouter();
 app.use('/api/managed', managed.router);
 const concepts = registerConcepts();

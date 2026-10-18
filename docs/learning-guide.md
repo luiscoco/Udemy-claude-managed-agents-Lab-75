@@ -75,6 +75,10 @@ The review queue combines the latest incorrect knowledge answers and bookmarked 
 
 Implementation: `src/lessons/learning-paths.ts`, `src/lib/useLearningPath.ts` and `src/components/LearningPaths.tsx`. Suggestions use registered lessons only. Their progress is self-assessment and does not establish a live exercise result or certification.
 
+## Offline milestone projects
+
+Use **Home → Milestone projects** to practise an event viewer, a local SSE endpoint or a fictional approval ledger. Each has a downloadable starter, requirements, hints and Node 24 tests, with no dependency installation or provider call. Starters fail intentionally until implemented. Run them in a separate study folder; the platform never executes your edited code or marks it complete automatically. See [Milestone instructions](learning-milestones.md).
+
 An explicitly requested live smoke test is available as `npm run guide:live:test`. It synthesizes one Lab 65 objective clip, checks the MP3 header and writes audio plus redacted evidence to ignored `artifacts/learning-guide`. This incurs one provider request; it does not run a lesson agent. Listen to the saved clip separately to assess pronunciation and delivery.
 
 The authorized initial live test passed on 18 October 2026 with Yash and inworld-tts-2. One request returned a 259,584-byte MP3 (32.448 seconds, 48 kHz mono), decoded without errors by FFmpeg. The local API key remains ignored; narration requires restarting the backend after configuration changes. The live test is separate from offline checks and does not claim every lab recording has been generated.
