@@ -3,6 +3,7 @@ import { mkdir, writeFile } from 'node:fs/promises';
 import { Lab69Backend } from '../server/concepts/69-embedding-sdk.js';
 import { Lab70Workshop } from '../server/concepts/70-python-sdk.js';
 import { createManagedClient, managedSettings } from '../server/lib/managed-config.js';
+import { redact } from '../src/lib/presentation.js';
 if (process.argv[2] !== '--execute-authorized-live-tests') throw new Error('Explicit billed execution flag required.');
 process.env.MANAGED_BUDGET_CENTS = '10';
 if (!managedSettings().liveReady) throw new Error('Shared live setup is incomplete.');
@@ -41,7 +42,8 @@ try {
   await turn('close', 'normal', 'Close this idle session.', retained.sessionHandle);
   const custom = await turn('one-shot', 'custom-tool', 'Use format_observation for 3 Aurora Finch birds, then return the formatted observation.');
   assert.ok(custom.frames.some(frame => frame.type === 'tool_use'));
-} catch (error) { failed = true; await record({ outcome: 'failed', errorType: error instanceof Error ? error.name : 'unknown' }); }
+} catch (error) { failed = true; await record({ outcome: 'failed', errorType: error instanceof Error ? error.name : 'unknown',
+  errorMessage: error instanceof Error ? redact(error.message).slice(0, 500) : 'Unknown failure' }); }
 finally {
   await host.close(); await python.close();
   const sessions = [];

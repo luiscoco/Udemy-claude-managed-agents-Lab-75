@@ -9,10 +9,12 @@ test('offline preview comparison records identical authoritative text and distin
   await page.getByLabel('System prompt', { exact: true }).selectOption('clear');
   await page.getByRole('button', { name: 'Run offline fixture' }).click();
   await expect(page.getByRole('group', { name: 'Turn outcome' })).toContainText('completed');
+  await page.getByText('Inspect exact agent message', { exact: true }).click();
   const first = await page.getByText('Authoritative agent.message', { exact: true }).locator('xpath=ancestor::div[1]').locator('pre').innerText();
   await page.getByLabel('Text previews for this connection').uncheck();
   await page.getByRole('button', { name: 'Run offline fixture' }).click();
   await expect(page.getByRole('group', { name: 'Turn outcome' })).toContainText('completed');
+  await page.getByText('Inspect exact agent message', { exact: true }).click();
   expect(await page.getByText('Authoritative agent.message', { exact: true }).locator('xpath=ancestor::div[1]').locator('pre').innerText()).toBe(first);
   await expect(page.getByText('Preview', { exact: true })).toHaveCount(0);
   await expect(page.locator('tbody tr')).toHaveCount(2);

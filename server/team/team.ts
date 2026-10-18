@@ -30,7 +30,7 @@ export function validatePlan(raw: unknown) {
   return { valid: !errors.length, errors, waves, plan };
 }
 export const goodPlan: Plan = { tasks: [
-  { id: 'T1', files: ['src/tags.mjs'], testFile: 'tests/tags.test.mjs', dependsOn: [], spec: 'normalizeTag trims and lowercases strings; reject nonstring, empty or more than 20 characters after trim. parseTags validates an array and deduplicates normalized tags in first-seen order.', acceptance: ['20 characters accepted; 21 rejected', 'Stable deduplication'] },
+  { id: 'T1', files: ['src/tags.mjs'], testFile: 'tests/tags.test.mjs', dependsOn: [], spec: 'normalizeTag trims strings, validates trimmed.length before lowercasing, then lowercases; reject nonstring, empty or more than 20 UTF-16 code units after trim. Lowercasing can expand the result and must not change length eligibility. parseTags validates an array and deduplicates normalized tags in first-seen order.', acceptance: ['20 characters accepted; 21 rejected before lowercasing', 'Stable deduplication'] },
   { id: 'T2', files: ['src/search.mjs'], testFile: 'tests/search.test.mjs', dependsOn: ['T1'], spec: 'findByTag(notes, tag) normalizes query and note tags, returns matching original notes in original order.', acceptance: ['Normalized matching', 'Empty matches return []'] },
   { id: 'T3', files: ['src/report.mjs'], testFile: 'tests/report.test.mjs', dependsOn: ['T1'], spec: 'tagCounts(notes) returns {tag,count} records, counts each normalized tag at most once per note; sort descending count, then ascending Unicode codepoint tag for ties, comparing numeric code points with shorter prefixes first (not UTF-16 string ordering).', acceptance: ['Distinct notes counted', 'Stable tie ordering'] },
 ] };

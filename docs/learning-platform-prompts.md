@@ -18,6 +18,22 @@ Verify lesson coverage, safe audio request handling, playback controls, highligh
 
 COPY PROMPT END
 
+## Full course interface and bounded live acceptance
+
+COPY PROMPT START
+
+Audit every registered lesson at desktop and phone widths. Open Learn, the detailed guide, the exercise interface and actual UI/server source views without submitting an exercise. Check visible control names, duplicate IDs, missing content, invalid lesson links, runtime errors and horizontal page overflow. Record per-lesson evidence and verify that navigation makes no execution POST requests. Run the existing offline interaction checks separately so static interface inspection is not mistaken for a successful exercise.
+
+When the user explicitly requests live tests, use the existing isolated credentials and pinned resources with bounded session budgets, deadlines and cleanup checks. Exercise completion, cancellation, local deadline, retained reports, options, system instructions, configured skill versions, editor/Python integration and the configured live engineering team where available. Keep fixture tests, real provider sessions, telemetry exports and readiness checks distinct. Never infer successful delivery or remote execution from configuration alone, and never claim optional unconfigured live adapters were tested.
+
+Stop further session creation when cleanup cannot be confirmed. Preserve keys, record sanitized failure diagnostics and independently inspect created session archival. Do not send external notifications or provision new cloud resources as a side effect of an audit. Report expired notification credentials as a setup prerequisite. Provider-reported list costs are not a final invoice.
+
+Use findings from live review to strengthen host acceptance rather than accepting a green worker report at face value. For the fictional tag fixture, validate tag.trim().length in UTF-16 code units before lowercasing, rejecting empty input or more than twenty units. Unicode lowercasing can expand an otherwise valid trimmed value. Keep Unicode codepoint ordering for count ties as a separate requirement. Clarify the public issue and task contract, fix the authored reference and add a regression proving that visible-green code with the wrong length-check order is blocked by independent acceptance.
+
+Retest affected deterministic and live paths, update the validation report, workbook and source package, and publish to the combined platform repository. Preserve historical lesson checkpoints. Summarize actual coverage and any remaining prerequisites without requiring the learner to navigate the course manually.
+
+COPY PROMPT END
+
 ## Worked experiments readable answers and milestone help
 
 COPY PROMPT START

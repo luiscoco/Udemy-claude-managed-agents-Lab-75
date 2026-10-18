@@ -72,6 +72,22 @@ test('independent acceptance rejects UTF-16 ordering that incorrectly puts astra
   assert.equal(result.integrationPass, true); assert.equal(result.releaseGate.ready, false);
   assert.equal(result.holdouts.find(probe => probe.label === 'count and tie semantics')?.pass, false); store.close();
 });
+test('acceptance rejects case-expansion length checks even when visible tests pass', async () => {
+  const store = new TeamWorkshop(), created = await store.create('owner', { mode: 'scripted', scenario: 'cross-owner', maxParallel: 2, budgetCents: 30 });
+  const team = scriptedTeam('crash-resume'), develop = team.develop;
+  team.develop = async context => {
+    const report = await develop(context);
+    if (context.task?.id === 'T1') await context.tool('write_file', { path: 'src/tags.mjs', text: "export function normalizeTag(tag){if(typeof tag!=='string')throw Error();const value=tag.trim().toLowerCase();if(!value||value.length>20)throw Error();return value;}\nexport function parseTags(tags){if(!Array.isArray(tags))throw Error();return [...new Set(tags.map(normalizeTag))];}\n" });
+    return report;
+  };
+  try {
+    const result = await store.start('owner', created.id, team);
+    assert.equal(result.integrationPass, true);
+    assert.equal(result.releaseGate.ready, false);
+    assert.equal(result.holdouts.find(probe => probe.label === 'tag length boundary')?.pass, false);
+  } finally { store.close(); }
+});
+
 test('remaining scripted scenarios correct safe mistakes or fail release gates with retained evidence', async () => {
   const store = new TeamWorkshop();
   for (const scenario of ['injected-plan', 'cross-owner', 'test-gaming', 'hidden-boundary', 'budget-exhaustion'] as const) {

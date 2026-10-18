@@ -10,15 +10,15 @@ test('all three offline harnesses use checked host effects', async ({ page }) =>
     await page.getByLabel('Harness', { exact: true }).selectOption(harness);
     await page.getByRole('button', { name: 'Run offline harness' }).click();
     await expect(page.getByRole('status', { name: 'Harness status' })).toContainText('reserved');
-    await expect(page.getByLabel(/result/).first()).toContainText('Final host stock: 3');
+    await expect(page.getByRole('region', { name: /result$/ }).first()).toContainText('Final host stock: 3');
   }
   await page.getByLabel('Scenario').selectOption('large-reservation');
   await page.getByRole('button', { name: 'Run offline harness' }).click();
-  await expect(page.getByLabel(/result/).first()).toContainText('Final host stock: 5');
+  await expect(page.getByRole('region', { name: /result$/ }).first()).toContainText('Final host stock: 5');
   await page.getByLabel('Scenario').selectOption('call-limit'); await page.getByLabel('Host call limit').selectOption('1');
   await page.getByRole('button', { name: 'Run offline harness' }).click();
-  await expect(page.getByLabel(/result/).first()).toContainText('call-limit');
-  await expect(page.getByLabel(/result/).first()).toContainText('Final host stock: 5');
+  await expect(page.getByRole('region', { name: /result$/ }).first()).toContainText('call-limit');
+  await expect(page.getByRole('region', { name: /result$/ }).first()).toContainText('Final host stock: 5');
 });
 
 test('phone layout fits and live path is unavailable without setup', async ({ page }) => {

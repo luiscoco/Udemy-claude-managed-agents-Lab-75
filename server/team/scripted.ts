@@ -1,7 +1,7 @@
 import { goodPlan, planPreset, type Team, type RoleContext, type CallResult } from './team.js';
 export const teamScenarios = ['happy-rework', 'injected-plan', 'cross-owner', 'test-gaming', 'hidden-boundary', 'budget-exhaustion', 'crash-resume'] as const;
 export type TeamScenario = typeof teamScenarios[number];
-const tags = (boundary: number) => `export function normalizeTag(tag) { if(typeof tag!=='string') throw Error('Tag must be a string'); const value=tag.trim().toLowerCase(); if(!value || value.length>${boundary}) throw Error('Tag length invalid'); return value; }
+const tags = (boundary: number) => `export function normalizeTag(tag) { if(typeof tag!=='string') throw Error('Tag must be a string'); const trimmed=tag.trim(); if(!trimmed || trimmed.length>${boundary}) throw Error('Tag length invalid'); return trimmed.toLowerCase(); }
 export function parseTags(tags) { if(!Array.isArray(tags)) throw Error('Tags must be an array'); return [...new Set(tags.map(normalizeTag))]; }\n`;
 const search = `import {normalizeTag,parseTags} from './tags.mjs';
 export const findByTag=(notes,tag)=>{const normalized=normalizeTag(tag);return notes.filter(note=>parseTags(note.tags).includes(normalized));};\n`;

@@ -48,7 +48,8 @@
     "notifications:signin": "node --env-file-if-exists=.env --import tsx scripts/lab65-mail-signin.ts --interactive-personal-signin",
     "guide:live:test": "node --env-file-if-exists=.env --import tsx scripts/learning-guide-live.ts --execute-authorized-narration-test",
     "milestones:check": "node --import tsx scripts/check-learning-milestones.ts",
-    "test:editor:real": "npm run lab69:extension:build && node --import tsx scripts/lab69-real-editor.ts"
+    "test:editor:real": "npm run lab69:extension:build && node --import tsx scripts/lab69-real-editor.ts",
+    "test:ui:audit": "node scripts/run-browser-tests.mjs course-ui-audit.spec.ts"
   },
   "dependencies": {
     "@anthropic-ai/aws-sdk": "0.8.0",

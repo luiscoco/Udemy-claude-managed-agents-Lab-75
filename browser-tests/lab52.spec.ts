@@ -5,13 +5,13 @@ test('Lab 52 regression gate follows the host ledger and an owned baseline', asy
   await expect(page.getByRole('heading', { name: 'Evals, judges and regression baselines', level: 2 })).toBeVisible();
   await page.getByRole('button', { name: 'Run offline eval' }).click();
   await expect(page.getByText(/host pass rate 100%/)).toBeVisible();
-  await page.getByLabel('Candidate').selectOption('regression');
+  await page.getByRole('combobox', { name: /^Candidate/ }).selectOption('regression');
   await page.getByRole('button', { name: 'Run offline eval' }).click();
   await expect(page.getByText(/host pass rate 25%/)).toBeVisible();
   await page.getByRole('button', { name: 'Compare with baseline' }).click();
   await expect(page.getByText(/promotion allowed: false/)).toBeVisible();
   await expect(page.getByRole('button', { name: 'Promote local result' })).toBeDisabled();
-  await page.getByLabel('Candidate').selectOption('recovered');
+  await page.getByRole('combobox', { name: /^Candidate/ }).selectOption('recovered');
   await page.getByRole('button', { name: 'Run offline eval' }).click();
   await expect(page.getByRole('button', { name: 'Promote local result' })).toBeEnabled();
   await page.getByRole('button', { name: 'Promote local result' }).click();
