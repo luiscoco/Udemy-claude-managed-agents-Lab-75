@@ -12,7 +12,7 @@ export function LearningBackupControls({ lessonIds, storageAvailable }: { lesson
       const url = URL.createObjectURL(new Blob([JSON.stringify(backup, null, 2)], { type: 'application/json' }));
       const anchor = document.createElement('a'); anchor.href = url; anchor.download = 'managed-agents-learning-backup.json';
       document.body.append(anchor); anchor.click(); anchor.remove(); setTimeout(() => URL.revokeObjectURL(url), 1000);
-      setStatus('Backup download prepared. It contains only learning checklists, tour positions, notes and bookmarks.');
+      setStatus('Backup download prepared. It contains only learning checklists, tour positions, notes, bookmarks and knowledge-check answers.');
     } catch { setStatus('Backup could not be created. Check browser storage availability.'); }
   }
   return <details className="learning-backup"><summary>Back up or restore my learning</summary>
@@ -33,7 +33,7 @@ export function LearningBackupControls({ lessonIds, storageAvailable }: { lesson
     {preview && <div className="backup-preview" aria-label="Learning backup preview">
       <h3>Restore preview</h3>
       <p>Lessons: {preview.lessons.length}. Complete checklists: {preview.lessons.filter(item => item.checklist.every(Boolean)).length}. Saved notes: {preview.lessons.filter(item => item.note.trim()).length}. Bookmarks: {preview.lessons.filter(item => item.bookmarked).length}.</p>
-      <p>Restore replaces checklists, saved tour positions, notes and bookmarks for the lessons in this file. Other lessons stay unchanged. Download your current backup first if you want to keep both versions.</p>
+      <p>Backup version: {preview.version}. Restore replaces the included lessons' checklists, tour positions, notes and bookmarks. Version 2 also restores knowledge-check answers; version 1 keeps current knowledge answers. Other lessons stay unchanged. Download your current backup first to keep both versions.</p>
       <button type="button" onClick={() => {
         try { const count = restoreLearningBackup(localStorage, preview, lessonIds); setPreview(null); setStatus(`Restored learning state for ${count} ${count === 1 ? 'lesson' : 'lessons'}. No exercise or narration was started.`); }
         catch (error) { setStatus(error instanceof Error ? error.message : 'Restore could not complete.'); }

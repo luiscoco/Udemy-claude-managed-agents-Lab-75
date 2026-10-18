@@ -7,6 +7,7 @@ import { TextResource } from './TextResource';
 import { LearningGuide } from './LearningGuide';
 import { GuideExplanation } from './GuideExplanation';
 import { learningGuide } from '../../shared/learning-guide';
+import { LessonKnowledgeCheck } from './LessonKnowledgeCheck';
 import type { TextCatalog, TextLoader } from '../lessons/catalog';
 
 export type ExerciseLoader = () => Promise<{ default: ComponentType }>;
@@ -46,6 +47,7 @@ export function LessonWorkspace({ lesson, loadGuide, sources, mainSources, loadE
   }
   return <div className="lesson-workspace" ref={workspace}>
     <LearningGuide lessonId={lesson.id} view={active} onView={activate} workspace={workspace} />
+    <LessonKnowledgeCheck lessonId={lesson.id} onReviewSource={() => activate(2, true)} />
     <div role="tablist" aria-label={`${lesson.title} views`} className="workspace-tabs">
       {tabs.map((name, index) => <button type="button" key={name} id={`${id}-tab-${index}`} role="tab"
         ref={(element) => { buttons.current[index] = element; }} aria-selected={active === index}

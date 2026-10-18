@@ -1,3 +1,4 @@
+import { knowledgePassed, readKnowledgeAttempt } from './learning-knowledge';
 const checkpointCount = 4;
 const stepIds = new Set(['goal', 'preparation', 'example', 'controls', 'evidence', 'source', 'practice']);
 export const progressEvent = 'managed-learning-progress-changed';
@@ -5,7 +6,7 @@ export const checklistKey = (id: number) => `managed-learning-checklist-${id}`;
 export const positionKey = (id: number) => `managed-learning-position-${id}`;
 export const noteKey = (id: number) => `managed-learning-note-${id}`;
 export const bookmarkKey = (id: number) => `managed-learning-bookmark-${id}`;
-export type LessonProgress = { id: number; checked: number; completed: boolean; started: boolean; savedStep: string | null; hasNotes: boolean; bookmarked: boolean };
+export type LessonProgress = { id: number; checked: number; completed: boolean; started: boolean; savedStep: string | null; hasNotes: boolean; bookmarked: boolean; knowledgeAttempted: boolean; knowledgeCorrect: boolean };
 export type LearningProgress = { lessons: LessonProgress[]; completed: number; started: number; lastLesson: number | null; storageAvailable: boolean };
 
 /** Read only known progress keys. Never inspect unrelated browser settings. */
@@ -20,7 +21,9 @@ export function readLearningProgress(storage: Pick<Storage, 'getItem'>, ids: rea
     const saved = get(positionKey(id)), savedStep = saved && stepIds.has(saved) ? saved : null;
     const visited = get(`managed-learning-visited-${id}`) === '1';
     const hasNotes = !!get(noteKey(id))?.trim(), bookmarked = get(bookmarkKey(id)) === '1';
-    return { id, checked, completed: checked === checkpointCount, started: visited || checked > 0 || savedStep !== null || hasNotes || bookmarked, savedStep, hasNotes, bookmarked };
+    const attempt = readKnowledgeAttempt({ getItem: get }, id);
+    return { id, checked, completed: checked === checkpointCount, started: visited || checked > 0 || savedStep !== null || hasNotes || bookmarked || attempt !== null,
+      savedStep, hasNotes, bookmarked, knowledgeAttempted: attempt !== null, knowledgeCorrect: knowledgePassed(id, attempt) };
   });
   const last = get('managed-learning-last-lesson');
   const lastLesson = last && /^\d{1,2}$/.test(last) && ids.includes(Number(last)) ? Number(last) : null;

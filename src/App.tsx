@@ -119,7 +119,12 @@ export function App({ lessons = implementedLessons }: { lessons?: readonly Lesso
           const guide = document.getElementById(`learning-guide-${selected.id}`);
           guide?.scrollIntoView({ block: 'start', behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth' });
           guide?.focus({ preventScroll: true });
-        }}>Open Learning Guide</button><p>Voice narration, highlighted steps, your checklist and personal notebook.</p></div>
+        }}>Open Learning Guide</button><button type="button" aria-controls={`knowledge-check-${selected.id}`} onClick={() => {
+          const check = document.getElementById(`knowledge-check-${selected.id}`);
+          if (check instanceof HTMLDetailsElement) check.open = true;
+          check?.scrollIntoView({ block: 'start', behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth' });
+          check?.focus({ preventScroll: true });
+        }}>Open knowledge check</button><p>Voice narration, highlighted steps, your checklist and personal notebook.</p></div>
         <nav className="lab-strip" aria-label="Implemented lessons">{ordered.map((lesson) => <a key={lesson.id} href={routeHref(lesson.id)} aria-current={lesson.id === selected.id ? 'page' : undefined} onClick={(event) => navigate(event, lesson.id)}>Lab {String(lesson.id).padStart(2, '0')}</a>)}</nav>
         <Component key={selected.id} />
         <nav className="lesson-pagination" aria-label="Previous and next lessons">

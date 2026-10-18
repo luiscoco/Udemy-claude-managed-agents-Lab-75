@@ -45,6 +45,14 @@
 .learning-backup input[type='file'] { display: block; width: 100%; min-width: 0; box-sizing: border-box; font: inherit; margin: 12px 0; }
 .backup-preview { border: 2px solid var(--blue); padding: 16px; border-radius: 8px; margin: 18px 0; }
 .backup-preview button { margin: 6px 12px 6px 0; }
+.lesson-knowledge-check { background: var(--purple-tint); color: var(--ink); border: 2px solid var(--purple); border-radius: 12px; padding: 20px; margin-bottom: 24px; scroll-margin-top: 110px; }
+.lesson-knowledge-check > summary { cursor: pointer; font-weight: 750; }
+.lesson-knowledge-check fieldset { min-width: 0; border: 1px solid var(--border); padding: 16px; border-radius: 8px; }
+.lesson-knowledge-check legend { font-weight: 750; }
+.knowledge-choice { display: flex; align-items: baseline; gap: 12px; padding: 12px 4px; cursor: pointer; overflow-wrap: anywhere; }
+.knowledge-choice input { flex-shrink: 0; width: 20px; height: 20px; }
+.knowledge-feedback { border-left: 4px solid var(--orange); background: var(--surface); padding: 16px; border-radius: 8px; }
+.knowledge-correct { border-color: var(--green); }
 @media (max-width: 600px) {
   .learning-voice-guide.guide-active { right: 12px; bottom: 12px; width: calc(100vw - 24px); max-height: 68dvh; }
   .guide-active .guide-toolbar button { flex: 1 1 auto; }

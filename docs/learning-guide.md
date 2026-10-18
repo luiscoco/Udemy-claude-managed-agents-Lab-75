@@ -43,13 +43,25 @@ The progress implementation uses `src/lib/learning-progress.ts` to validate know
 
 Open **My lesson notebook** in the Learning Guide to write up to 4,000 characters of plain-text observations or questions. Choose **Save note** before leaving; unsaved edits are labeled. Notes never go to Inworld, Anthropic or the backend. **Bookmark this lesson for review** saves immediately. Home lists bookmarks and indicates which lessons have saved notes. Neither notes nor bookmarks mark an exercise complete.
 
-On Home, expand **Back up or restore my learning** and choose **Download learning backup**. The JSON includes only registered lesson IDs, four self-assessment flags per lesson, saved tour positions, visited flags, saved notes, bookmarks and the last visited lesson. It excludes server credentials, unrelated browser settings, exercise outputs, remote sessions and audio. Keep the file private because it contains personal notes.
+On Home, expand **Back up or restore my learning** and choose **Download learning backup**. The JSON includes only registered lesson IDs, four self-assessment flags per lesson, saved tour positions, visited flags, saved notes, bookmarks, knowledge-check answers and the last visited lesson. It excludes server credentials, unrelated browser settings, exercise outputs, remote sessions and audio. Keep the file private because it contains personal notes.
 
 Choose a JSON file to validate it locally and inspect its preview. No data changes until you select **Restore this backup**. **Cancel restore** leaves storage unchanged. Restoration replaces the learning fields for included lessons; other lessons remain unchanged. Download the current backup first if you want to preserve both versions. Restoring never runs a lesson, resumes narration or establishes verified completion.
 
 The versioned closed schema rejects unknown fields, wrong course/version, unknown or duplicate lessons, invalid checkboxes or tour positions, notes over 4,000 characters and files over 2 MB. The write boundary revalidates the preview and touches only known learning keys. If storage refuses a write, the restore attempts to put previous values back and reports whether rollback succeeded. If browser storage refuses rollback too, the status explicitly warns that some learning values may have changed. This is browser-local portability, not account synchronization.
 
+Downloads now use backup version 2 and include the latest knowledge-check answer per lesson. Version 1 backups remain supported and leave existing knowledge answers unchanged. Version 2 restores replace knowledge answers for included lessons. Stored correctness is never trusted; it is calculated again from the current authored question version.
+
 Implementation: `src/components/LessonNotebook.tsx`, `src/components/LearningBackupControls.tsx` and `src/lib/learning-backup.ts`. Automated checks cover round-trip preservation, unrelated-key exclusion, malformed backup rejection, partial restores, cancellation and rollback after a storage failure.
+
+## Lesson knowledge checks
+
+Select **Open knowledge check** beside a lesson title, or expand the Knowledge check section below its Learning Guide. Each of Labs 01-75 has one authored multiple-choice concept question, three choices and an explanation. Choose an answer and select **Check answer**. Feedback explains the lesson boundary; an incorrect attempt also shows the correct answer. You can change your choice and try again. **Review lesson source** opens the actual implementation.
+
+Only the latest checked choice, its question version and a timestamp are saved in this browser. Selecting a radio button alone does not change the saved result. Correctness is computed locally from the authored answer key, not from a model or a stored success flag. Stale or malformed saved attempts are ignored. A correct answer is a practice result, not proof of a live run, host effect, cleanup or professional certification. It does not tick the learning checklist.
+
+Home reports correct and attempted knowledge checks separately from completed self-assessment checklists. Review lesson checklists shows each attempted lesson's knowledge status. Knowledge checks work without any provider key or request. They remain usable when storage is unavailable, with a message explaining that the answer could not be saved.
+
+The question catalog is `shared/learning-quizzes.ts`, adapted from the implemented Managed Agents objectives in `shared/learning-content.ts`. `src/lib/learning-knowledge.ts` validates saved attempts and grades them against the catalog. `src/components/LessonKnowledgeCheck.tsx` renders accessible radio choices, explicit grading and retry feedback. Question changes require a catalog version update so old attempts cannot silently certify a different question.
 
 An explicitly requested live smoke test is available as `npm run guide:live:test`. It synthesizes one Lab 65 objective clip, checks the MP3 header and writes audio plus redacted evidence to ignored `artifacts/learning-guide`. This incurs one provider request; it does not run a lesson agent. Listen to the saved clip separately to assess pronunciation and delivery.
 

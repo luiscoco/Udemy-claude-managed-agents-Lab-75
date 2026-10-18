@@ -30,7 +30,7 @@ test('backup round trip preserves learning fields and excludes unrelated storage
 test('closed schema rejects duplicates, oversized text, unknown lessons and extra settings before writes', () => {
   const valid = exportLearningBackup(sample(), [65]);
   for (const candidate of [
-    { ...valid, version: 2 }, { ...valid, course: 'another-course' }, { ...valid, apiKey: 'unexpected' },
+    { ...valid, version: 99 }, { ...valid, course: 'another-course' }, { ...valid, apiKey: 'unexpected' },
     { ...valid, lessons: [...valid.lessons, ...valid.lessons] },
     { ...valid, lessons: [{ ...valid.lessons[0], note: 'x'.repeat(4001) }] },
     { ...valid, lessons: [{ ...valid.lessons[0], savedStep: 'unknown' }] },
@@ -39,7 +39,7 @@ test('closed schema rejects duplicates, oversized text, unknown lessons and extr
   assert.throws(() => parseLearningBackup(JSON.stringify(valid), [1]));
   assert.throws(() => parseLearningBackup('x'.repeat(maxBackupBytes + 1), [65]), /2 MB/);
   const store = sample(), before = [...store.values];
-  assert.throws(() => restoreLearningBackup(store, { ...valid, version: 2 } as never, [65]));
+  assert.throws(() => restoreLearningBackup(store, { ...valid, version: 99 } as never, [65]));
   assert.deepEqual([...store.values], before);
 });
 
