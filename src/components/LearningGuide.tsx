@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { learningGuide, type GuideView } from '../../shared/learning-guide';
 import { guideControlTarget } from '../lib/guide-targets';
 import { checklistKey, positionKey as savedPositionKey, notifyLearningProgress } from '../lib/learning-progress';
+import { LessonNotebook } from './LessonNotebook';
 
 const checkpoints = ['I can explain the objective.', 'I ran an example and inspected its evidence.', 'I connected the result to the source.', 'I tried the challenge.'];
 export function LearningGuide({ lessonId, view, onView, workspace }: {
@@ -140,5 +141,6 @@ export function LearningGuide({ lessonId, view, onView, workspace }: {
         notifyLearningProgress();
       }} />{label}</label>)}
     </details>
+    <LessonNotebook lessonId={lessonId} />
   </aside>;
 }

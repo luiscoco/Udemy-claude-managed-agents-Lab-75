@@ -2,6 +2,7 @@ import type { MouseEvent } from 'react';
 import type { LessonMetadata } from '../../shared/lessons';
 import { nextLearningLesson, type LearningProgress } from '../lib/learning-progress';
 import { routeHref } from '../lessons/navigation';
+import { LearningBackupControls } from './LearningBackupControls';
 
 export function CourseProgress({ progress, lessons, onNavigate }: {
   progress: LearningProgress; lessons: readonly LessonMetadata[];
@@ -26,7 +27,13 @@ export function CourseProgress({ progress, lessons, onNavigate }: {
     <details><summary>Review lesson checklists</summary><ul className="lesson-progress-list">{lessons.map(lesson => {
       const item = progress.lessons.find(item => item.id === lesson.id);
       return <li key={lesson.id}><a href={routeHref(lesson.id)} onClick={event => onNavigate(event, lesson.id)}>Lab {String(lesson.id).padStart(2, '0')}: {lesson.title}</a>
-        <span>{item?.completed ? 'Self-assessed complete' : item?.started ? `${item.checked} / 4 checkpoints` : 'Not started'}</span></li>;
+        <span>{item?.completed ? 'Self-assessed complete' : item?.started ? `${item.checked} / 4 checkpoints` : 'Not started'}{item?.hasNotes ? ' / notes saved' : ''}{item?.bookmarked ? ' / bookmarked' : ''}</span></li>;
     })}</ul></details>
+    <details><summary>Bookmarked lessons ({progress.lessons.filter(item => item.bookmarked).length})</summary>
+      <p>Bookmark a lesson from its Learning Guide notebook to keep it here for review.</p>
+      <ul>{lessons.filter(lesson => progress.lessons.find(item => item.id === lesson.id)?.bookmarked).map(lesson => <li key={lesson.id}>
+        <a href={routeHref(lesson.id)} onClick={event => onNavigate(event, lesson.id)}>Lab {String(lesson.id).padStart(2, '0')}: {lesson.title}</a></li>)}</ul>
+    </details>
+    <LearningBackupControls lessonIds={lessons.map(lesson => lesson.id)} storageAvailable={progress.storageAvailable} />
   </section>;
 }

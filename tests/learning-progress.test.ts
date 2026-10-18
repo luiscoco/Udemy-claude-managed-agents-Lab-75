@@ -36,5 +36,5 @@ test('denied storage degrades safely and inspection reads only known progress ke
   const denied = readLearningProgress({ getItem() { throw new Error('Storage denied.'); } }, [1]);
   assert.equal(denied.storageAvailable, false); assert.equal(denied.completed, 0);
   const keys: string[] = []; readLearningProgress({ getItem(key) { keys.push(key); return null; } }, [1]);
-  assert.deepEqual(keys, [checklistKey(1), positionKey(1), 'managed-learning-visited-1', 'managed-learning-last-lesson']);
+  assert.deepEqual(keys, [checklistKey(1), positionKey(1), 'managed-learning-visited-1', 'managed-learning-note-1', 'managed-learning-bookmark-1', 'managed-learning-last-lesson']);
 });

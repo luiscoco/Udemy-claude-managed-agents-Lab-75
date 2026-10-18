@@ -10,6 +10,8 @@ The [Learning Guide](docs/learning-guide.md) adds section-by-section explanation
 
 Home includes a browser-local course progress overview and **Continue learning** shortcut. Checklist completion is self-assessment, separate from verified exercise evidence. Saved tours resume only when explicitly selected.
 
+The Learning Guide also has a personal notebook and lesson bookmarks. Home can download a learning backup and preview a restore before applying it; these controls stay entirely in the browser.
+
 Requires Node 24 or newer and Git on PATH. On Windows use PowerShell and npm.cmd. Chrome is used by browser acceptance tests and Lab 64; no model key is needed for offline exercises.
 
 ```powershell

@@ -36,6 +36,11 @@
 .lesson-progress-list a { max-width: 65ch; }
 .nav-progress-summary { font-size: .85rem; color: #b6d5ff; }
 .nav-progress-badge { display: block; color: #a6e6c2; font-size: .75em; margin-top: 4px; }
+.lesson-notebook label:not(.guide-checkpoint), .learning-backup > label { display: block; margin: 16px 0 8px; font-weight: 650; }
+.lesson-notebook textarea { display: block; width: 100%; min-height: 160px; box-sizing: border-box; font: inherit; line-height: 1.65; padding: 12px; }
+.learning-backup input[type='file'] { display: block; width: 100%; min-width: 0; box-sizing: border-box; font: inherit; margin: 12px 0; }
+.backup-preview { border: 2px solid var(--blue); padding: 16px; border-radius: 8px; margin: 18px 0; }
+.backup-preview button { margin: 6px 12px 6px 0; }
 @media (max-width: 600px) {
   .learning-voice-guide.guide-active { right: 12px; bottom: 12px; width: calc(100vw - 24px); max-height: 68dvh; }
   .guide-active .guide-toolbar button { flex: 1 1 auto; }

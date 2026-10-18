@@ -3,7 +3,9 @@ const stepIds = new Set(['goal', 'preparation', 'example', 'controls', 'evidence
 export const progressEvent = 'managed-learning-progress-changed';
 export const checklistKey = (id: number) => `managed-learning-checklist-${id}`;
 export const positionKey = (id: number) => `managed-learning-position-${id}`;
-export type LessonProgress = { id: number; checked: number; completed: boolean; started: boolean; savedStep: string | null };
+export const noteKey = (id: number) => `managed-learning-note-${id}`;
+export const bookmarkKey = (id: number) => `managed-learning-bookmark-${id}`;
+export type LessonProgress = { id: number; checked: number; completed: boolean; started: boolean; savedStep: string | null; hasNotes: boolean; bookmarked: boolean };
 export type LearningProgress = { lessons: LessonProgress[]; completed: number; started: number; lastLesson: number | null; storageAvailable: boolean };
 
 /** Read only known progress keys. Never inspect unrelated browser settings. */
@@ -17,7 +19,8 @@ export function readLearningProgress(storage: Pick<Storage, 'getItem'>, ids: rea
     } catch { /* Corrupt browser progress cannot mark a lesson complete. */ }
     const saved = get(positionKey(id)), savedStep = saved && stepIds.has(saved) ? saved : null;
     const visited = get(`managed-learning-visited-${id}`) === '1';
-    return { id, checked, completed: checked === checkpointCount, started: visited || checked > 0 || savedStep !== null, savedStep };
+    const hasNotes = !!get(noteKey(id))?.trim(), bookmarked = get(bookmarkKey(id)) === '1';
+    return { id, checked, completed: checked === checkpointCount, started: visited || checked > 0 || savedStep !== null || hasNotes || bookmarked, savedStep, hasNotes, bookmarked };
   });
   const last = get('managed-learning-last-lesson');
   const lastLesson = last && /^\d{1,2}$/.test(last) && ids.includes(Number(last)) ? Number(last) : null;

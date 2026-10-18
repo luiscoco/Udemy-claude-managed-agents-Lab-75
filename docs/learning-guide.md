@@ -37,6 +37,18 @@ Counts update when you change checkboxes in the current tab or when another tab 
 
 The progress implementation uses `src/lib/learning-progress.ts` to validate known browser values, a shared change event to update the application, `src/components/CourseProgress.tsx` for the overview and the existing lesson navigation for continuation. It does not infer a verified run from a visited page, saved tour or checked box.
 
+## Personal notebook and learning backups
+
+Open **My lesson notebook** in the Learning Guide to write up to 4,000 characters of plain-text observations or questions. Choose **Save note** before leaving; unsaved edits are labeled. Notes never go to Inworld, Anthropic or the backend. **Bookmark this lesson for review** saves immediately. Home lists bookmarks and indicates which lessons have saved notes. Neither notes nor bookmarks mark an exercise complete.
+
+On Home, expand **Back up or restore my learning** and choose **Download learning backup**. The JSON includes only registered lesson IDs, four self-assessment flags per lesson, saved tour positions, visited flags, saved notes, bookmarks and the last visited lesson. It excludes server credentials, unrelated browser settings, exercise outputs, remote sessions and audio. Keep the file private because it contains personal notes.
+
+Choose a JSON file to validate it locally and inspect its preview. No data changes until you select **Restore this backup**. **Cancel restore** leaves storage unchanged. Restoration replaces the learning fields for included lessons; other lessons remain unchanged. Download the current backup first if you want to preserve both versions. Restoring never runs a lesson, resumes narration or establishes verified completion.
+
+The versioned closed schema rejects unknown fields, wrong course/version, unknown or duplicate lessons, invalid checkboxes or tour positions, notes over 4,000 characters and files over 2 MB. The write boundary revalidates the preview and touches only known learning keys. If storage refuses a write, the restore attempts to put previous values back and reports whether rollback succeeded. If browser storage refuses rollback too, the status explicitly warns that some learning values may have changed. This is browser-local portability, not account synchronization.
+
+Implementation: `src/components/LessonNotebook.tsx`, `src/components/LearningBackupControls.tsx` and `src/lib/learning-backup.ts`. Automated checks cover round-trip preservation, unrelated-key exclusion, malformed backup rejection, partial restores, cancellation and rollback after a storage failure.
+
 An explicitly requested live smoke test is available as `npm run guide:live:test`. It synthesizes one Lab 65 objective clip, checks the MP3 header and writes audio plus redacted evidence to ignored `artifacts/learning-guide`. This incurs one provider request; it does not run a lesson agent. Listen to the saved clip separately to assess pronunciation and delivery.
 
 The authorized initial live test passed on 18 October 2026 with Yash and inworld-tts-2. One request returned a 259,584-byte MP3 (32.448 seconds, 48 kHz mono), decoded without errors by FFmpeg. The local API key remains ignored; narration requires restarting the backend after configuration changes. The live test is separate from offline checks and does not claim every lab recording has been generated.
