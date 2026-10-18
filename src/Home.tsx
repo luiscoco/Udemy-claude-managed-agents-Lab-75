@@ -7,6 +7,7 @@ import routerSource from '../server/routes/health.ts?raw';
 import type { MouseEvent, ReactNode } from 'react';
 import { ManagedFoundation } from './components/ManagedFoundation';
 import { topicGroups } from './lessons/navigation';
+import { CourseValidation } from './components/CourseValidation';
 
 export function Home({ invalid, lessonCount, startHref, onStart, progress }: { invalid: boolean; lessonCount: number; startHref: string | undefined; onStart: (event: MouseEvent<HTMLAnchorElement>) => void; progress?: ReactNode }) {
   const [health, setHealth] = useState<Health>();
@@ -47,6 +48,7 @@ export function Home({ invalid, lessonCount, startHref, onStart, progress }: { i
     <div className="hero-actions">{startHref ? <a className="button" href={startHref} onClick={onStart}>Start with Lab 01 <span aria-hidden="true">&rarr;</span></a> : <span className="muted">Lab 01 is coming next.</span>}<span className="muted">{lessonCount} implemented {lessonCount === 1 ? 'lesson' : 'lessons'}</span></div>
     <p className="home-guide-hint">Open a lab and choose <strong>Open notebook</strong>, <strong>Open checklist</strong> or <strong>Open exercise</strong> beside its title. These shortcuts are also in the lesson menu and Course progress. Choose <strong>Open Learning Guide</strong> for voice narration and highlighted steps.</p>
     {progress}
+    <CourseValidation />
     <section className="learning-card" aria-labelledby="system-heading"><p className="eyebrow">THE FOUR PARTS</p><h2 id="system-heading">Know what runs where.</h2>
       <div className="system-grid">
         <article><span className="step-number">01 / BROWSER</span><h3>Frontend</h3><p>React renders lessons, collects input, and displays events. Navigation chooses a lesson; only an explicit Run action starts an exercise.</p></article>

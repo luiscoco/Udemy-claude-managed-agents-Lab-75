@@ -62,3 +62,11 @@ Workflow events, inputs and permissions follow [GitHub workflow syntax](https://
 Failed team summaries include authored release-gate labels, task states, failed-check counts, unresolved-question counts and observed archival status. Unknown gate text is replaced with a generic label. Question text, reports, tool output and session identities are excluded. Missing completion evidence leaves cleanup unknown rather than claiming archival.
 
 Both workflows pin checkout v7.0.1, setup-node v7.1.0, setup-python v7.0.0 and upload-artifact v7.0.2 to their verified upstream commit SHAs. Each pinned action declares the Node.js 24 runtime. This removes the Node.js 20 action-runtime deprecation warning from subsequent runs. The application continues using Node 24 and Python 3.13; billed execution still requires the existing explicit manual confirmation.
+
+## Recorded validation overview
+
+Home's Validation results section and its sidebar/mobile shortcut show an authored evidence snapshot, including tested commits, workflow run links and session archival observations. The Course progress overview also links to it. The browser makes no GitHub or provider request to display this snapshot and has no workflow-dispatch control.
+
+The initial snapshot uses offline run 39134515055 (518 offline tests, 12 evaluator/setup tests, 320 browser passes and one optional cached-audio skip). Course, learning and host suites passed in run 39128999911, which is explicitly labeled an overall failure because the team stage failed later. The corrected team retest passed in run 39130740976. The records do not certify later commits or optional unconfigured live integrations. Current workflow links open GitHub in another tab and may require repository access.
+
+Refresh shared/course-validation.ts only after inspecting actual run evidence and cleanup, retaining the tested commit and original overall outcome. Do not infer a suite result from a green process exit alone, learner checklist progress or an unrelated successful run. Keep raw provider payloads, session identities and credentials out of this authored snapshot.

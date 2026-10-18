@@ -40,7 +40,7 @@ export function App({ lessons = implementedLessons }: { lessons?: readonly Lesso
   useEffect(() => { if (selected) recordLessonVisit(selected.id); }, [selected?.id]);
   useEffect(() => {
     const section = window.location.hash.slice(1);
-    if (!section || !(/^lesson-(notebook|checklist|exercise)-\d+$/.test(section) || /^course-(progress|learning-backup)$/.test(section))) return;
+    if (!section || !(/^lesson-(notebook|checklist|exercise)-\d+$/.test(section) || /^course-(progress|learning-backup|validation)$/.test(section))) return;
     const frame = requestAnimationFrame(() => openLearningSection(section));
     return () => cancelAnimationFrame(frame);
   }, [route]);
@@ -96,6 +96,7 @@ export function App({ lessons = implementedLessons }: { lessons?: readonly Lesso
       <div className="learning-quick-links" aria-label="Learning shortcuts">
         <a href={routeHref()} onClick={event => navigate(event, undefined, 'course-progress')}>Course progress</a>
         <a href={routeHref()} onClick={event => navigate(event, undefined, 'course-learning-backup')}>Back up or restore</a>
+        <a href={`${routeHref()}#course-validation`} onClick={event => navigate(event, undefined, 'course-validation')}>Validation results</a>
         {selected && lessonSections.map(section => <a key={section.key} href={lessonSectionHref(selected.id, section.key)} onClick={event => navigate(event, selected.id)}>{section.label} / Lab {String(selected.id).padStart(2, '0')}</a>)}
       </div>
       <label htmlFor={`${prefix}-search`}>Find a lesson</label>
