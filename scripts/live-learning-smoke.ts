@@ -26,12 +26,16 @@ async function run(lesson: number, scenario: string, action: () => Promise<{ sou
   if (!safe) return;
   try {
     const result = await action();
-    const passed = result.source === 'managed-api' && result.outcome.kind === 'completed' && result.cleanup === 'archived'
+    let archivalVerified = false;
+    if (result.sessionId) {
+      try { const session = await client.beta.sessions.retrieve(result.sessionId, {}, { timeout: 5000 }); archivalVerified = Boolean(session.archived_at); } catch {}
+    }
+    const passed = archivalVerified && result.source === 'managed-api' && result.outcome.kind === 'completed' && result.cleanup === 'archived'
       && (!marker || result.messages.some(message => message.text.trim() === marker));
     await record({ lesson, scenario, passed, source: result.source, sessionId: result.sessionId, outcome: result.outcome.kind, cleanup: result.cleanup,
-      interruption: result.interruption, ...(result.reads ? { reads: result.reads } : {}) });
+      interruption: result.interruption, archivalVerified, ...(result.reads ? { reads: result.reads } : {}) });
     if (!passed) failed = true;
-    if (result.cleanup === 'pending' || result.interruption === 'unconfirmed') safe = false;
+    if (!archivalVerified || result.cleanup === 'pending' || result.interruption === 'unconfirmed') safe = false;
   } catch (error) { failed = true; safe = false; await record({ lesson, scenario, passed: false, error: redact(error instanceof Error ? error.message : 'Unknown failure').slice(0, 500) }); }
 }
 for (const previews of [true, false]) {

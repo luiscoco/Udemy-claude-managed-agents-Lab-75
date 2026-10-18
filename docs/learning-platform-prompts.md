@@ -2,6 +2,22 @@
 
 Adopted requirements through 18 October 2026. Apply these independent prompts to the existing Managed Agents platform with Labs 01 through 75. Preserve the original numbered lesson prompts and the visual style prompt. This supplement supersedes the earlier implementation checkpoint and any suggestion that learners must complete every checklist or follow a fixed path. All learning tools are optional.
 
+## Continuous regression and explicit live acceptance
+
+COPY PROMPT START
+
+Add GitHub Actions workflows to the combined course repository. Run offline unit and browser tests, developer-server checks, milestone reference checks, guide coverage, production build and distribution scanning on pushes and pull requests. Include all registered lessons and shared learning tools. Install the pinned Python dependency and Chrome explicitly on a Windows runner. Use immutable action revisions, read-only repository permissions and no provider secrets in automatic regression jobs.
+
+Provide a separate manually dispatched workflow on main for billed live acceptance. Require an explicit billing confirmation, use an environment named live-tests, queue overlapping runs without cancelling remote cleanup, and expose only authored bounded suite choices. Cover course lifecycle and retained reports, learning options and skill variants, editor backend and Python tools, and the configured engineering team. Do not provision agents, upload skills, synthesize narration, send notifications or deploy infrastructure as a side effect.
+
+Validate all selected local prerequisites before starting paid sessions. Keep shared and dedicated team credentials separate. Support a reviewed skill pin manifest with strict schema and bundle hash checks; never overwrite an existing manifest. Keep API keys in server settings locally or GitHub environment secrets remotely. Document required variables and secrets without transferring local keys automatically.
+
+Make acceptance depend on observed evidence, not process exit code alone. Reject missing or duplicate scenarios, incorrect terminal outcomes, unverified reports, unconfirmed interruption, unresolved review, failed host acceptance and unconfirmed remote archival. Stop later suites after failure and make no automatic billed retry. Preserve private diagnostic logs locally while uploading only authored pass or fail summaries and counts. Explain that forced cancellation can prevent cleanup confirmation and that budget guards are not final invoices.
+
+Test the evaluator with complete and incomplete evidence and with incorrect cleanup, outcomes and reports. Run the actual configured bounded live suites when authorized, verify cleanup independently, report real results and keep optional integrations distinct. Update the setup documentation, validation report, Word workbook and source package. Publish the reviewed changes and clearly distinguish local results from an observed GitHub-hosted workflow run.
+
+COPY PROMPT END
+
 ## Learning Guide and Inworld narration
 
 COPY PROMPT START

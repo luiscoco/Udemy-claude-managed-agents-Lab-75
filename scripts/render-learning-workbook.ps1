@@ -11,7 +11,7 @@ try {
     $taskWord.DisplayAlerts = 0
     $taskDocument = $taskWord.Documents.Open($taskDocx, $false, $true)
     $taskDocument.ActiveWindow.View.Type = 3
-    & (Join-Path $PSScriptRoot 'render-learning-workbook-pages.ps1')
+    & (Join-Path $PSScriptRoot 'render-learning-workbook-pages.ps1') -Document $taskDocument
 } finally {
     if ($null -ne $taskDocument) { $taskDocument.Close(0); [void][Runtime.InteropServices.Marshal]::FinalReleaseComObject($taskDocument) }
     if ($null -ne $taskWord) { $taskWord.Quit(); [void][Runtime.InteropServices.Marshal]::FinalReleaseComObject($taskWord) }

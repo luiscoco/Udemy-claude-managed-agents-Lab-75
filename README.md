@@ -14,7 +14,7 @@ The Learning Guide also has a personal notebook and lesson bookmarks. Home can d
 
 Use **Open notebook** beside a lesson title for direct access to its notes. **Course progress** and **Back up or restore** are always available in the sidebar or mobile Menu. These optional learning tools never require you to visit every lesson or complete a checklist.
 
-Download the [updated prompts Word workbook](docs/prompt-migration/Claude-Managed-Agents-Prompts-Labs-01-75.docx). Its 18 October supplement adds eight independent prompts covering the Learning Guide, Inworld narration, learning state, knowledge checks, paths, milestones, direct navigation, readable answers and release verification. The [supplement source](docs/learning-platform-prompts.md) is also readable in GitHub.
+Download the [updated prompts Word workbook](docs/prompt-migration/Claude-Managed-Agents-Prompts-Labs-01-75.docx). Its 18 October supplement adds nine independent prompts covering the Learning Guide, Inworld narration, learning state, knowledge checks, paths, milestones, direct navigation, readable answers and release verification. The [supplement source](docs/learning-platform-prompts.md) is also readable in GitHub.
 
 Each lab includes an authored **Knowledge check** with explained answers and retries. Home tracks these practice results separately from self-assessment checklists and verified exercise evidence. Version 2 learning backups include knowledge answers and still accept version 1 backups.
 
@@ -1824,3 +1824,7 @@ Azure Monitor is the selected external telemetry target. Lab 44 has an official 
 Run `npm run test:ui:audit` for all 75 lesson interfaces at desktop and phone widths without exercise submissions. Run `node scripts/run-browser-tests.mjs "lab[0-9]+\.spec\.ts"` for the offline lesson interaction suite.
 
 After explicitly authorizing billed tests, run `node --env-file-if-exists=.env --import tsx scripts/live-learning-smoke.ts --execute-authorized-live-tests` for options, system instructions and configured skill variants. This runner creates at most six sessions with ten-cent session budgets and stops after an error or unresolved cleanup. Existing course, host integration and team smoke scripts cover their separate configured live paths. These checks do not establish every optional integration works. See [audit results and remaining setup](docs/course-validation.md#full-interface-and-bounded-live-audit-18-october-2026).
+
+## Automated regression workflows
+
+[Course regression](.github/workflows/regression.yml) checks offline tests, all browser cases, guides, build and distribution on pushes and pull requests. [Bounded live acceptance](.github/workflows/live-acceptance.yml) runs actual API scenarios only by manual dispatch with explicit billing confirmation. It validates outcomes and remote archival, and uploads authored summaries only. See [setup and suite limits](docs/continuous-validation.md) for the GitHub environment settings and equivalent local command. Local credentials are not copied into GitHub.

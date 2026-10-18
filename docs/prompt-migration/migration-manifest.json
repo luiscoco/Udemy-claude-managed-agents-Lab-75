@@ -1436,7 +1436,7 @@
     "Resume with the adopted conversation requirements"
   ],
   "original_prompt_blocks": 91,
-  "updated_prompt_blocks": 105,
+  "updated_prompt_blocks": 106,
   "updated_docx": "C:\\claude-managed-agents\\docs\\prompt-migration\\Claude-Managed-Agents-Prompts-Labs-01-75.docx",
   "independent_visual_prompt": {
     "title": "Independent visual style improvement prompt",
@@ -1453,7 +1453,7 @@
     "date": "2026-10-18",
     "source": "docs\\learning-platform-prompts.md",
     "preserved_prompt_blocks": 97,
-    "added_prompt_blocks": 8,
-    "sha256": "4e2b70abb2641ab5f15a28e8b2bc89be7b29316cbfbba93407adc2f8c979dbc7"
+    "added_prompt_blocks": 9,
+    "sha256": "1b061327ba7c5d2b9c6e7030c79b9e84b35fea9edb1a63f6cfed45b70abd0d28"
   }
 }

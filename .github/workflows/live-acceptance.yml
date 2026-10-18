@@ -1,0 +1,74 @@
+name: Bounded live acceptance
+on:
+  workflow_dispatch:
+    inputs:
+      suite:
+        description: Reviewed live scenarios to run
+        type: choice
+        options: [course, learning, host, team, all]
+        default: course
+      confirm_billing:
+        description: Authorize billed API sessions with existing resources
+        type: boolean
+        required: true
+        default: false
+permissions:
+  contents: read
+concurrency:
+  group: bounded-live-acceptance
+  cancel-in-progress: false
+jobs:
+  live:
+    if: github.ref == 'refs/heads/main'
+    environment: live-tests
+    runs-on: windows-latest
+    timeout-minutes: 45
+    steps:
+      - name: Require deliberate billed execution
+        env:
+          CONFIRMED: ${{ inputs.confirm_billing }}
+        run: if ($env:CONFIRMED -ne 'true') { throw 'Confirm billed execution before running this workflow.' }
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: '24'
+          cache: npm
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
+        with:
+          python-version: '3.13'
+      - run: npm ci
+      - name: Prepare isolated Python worker
+        if: inputs.suite == 'host' || inputs.suite == 'all'
+        run: |
+          python -m venv .venv
+          .venv/Scripts/python.exe -m pip install -r python/lab70/requirements.txt
+      - name: Check acceptance evaluator offline
+        run: node --test scripts/live-audit-evidence.test.mjs
+      - name: Run selected bounded live scenarios
+        env:
+          LIVE_SUITE: ${{ inputs.suite }}
+          MANAGED_LIVE_ENABLED: 'true'
+          MANAGED_BUDGET_CENTS: '10'
+          MANAGED_DEADLINE_MS: '120000'
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          CLAUDE_MANAGED_AGENT_ID: ${{ vars.CLAUDE_MANAGED_AGENT_ID }}
+          CLAUDE_MANAGED_ENVIRONMENT_ID: ${{ vars.CLAUDE_MANAGED_ENVIRONMENT_ID }}
+          LAB11_SKILL_PINS_JSON: ${{ secrets.LAB11_SKILL_PINS_JSON }}
+          LAB75_ANTHROPIC_API_KEY: ${{ secrets.LAB75_ANTHROPIC_API_KEY }}
+          LAB75_PLANNER_AGENT_ID: ${{ vars.LAB75_PLANNER_AGENT_ID }}
+          LAB75_PLANNER_AGENT_VERSION: ${{ vars.LAB75_PLANNER_AGENT_VERSION }}
+          LAB75_DEVELOPER_AGENT_ID: ${{ vars.LAB75_DEVELOPER_AGENT_ID }}
+          LAB75_DEVELOPER_AGENT_VERSION: ${{ vars.LAB75_DEVELOPER_AGENT_VERSION }}
+          LAB75_REVIEWER_AGENT_ID: ${{ vars.LAB75_REVIEWER_AGENT_ID }}
+          LAB75_REVIEWER_AGENT_VERSION: ${{ vars.LAB75_REVIEWER_AGENT_VERSION }}
+        run: node --import tsx scripts/run-live-audit.mjs --execute-authorized-live-tests "--suite=$env:LIVE_SUITE"
+      - name: Upload authored status summaries only
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: live-status-${{ github.run_id }}
+          path: artifacts/ci/live-*/summary.json
+          retention-days: 7
+          if-no-files-found: ignore
