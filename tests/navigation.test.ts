@@ -10,6 +10,10 @@ test('query parsing accepts registered numeric IDs and rejects ambiguous or unav
     assert.equal(readRoute(query, [testLesson]).invalid, true, query);
   assert.equal(routeHref(undefined, 'http://localhost/?lesson=0&other=kept'), '/?other=kept');
   assert.equal(routeHref(0, 'http://localhost/'), '/?lesson=0');
+  assert.equal(routeHref(2, 'http://localhost/?lesson=1#lesson-notebook-1'), '/?lesson=2');
+  assert.equal(routeHref(undefined, 'http://localhost/?lesson=1#lesson-exercise-1'), '/');
+  assert.equal(routeHref(1, 'http://localhost/?lesson=1#lesson-checklist-1'), '/?lesson=1');
+  assert.equal(routeHref(2, 'http://localhost/#course-progress'), '/?lesson=2');
 });
 
 test('search is case insensitive across IDs, titles, objectives and topic terms', () => {

@@ -16,6 +16,7 @@ export function LessonWorkspace({ lesson, loadGuide, sources, mainSources, loadE
   lesson: LessonMetadata; loadGuide: TextLoader; sources: TextCatalog; mainSources: readonly string[]; loadExercise: ExerciseLoader;
 }) {
   const id = useId(); const tabs = ['Learn', 'Run the exercise', 'TypeScript source'];
+  const tabId = (index: number) => index === 1 ? `lesson-exercise-${lesson.id}` : `${id}-tab-${index}`;
   const workspace = useRef<HTMLDivElement>(null);
   const tour = learningGuide(lesson.id);
   const [active, setActive] = useState(() => {
@@ -50,7 +51,7 @@ export function LessonWorkspace({ lesson, loadGuide, sources, mainSources, loadE
     <LearningGuide lessonId={lesson.id} view={active} onView={activate} workspace={workspace} />
     <LessonKnowledgeCheck lessonId={lesson.id} onReviewSource={() => activate(2, true)} />
     <div role="tablist" aria-label={`${lesson.title} views`} className="workspace-tabs">
-      {tabs.map((name, index) => <button type="button" key={name} id={`${id}-tab-${index}`} role="tab"
+      {tabs.map((name, index) => <button type="button" key={name} id={tabId(index)} role="tab" data-lesson-shortcut={index === 1 ? 'exercise' : undefined}
         ref={(element) => { buttons.current[index] = element; }} aria-selected={active === index}
         aria-controls={`${id}-panel-${index}`} tabIndex={active === index ? 0 : -1}
         onClick={() => activate(index)} onKeyDown={(event) => {
@@ -66,7 +67,7 @@ export function LessonWorkspace({ lesson, loadGuide, sources, mainSources, loadE
         <button type="button" onClick={() => activate(1, true)}>Open exercise</button>
         <details open={reopenGuide || undefined}><summary>Detailed guide</summary><TextResource load={loadGuide} label="guide">{(markdown) => <LessonGuide lessonId={lesson.id} markdown={markdown} />}</TextResource></details></section>
     </div>
-    <div role="tabpanel" id={`${id}-panel-1`} aria-labelledby={`${id}-tab-1`} hidden={active !== 1} tabIndex={0}>
+    <div role="tabpanel" id={`${id}-panel-1`} aria-labelledby={tabId(1)} hidden={active !== 1} tabIndex={0}>
       <div className="guided-workspace">
         <aside className="learning-card exercise-guide" aria-label="Exercise guidance">
           <p className="phase-label">01 / Understand</p><h2>Understand the lesson</h2>

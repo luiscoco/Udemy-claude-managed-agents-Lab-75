@@ -9,7 +9,7 @@ import { recordLessonVisit } from './lib/learning-progress';
 import { useLearningProgress } from './lib/useLearningProgress';
 import { useLearningPath } from './lib/useLearningPath';
 import { findLearningPath, pathNeighbors } from './lessons/learning-paths';
-import { openLearningSection } from './lib/learning-shortcuts';
+import { lessonSections, lessonSectionHref, openLearningSection } from './lib/learning-shortcuts';
 
 const themeKey = 'managed-agents-theme';
 function initialTheme(): 'light' | 'dark' {
@@ -38,6 +38,12 @@ export function App({ lessons = implementedLessons }: { lessons?: readonly Lesso
   const position = ordered.findIndex(({ id }) => id === selected?.id);
   const pathPosition = selected && selectedPath ? pathNeighbors(selectedPath, selected.id, ordered.map(lesson => lesson.id)) : null;
   useEffect(() => { if (selected) recordLessonVisit(selected.id); }, [selected?.id]);
+  useEffect(() => {
+    const section = window.location.hash.slice(1);
+    if (!section || !(/^lesson-(notebook|checklist|exercise)-\d+$/.test(section) || /^course-(progress|learning-backup)$/.test(section))) return;
+    const frame = requestAnimationFrame(() => openLearningSection(section));
+    return () => cancelAnimationFrame(frame);
+  }, [route]);
 
   useEffect(() => {
     document.documentElement.dataset.theme = theme;
@@ -58,14 +64,19 @@ export function App({ lessons = implementedLessons }: { lessons?: readonly Lesso
     const wide = window.matchMedia('(min-width: 900px)');
     const onResize = () => { if (wide.matches) drawer.current?.close(); };
     window.addEventListener('popstate', onPop);
+    window.addEventListener('hashchange', onPop);
     wide.addEventListener('change', onResize);
-    return () => { window.removeEventListener('popstate', onPop); wide.removeEventListener('change', onResize); };
+    return () => { window.removeEventListener('popstate', onPop); window.removeEventListener('hashchange', onPop); wide.removeEventListener('change', onResize); };
   }, []);
 
   function navigate(event: MouseEvent<HTMLAnchorElement>, id?: number, section?: string) {
     if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
     event.preventDefault();
-    const href = routeHref(id);
+    const url = new URL(event.currentTarget.href);
+    if (section) url.hash = section;
+    // A normal lesson link must not inherit a different lesson's section target.
+    if (/^#lesson-(notebook|checklist|exercise)-\d+$/.test(url.hash) && !url.hash.endsWith(`-${id}`)) url.hash = '';
+    const href = `${url.pathname}${url.search}${url.hash}`;
     if (href !== `${location.pathname}${location.search}${location.hash}`) history.pushState(null, '', href);
     setRoute(readRoute(window.location.search, lessons));
     focusMainOnClose.current = drawer.current?.open ?? false;
@@ -85,10 +96,7 @@ export function App({ lessons = implementedLessons }: { lessons?: readonly Lesso
       <div className="learning-quick-links" aria-label="Learning shortcuts">
         <a href={routeHref()} onClick={event => navigate(event, undefined, 'course-progress')}>Course progress</a>
         <a href={routeHref()} onClick={event => navigate(event, undefined, 'course-learning-backup')}>Back up or restore</a>
-        {selected && <button type="button" onClick={() => {
-          drawer.current?.close();
-          requestAnimationFrame(() => openLearningSection(`lesson-notebook-${selected.id}`));
-        }}>My notebook / Lab {String(selected.id).padStart(2, '0')}</button>}
+        {selected && lessonSections.map(section => <a key={section.key} href={lessonSectionHref(selected.id, section.key)} onClick={event => navigate(event, selected.id)}>{section.label} / Lab {String(selected.id).padStart(2, '0')}</a>)}
       </div>
       <label htmlFor={`${prefix}-search`}>Find a lesson</label>
       <input id={`${prefix}-search`} type="search" value={search} aria-describedby={`${prefix}-search-help`} placeholder="Number, topic, or objective" onChange={(event) => setSearch(event.target.value)} />
@@ -146,7 +154,7 @@ export function App({ lessons = implementedLessons }: { lessons?: readonly Lesso
           if (check instanceof HTMLDetailsElement) check.open = true;
           check?.scrollIntoView({ block: 'start', behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth' });
           check?.focus({ preventScroll: true });
-        }}>Open knowledge check</button><button type="button" aria-controls={`lesson-notebook-${selected.id}`} onClick={() => openLearningSection(`lesson-notebook-${selected.id}`)}>Open notebook</button><p>Optional voice narration, highlighted steps, checklist and personal notes. Explore any lab at your own pace.</p></div>
+        }}>Open knowledge check</button>{lessonSections.map(section => <a className="button" key={section.key} href={lessonSectionHref(selected.id, section.key)} onClick={event => navigate(event, selected.id)}>Open {section.label.toLowerCase()}</a>)}<p>Optional voice narration, highlighted steps, checklist and personal notes. Explore any lab at your own pace.</p></div>
         <nav className="lab-strip" aria-label="Implemented lessons">{ordered.map((lesson) => <a key={lesson.id} href={routeHref(lesson.id)} aria-current={lesson.id === selected.id ? 'page' : undefined} onClick={(event) => navigate(event, lesson.id)}>Lab {String(lesson.id).padStart(2, '0')}</a>)}</nav>
         <Component key={selected.id} />
         <nav className="lesson-pagination" aria-label="Previous and next lessons">

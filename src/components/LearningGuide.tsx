@@ -134,7 +134,7 @@ export function LearningGuide({ lessonId, view, onView, workspace }: {
       </div>
     </>}
     <p role="status" aria-label="Learning Guide status">{loading ? 'Preparing narration. You can pause to cancel.' : notice}</p>
-    <details><summary>My learning checklist ({checked.filter(Boolean).length} / {checkpoints.length})</summary>
+    <details id={`lesson-checklist-${lessonId}`} tabIndex={-1}><summary>My learning checklist ({checked.filter(Boolean).length} / {checkpoints.length})</summary>
       <p>Self-assessment saved in this browser; separate from exercise validation.</p>
       {checkpoints.map((label, i) => <label className="guide-checkpoint" key={label}><input type="checkbox" checked={checked[i]} onChange={event => {
         const next = [...checked]; next[i] = event.target.checked; setChecked(next); try { localStorage.setItem(storageKey, JSON.stringify(next)); } catch { setNotice('Checklist works here but browser storage is unavailable.'); }

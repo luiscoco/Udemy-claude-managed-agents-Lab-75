@@ -104,3 +104,9 @@ The authorized initial live test passed on 18 October 2026 with Yash and inworld
 The guide highlights explanations and visible exercise targets without selecting values or activating controls. The reference's Agent SDK narration was adapted to Managed Agents concepts and host evidence.
 
 API references: [Inworld synthesis](https://docs.inworld.ai/api-reference/ttsAPI/texttospeech/synthesize-speech), [workspace voice catalog](https://docs.inworld.ai/api-reference/voiceAPI/voiceservice/list-voices).
+
+## Direct lesson shortcuts
+
+Each lesson has **Open notebook**, **Open checklist** and **Open exercise** links beside its title. The same destinations are available in the sidebar and mobile Menu. Course progress offers these links for the next lesson and for all lessons under **Review lesson checklists**.
+
+You can bookmark, copy or open these links in a new tab. Refresh and browser Back return to the selected section. Notebook and checklist links expand their panels and move keyboard focus there; an exercise link selects the exercise tab and leaves execution to your explicit Run action. Existing saved notes and checklist choices are retained.

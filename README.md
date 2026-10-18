@@ -12,7 +12,7 @@ Home includes a browser-local course progress overview and **Continue learning**
 
 The Learning Guide also has a personal notebook and lesson bookmarks. Home can download a learning backup and preview a restore before applying it; these controls stay entirely in the browser.
 
-Use **Open notebook** beside a lesson title for direct access to its notes. **Course progress** and **Back up or restore** are always available in the sidebar or mobile Menu. These optional learning tools never require you to visit every lesson or complete a checklist.
+Use **Open notebook**, **Open checklist** or **Open exercise** beside a lesson title, or choose the same sections in the sidebar or mobile Menu. Course progress also links directly to these sections for the next lesson and every lesson under **Review lesson checklists**. Section links survive refresh, browser Back and opening in a new tab. Opening the exercise selects its view; execution still requires your Run action. **Course progress** and **Back up or restore** remain available in navigation. These optional learning tools never require you to visit every lesson or complete a checklist.
 
 Download the [updated prompts Word workbook](docs/prompt-migration/Claude-Managed-Agents-Prompts-Labs-01-75.docx). Its 18 October supplement adds nine independent prompts covering the Learning Guide, Inworld narration, learning state, knowledge checks, paths, milestones, direct navigation, readable answers and release verification. The [supplement source](docs/learning-platform-prompts.md) is also readable in GitHub.
 

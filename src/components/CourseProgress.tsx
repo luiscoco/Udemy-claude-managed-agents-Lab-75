@@ -5,7 +5,7 @@ import { routeHref } from '../lessons/navigation';
 import { LearningBackupControls } from './LearningBackupControls';
 import { LearningPaths } from './LearningPaths';
 import { LearningMilestones } from './LearningMilestones';
-import { openLearningSection } from '../lib/learning-shortcuts';
+import { lessonSections, lessonSectionHref, openLearningSection } from '../lib/learning-shortcuts';
 
 export function CourseProgress({ progress, lessons, onNavigate, selectedPathId, onSelectPath, pathStatus }: {
   progress: LearningProgress; lessons: readonly LessonMetadata[];
@@ -29,6 +29,7 @@ export function CourseProgress({ progress, lessons, onNavigate, selectedPathId, 
     {next ? <div className="continue-learning"><a className="button" href={routeHref(next.id)} onClick={event => onNavigate(event, next.id)}>Continue learning: Lab {String(next.id).padStart(2, '0')}</a>
       <p>{next.title}. {progress.lessons.find(item => item.id === next.id)?.savedStep ? 'Open its Learning Guide and choose Resume saved tour to return to your section.' : 'Open its Learning Guide to choose your next step.'}</p></div>
       : lessons.length > 0 && <p>All learning checklists are complete. Revisit any lesson to practice or review its evidence.</p>}
+    {next && <nav className="guide-toolbar" aria-label="Continue lesson sections">{lessonSections.map(section => <a className="button" key={section.key} href={lessonSectionHref(next.id, section.key)} onClick={event => onNavigate(event, next.id)}>{section.label} for Lab {String(next.id).padStart(2, '0')}</a>)}</nav>}
     <details><summary>Progress by topic</summary><ul className="topic-progress-list">{topicNames.map(topic => {
       const ids = lessons.filter(item => item.topic === topic).map(item => item.id);
       const count = progress.lessons.filter(item => ids.includes(item.id) && item.completed).length;
@@ -37,6 +38,7 @@ export function CourseProgress({ progress, lessons, onNavigate, selectedPathId, 
     <details><summary>Review lesson checklists</summary><ul className="lesson-progress-list">{lessons.map(lesson => {
       const item = progress.lessons.find(item => item.id === lesson.id);
       return <li key={lesson.id}><a href={routeHref(lesson.id)} onClick={event => onNavigate(event, lesson.id)}>Lab {String(lesson.id).padStart(2, '0')}: {lesson.title}</a>
+        <nav className="guide-toolbar" aria-label={`Lab ${String(lesson.id).padStart(2, '0')} sections`}>{lessonSections.map(section => <a key={section.key} href={lessonSectionHref(lesson.id, section.key)} onClick={event => onNavigate(event, lesson.id)}>{section.label}</a>)}</nav>
         <span>{item?.completed ? 'Self-assessed complete' : item?.started ? `${item.checked} / 4 checkpoints` : 'Not started'}{item?.hasNotes ? ' / notes saved' : ''}{item?.bookmarked ? ' / bookmarked' : ''}{item?.knowledgeAttempted ? item.knowledgeCorrect ? ' / knowledge correct' : ' / knowledge review needed' : ''}</span></li>;
     })}</ul></details>
     <details><summary>Bookmarked lessons ({progress.lessons.filter(item => item.bookmarked).length})</summary>

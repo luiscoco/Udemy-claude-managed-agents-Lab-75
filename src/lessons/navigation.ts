@@ -19,6 +19,7 @@ export function routeHref(id?: number, current = window.location.href) {
   const url = new URL(current);
   url.searchParams.delete('lesson');
   if (id !== undefined) url.searchParams.set('lesson', String(id));
+  if (/^#(?:lesson-(notebook|checklist|exercise)-\d+|course-(progress|learning-backup))$/.test(url.hash)) url.hash = '';
   return `${url.pathname}${url.search}${url.hash}`;
 }
 
