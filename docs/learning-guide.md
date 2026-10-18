@@ -63,6 +63,18 @@ Home reports correct and attempted knowledge checks separately from completed se
 
 The question catalog is `shared/learning-quizzes.ts`, adapted from the implemented Managed Agents objectives in `shared/learning-content.ts`. `src/lib/learning-knowledge.ts` validates saved attempts and grades them against the catalog. `src/components/LessonKnowledgeCheck.tsx` renders accessible radio choices, explicit grading and retry feedback. Question changes require a catalog version update so old attempts cannot silently certify a different question.
 
+## Suggested learning paths and review queue
+
+On Home, use the **Learning paths** and **Review queue** shortcuts at the top of Course progress. Four suggested paths are available: **Managed Agents foundations**, **Application builder**, **Reliable orchestration** and **Complete course**. The first three adapt the reference platform's role-oriented sequences to this Managed Agents implementation. Complete course includes all 75 labs in numeric order. Some curated paths share foundation lessons; shared checklists are counted once in course totals.
+
+Select a path to save your preference in this browser. Its card reports existing checklist completion and offers **Continue path** for an unfinished lesson. Lessons then show your position and **Previous in path / Next in path** links. Numeric lesson navigation remains available, and no lab is locked. A lesson outside the selected path is labeled as such without blocking access. Clear the path on Home whenever you want.
+
+Path selection is a browser display preference, like the theme, and is not included in learning backups. Checklists and knowledge results remain portable; select a path again after restoring them in a new browser. Blocked storage keeps selection in memory where possible and explains that it could not be saved.
+
+The review queue combines the latest incorrect knowledge answers and bookmarked lessons, with incorrect answers first. A lesson appears only once even when both reasons apply. Filter by **All review items**, **Knowledge checks** or **Bookmarks**. A correct retry removes the knowledge-review reason. An explicit bookmark remains until you remove it in that lesson's notebook. Opening a queue item navigates to the lab; it does not grade another answer, start a tour or play narration.
+
+Implementation: `src/lessons/learning-paths.ts`, `src/lib/useLearningPath.ts` and `src/components/LearningPaths.tsx`. Suggestions use registered lessons only. Their progress is self-assessment and does not establish a live exercise result or certification.
+
 An explicitly requested live smoke test is available as `npm run guide:live:test`. It synthesizes one Lab 65 objective clip, checks the MP3 header and writes audio plus redacted evidence to ignored `artifacts/learning-guide`. This incurs one provider request; it does not run a lesson agent. Listen to the saved clip separately to assess pronunciation and delivery.
 
 The authorized initial live test passed on 18 October 2026 with Yash and inworld-tts-2. One request returned a 259,584-byte MP3 (32.448 seconds, 48 kHz mono), decoded without errors by FFmpeg. The local API key remains ignored; narration requires restarting the backend after configuration changes. The live test is separate from offline checks and does not claim every lab recording has been generated.

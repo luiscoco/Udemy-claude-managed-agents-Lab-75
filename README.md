@@ -14,6 +14,8 @@ The Learning Guide also has a personal notebook and lesson bookmarks. Home can d
 
 Each lab includes an authored **Knowledge check** with explained answers and retries. Home tracks these practice results separately from self-assessment checklists and verified exercise evidence. Version 2 learning backups include knowledge answers and still accept version 1 backups.
 
+Home also offers four suggested **Learning paths** and a **Review queue** for incorrect knowledge answers and bookmarks. Paths are optional; every lab remains available.
+
 Requires Node 24 or newer and Git on PATH. On Windows use PowerShell and npm.cmd. Chrome is used by browser acceptance tests and Lab 64; no model key is needed for offline exercises.
 
 ```powershell

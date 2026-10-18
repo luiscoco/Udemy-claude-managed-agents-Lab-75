@@ -7,6 +7,8 @@ import { numericOrder, readRoute, routeHref, searchLessons, topicGroups } from '
 import { CourseProgress } from './components/CourseProgress';
 import { recordLessonVisit } from './lib/learning-progress';
 import { useLearningProgress } from './lib/useLearningProgress';
+import { useLearningPath } from './lib/useLearningPath';
+import { findLearningPath, pathNeighbors } from './lessons/learning-paths';
 
 const themeKey = 'managed-agents-theme';
 function initialTheme(): 'light' | 'dark' {
@@ -26,11 +28,14 @@ export function App({ lessons = implementedLessons }: { lessons?: readonly Lesso
   const focusMainOnClose = useRef(false);
   const ordered = numericOrder(lessons);
   const progress = useLearningProgress(ordered.map(lesson => lesson.id));
+  const learningPath = useLearningPath();
+  const selectedPath = findLearningPath(learningPath.pathId);
   const selected = lessons.find(({ id }) => id === route.lesson?.id);
   const visible = searchLessons(ordered, search);
   const topics = [...topicGroups, ...new Set(lessons.map(({ topic }) => topic).filter((topic) => !topicGroups.some((group) => group === topic)))];
   const startLesson = lessons.find(({ id }) => id === 1);
   const position = ordered.findIndex(({ id }) => id === selected?.id);
+  const pathPosition = selected && selectedPath ? pathNeighbors(selectedPath, selected.id, ordered.map(lesson => lesson.id)) : null;
   useEffect(() => { if (selected) recordLessonVisit(selected.id); }, [selected?.id]);
 
   useEffect(() => {
@@ -115,6 +120,11 @@ export function App({ lessons = implementedLessons }: { lessons?: readonly Lesso
     </dialog>
     <main id="main" ref={main} tabIndex={-1}>
       {selected && Component ? <><p className="eyebrow">Course / {selected.topic} / LAB {String(selected.id).padStart(2, '0')}</p><h1>{selected.title}</h1><p className="lead">{selected.objective}</p>
+        {selectedPath && <aside className="path-position" aria-label="Selected learning path"><strong>{selectedPath.title}</strong>
+          {pathPosition ? <><p>Path step {pathPosition.position} / {pathPosition.total}. Suggested order; every lab remains available.</p>
+            <nav aria-label="Learning path navigation">{pathPosition.previous !== undefined && <a href={routeHref(pathPosition.previous)} onClick={event => navigate(event, pathPosition.previous)}>Previous in path</a>}
+              {pathPosition.next !== undefined && <a href={routeHref(pathPosition.next)} onClick={event => navigate(event, pathPosition.next)}>Next in path</a>}</nav></>
+            : <p>This lesson is outside your selected path. Explore it freely or change your path on Home.</p>}</aside>}
         <div className="lesson-guide-shortcut"><button type="button" aria-controls={`learning-guide-${selected.id}`} onClick={() => {
           const guide = document.getElementById(`learning-guide-${selected.id}`);
           guide?.scrollIntoView({ block: 'start', behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth' });
@@ -131,7 +141,7 @@ export function App({ lessons = implementedLessons }: { lessons?: readonly Lesso
           {ordered[position - 1] ? <a href={routeHref(ordered[position - 1]!.id)} onClick={(event) => navigate(event, ordered[position - 1]!.id)}>← {ordered[position - 1]!.title}</a> : <span>First implemented lesson</span>}
           {ordered[position + 1] ? <a href={routeHref(ordered[position + 1]!.id)} onClick={(event) => navigate(event, ordered[position + 1]!.id)}>{ordered[position + 1]!.title} →</a> : <span>You’re at the latest implemented lesson.</span>}
         </nav>
-      </> : <Home invalid={route.invalid} lessonCount={lessons.length} startHref={startLesson ? routeHref(1) : undefined} onStart={(event) => navigate(event, 1)} progress={<CourseProgress progress={progress} lessons={ordered} onNavigate={navigate} />} />}
+      </> : <Home invalid={route.invalid} lessonCount={lessons.length} startHref={startLesson ? routeHref(1) : undefined} onStart={(event) => navigate(event, 1)} progress={<CourseProgress progress={progress} lessons={ordered} onNavigate={navigate} selectedPathId={learningPath.pathId} onSelectPath={learningPath.select} pathStatus={learningPath.status} />} />}
       <footer>Claude Managed Agents Learning · Managed Agents foundation</footer>
     </main>
   </div>;
