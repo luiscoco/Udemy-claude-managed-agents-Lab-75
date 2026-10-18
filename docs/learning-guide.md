@@ -75,6 +75,12 @@ The review queue combines the latest incorrect knowledge answers and bookmarked 
 
 Implementation: `src/lessons/learning-paths.ts`, `src/lib/useLearningPath.ts` and `src/components/LearningPaths.tsx`. Suggestions use registered lessons only. Their progress is self-assessment and does not establish a live exercise result or certification.
 
+## Direct access to notebooks progress and backups
+
+Use **Open notebook** beside a lesson title, or **My notebook / Lab NN** in the sidebar or mobile Menu. The existing notebook opens directly with keyboard focus. **Course progress** and **Back up or restore** are always available in navigation. The latter goes straight to expanded backup controls on Home; **Open learning backup** also appears near the progress heading.
+
+Paths, checklists and knowledge checks are optional. You can explore any lesson without completing them, and development verification does not require you to navigate every lesson. The [implementation prompt supplement](learning-platform-prompts.md) captures these requirements alongside narration, learning state and milestones. The [updated Word workbook](prompt-migration/Claude-Managed-Agents-Prompts-Labs-01-75.docx) preserves the original prompts and adds the adopted learning platform requirements.
+
 ## Offline milestone projects
 
 Use **Home → Milestone projects** to practise an event viewer, a local SSE endpoint or a fictional approval ledger. Each has a downloadable starter, requirements, hints and Node 24 tests, with no dependency installation or provider call. Starters fail intentionally until implemented. Run them in a separate study folder; the platform never executes your edited code or marks it complete automatically. See [Milestone instructions](learning-milestones.md).

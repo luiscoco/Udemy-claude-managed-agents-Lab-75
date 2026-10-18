@@ -15,7 +15,7 @@ export function LearningBackupControls({ lessonIds, storageAvailable }: { lesson
       setStatus('Backup download prepared. It contains only learning checklists, tour positions, notes, bookmarks and knowledge-check answers.');
     } catch { setStatus('Backup could not be created. Check browser storage availability.'); }
   }
-  return <details className="learning-backup"><summary>Back up or restore my learning</summary>
+  return <details id="course-learning-backup" tabIndex={-1} className="learning-backup"><summary>Back up or restore my learning</summary>
     <p>Download your browser-local learning state, including personal notes. Keep the file private. This does not export API keys, exercise results, sessions or unrelated browser settings.</p>
     <button type="button" disabled={!storageAvailable || !lessonIds.length} onClick={download}>Download learning backup</button>
     <label htmlFor={`${id}-backup`}>Choose a learning backup to preview</label>

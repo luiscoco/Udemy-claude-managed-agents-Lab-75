@@ -1,0 +1,97 @@
+# Learning platform implementation supplement
+
+Adopted requirements through 18 October 2026. Apply these independent prompts to the existing Managed Agents platform with Labs 01 through 75. Preserve the original numbered lesson prompts and the visual style prompt. This supplement supersedes the earlier implementation checkpoint and any suggestion that learners must complete every checklist or follow a fixed path. All learning tools are optional.
+
+## Learning Guide and Inworld narration
+
+COPY PROMPT START
+
+Extend the existing Managed Agents application with a shared Learning Guide for all 75 registered lessons. Adapt useful capabilities from the user's Agent SDK reference platform to the actual Managed Agents objectives, controls, source files and evidence. Do not substitute Agent SDK lifecycle assumptions or invent provider capabilities.
+
+Author seven sections per lesson: objective, preparation, example, controls, evidence, source and practice. Use the same authored explanation for visible text and narration. Provide transcripts, previous and next controls, section selection, show-section navigation, pause, replay, playback speed, minimization and explicit resume of a saved tour. Never start an exercise, submit a prompt or mark a checklist complete through guide navigation.
+
+Add a red rectangle around the current explanation and a separate highlight around the relevant visible exercise control or result. Locate real mounted elements, refresh highlights when content changes, and report when evidence is not yet present. Respect reduced motion, keyboard focus, scrolling and mobile layouts. Stop playback and cancel pending requests when the learner changes lesson or closes the player.
+
+Keep the Inworld API key and opt-in on the server in ignored settings. Accept only registered lesson and section identifiers at the audio endpoint; synthesize authored text only. Enforce local request checks, bounded text and response sizes, deadlines, concurrency and rate limits, safe caching and sanitized errors. Use the configured voice and model; do not expose credentials or generate all clips automatically. Starting a tour must not synthesize audio. Explain that explicit narration playback can incur charges.
+
+Verify lesson coverage, safe audio request handling, playback controls, highlight targets, resume and mobile accessibility. Use mocked transport for regression tests. Real synthesis needs explicit authorization; report actual evidence and distinguish transport verification from subjective audio review.
+
+COPY PROMPT END
+
+## Optional progress notebooks and backups
+
+COPY PROMPT START
+
+Implement browser-local learning progress without treating self-assessment as proof of exercise success. Provide four optional checklist items per lesson, a remembered tour section, a personal plain-text notebook with explicit Save note, and a bookmark for review. Keep notes limited to 4000 characters and clearly show unsaved changes and storage failures.
+
+Show completed, in-progress and unstarted checklist counts on Home. Suggest a next lesson while allowing unrestricted navigation. Record a visit as started only. Show knowledge-check results separately from checklist completion and live execution evidence. Keep all 75 lessons available regardless of progress or selected path.
+
+Provide a downloadable JSON backup of known learning fields only. Exclude provider credentials, sessions, exercise outputs, audio and unrelated browser storage. Validate imports against a closed versioned schema with a 2 MB file limit, registered unique lesson IDs, bounded notes, valid section identifiers and canonical timestamps. Preview the contents without writing storage; require an explicit Restore action and support cancellation.
+
+Preserve compatibility with version 1 learning backups. Version 2 may include validated knowledge attempts; older backups must not erase newer existing knowledge answers. Revalidate at the write boundary, retain unrelated data and roll back affected learning keys on a failed restore. Describe browser-local persistence and allow a learner to download another backup after making changes.
+
+Test notes, bookmarks, progress and restored state across reloads. Verify cancellation, malformed imports, denied storage, rollback behavior and exclusion of unrelated values. No learning-state operation should contact a model provider or start an exercise.
+
+COPY PROMPT END
+
+## Knowledge checks paths and review
+
+COPY PROMPT START
+
+Author one concept question with three distinct choices and an explanatory answer for each registered Managed Agents lesson. Derive questions from the implemented lesson objective and evidence. Vary the correct choice position. Require an explicit Check answer action, permit retries and save only the latest checked choice with its content version and timestamp.
+
+Compute correctness from the authored question rather than trusting a stored passed flag. Ignore invalid or obsolete attempts. Make wrong-answer explanations useful and connect Review lesson source to the real source tab. Describe knowledge checks as concept practice, independent of checklist completion or real execution.
+
+Provide optional paths for Managed Agents foundations, application building, reliable orchestration and the complete course. Filter path membership against registered lessons. Reuse existing checklist progress, show position and previous or next links, and remember the selected path as a browser preference. Never lock a lesson, force a sequence or certify completion.
+
+Add a Home review queue containing lessons whose latest knowledge answer is incorrect and lessons explicitly bookmarked. Put incorrect answers first, deduplicate lessons and provide useful filters. A correct retry removes the knowledge-review reason while retaining a bookmark until the learner removes it.
+
+Verify all 75 questions, grading from the catalog, invalid stored attempts, backup compatibility, path navigation, correct retries, bookmark persistence, empty states and mobile controls. The checks and navigation must work without provider requests.
+
+COPY PROMPT END
+
+## Offline milestone projects
+
+COPY PROMPT START
+
+Provide three independent downloadable starter projects: an event stream evidence viewer, a local streaming tutor endpoint, and a fictional approval and effect ledger. Use native Node 24 or newer TypeScript support, the Node test runner and no required dependency installation or API keys. Include a README, package manifest, starter.ts and starter.test.mjs in each ZIP. Keep reference solutions in repository source, outside starter downloads.
+
+The event viewer reduces authored host frames into session identity, answer text, a terminal outcome and an event count. Deduplicate frame IDs, remain incomplete without a terminal outcome, stop at the first outcome, and reject unexpected kinds or conflicting sessions. Do not present this teaching contract as raw Managed Agents event syntax.
+
+The tutor endpoint validates POST /ask with exactly one prompt field, trimmed length 1 through 200 and a 1024-byte body limit. Return appropriate route, method, content-type and validation errors before SSE starts. Stream deterministic started, answer and done events with JSON data and end the response. Describe its local teaching scope rather than claiming production hardening.
+
+The approval ledger separates proposal, local notification, reviewer decision and effect. Bind proposals to an owner, return frozen snapshots, reject wrong reviewers and premature or repeated decisions, and deduplicate approved effects by a stable owner-and-case business key. Rejection is terminal. Explain that trusted-reviewer is a fixture identity and that the in-memory ledger is not durable authentication or storage.
+
+State prominently that unfinished starters initially fail their tests. Serve only allowlisted authored files, with no arbitrary path or execution endpoint. Verify expected starter failures and passing authored reference solutions in isolated copies. Never execute uploaded or learner-edited code on the platform. Learners run tests locally and may record their results in a notebook; do not automatically award checklist completion.
+
+COPY PROMPT END
+
+## Direct access to learning tools
+
+COPY PROMPT START
+
+Improve discoverability using the actual difficulties reported by the learner. Add persistent Course progress and Back up or restore shortcuts to desktop navigation and the mobile menu. From any lesson, one normal click must open the correct Home section, expand backup controls when needed, scroll the destination below the fixed header and place keyboard focus on it.
+
+Add an Open notebook button beside each lesson title and a notebook shortcut for the current lesson in navigation. Open the existing notebook rather than creating a second editor. Automatically expand containing details elements, retain the correct lesson identity and focus the notebook destination. Keep the Learning Guide and knowledge-check shortcuts available.
+
+Place an Open learning backup button near the Course progress heading so learners do not need to search below paths, review queues and milestones. Clearly explain that paths and checklists are optional and that users may explore any lab at their own pace. Avoid instructions that require a learner to traverse all 75 lessons to validate application development.
+
+Reuse existing routing, storage, backup validation and exercise behavior. Modified link clicks must retain normal browser behavior. Close the mobile menu after selection, keep controls readable and keyboard accessible, and avoid horizontal overflow. Opening a learning tool must not synthesize audio, send email, call a provider, start a session or mutate a checklist.
+
+Verify direct access from a lesson and from Home, the correct notebook and saved note, backup download, focus, mobile menu closure and absence of exercise POST requests. Keep existing shell, backup and path regression checks passing.
+
+COPY PROMPT END
+
+## Release verification and repository delivery
+
+COPY PROMPT START
+
+Maintain the original 75 lesson prompts and add dated implementation supplements when requirements grow. Keep the canonical prompts Word document current and synchronize the existing visual-style workbook alias. Preserve original copyable prompt blocks. Render and inspect the updated Word document, record the verification method and provide a downloadable final document.
+
+Run focused unit and browser regressions for changed functionality, typecheck, lesson coverage and the production build. Run distribution scanning only after the build finishes, and regenerate the authored course ZIP. Do not package local credentials, provider responses or private learner notes. Distinguish deterministic fixture tests from real provider runs and record only observed outcomes.
+
+Preserve previously configured server credentials. Do not rotate keys or send notifications as a side effect of release checks. Use offline or mocked provider transports unless a real billable test is explicitly authorized. Previously verified email delivery, Azure telemetry and live team runs do not imply that optional Slack, Teams or AWS integrations were tested.
+
+Commit and push the reviewed changes to the combined platform repository. Keep the user's independent cumulative lesson checkpoint repositories intact; do not rewrite all historical checkpoints to publish a shared platform enhancement. Explain changes, actual validation and material limits briefly. Developer-led verification should not require the learner to navigate every lesson or complete personal checklists.
+
+COPY PROMPT END

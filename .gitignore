@@ -38,7 +38,10 @@ presentations/**/.build/
 presentations/**/.f*-build/
 
 presentations/**/.migration-build/
-/docs/prompt-migration/
+/docs/prompt-migration/*
+!/docs/prompt-migration/Claude-Managed-Agents-Prompts-Labs-01-75.docx
+!/docs/prompt-migration/Claude-Managed-Agents-Prompts-Labs-01-75-With-Visual-Style-Prompt-2026-10-14.docx
+!/docs/prompt-migration/migration-manifest.json
 
 managed/lab11-skills.local.json
 managed/lab11-skills.local.lock

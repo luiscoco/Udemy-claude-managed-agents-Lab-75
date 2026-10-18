@@ -12,7 +12,7 @@ export function LessonNotebook({ lessonId }: { lessonId: number }) {
       setDirty(false); setStatus('Note saved in this browser.'); notifyLearningProgress();
     } catch { setStatus('Browser storage could not save this note. Copy your text before leaving.'); }
   }
-  return <details className="lesson-notebook"><summary>My lesson notebook{bookmarked ? ' / bookmarked' : ''}</summary>
+  return <details id={`lesson-notebook-${lessonId}`} tabIndex={-1} className="lesson-notebook"><summary>My lesson notebook{bookmarked ? ' / bookmarked' : ''}</summary>
     <p>Write what you observed, a question to revisit or your next experiment. Notes are plain text and never sent to a provider. Avoid storing passwords or API keys.</p>
     <label htmlFor={`${id}-note`}>Notes for Lab {String(lessonId).padStart(2, '0')}</label>
     <textarea id={`${id}-note`} rows={6} maxLength={4000} value={note} onChange={event => { setNote(event.target.value); setDirty(true); setStatus('Unsaved changes. Choose Save note before leaving.'); }} />

@@ -56,6 +56,9 @@
 .learning-paths, .learning-review-queue, .learning-milestones { margin-top: 28px; padding-top: 20px; border-top: 1px solid var(--border); scroll-margin-top: 110px; }
 .learning-milestones .button { white-space: normal; box-sizing: border-box; max-width: 100%; }
 .milestone-command { white-space: pre-wrap; overflow-wrap: anywhere; font-size: .85em; }
+.learning-quick-links { display: grid; gap: 8px; margin: 12px 0 22px; }
+.learning-quick-links a, .learning-quick-links button { display: flex; align-items: center; min-height: 44px; padding: 10px 12px; border: 1px solid var(--border); border-radius: 6px; text-align: left; white-space: normal; }
+#course-progress, #course-learning-backup, .lesson-notebook { scroll-margin-top: 110px; }
 .learning-path-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); gap: 16px; margin: 20px 0; }
 .learning-path-card { border: 1px solid var(--border); border-radius: 10px; background: var(--surface); padding: 18px; min-width: 0; }
 .learning-path-card h4 { margin: 0 0 12px; font-size: 1.15rem; }

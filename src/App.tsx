@@ -9,6 +9,7 @@ import { recordLessonVisit } from './lib/learning-progress';
 import { useLearningProgress } from './lib/useLearningProgress';
 import { useLearningPath } from './lib/useLearningPath';
 import { findLearningPath, pathNeighbors } from './lessons/learning-paths';
+import { openLearningSection } from './lib/learning-shortcuts';
 
 const themeKey = 'managed-agents-theme';
 function initialTheme(): 'light' | 'dark' {
@@ -61,7 +62,7 @@ export function App({ lessons = implementedLessons }: { lessons?: readonly Lesso
     return () => { window.removeEventListener('popstate', onPop); wide.removeEventListener('change', onResize); };
   }, []);
 
-  function navigate(event: MouseEvent<HTMLAnchorElement>, id?: number) {
+  function navigate(event: MouseEvent<HTMLAnchorElement>, id?: number, section?: string) {
     if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
     event.preventDefault();
     const href = routeHref(id);
@@ -69,7 +70,10 @@ export function App({ lessons = implementedLessons }: { lessons?: readonly Lesso
     setRoute(readRoute(window.location.search, lessons));
     focusMainOnClose.current = drawer.current?.open ?? false;
     drawer.current?.close();
-    requestAnimationFrame(() => { main.current?.focus(); window.scrollTo({ top: 0 }); });
+    requestAnimationFrame(() => {
+      if (section) openLearningSection(section);
+      else { main.current?.focus(); window.scrollTo({ top: 0 }); }
+    });
   }
 
   function navigation(prefix: string) {
@@ -78,6 +82,14 @@ export function App({ lessons = implementedLessons }: { lessons?: readonly Lesso
       onClick={(event) => navigate(event, lesson.id)} title={progress.lessons.find(item => item.id === lesson.id)?.completed ? 'Learning checklist complete (self-assessment)' : undefined}><span className="lesson-number">{String(lesson.id).padStart(2, '0')}</span><span>{lesson.title}{progress.lessons.find(item => item.id === lesson.id)?.completed && <small className="nav-progress-badge" aria-hidden="true">Checklist complete</small>}</span></a>);
     return <nav aria-label="Course navigation">
       <a className="home-link" href={routeHref()} aria-current={!selected ? 'page' : undefined} onClick={(event) => navigate(event)}>Home <span aria-hidden="true">↗</span></a>
+      <div className="learning-quick-links" aria-label="Learning shortcuts">
+        <a href={routeHref()} onClick={event => navigate(event, undefined, 'course-progress')}>Course progress</a>
+        <a href={routeHref()} onClick={event => navigate(event, undefined, 'course-learning-backup')}>Back up or restore</a>
+        {selected && <button type="button" onClick={() => {
+          drawer.current?.close();
+          requestAnimationFrame(() => openLearningSection(`lesson-notebook-${selected.id}`));
+        }}>My notebook / Lab {String(selected.id).padStart(2, '0')}</button>}
+      </div>
       <label htmlFor={`${prefix}-search`}>Find a lesson</label>
       <input id={`${prefix}-search`} type="search" value={search} aria-describedby={`${prefix}-search-help`} placeholder="Number, topic, or objective" onChange={(event) => setSearch(event.target.value)} />
       <p className="muted" id={`${prefix}-search-help`}>Search by number, topic, or objective.</p>
@@ -134,7 +146,7 @@ export function App({ lessons = implementedLessons }: { lessons?: readonly Lesso
           if (check instanceof HTMLDetailsElement) check.open = true;
           check?.scrollIntoView({ block: 'start', behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth' });
           check?.focus({ preventScroll: true });
-        }}>Open knowledge check</button><p>Voice narration, highlighted steps, your checklist and personal notebook.</p></div>
+        }}>Open knowledge check</button><button type="button" aria-controls={`lesson-notebook-${selected.id}`} onClick={() => openLearningSection(`lesson-notebook-${selected.id}`)}>Open notebook</button><p>Optional voice narration, highlighted steps, checklist and personal notes. Explore any lab at your own pace.</p></div>
         <nav className="lab-strip" aria-label="Implemented lessons">{ordered.map((lesson) => <a key={lesson.id} href={routeHref(lesson.id)} aria-current={lesson.id === selected.id ? 'page' : undefined} onClick={(event) => navigate(event, lesson.id)}>Lab {String(lesson.id).padStart(2, '0')}</a>)}</nav>
         <Component key={selected.id} />
         <nav className="lesson-pagination" aria-label="Previous and next lessons">
