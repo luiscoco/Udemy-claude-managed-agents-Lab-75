@@ -6,7 +6,17 @@
 
 ## Configure live execution once
 
-Create a GitHub environment named `live-tests` in repository Settings > Environments. Add required reviewers if desired and restrict its deployment branches to main. This implementation does not transfer local credentials to GitHub or change environment protection rules.
+Create a GitHub environment named `live-tests` in repository Settings > Environments. Add required reviewers if desired and restrict its deployment branches to main. Automatic regression never transfers local credentials to GitHub.
+
+Alternatively, use the explicit setup helper after signing in with the official GitHub CLI:
+
+```powershell
+gh auth login --hostname github.com --web
+node --env-file-if-exists=.env --import tsx scripts/configure-github-live.mjs --check
+node --env-file-if-exists=.env --import tsx scripts/configure-github-live.mjs --configure-live-environment
+```
+
+The check command is local and displays setting names only. The configure command sends the existing required keys and reviewed skill manifest to this repository's environment secrets through GitHub CLI stdin; values never enter command arguments or output. It requires repository administration access, creates a new environment restricted to main, and preserves existing reviewers, timers and branch rules. Existing secrets are not overwritten. Conflicting variables or an unrestricted existing environment stop setup before writes. Remote verification checks names and variables; a live workflow must still verify that preserved secret values work. Set `LEARNING_GH_EXECUTABLE` to an absolute CLI path if it is not on PATH.
 
 | Setting | Kind | Required for |
 | --- | --- | --- |

@@ -50,7 +50,7 @@
     "milestones:check": "node --import tsx scripts/check-learning-milestones.ts",
     "test:editor:real": "npm run lab69:extension:build && node --import tsx scripts/lab69-real-editor.ts",
     "test:ui:audit": "node scripts/run-browser-tests.mjs course-ui-audit.spec.ts",
-    "test:live:evidence": "node --test scripts/live-audit-evidence.test.mjs",
+    "test:live:evidence": "node --test scripts/live-audit-evidence.test.mjs scripts/configure-github-live.test.mjs",
     "test:live:authorized": "node --env-file-if-exists=.env --import tsx scripts/run-live-audit.mjs --execute-authorized-live-tests"
   },
   "dependencies": {

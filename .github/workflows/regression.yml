@@ -37,7 +37,7 @@ jobs:
           .venv/Scripts/python.exe -m pip install -r python/lab70/requirements.txt
       - run: npx playwright install chrome
       - run: npm run test:offline
-      - run: node --test scripts/live-audit-evidence.test.mjs
+      - run: node --test scripts/live-audit-evidence.test.mjs scripts/configure-github-live.test.mjs
       - run: npm run test:dev-server
       - run: npm run milestones:check
       - run: npm run audit:lesson-guides
