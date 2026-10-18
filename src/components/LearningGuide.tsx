@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { learningGuide, type GuideView } from '../../shared/learning-guide';
 import { guideControlTarget } from '../lib/guide-targets';
+import { checklistKey, positionKey as savedPositionKey, notifyLearningProgress } from '../lib/learning-progress';
 
 const checkpoints = ['I can explain the objective.', 'I ran an example and inspected its evidence.', 'I connected the result to the source.', 'I tried the challenge.'];
 export function LearningGuide({ lessonId, view, onView, workspace }: {
@@ -10,8 +11,8 @@ export function LearningGuide({ lessonId, view, onView, workspace }: {
   const [revision, setRevision] = useState(0), [notice, setNotice] = useState(''), [loading, setLoading] = useState(false);
   const [setup, setSetup] = useState<{ ready: boolean; voiceId: string; missing: string[] }>();
   const [autoContinue, setAutoContinue] = useState(false), [compact, setCompact] = useState(false), [speed, setSpeed] = useState('1');
-  const storageKey = `managed-learning-checklist-${lessonId}`;
-  const positionKey = `managed-learning-position-${lessonId}`;
+  const storageKey = checklistKey(lessonId);
+  const positionKey = savedPositionKey(lessonId);
   const [resumeId, setResumeId] = useState<string | null>(() => { try {
     const saved = localStorage.getItem(positionKey); return steps.some(step => step.id === saved) ? saved : null;
   } catch { return null; } });
@@ -32,9 +33,10 @@ export function LearningGuide({ lessonId, view, onView, workspace }: {
     stop(); release(); setNotice(''); setIndex(next); onView(steps[next]!.view); setRevision(value => value + 1);
     const selectedId = steps[next]!.id; setResumeId(selectedId);
     try { localStorage.setItem(positionKey, selectedId); } catch { /* The guide still works without persistence. */ }
+    notifyLearningProgress();
   }
   function close() { stop(); release(); setIndex(null); setNotice(''); start.current?.focus(); }
-  function finish() { close(); setResumeId(null); try { localStorage.removeItem(positionKey); } catch { /* Storage is optional. */ } }
+  function finish() { close(); setResumeId(null); try { localStorage.removeItem(positionKey); } catch { /* Storage is optional. */ } notifyLearningProgress(); }
   useEffect(() => {
     const controller = new AbortController();
     void fetch('/api/learning-guide/status', { signal: controller.signal }).then(response => {
@@ -135,6 +137,7 @@ export function LearningGuide({ lessonId, view, onView, workspace }: {
       <p>Self-assessment saved in this browser; separate from exercise validation.</p>
       {checkpoints.map((label, i) => <label className="guide-checkpoint" key={label}><input type="checkbox" checked={checked[i]} onChange={event => {
         const next = [...checked]; next[i] = event.target.checked; setChecked(next); try { localStorage.setItem(storageKey, JSON.stringify(next)); } catch { setNotice('Checklist works here but browser storage is unavailable.'); }
+        notifyLearningProgress();
       }} />{label}</label>)}
     </details>
   </aside>;

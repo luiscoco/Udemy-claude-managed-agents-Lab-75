@@ -4,6 +4,9 @@ import { Home } from './Home';
 import { lessons as implementedLessons } from './lessons/registry';
 import type { LessonRecord } from './lessons/registry';
 import { numericOrder, readRoute, routeHref, searchLessons, topicGroups } from './lessons/navigation';
+import { CourseProgress } from './components/CourseProgress';
+import { recordLessonVisit } from './lib/learning-progress';
+import { useLearningProgress } from './lib/useLearningProgress';
 
 const themeKey = 'managed-agents-theme';
 function initialTheme(): 'light' | 'dark' {
@@ -22,11 +25,13 @@ export function App({ lessons = implementedLessons }: { lessons?: readonly Lesso
   const main = useRef<HTMLElement>(null);
   const focusMainOnClose = useRef(false);
   const ordered = numericOrder(lessons);
+  const progress = useLearningProgress(ordered.map(lesson => lesson.id));
   const selected = lessons.find(({ id }) => id === route.lesson?.id);
   const visible = searchLessons(ordered, search);
   const topics = [...topicGroups, ...new Set(lessons.map(({ topic }) => topic).filter((topic) => !topicGroups.some((group) => group === topic)))];
   const startLesson = lessons.find(({ id }) => id === 1);
   const position = ordered.findIndex(({ id }) => id === selected?.id);
+  useEffect(() => { if (selected) recordLessonVisit(selected.id); }, [selected?.id]);
 
   useEffect(() => {
     document.documentElement.dataset.theme = theme;
@@ -65,7 +70,7 @@ export function App({ lessons = implementedLessons }: { lessons?: readonly Lesso
   function navigation(prefix: string) {
     const lessonLinks = (items: typeof visible) => items.map((lesson) => <a key={lesson.id} className="lesson-link"
       href={routeHref(lesson.id)} aria-current={selected?.id === lesson.id ? 'page' : undefined}
-      onClick={(event) => navigate(event, lesson.id)}><span className="lesson-number">{String(lesson.id).padStart(2, '0')}</span><span>{lesson.title}</span></a>);
+      onClick={(event) => navigate(event, lesson.id)} title={progress.lessons.find(item => item.id === lesson.id)?.completed ? 'Learning checklist complete (self-assessment)' : undefined}><span className="lesson-number">{String(lesson.id).padStart(2, '0')}</span><span>{lesson.title}{progress.lessons.find(item => item.id === lesson.id)?.completed && <small className="nav-progress-badge" aria-hidden="true">Checklist complete</small>}</span></a>);
     return <nav aria-label="Course navigation">
       <a className="home-link" href={routeHref()} aria-current={!selected ? 'page' : undefined} onClick={(event) => navigate(event)}>Home <span aria-hidden="true">↗</span></a>
       <label htmlFor={`${prefix}-search`}>Find a lesson</label>
@@ -76,6 +81,7 @@ export function App({ lessons = implementedLessons }: { lessons?: readonly Lesso
         <button aria-pressed={order === 'number'} onClick={() => setOrder('number')}>Lesson order</button>
       </div>
       <p className="nav-count" role="status">{search.trim() ? `${visible.length} matching · ` : ''}{lessons.length} implemented {lessons.length === 1 ? 'lesson' : 'lessons'}</p>
+      <p className="nav-progress-summary">{progress.completed} / {lessons.length} learning checklists complete</p>
       {visible.length === 0 && <p>{lessons.length === 0 ? 'No lessons are implemented yet.' : 'No lessons match. Try another number, topic, or objective.'}</p>}
       {order === 'number' ? lessonLinks(visible) : topics.filter((topic) => visible.some((lesson) => lesson.topic === topic)).map((topic) => <details className="topic" key={topic} open={search.trim().length > 0 || openTopics.includes(topic)}
         onToggle={(event) => { if (search.trim()) return; const open = event.currentTarget.open; setOpenTopics((current) => open ? [...new Set([...current, topic])] : current.filter((item) => item !== topic)); }}>
@@ -115,7 +121,7 @@ export function App({ lessons = implementedLessons }: { lessons?: readonly Lesso
           {ordered[position - 1] ? <a href={routeHref(ordered[position - 1]!.id)} onClick={(event) => navigate(event, ordered[position - 1]!.id)}>← {ordered[position - 1]!.title}</a> : <span>First implemented lesson</span>}
           {ordered[position + 1] ? <a href={routeHref(ordered[position + 1]!.id)} onClick={(event) => navigate(event, ordered[position + 1]!.id)}>{ordered[position + 1]!.title} →</a> : <span>You’re at the latest implemented lesson.</span>}
         </nav>
-      </> : <Home invalid={route.invalid} lessonCount={lessons.length} startHref={startLesson ? routeHref(1) : undefined} onStart={(event) => navigate(event, 1)} />}
+      </> : <Home invalid={route.invalid} lessonCount={lessons.length} startHref={startLesson ? routeHref(1) : undefined} onStart={(event) => navigate(event, 1)} progress={<CourseProgress progress={progress} lessons={ordered} onNavigate={navigate} />} />}
       <footer>Claude Managed Agents Learning · Managed Agents foundation</footer>
     </main>
   </div>;

@@ -4,11 +4,11 @@ import type { Health } from '../shared/health';
 import homeSource from './Home.tsx?raw';
 import healthSource from '../shared/health.ts?raw';
 import routerSource from '../server/routes/health.ts?raw';
-import type { MouseEvent } from 'react';
+import type { MouseEvent, ReactNode } from 'react';
 import { ManagedFoundation } from './components/ManagedFoundation';
 import { topicGroups } from './lessons/navigation';
 
-export function Home({ invalid, lessonCount, startHref, onStart }: { invalid: boolean; lessonCount: number; startHref: string | undefined; onStart: (event: MouseEvent<HTMLAnchorElement>) => void }) {
+export function Home({ invalid, lessonCount, startHref, onStart, progress }: { invalid: boolean; lessonCount: number; startHref: string | undefined; onStart: (event: MouseEvent<HTMLAnchorElement>) => void; progress?: ReactNode }) {
   const [health, setHealth] = useState<Health>();
   const [status, setStatus] = useState('Ready to check the backend.');
   const [pending, setPending] = useState(false);
@@ -45,6 +45,7 @@ export function Home({ invalid, lessonCount, startHref, onStart }: { invalid: bo
     <h1>Understand the system.<br /><span>Then build it.</span></h1>
     <p className="lead">A hands-on course in Claude Managed Agents. Follow a request across the browser, the backend, and the runtime—with real source and evidence you can inspect.</p>
     <div className="hero-actions">{startHref ? <a className="button" href={startHref} onClick={onStart}>Start with Lab 01 <span aria-hidden="true">&rarr;</span></a> : <span className="muted">Lab 01 is coming next.</span>}<span className="muted">{lessonCount} implemented {lessonCount === 1 ? 'lesson' : 'lessons'}</span></div>
+    {progress}
     <section className="learning-card" aria-labelledby="system-heading"><p className="eyebrow">THE FOUR PARTS</p><h2 id="system-heading">Know what runs where.</h2>
       <div className="system-grid">
         <article><span className="step-number">01 / BROWSER</span><h3>Frontend</h3><p>React renders lessons, collects input, and displays events. Navigation chooses a lesson; only an explicit Run action starts an exercise.</p></article>
