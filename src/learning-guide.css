@@ -57,6 +57,14 @@
 .learning-milestones .button { white-space: normal; box-sizing: border-box; max-width: 100%; }
 .milestone-command { white-space: pre-wrap; overflow-wrap: anywhere; font-size: .85em; }
 .learning-quick-links { display: grid; gap: 8px; margin: 12px 0 22px; }
+.agent-message, .readable-markdown, .lesson-experiment { min-width: 0; overflow-wrap: anywhere; }
+.agent-message { margin: 16px 0; }
+.agent-message > details { margin-top: 14px; }
+.readable-markdown pre { overflow-x: auto; max-width: 100%; }
+.lesson-experiment { margin: 20px 0; padding: 18px; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; }
+.milestone-walkthrough { margin-top: 20px; }
+.milestone-walkthrough li { margin-bottom: 12px; }
+.milestone-walkthrough h5 { font-size: 1rem; margin: 18px 0 12px; }
 .learning-quick-links a, .learning-quick-links button { display: flex; align-items: center; min-height: 44px; padding: 10px 12px; border: 1px solid var(--border); border-radius: 6px; text-align: left; white-space: normal; }
 #course-progress, #course-learning-backup, .lesson-notebook { scroll-margin-top: 110px; }
 .learning-path-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); gap: 16px; margin: 20px 0; }

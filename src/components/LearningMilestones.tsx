@@ -1,6 +1,7 @@
 import type { MouseEvent } from 'react';
 import { learningMilestones } from '../../shared/learning-milestones';
 import { routeHref } from '../lessons/navigation';
+import { milestoneWalkthroughs } from '../../shared/milestone-walkthroughs';
 
 export function LearningMilestones({ selectedPathId, availableIds, onNavigate }: {
   selectedPathId: string | null; availableIds: readonly number[];
@@ -17,6 +18,16 @@ export function LearningMilestones({ selectedPathId, availableIds, onNavigate }:
       <p><a className="button" href={`/api/learning-milestones/${project.id}/starter.zip`} download>Download {project.title} starter</a></p>
       <p>Extract the ZIP, open its {project.id} folder in a terminal, then run:</p><pre className="milestone-command"><code>node --test starter.test.mjs</code></pre>
       <p>Implement the TODOs in starter.ts until the tests pass. Record your output and limitations in your lesson notebook. The platform does not execute your edited files or automatically mark this project complete.</p>
+      <details className="milestone-walkthrough"><summary>Solution walkthrough and reference download</summary>
+        <p>Optional help: try the starter first, or study the working reference in a separate folder. Downloading a reference does not validate your own implementation.</p>
+        <h5>Step by step</h5><ol>{milestoneWalkthroughs[project.id].steps.map(step => <li key={step}>{step}</li>)}</ol>
+        <p><strong>Expected reference result:</strong> {milestoneWalkthroughs[project.id].tests} passed, 0 failed.</p>
+        <h5>If your tests fail</h5><ul>{milestoneWalkthroughs[project.id].pitfalls.map(tip => <li key={tip}>{tip}</li>)}</ul>
+        <p><strong>Try one more check:</strong> {milestoneWalkthroughs[project.id].extension}</p>
+        <p><a className="button" href={`/api/learning-milestones/${project.id}/reference.zip`} download>Download {project.title} reference</a></p>
+        <p>Extract into a new folder, open its {project.id} subfolder and run the same test command. Keep your own solution before replacing any files.</p>
+        <p><a href={routeHref(milestoneWalkthroughs[project.id].notebookLesson)} onClick={event => onNavigate(event, milestoneWalkthroughs[project.id].notebookLesson)}>Record your result in Lab {String(milestoneWalkthroughs[project.id].notebookLesson).padStart(2, '0')} using Open notebook</a></p>
+      </details>
     </article>)}</div>
   </section>;
 }

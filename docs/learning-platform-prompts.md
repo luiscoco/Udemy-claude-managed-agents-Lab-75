@@ -18,6 +18,22 @@ Verify lesson coverage, safe audio request handling, playback controls, highligh
 
 COPY PROMPT END
 
+## Worked experiments readable answers and milestone help
+
+COPY PROMPT START
+
+Improve the existing teaching experience without making learners ask a chat assistant to resolve each starter failure. Add an optional solution walkthrough to each of the three milestone cards, with implementation steps, common mistakes, an extra experiment and the expected supplied-test count. Link the event viewer to the Lab 01 notebook, HTTP streaming to Lab 12 and the approval ledger to Lab 65. Notebook entries remain explicit learner actions.
+
+Offer a separate reference ZIP alongside each starter ZIP. Preserve unfinished starters. The reference should contain a runnable starter.ts copied from the authored reference, the identical supplied tests, package manifest, a reference README and walkthrough. State how to extract into a separate folder, run node --test starter.test.mjs and preserve the learner's own work. Expected counts are four, three and five respectively. Downloading a solution must never count as a test pass, execute learner code or complete a checklist.
+
+Show a baseline, a comparison and a concrete evidence principle for every registered lesson. Reuse the lesson's authored steps, source paths and concept explanation; use detailed examples for event completion, retained turns and fictional approval. Include the evidence explanation in the shared narration transcript so visible and spoken teaching stay aligned. Do not treat a stated expected principle as an observed run result.
+
+Render final agent prose with readable headings, lists, bold text, inline and fenced code, and simple tables. Keep streaming previews and lifecycle evidence visibly distinct. Offer an expandable exact redacted message for copying. Reuse a safe limited Markdown presenter that leaves raw HTML and embedded resources inert and refuses unsafe link schemes. Preserve existing event IDs, outcomes, redaction and report JSON.
+
+Verify archive allowlists and exact file contents, passing reference tests, expected starter failures, Markdown safety, all 75 experiment plans, bounded narration text, browser downloads and mobile layouts. Run the offline regression suite and distinguish any environment-specific failure from a genuine application regression. Update the workbook and release package, then publish the verified changes to the combined platform repository without changing historical lesson checkpoints.
+
+COPY PROMPT END
+
 ## Optional progress notebooks and backups
 
 COPY PROMPT START

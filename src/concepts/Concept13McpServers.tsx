@@ -87,10 +87,11 @@ export default function Concept13McpServers() {
         <p>{connection.detail}{connection.httpStatus && ` HTTP status: ${connection.httpStatus}.`}</p><p>Advertised tools: {connection.advertisedTools.join(', ') || 'none observed'}. Effective tools: {connection.effectiveTools.join(', ') || 'none'}.</p></article>)}
       <h4>Actual tool evidence</h4>{snapshot.calls.length === 0 && <p>No tool calls observed.</p>}{snapshot.calls.map(call => <article className="report-turn" key={call.useId}><h5>{call.name}: {call.isError ? 'error' : call.resultId || call.path !== 'native-mcp' ? 'result observed' : 'awaiting result'}</h5>
         <p>Path: {call.path}. Use event: <code>{call.useId}</code>. Result event: <code>{call.resultId ?? 'not observed'}</code>. Host result submission acknowledged: {String(call.resultSent)}. Host handler attempted: {String(call.handlerRan)}.</p><pre>{call.text}</pre></article>)}
-      <h4>Agent turns</h4>{snapshot.turns.map(turn => <article key={turn.id}><p>{turn.outcome.kind}: {turn.outcome.detail}</p>{turn.messages.map(message => <pre key={message.eventId}>{message.text}</pre>)}</article>)}
+      <h4>Agent turns</h4>{snapshot.turns.map(turn => <article key={turn.id}><p>{turn.outcome.kind}: {turn.outcome.detail}</p>{turn.messages.map(message => <AgentMessage key={message.eventId} text={message.text} />)}</article>)}
       <h4>Owned local inventory</h4><p>Scope: {snapshot.stockScope}. This is not a remote inventory measurement.</p><ul>{snapshot.stock.map(item => <li key={item.sku}>{item.sku}: {item.available} available</li>)}</ul>
       <div className="lab-controls"><button disabled={pending} onClick={() => void control('stock')}>Inspect local stock and session</button><button disabled={pending || !idle || native} onClick={() => void control('stock/reset')}>Reset owned local stock</button></div>
       <details><summary>Full MCP transport and session evidence</summary><CodeBlock label="MCP evidence JSON" lineNumbers={false} code={JSON.stringify(snapshot, null, 2)} /></details>
     </div>}
   </section>;
 }
+import { AgentMessage } from '../components/AgentMessage';

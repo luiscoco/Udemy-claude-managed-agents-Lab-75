@@ -20,6 +20,11 @@ test('normal turn separates metadata, authoritative text, lifecycle and outcome'
   const text = await heading.locator('xpath=ancestor::div[1]').innerText();
   expect(text.match(/means the turn finished/g)).toHaveLength(1);
   await expect(page.getByText('Preview', { exact: true })).toHaveCount(0);
+  const message = page.locator('.agent-message').first();
+  await expect(message.locator('.readable-markdown')).toBeVisible();
+  await expect(message.locator('details pre')).toHaveCount(0);
+  await message.getByText('Inspect exact agent message', { exact: true }).click();
+  await expect(message.locator('details pre')).toContainText('means the turn finished');
 });
 test('stream that ends early is incomplete, never successful', async ({ page }) => {
   await openExercise(page);

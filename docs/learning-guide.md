@@ -77,6 +77,8 @@ Implementation: `src/lessons/learning-paths.ts`, `src/lib/useLearningPath.ts` an
 
 ## Direct access to notebooks progress and backups
 
+The Learn view also contains **Try a baseline and compare** for each of the 75 lessons. It reuses authored lesson steps and concept explanations, with detailed examples for Labs 01, 12 and 65. The evidence principle is included in the shared narration transcript. It describes what to inspect, rather than certifying an unexecuted result. Final prose in Labs 01–05, 09, 11, 13 and 14 uses a limited safe Markdown presenter and an optional exact redacted message view. Raw HTML stays text, embedded images are not loaded, and unsupported URL schemes do not become links.
+
 Use **Open notebook** beside a lesson title, or **My notebook / Lab NN** in the sidebar or mobile Menu. The existing notebook opens directly with keyboard focus. **Course progress** and **Back up or restore** are always available in navigation. The latter goes straight to expanded backup controls on Home; **Open learning backup** also appears near the progress heading.
 
 Paths, checklists and knowledge checks are optional. You can explore any lesson without completing them, and development verification does not require you to navigate every lesson. The [implementation prompt supplement](learning-platform-prompts.md) captures these requirements alongside narration, learning state and milestones. The [updated Word workbook](prompt-migration/Claude-Managed-Agents-Prompts-Labs-01-75.docx) preserves the original prompts and adds the adopted learning platform requirements.

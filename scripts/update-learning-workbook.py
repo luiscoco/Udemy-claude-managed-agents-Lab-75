@@ -46,15 +46,16 @@ updated = Document(canonical)
 assert [p.text for p in updated.paragraphs[:len(preserved)]] == preserved
 assert [int(re.match(r'Lab (\d+)', p.text).group(1)) for p in updated.paragraphs
         if p.style.style_id == 'Heading1' and re.match(r'Lab \d+', p.text)] == list(range(1, 76))
-assert [p.text for p in updated.paragraphs].count('COPY PROMPT START') == before_blocks + 6
-assert [p.text for p in updated.paragraphs].count('COPY PROMPT END') == before_blocks + 6
+added_blocks = len(sections) - 1
+assert [p.text for p in updated.paragraphs].count('COPY PROMPT START') == before_blocks + added_blocks
+assert [p.text for p in updated.paragraphs].count('COPY PROMPT END') == before_blocks + added_blocks
 manifest_path = folder / 'migration-manifest.json'
 manifest = json.loads(manifest_path.read_text(encoding='utf-8'))
-manifest['updated_prompt_blocks'] = before_blocks + 6
+manifest['updated_prompt_blocks'] = before_blocks + added_blocks
 manifest['updated_docx'] = str(canonical)
 manifest['learning_platform_supplement'] = {
     'date': '2026-10-18', 'source': str(source.relative_to(root)),
-    'preserved_prompt_blocks': before_blocks, 'added_prompt_blocks': 6,
+    'preserved_prompt_blocks': before_blocks, 'added_prompt_blocks': added_blocks,
     'sha256': hashlib.sha256(canonical.read_bytes()).hexdigest(),
 }
 manifest_path.write_text(json.dumps(manifest, indent=2, ensure_ascii=False) + '\n', encoding='utf-8')

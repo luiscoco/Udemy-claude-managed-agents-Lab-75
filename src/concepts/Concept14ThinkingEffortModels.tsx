@@ -94,7 +94,7 @@ export default function Concept14ThinkingEffortModels() {
       {report.attempts.map(attempt => <article key={attempt.attempt}><h4>Attempt {attempt.attempt}: {attempt.result.outcome.kind}</h4>
         <p>Session: <code>{attempt.result.sessionId ?? 'No confirmed session ID'}</code>. Creation: {attempt.creation}. Cleanup: {attempt.result.cleanup}. Interruption: {attempt.result.interruption}.</p>
         <p>Requested: {attempt.requested.model} / {attempt.requested.effort}. Resolved: {attempt.resolved ? `${attempt.resolved.model} / ${attempt.resolved.effort ?? 'not returned'}; configuration matches: ${attempt.resolved.matches}` : 'not returned'}.</p>
-        {attempt.result.messages.map(message => <pre key={message.eventId}>{message.text}</pre>)}
+        {attempt.result.messages.map(message => <AgentMessage key={message.eventId} text={message.text} />)}
         <p>{attempt.result.outcome.detail}</p>
         <p>Reported usage: {attempt.reportedUsage ? `${attempt.reportedUsage.inputTokens} input / ${attempt.reportedUsage.outputTokens} output; ${attempt.reportedUsage.cacheCreationTokens} cache creation / ${attempt.reportedUsage.cacheReadTokens} cache read; ${attempt.reportedUsage.requests} request spans` : 'not reported; offline fixtures are not measurements'}.</p>
         <p>Host elapsed time: {attempt.elapsedMs === null ? 'not measured for fixtures' : `${attempt.elapsedMs} ms (includes setup and cleanup)`}. Actual billed cost: not reported.</p></article>)}
@@ -105,3 +105,4 @@ export default function Concept14ThinkingEffortModels() {
     </tbody></table></div>
   </section>;
 }
+import { AgentMessage } from '../components/AgentMessage';

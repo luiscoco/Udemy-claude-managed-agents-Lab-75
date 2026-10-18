@@ -124,7 +124,7 @@ export default function Concept01Query() {
     <div className="agent-response"><h3>2. Agent text</h3>
     {messages.length === 0 && livePreviews.size === 0 && incomplete.size === 0 && <p className="muted">No agent text yet.</p>}
     {[...livePreviews].map(([id, text]) => incomplete.has(id) ? null : <div key={id}><p><strong>Preview</strong> <code>{id}</code> — streaming, not final</p><pre>{redact(text) || '…'}</pre></div>)}
-    {messages.map((frame) => <div key={frame.eventId}><p><strong>Authoritative agent.message</strong> <code>{frame.eventId}</code>{frame.replacedPreview ? ' — replaced its preview' : ''}</p><pre>{redact(frame.text)}</pre></div>)}
+    {messages.map((frame) => <div key={frame.eventId}><p><strong>Authoritative agent.message</strong> <code>{frame.eventId}</code>{frame.replacedPreview ? ' — replaced its preview' : ''}</p><AgentMessage text={frame.text} /></div>)}
     {[...incomplete].map(([id, text]) => <div key={id}><p><strong>Incomplete preview</strong> <code>{id}</code> — never received its agent.message</p><pre>{redact(text)}</pre></div>)}
 
     </div>
@@ -147,3 +147,4 @@ export default function Concept01Query() {
     {result && <details><summary>Result JSON</summary><CodeBlock label="Result JSON" lineNumbers={false} code={JSON.stringify(result, null, 2)} /></details>}
   </section>;
 }
+import { AgentMessage } from '../components/AgentMessage';

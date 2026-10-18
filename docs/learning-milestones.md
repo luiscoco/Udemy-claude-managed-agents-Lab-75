@@ -18,7 +18,13 @@ All three projects remain available regardless of path selection. The Complete c
 4. Run `node --test starter.test.mjs` (or `npm test`). **Initial failure is intentional** because starter functions throw Not implemented.
 5. Implement the TODOs in `starter.ts`, rerun the tests and explain the evidence and limits in your lesson notebook.
 
-Each ZIP contains only `README.md`, `package.json`, `starter.ts` and `starter.test.mjs` inside the project folder. The platform never uploads, imports or executes your edited files. It does not automatically mark the milestone or a learning checklist complete. Supplied tests demonstrate the stated teaching cases; a green result is not a production security certification or proof of live Managed execution.
+Each starter ZIP contains only `README.md`, `package.json`, `starter.ts` and `starter.test.mjs` inside the project folder. The platform never uploads, imports or executes your edited files. It does not automatically mark the milestone or a learning checklist complete. Supplied tests demonstrate the stated teaching cases; a green result is not a production security certification or proof of live Managed execution.
+
+## Walkthroughs and working references
+
+Expand **Solution walkthrough and reference download** on a milestone card. Read the steps, expected test count, troubleshooting tips and suggested extra check. If you want to study a working implementation, download its separate reference ZIP into a new folder to preserve your own code. It contains a completed `starter.ts`, the identical supplied tests, a package manifest, a reference README and `WALKTHROUGH.md`. Run `node --test starter.test.mjs` from its project subfolder. Expected counts are 4 for the event viewer, 3 for HTTP streaming and 5 for the approval ledger, with zero failures.
+
+Downloading the reference does not grade your work or mark progress. The card links to the appropriate notebook lesson: Lab 01, Lab 12 or Lab 65. Use **Open notebook** near that lesson's title, write your observed result and save explicitly. No manual traversal of other labs is needed.
 
 ## Teaching boundaries
 
@@ -29,7 +35,7 @@ The viewer's frames are a small authored host contract, not raw provider events.
 1. Adapted the reference platform's milestone idea to the implemented Managed Agents boundaries and paths.
 2. Authored a shared three-project manifest with requirements, hints and preparation links.
 3. Created isolated Node 24 starter folders and tests with no third-party dependencies.
-4. Added separate instructor reference implementations under `fixtures/learning-milestones`. They are in the source repository for inspection but excluded from starter downloads.
+4. Added separate instructor reference implementations under `fixtures/learning-milestones`. They are excluded from starter downloads and available through explicitly selected reference downloads with walkthroughs.
 5. Added a fixed allowlist download route under `/api/learning-milestones/:id/starter.zip`. It checks the project ID, resolved directory, regular file types and file sizes. It never accepts arbitrary file paths or code to execute.
 6. Reused the existing deterministic ZIP writer and verified downloaded members against authored starter files.
 7. Added `npm run milestones:check` to run the authored starters and reference copies in disposable ignored folders with a minimal child environment. Starter failures are expected; reference failures are not. It does not run learner-edited code or forward provider credentials to child processes.

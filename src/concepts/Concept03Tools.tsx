@@ -171,7 +171,7 @@ export default function Concept03Tools() {
     {result && <p>Outputs: {result.outputs.status}. {result.outputs.detail} Uploaded originals: {result.uploads}.</p>}
 
     <h3>5. Agent text and turn outcome</h3>
-    {messages.map((m) => <pre key={m.eventId}>{redact(m.text)}</pre>)}
+    {messages.map((m) => <AgentMessage key={m.eventId} text={m.text} />)}
     {result ? <div role="group" aria-label="Turn outcome"><p><strong>{result.outcome.kind}</strong>{result.outcome.stopReason ? ` (${result.outcome.stopReason})` : ''}. {result.outcome.detail}</p>
       <p>Interruption: {result.interruption}. Session cleanup: {result.cleanup}. Events read: {result.eventCount}.</p></div>
       : <p className="muted">Pauses for confirmation are not the end of the turn; only end_turn completes it.</p>}
@@ -187,3 +187,4 @@ export default function Concept03Tools() {
         <td>{row.draft}</td><td>{row.outcome}</td><td>{row.denials}</td></tr>)}</tbody></table></div>
   </section>;
 }
+import { AgentMessage } from '../components/AgentMessage';

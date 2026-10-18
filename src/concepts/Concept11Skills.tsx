@@ -52,10 +52,11 @@ export default function Concept11Skills() {
       <p>Configured attachment: {r.configured ? `${r.configured.revision} / ${r.configured.version}` : 'none'}. Resolved skills: {r.resolvedSkills?.length ?? 'unknown'}.</p>
       {r.resolvedSkills?.map(s => <p key={`${s.skillId}-${s.version}`}>Resolved version: <code>{s.version}</code>. Canonical pin: <code>{s.canonicalVersion ?? 'not separately resolved'}</code>.</p>)}
       <h5>Observed file loading</h5>{r.reads.length ? <ul>{r.reads.map(read => <li key={read.useId}><strong>{read.file}: {read.state}</strong> — <code>{read.path}</code>. Content match: {read.contentMatchesBundle === null ? 'not established' : read.contentMatchesBundle ? 'exact authored text present' : 'not established from returned text'}. <details><summary>Read event identifiers</summary><p>Use: <code>{read.useId}</code>. Result: <code>{read.resultId ?? 'not observed'}</code>.</p></details></li>)}</ul> : <p>No skill file reads observed.</p>}
-      <p>{r.evidenceNote}</p>{r.messages.map(m => <p style={{ whiteSpace: 'pre-wrap' }} key={m.eventId}>{redact(m.text)}</p>)}
+      <p>{r.evidenceNote}</p>{r.messages.map(m => <AgentMessage key={m.eventId} text={m.text} />)}
       <p>Interruption: {r.interruption}. Cleanup: {r.cleanup}. Usage: {r.reportedUsage ? `${r.reportedUsage.inputTokens} input / ${r.reportedUsage.outputTokens} output tokens; ${r.reportedUsage.cacheCreationTokens} cache creation / ${r.reportedUsage.cacheReadTokens} cache read (${r.reportedUsage.scope})` : 'not reported'}. Usage is not complete billed session cost.</p>
       <details><summary>View and copy full evidence JSON</summary><CodeBlock label={`Skill experiment ${i + 1} JSON`} code={JSON.stringify(r, null, 2)} lineNumbers={false} /></details>
     </article>)}
     <p>A local .claude/skills folder is not mounted automatically. Trusted GitHub repository discovery is a separate path described in the guide. Skills on worker agents require separate worker configuration checks.</p>
   </section>;
 }
+import { AgentMessage } from '../components/AgentMessage';

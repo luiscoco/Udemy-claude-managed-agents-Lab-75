@@ -14,13 +14,15 @@ The Learning Guide also has a personal notebook and lesson bookmarks. Home can d
 
 Use **Open notebook** beside a lesson title for direct access to its notes. **Course progress** and **Back up or restore** are always available in the sidebar or mobile Menu. These optional learning tools never require you to visit every lesson or complete a checklist.
 
-Download the [updated prompts Word workbook](docs/prompt-migration/Claude-Managed-Agents-Prompts-Labs-01-75.docx). Its 18 October supplement adds six independent prompts covering the Learning Guide, Inworld narration, learning state, knowledge checks, paths, milestones, direct navigation and release verification. The [supplement source](docs/learning-platform-prompts.md) is also readable in GitHub.
+Download the [updated prompts Word workbook](docs/prompt-migration/Claude-Managed-Agents-Prompts-Labs-01-75.docx). Its 18 October supplement adds seven independent prompts covering the Learning Guide, Inworld narration, learning state, knowledge checks, paths, milestones, direct navigation, readable answers and release verification. The [supplement source](docs/learning-platform-prompts.md) is also readable in GitHub.
 
 Each lab includes an authored **Knowledge check** with explained answers and retries. Home tracks these practice results separately from self-assessment checklists and verified exercise evidence. Version 2 learning backups include knowledge answers and still accept version 1 backups.
 
 Home also offers four suggested **Learning paths** and a **Review queue** for incorrect knowledge answers and bookmarks. Paths are optional; every lab remains available.
 
 The [offline milestone projects](docs/learning-milestones.md) provide downloadable Node 24 starters and local tests for an event viewer, SSE endpoint and fictional approval ledger. No dependency installation or provider key is required; initial starter failures are intentional. Instructor validation: `npm run milestones:check`.
+
+Each milestone has an optional **Solution walkthrough and reference download**, troubleshooting tips and a separate runnable reference ZIP. The Learn view in all 75 lessons includes a baseline, comparison and evidence principle. Final agent prose in Labs 01–05, 09, 11, 13 and 14 uses readable Markdown with an expandable exact redacted message; previews and raw lifecycle evidence keep their original roles.
 
 Requires Node 24 or newer and Git on PATH. On Windows use PowerShell and npm.cmd. Chrome is used by browser acceptance tests and Lab 64; no model key is needed for offline exercises.
 

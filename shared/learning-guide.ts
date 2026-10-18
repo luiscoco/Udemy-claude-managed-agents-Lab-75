@@ -1,4 +1,5 @@
 import { content } from './learning-content.js';
+import { lessonExperiment } from './learning-experiments.js';
 
 export type GuideView = 0 | 1 | 2;
 export type GuideStep = { id: string; title: string; view: GuideView; text: string; action: string; waitForStudent: boolean };
@@ -7,6 +8,7 @@ export type GuideStep = { id: string; title: string; view: GuideView; text: stri
 export function learningGuide(lessonId: number): GuideStep[] {
   const lesson = content[lessonId];
   if (!lesson || !Number.isInteger(lessonId)) throw new Error('Unknown learning guide.');
+  const experiment = lessonExperiment(lessonId);
   return [
     { id: 'goal', title: 'Understand the goal', view: 0, waitForStudent: false,
       text: `In Lab ${lessonId}, your objective is: ${lesson.objective} Start by identifying what the application must demonstrate. An answer on screen is only part of the evidence: check the reported outcome and the host state before deciding that the exercise succeeded.`,
@@ -21,7 +23,7 @@ export function learningGuide(lessonId: number): GuideStep[] {
       text: 'Use the labeled controls in the exercise below. You must choose and click the action yourself; this guide never starts an agent, sends a notification or approves an effect. Wait for the reported outcome before trying another action. Some scenarios deliberately demonstrate denial, interruption or failure. Read the explanation before retrying, especially if a remote operation might already have succeeded.',
       action: 'Carry out your chosen experiment and wait for its result. Continue when you are ready.' },
     { id: 'evidence', title: 'Read the evidence', view: 1, waitForStudent: true,
-      text: `Compare the reported result with the objective: ${lesson.objective} Look for the outcome, evidence source, effect counts and cleanup or session state where provided. Authored fixtures explain behavior; they do not prove a remote request ran. A provider acknowledgment is different from a confirmed final effect. Keep any unexpected error visible while investigating.`,
+      text: `Compare the reported result with the objective: ${lesson.objective} What to look for in this lab: ${experiment.evidence} Look for the outcome, evidence source, effect counts and cleanup or session state where provided. Authored fixtures explain behavior; they do not prove a remote request ran. Keep unexpected errors visible while investigating.`,
       action: 'Inspect the exercise output. Explain which evidence supports the result and which limits remain.' },
     { id: 'source', title: 'Connect behavior to source', view: 2, waitForStudent: false,
       text: `Read the actual TypeScript implementation using the source selector. Start with ${lesson.inspect.slice(0, 2).join(' and ')}. Follow the input validation, the operation and the returned evidence. Reading or copying source does not execute it. Connect a visible control to its handler and explain the guard that protects the operation.`,

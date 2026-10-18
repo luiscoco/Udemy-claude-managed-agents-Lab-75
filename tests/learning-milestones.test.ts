@@ -42,3 +42,16 @@ test('download route serves ZIP attachments and does not expose references or ex
     assert.equal((await fetch(`${base}/event-viewer/run`, { method: 'POST', body: 'arbitrary code' })).status, 404);
   } finally { await new Promise<void>(resolve => server.close(() => resolve())); }
 });
+
+test('reference downloads contain runnable solutions and walkthroughs without changing starters', async () => {
+  for (const project of learningMilestones) {
+    const files = zipMembers(await learningMilestoneArchive(project.id, 'reference'));
+    assert.deepEqual([...files.keys()].sort(), ['README.md', 'WALKTHROUGH.md', 'package.json', 'starter.ts', 'starter.test.mjs'].map(name => `${project.id}/${name}`).sort());
+    assert.deepEqual(files.get(`${project.id}/starter.ts`), await readFile(`fixtures/learning-milestones/${project.id}/reference.ts`));
+    assert.deepEqual(files.get(`${project.id}/starter.test.mjs`), await readFile(`fixtures/learning-milestones/${project.id}/starter.test.mjs`));
+    assert.match(files.get(`${project.id}/README.md`)!.toString(), /Expected:/);
+    assert.match(files.get(`${project.id}/WALKTHROUGH.md`)!.toString(), /passed, 0 failed/);
+    assert.doesNotMatch(files.get(`${project.id}/starter.ts`)!.toString(), /Not implemented/);
+  }
+  await assert.rejects(learningMilestoneArchive('event-viewer', '../reference' as 'reference'), /Unknown milestone variant/);
+});

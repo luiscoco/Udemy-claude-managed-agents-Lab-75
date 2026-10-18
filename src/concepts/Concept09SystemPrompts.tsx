@@ -41,8 +41,9 @@ export default function Concept09SystemPrompts() {
       <h4>{lab09VariantLabels[result.requested.variant]}</h4><p>Source: {result.source}. Session: <code>{result.sessionId}</code>. Outcome: {result.outcome.kind}. Cleanup: {result.cleanup}.</p>
       <p>Question: {redact(result.requested.prompt)}</p><p>System override: {result.composition?.overrideIncluded ? 'explicit replacement' : 'omitted; inherited base'}.</p>
       <CodeBlock label="Requested composition and resolved settings" lineNumbers={false} code={JSON.stringify({ requested: result.composition, resolved: result.effective }, null, 2)} />
-      {result.messages.map((message) => <pre key={message.eventId} style={{whiteSpace:'pre-wrap'}}>{redact(message.text)}</pre>)}
+      {result.messages.map((message) => <AgentMessage key={message.eventId} text={message.text} />)}
       <p>Usage: {result.reportedUsage ? `${result.reportedUsage.inputTokens} input tokens, ${result.reportedUsage.outputTokens} output tokens (${result.reportedUsage.scope})` : 'not reported'}. Interruption: {result.interruption}.</p>
     </article>)}
   </section>;
 }
+import { AgentMessage } from '../components/AgentMessage';

@@ -172,7 +172,7 @@ export default function Concept05CustomTools() {
       <ul>{serverTasks.tasks.map((task) => <li key={task.id}>{taskLine(task)}</li>)}</ul></div>}
 
     <h3>3. Agent text</h3>
-    {messages.length ? messages.map((m) => <pre key={m.eventId} style={{ whiteSpace: 'pre-wrap' }}>{redact(m.text)}</pre>) : <p className="muted">No agent.message yet.</p>}
+    {messages.length ? messages.map((m) => <AgentMessage key={m.eventId} text={m.text} />) : <p className="muted">No agent.message yet.</p>}
 
     <h3>4. Turn outcome</h3>
     {result ? <div role="group" aria-label="Turn outcome"><p><strong>{result.outcome.kind}</strong>{result.outcome.stopReason ? ` (${result.outcome.stopReason})` : ''}. {result.outcome.detail}</p>
@@ -182,3 +182,4 @@ export default function Concept05CustomTools() {
       code={frames.flatMap((f) => 'raw' in f && f.raw ? [redact(f.raw)] : []).join('\n') || 'No events yet.'} /></details>
   </section>;
 }
+import { AgentMessage } from '../components/AgentMessage';

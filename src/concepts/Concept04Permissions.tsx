@@ -205,7 +205,7 @@ export default function Concept04Permissions() {
     <h3>4. Permission denials and agent text</h3>
     {result?.denials.length ? <ul aria-label="Permission denials">{result.denials.map((d) => <li key={d.toolUseId}><strong>{d.kind}</strong> {d.tool} <code>{d.toolUseId}</code> by {d.by}: {d.reason}</li>)}</ul>
       : <p className="muted">{result ? 'No denials in this run.' : 'Listed after the turn.'}</p>}
-    {messages.map((m) => <pre key={m.eventId} style={{ whiteSpace: 'pre-wrap' }}>{redact(m.text)}</pre>)}
+    {messages.map((m) => <AgentMessage key={m.eventId} text={m.text} />)}
 
     <h3>5. Files on disk</h3>
     {result ? <div role="group" aria-label="Sandbox files">{result.files.map((file) => <div key={file.path}><p><strong>{file.path}</strong> → <code>{file.containerPath}</code> ({file.writable ? 'writable' : 'read-only mount'})</p>
@@ -219,3 +219,4 @@ export default function Concept04Permissions() {
       code={frames.flatMap((f) => 'raw' in f && f.raw ? [redact(f.raw)] : []).join('\n') || 'No events yet.'} /></details>
   </section>;
 }
+import { AgentMessage } from '../components/AgentMessage';

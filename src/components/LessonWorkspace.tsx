@@ -6,6 +6,7 @@ import { SourceViewer } from './SourceViewer';
 import { TextResource } from './TextResource';
 import { LearningGuide } from './LearningGuide';
 import { GuideExplanation } from './GuideExplanation';
+import { LessonExperiment } from './LessonExperiment';
 import { learningGuide } from '../../shared/learning-guide';
 import { LessonKnowledgeCheck } from './LessonKnowledgeCheck';
 import type { TextCatalog, TextLoader } from '../lessons/catalog';
@@ -59,7 +60,7 @@ export function LessonWorkspace({ lesson, loadGuide, sources, mainSources, loadE
     </div>
     <div role="tabpanel" id={`${id}-panel-0`} aria-labelledby={`${id}-tab-0`} hidden={active !== 0} tabIndex={0}>
       <section className="learning-card"><p className="phase-label">01 / Understand</p><h2>Your lab path</h2><p><strong>Objective:</strong> {lesson.objective}</p>
-        <GuideExplanation step={tour[0]!} /><GuideExplanation step={tour[1]!} />
+        <GuideExplanation step={tour[0]!} /><GuideExplanation step={tour[1]!} /><LessonExperiment lessonId={lesson.id} />
         <ol>{lesson.steps.map((step) => <li key={step}>{step}</li>)}</ol>
         <p><strong>Inspect:</strong> {lesson.inspect.join(', ')}</p><p><strong>Challenge:</strong> {lesson.challenge}</p>
         <button type="button" onClick={() => activate(1, true)}>Open exercise</button>
