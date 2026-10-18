@@ -105,7 +105,11 @@ export function createLab64Runner() {
       if (calls >= 6) throw new Error('Host browser tool limit exceeded.');
       calls++;
       const screenshot = await client.callTool({ name: 'browser_take_screenshot', arguments: { scale: 'css', type: 'png' } }, undefined, { timeout: 20000 });
-      if (screenshot.isError) throw new Error('MCP screenshot failed.');
+      if (screenshot.isError) {
+        const detail = contentItems(screenshot.content).filter(item => item.type === 'text')
+          .map(item => item.text ?? '').join('\n').slice(0, 1000);
+        throw new Error(`MCP screenshot failed: ${detail || 'No diagnostic text returned.'}`);
+      }
       events.push('browser_take_screenshot: completed');
       const image = contentItems(screenshot.content).find(item => item.type === 'image');
       const proofId = randomUUID();
