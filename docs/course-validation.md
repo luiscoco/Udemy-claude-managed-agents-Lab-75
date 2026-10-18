@@ -199,3 +199,9 @@ The complete browser run finished with 318 passed, zero failures and one optiona
 ## First hosted regression correction
 
 The first GitHub-hosted run completed 516 of 517 unit tests and stopped at the source supervisor restart test. Its source-root guard compared realpath output with the original path spelling, incorrectly skipping ordinary source directories beneath aliased Windows paths. The guard now inspects the source-root directory entry with lstat, retaining the rejection of source-root symlinks and junctions while allowing ancestor aliases. A new junction/alias regression verifies source changes remain visible and linked source roots stay excluded. Both standalone watcher tests and both TypeScript supervisor tests passed locally. No billing, provider configuration or live scenario code changed.
+
+## First hosted live acceptance correction (18 October 2026)
+
+Hosted run 39128999911 passed the course (four sessions), learning (six) and host/Python (three) suites. The team implementation passed its integration tests and review, but a developer reported an unresolved malformed-note policy question. The strict evaluator correctly rejected completion. Independent read-only inspection confirmed all five team sessions archived, for 18 archived sessions across the run.
+
+The issue and suggested plan now explicitly require malformed note tags to throw rather than be skipped. Independent search acceptance checks that policy. The application Ready gate also rejects unresolved questions, matching CI. Recoverable scripted interruptions remain journal events rather than unresolved design questions. Failed CI summaries now retain only authored gate labels, task states, counts and archival evidence; raw reports and question text remain excluded. A targeted hosted team rerun is required before claiming the correction passed live.

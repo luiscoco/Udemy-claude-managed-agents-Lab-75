@@ -52,7 +52,7 @@ export class TeamWorkshop {
     if (runtime.busy || !['pending', 'interrupted'].includes(runtime.state.state)) throw new Error('Run cannot start in this state.');
     if (runtime.state.mode === 'live' && !team) throw new Error('Dedicated live team must be configured.'); runtime.busy = true; runtime.controller = new AbortController(); runtime.state.state = 'running';
     try { await this.execute(runtime, team ?? scriptedTeam(runtime.state.scenario)); }
-    catch (error) { runtime.state.state = runtime.state.state === 'interrupted' ? 'interrupted' : runtime.controller.signal.aborted ? 'cancelled' : 'draft'; runtime.state.questions.push(error instanceof Error ? error.message.slice(0, 500) : 'Team stopped.'); }
+    catch (error) { runtime.state.state = runtime.state.state === 'interrupted' ? 'interrupted' : runtime.controller.signal.aborted ? 'cancelled' : 'draft'; if (runtime.state.state !== 'interrupted') runtime.state.questions.push(error instanceof Error ? error.message.slice(0, 500) : 'Team stopped.'); else await runtime.journal.append('interruption', { detail: error instanceof Error ? error.message.slice(0, 500) : 'Team interrupted.' }); }
     finally { runtime.busy = false; await this.finish(runtime); } return this.get(owner, id);
   }
   private async call(runtime: Runtime, team: Team, role: Role, root: string, round: number, feedback: string[], task?: Task): Promise<unknown> {
@@ -163,6 +163,7 @@ export class TeamWorkshop {
   private async finish(runtime: Runtime) {
     const state = runtime.state, unmet: string[] = [];
     if (!state.plan || !validatePlan(state.plan).valid) unmet.push('valid plan');
+    if (state.questions.length) unmet.push('unresolved questions');
     if (!state.tasks.length || state.tasks.some(task => task.state !== 'merged')) unmet.push('all tasks merged');
     if (!state.protectedPass) unmet.push('protected files unchanged'); if (!state.integrationPass) unmet.push('integration tests');
     if (state.holdouts.length !== 4 || state.holdouts.some(probe => !probe.pass)) unmet.push('host acceptance probes');

@@ -58,3 +58,5 @@ CI uploads only an authored status summary with suite names, pass/fail, session 
 Slack, Teams, email delivery, AWS execution, Azure export and Inworld synthesis are outside these suites. They require their own configured integration checks. This automation does not send notifications, synthesize narration, deploy the application or create infrastructure.
 
 Workflow events, inputs and permissions follow [GitHub workflow syntax](https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax). Environment secrets and review controls follow [GitHub environment documentation](https://docs.github.com/en/actions/how-tos/deploy/configure-and-manage-deployments/manage-environments).
+
+Failed team summaries include authored release-gate labels, task states, failed-check counts, unresolved-question counts and observed archival status. Unknown gate text is replaced with a generic label. Question text, reports, tool output and session identities are excluded. Missing completion evidence leaves cleanup unknown rather than claiming archival.

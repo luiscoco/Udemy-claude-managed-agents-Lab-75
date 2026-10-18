@@ -88,6 +88,22 @@ test('acceptance rejects case-expansion length checks even when visible tests pa
   } finally { store.close(); }
 });
 
+test('unresolved developer questions block Ready even after tests and merges pass', async () => {
+  const store = new TeamWorkshop(), created = await store.create('owner', { mode: 'scripted', scenario: 'cross-owner', maxParallel: 2, budgetCents: 30 });
+  const team = scriptedTeam('crash-resume'), develop = team.develop;
+  team.develop = async context => {
+    const result = await develop(context);
+    if (context.task?.id === 'T2') (result.report as { questions: string[] }).questions.push('Unresolved policy decision');
+    return result;
+  };
+  try {
+    const result = await store.start('owner', created.id, team);
+    assert.equal(result.integrationPass, true); assert.ok(result.tasks.every(task => task.state === 'merged'));
+    assert.equal(result.state, 'draft'); assert.equal(result.releaseGate.ready, false);
+    assert.ok(result.releaseGate.unmet.includes('unresolved questions'));
+  } finally { store.close(); }
+});
+
 test('remaining scripted scenarios correct safe mistakes or fail release gates with retained evidence', async () => {
   const store = new TeamWorkshop();
   for (const scenario of ['injected-plan', 'cross-owner', 'test-gaming', 'hidden-boundary', 'budget-exhaustion'] as const) {

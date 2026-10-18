@@ -1,5 +1,25 @@
 import assert from 'node:assert/strict';
 
+// Keep failed-run evidence useful without uploading reports, prompts, IDs or tool output.
+export function failedLiveEvidence(suite, records, exitCode) {
+  const result = { suite, passed: false, exitCode: Number.isInteger(exitCode) ? exitCode : null };
+  if (suite !== 'team') return result;
+  const final = records.findLast(record => record.finished === true);
+  const states = new Set(['ready', 'draft', 'completed', 'running', 'cancelled', 'interrupted', 'failed', 'blocked', 'merged', 'verified', 'pending']);
+  const gates = new Set(['valid plan', 'unresolved questions', 'all tasks merged', 'protected files unchanged', 'integration tests',
+    'host acceptance probes', 'review without open high findings', 'known costs within budget']);
+  return { ...result, completionObserved: Boolean(final), state: states.has(final?.state) ? final.state : 'unknown',
+    releaseReady: final?.releaseGate?.ready === true, allArchived: final?.allArchived === true,
+    sessions: Number.isSafeInteger(final?.sessions) && final.sessions >= 0 && final.sessions <= 12 ? final.sessions : null,
+    questionCount: Array.isArray(final?.questions) ? final.questions.length : null,
+    unmet: Array.isArray(final?.releaseGate?.unmet) ? final.releaseGate.unmet.map(gate => gates.has(gate) ? gate : 'other gate') : [],
+    tasks: Array.isArray(final?.tasks) ? final.tasks.slice(0, 4).map(task => ({
+      id: /^T[1-9]$/.test(task.id) ? task.id : 'unknown', state: states.has(task.state) ? task.state : 'unknown',
+      failedChecks: Array.isArray(task.checks) ? task.checks.filter(check => check.pass !== true).length : null,
+    })) : [],
+  };
+}
+
 // A zero process exit code alone does not prove a live scenario or its cleanup passed.
 export function validateLiveEvidence(suite, records) {
   const one = (predicate, label) => {

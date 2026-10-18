@@ -2,7 +2,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { spawnSync } from 'node:child_process';
 import { unlink, rmdir } from 'node:fs/promises';
-import { validateLiveEvidence } from './live-audit-evidence.mjs';
+import { validateLiveEvidence, failedLiveEvidence } from './live-audit-evidence.mjs';
 
 const turn = { outcome: 'verified', reportPresent: true };
 const course = () => [
@@ -58,6 +58,16 @@ test('live entrypoint refuses missing opt-in and invalid suite before provider w
     const result = spawnSync(process.execPath, ['scripts/run-live-audit.mjs', ...args], { encoding: 'utf8', env: {}, windowsHide: true });
     assert.notEqual(result.status, 0); assert.doesNotMatch(result.stdout, /Starting bounded live suite/);
   }
+});
+test('failed team summaries retain gate and cleanup evidence while excluding raw content', () => {
+  const secret = 'private-report-canary';
+  const result = failedLiveEvidence('team', [{ finished: true, state: 'draft', allArchived: true, sessions: 5,
+    questions: [secret], releaseGate: { ready: false, unmet: ['unresolved questions', secret] },
+    tasks: [{ id: 'T2', state: 'merged', checks: [{ pass: false, detail: secret }], report: secret }], sessionId: secret }], 1);
+  assert.equal(result.passed, false); assert.equal(result.allArchived, true); assert.equal(result.questionCount, 1);
+  assert.deepEqual(result.unmet, ['unresolved questions', 'other gate']); assert.equal(result.tasks[0].failedChecks, 1);
+  assert.ok(!JSON.stringify(result).includes(secret));
+  const absent = failedLiveEvidence('team', [], null); assert.equal(absent.completionObserved, false); assert.equal(absent.allArchived, false);
 });
 test('invalid shared settings and team versions stop during preflight without starting a suite', async () => {
   const base = { MANAGED_LIVE_ENABLED: 'true', ANTHROPIC_API_KEY: 'offline-probe',

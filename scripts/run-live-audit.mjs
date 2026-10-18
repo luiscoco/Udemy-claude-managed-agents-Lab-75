@@ -1,7 +1,7 @@
 import { spawn } from 'node:child_process';
 import { mkdir, open, readFile, writeFile, access, unlink } from 'node:fs/promises';
 import { randomUUID } from 'node:crypto';
-import { validateLiveEvidence } from './live-audit-evidence.mjs';
+import { validateLiveEvidence, failedLiveEvidence } from './live-audit-evidence.mjs';
 
 if (process.argv[2] !== '--execute-authorized-live-tests') throw new Error('Explicit billed execution flag required.');
 const selected = process.argv[3]?.replace(/^--suite=/, '') ?? 'course';
@@ -68,11 +68,16 @@ try {
         child.once('error', reject); child.once('close', resolve);
       });
     } finally { await output.close(); await errors.close(); }
-    if (code !== 0) throw new Error(`Live ${suite} process failed; no later suite started. Inspect private local evidence and cleanup.`);
     const records = (await readFile(`${directory}/${suite}.stdout.log`, 'utf8')).split(/\r?\n/).flatMap(line => {
       try { const value = JSON.parse(line); return value && typeof value === 'object' ? [value] : []; } catch { return []; }
     });
-    summary.results.push(validateLiveEvidence(suite, records));
+    try {
+      if (code !== 0) throw new Error(`Live ${suite} process failed; no later suite started. Inspect private local evidence and cleanup.`);
+      summary.results.push(validateLiveEvidence(suite, records));
+    } catch (error) {
+      summary.results.push(failedLiveEvidence(suite, records, code));
+      throw error;
+    }
     await writeFile(`${directory}/summary.json`, JSON.stringify(summary, null, 2));
     console.log(`Verified live suite and remote archival: ${suite}`);
   }
