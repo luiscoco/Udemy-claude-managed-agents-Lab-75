@@ -69,6 +69,16 @@ test('failed team summaries retain gate and cleanup evidence while excluding raw
   assert.ok(!JSON.stringify(result).includes(secret));
   const absent = failedLiveEvidence('team', [], null); assert.equal(absent.completionObserved, false); assert.equal(absent.allArchived, false);
 });
+test('failed course evidence records unconfirmed cleanup without leaking provider content', () => {
+  const privateText = 'private-provider-payload-canary';
+  const result = failedLiveEvidence('course', [{ lesson: 1, scenario: 'cancel-after-send', outcome: 'cancelled',
+    interruption: 'unconfirmed', cleanup: 'pending', sessionId: privateText, message: privateText,
+    usage: { archived: false, raw: privateText } }, { lesson: 1, scenario: privateText, outcome: privateText }], 0);
+  assert.equal(result.passed, false); assert.equal(result.scenarios[0].interruption, 'unconfirmed');
+  assert.equal(result.scenarios[0].archivalVerified, false); assert.equal(result.scenarios[1].scenario, 'unknown');
+  assert.ok(!JSON.stringify(result).includes(privateText));
+});
+
 test('invalid shared settings and team versions stop during preflight without starting a suite', async () => {
   const base = { MANAGED_LIVE_ENABLED: 'true', ANTHROPIC_API_KEY: 'offline-probe',
     CLAUDE_MANAGED_AGENT_ID: 'fixture-agent', CLAUDE_MANAGED_ENVIRONMENT_ID: 'fixture-environment' };

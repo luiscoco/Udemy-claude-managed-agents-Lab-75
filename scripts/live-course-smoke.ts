@@ -17,7 +17,9 @@ async function usage(id: string | null) { if (!id) return null; try { const sess
 for (const scenario of ['completion', 'cancel-after-send', 'deadline'] as const) {
   if (sessionCount >= 3) break; const abort = new AbortController(); const port = createLiveLab01Port(client, env); const originalSend = port.send; const timers: ReturnType<typeof setTimeout>[] = [];
   if (scenario === 'cancel-after-send') port.send = async (...args) => { await originalSend(...args); timers.push(setTimeout(() => abort.abort(scenario), 300)); };
-  try { sessionCount++; const result = await runLab01({ mode: 'live', port, signal: abort.signal, deadlineMs: scenario === 'deadline' ? 5000 : 45000, cleanupWaitMs: 10000,
+  // Interrupts are queued by the provider. Keep execution deadlines unchanged,
+  // but allow a bounded independent confirmation window before archival.
+  try { sessionCount++; const result = await runLab01({ mode: 'live', port, signal: abort.signal, deadlineMs: scenario === 'deadline' ? 5000 : 45000, cleanupWaitMs: 60000,
     prompt: scenario === 'completion' ? 'Return exactly LIVE_SMOKE_OK, with no explanation.' : 'Write a detailed fictional 1500-word explanation of offline-first bird observation notebooks. This is a cancellation test.', emit() {} });
     await record({ lesson: 1, scenario, source: result.source, sessionId: result.sessionId, outcome: result.outcome.kind, interruption: result.interruption, cleanup: result.cleanup,
       markerVerified: scenario === 'completion' ? result.messages.some(message => message.text.includes('LIVE_SMOKE_OK')) : null, usage: await usage(result.sessionId) });

@@ -3,6 +3,17 @@ import assert from 'node:assert/strict';
 // Keep failed-run evidence useful without uploading reports, prompts, IDs or tool output.
 export function failedLiveEvidence(suite, records, exitCode) {
   const result = { suite, passed: false, exitCode: Number.isInteger(exitCode) ? exitCode : null };
+  if (suite === 'course') {
+    const allowed = (value, values) => values.includes(value) ? value : 'unknown';
+    return { ...result, scenarios: records.filter(record => record.lesson === 1).slice(0, 3).map(record => ({
+      scenario: allowed(record.scenario, ['completion', 'cancel-after-send', 'deadline']),
+      outcome: allowed(record.outcome, ['completed', 'cancelled', 'deadline', 'paused', 'error', 'incomplete']),
+      interruption: allowed(record.interruption, ['confirmed', 'unconfirmed', 'not-needed', 'not-attempted']),
+      cleanup: allowed(record.cleanup, ['archived', 'pending', 'not-needed']),
+      archivalVerified: record.usage?.archived === true,
+      markerVerified: record.markerVerified === true,
+    })) };
+  }
   if (suite !== 'team') return result;
   const final = records.findLast(record => record.finished === true);
   const states = new Set(['ready', 'draft', 'completed', 'running', 'cancelled', 'interrupted', 'failed', 'blocked', 'merged', 'verified', 'pending']);
