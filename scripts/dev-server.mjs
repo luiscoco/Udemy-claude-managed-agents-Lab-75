@@ -1,5 +1,5 @@
 import { createHash } from 'node:crypto';
-import { readdir, readFile, realpath } from 'node:fs/promises';
+import { readdir, readFile, realpath, lstat } from 'node:fs/promises';
 import { spawn } from 'node:child_process';
 import { once } from 'node:events';
 import { extname, join, relative } from 'node:path';
@@ -29,7 +29,9 @@ export async function sourceFingerprint(root) {
   for (const name of ['server', 'mcp-servers']) {
     // A source root itself must not be a symlink out of the workspace.
     const path = join(root, name);
-    try { if (await realpath(path) !== path) continue; }
+    // Inspect this directory entry, not the spelling of its resolved ancestors.
+    // Windows temp paths can use case/short-name aliases without being symlinks.
+    try { if ((await lstat(path)).isSymbolicLink()) continue; }
     catch (error) { if (error.code === 'ENOENT') continue; throw error; }
     await visit(path);
   }

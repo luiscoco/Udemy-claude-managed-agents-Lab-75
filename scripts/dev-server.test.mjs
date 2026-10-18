@@ -1,11 +1,33 @@
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
 import { spawn } from 'node:child_process';
-import { mkdtemp, mkdir, writeFile, readFile, stat, utimes, rm } from 'node:fs/promises';
+import { mkdtemp, mkdir, writeFile, readFile, stat, utimes, rm, symlink } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
-import { join } from 'node:path';
+import { join, resolve, dirname, basename } from 'node:path';
 import { setTimeout as delay } from 'node:timers/promises';
 import { sourceFingerprint, supervise, stopChild } from './dev-server.mjs';
+
+test('workspace aliases preserve source tracking while linked source roots stay excluded', async () => {
+  const parent = await mkdtemp(join(tmpdir(), 'foundation-alias-'));
+  const root = join(parent, 'actual'), alias = join(parent, 'alias'), empty = join(parent, 'empty');
+  try {
+    await mkdir(join(root, 'server'), { recursive: true }); await mkdir(empty);
+    await writeFile(join(root, 'server', 'fixture.ts'), 'export const value = 1;');
+    await symlink(root, alias, process.platform === 'win32' ? 'junction' : 'dir');
+    const before = await sourceFingerprint(alias);
+    assert.equal(before, await sourceFingerprint(root));
+    assert.notEqual(before, await sourceFingerprint(empty));
+    await writeFile(join(root, 'server', 'fixture.ts'), 'export const value = 2;');
+    assert.notEqual(await sourceFingerprint(alias), before);
+    await symlink(join(root, 'server'), join(empty, 'server'), process.platform === 'win32' ? 'junction' : 'dir');
+    assert.equal(await sourceFingerprint(empty), await sourceFingerprint(join(parent, 'absent')));
+  } finally {
+    const target = resolve(parent);
+    assert.equal(dirname(target), resolve(tmpdir()));
+    assert.ok(basename(target).startsWith('foundation-alias-'));
+    await rm(target, { recursive: true, force: true });
+  }
+});
 
 test('reads and sandbox outputs are inert; same-size, same-mtime source edit restarts and closes children', { timeout: 15000 }, async () => {
   const root = await mkdtemp(join(tmpdir(), 'foundation-watch-'));

@@ -195,3 +195,7 @@ The full offline unit run passed 516 of 517 tests; its Python readiness case hit
 GitHub-hosted live execution requires environment secrets and resource variables described in docs/continuous-validation.md. Local keys were preserved and not transferred into GitHub. Local passing results do not imply a hosted workflow has run or that optional unconfigured integrations were tested.
 
 The complete browser run finished with 318 passed, zero failures and one optional cached-audio playback test skipped (319 discovered). The production build returned exit code zero. Distribution scanning passed, and the refreshed source ZIP includes both workflow definitions. Workflow lint and local execution were verified; GitHub-hosted run status must be observed separately after publication.
+
+## First hosted regression correction
+
+The first GitHub-hosted run completed 516 of 517 unit tests and stopped at the source supervisor restart test. Its source-root guard compared realpath output with the original path spelling, incorrectly skipping ordinary source directories beneath aliased Windows paths. The guard now inspects the source-root directory entry with lstat, retaining the rejection of source-root symlinks and junctions while allowing ancestor aliases. A new junction/alias regression verifies source changes remain visible and linked source roots stay excluded. Both standalone watcher tests and both TypeScript supervisor tests passed locally. No billing, provider configuration or live scenario code changed.
