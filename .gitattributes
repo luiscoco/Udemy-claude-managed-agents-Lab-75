@@ -1,2 +1,4 @@
 *.pdf binary
 public/audio/guides/*.mp3 binary
+public/audio/infographics/*.mp3 binary
+public/infographics/*.png binary

@@ -1,16 +1,17 @@
-﻿import { useId, useState } from 'react';
+﻿import { useEffect, useId, useState } from 'react';
 import { CodeBlock } from './CodeBlock';
 import { TextResource } from './TextResource';
 import { supportingImports } from '../lessons/catalog';
 import type { TextCatalog } from '../lessons/catalog';
 
-export function SourceViewer({ sources, mainSources }: { sources: TextCatalog; mainSources: readonly string[] }) {
+export function SourceViewer({ sources, mainSources, requestedSource }: { sources: TextCatalog; mainSources: readonly string[]; requestedSource?: { path: string; serial: number } }) {
   const id = useId();
   const [selected, setSelected] = useState(() => {
     try { const retry = sessionStorage.getItem('lesson-resource-retry'); if (retry && Object.hasOwn(sources, retry)) return retry; } catch { /* Storage is optional. */ }
     return mainSources[0] ?? Object.keys(sources)[0] ?? '';
   });
   const names = [...new Set([...mainSources, ...Object.keys(sources).sort()])];
+  useEffect(() => { if (requestedSource?.path && Object.hasOwn(sources, requestedSource.path)) setSelected(requestedSource.path); }, [requestedSource, sources]);
   return <section className="source-card" aria-label="Real source files"><p className="phase-label">Explore / Source</p><h2>Read the real source</h2>
     <p>Public teaching files bundled as text at build time. Viewing source never executes it.</p>
     {!names.length ? <p role="status">No source files are available for this lesson.</p> : <>

@@ -16,5 +16,5 @@
     "skipLibCheck": true,
     "noEmit": true
   },
-  "include": ["src", "server", "shared", "tests", "browser-tests", "scripts/record-learning-narration.ts", "scripts/audit-learning-narration.ts", "scripts/managed-setup.ts", "scripts/lab11-skills-setup.ts", "vite.config.ts", "playwright.config.ts"]
+  "include": ["src", "server", "shared", "tests", "browser-tests", "scripts/record-infographic-narration.ts", "scripts/audit-infographic-assets.ts", "scripts/record-learning-narration.ts", "scripts/audit-learning-narration.ts", "scripts/managed-setup.ts", "scripts/lab11-skills-setup.ts", "vite.config.ts", "playwright.config.ts"]
 }

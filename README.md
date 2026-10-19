@@ -8,6 +8,8 @@ Use the sidebar by topic or lesson number, search by title or objective, and swi
 
 The [Learning Guide](docs/learning-guide.md) adds section-by-section explanations, red highlighting, Inworld voice narration and a saved self-assessment checklist to all 75 labs. Start a guided tour from any lesson. All 525 Inworld MP3 narrations and their word timings are included. Students need no Inworld API key. Start a narrated tour to follow the spoken explanations with timed red rectangles.
 
+Labs 01, 12 and 65 also include **Concept map** and **Lab walkthrough** tabs with original illustrated PNGs, zoom/pan, accessible text, source links and prerecorded visual tours. Timed red rectangles follow six regions per image; students need no image or narration API keys. See the [infographic pilot guide](docs/learning-infographics.md).
+
 Home includes a browser-local course progress overview and **Continue learning** shortcut. Checklist completion is self-assessment, separate from verified exercise evidence. Saved tours resume only when explicitly selected.
 
 The Learning Guide also has a personal notebook and lesson bookmarks. Home can download a learning backup and preview a restore before applying it; these controls stay entirely in the browser.

@@ -1,0 +1,104 @@
+{
+  "version": 1,
+  "provider": "inworld",
+  "voiceId": "Yash",
+  "modelId": "inworld-tts-2",
+  "assets": {
+    "1:concepts": {
+      "image": {
+        "file": "infographics/lab-01-concepts.png",
+        "sha256": "ead9dcb443213fea8754cc2d9ce13436e8cff67ccf48bdd4517cb636c863d23f",
+        "width": 1536,
+        "height": 1024
+      },
+      "text": "Session identity. The session panel identifies the session and its configuration. It is metadata, not the answer and not proof that the current turn completed. Keep that identity while following the other panels. Streaming preview. The text preview helps you follow a response as it streams. A visible preview alone does not establish success. If the stream ends early, it may remain incomplete. Authoritative message. The authoritative agent message replaces its matching preview instead of being appended again. Compare the message identity and final text so the same answer is not displayed twice. Lifecycle evidence. Lifecycle events tell you when the session is running and when it becomes idle. Read the stop reason as well as the status. Idle with end turn supports normal completion; other reasons can mean a pause. Explicit outcome. Read the reported outcome independently from the answer text. A partial answer can coexist with an error or an incomplete stream. Requires action and budget reached are not normal successful completion. Execution boundary. An offline fixture teaches the event contract without calling a model. A live run is separate evidence and can incur charges. A local browser cancel does not by itself prove remote interruption or cleanup.",
+      "contentSha256": "3247590071c169eac7398a7d0f4134e30d9bbce1b05fdcb29e9dfc69fdf47440",
+      "recording": {
+        "file": "audio/infographics/visual-1-concepts-60eab89f3e8fd557.mp3",
+        "timingFile": "audio/infographics/visual-1-concepts-60eab89f3e8fd557.json",
+        "sha256": "60eab89f3e8fd55728c4a3c91efb0be73f6826d5a2aea290c20c307bab1d074b",
+        "durationSeconds": 85.008
+      }
+    },
+    "1:lab": {
+      "image": {
+        "file": "infographics/lab-01-lab.png",
+        "sha256": "7390b2465885a3653dd9221f8b0c3bbb9b5275c3c64781d0f4a6bcc654675bde",
+        "width": 1536,
+        "height": 1024
+      },
+      "text": "Choose offline. Open the exercise and choose the Normal turn offline scenario. Keep the baseline prompt so you can compare the result with later scenarios. Viewing this illustration never starts the exercise for you. Run the fixture. Press Run offline fixture in the exercise. Watch the separate session, text, raw event and outcome panels. This baseline is authored evidence and makes no model provider request. Compare text. Locate the authoritative agent message. Compare it with the preview and confirm that the preview was replaced. The final answer should not appear twice because two event representations arrived. Verify completion. Inspect the idle lifecycle event, its stop reason and the outcome panel together. In the normal fixture, end turn supports completed. Text appearing on its own is not the completion signal. Compare failures. Change one offline scenario at a time. Repeated events test deduplication. Stream ended demonstrates incomplete evidence. Session error demonstrates a failure even when some text has already arrived. Reflect and record. Explain which message is authoritative and which lifecycle evidence supports the outcome. Save your observation in the lesson notebook. A saved note or checked learning box is self assessment, not a new verified run.",
+      "contentSha256": "18697c11d5f2ba6262ecb70373de2ad7b18abd62792c8d6552a483506fc24d08",
+      "recording": {
+        "file": "audio/infographics/visual-1-lab-5d8e96a13713cfb3.mp3",
+        "timingFile": "audio/infographics/visual-1-lab-5d8e96a13713cfb3.json",
+        "sha256": "5d8e96a13713cfb355ba552df39d343e92d9309c4564ab0dee2f48ead6b76f8d",
+        "durationSeconds": 88.416
+      }
+    },
+    "12:concepts": {
+      "image": {
+        "file": "infographics/lab-12-concepts.png",
+        "sha256": "f82246ba61b812e79da2058db8c671250c910f1ca318565ae339619ab9b47150",
+        "width": 1536,
+        "height": 1024
+      },
+      "text": "Retained session. This lesson retains one session while several messages are processed. Track its identity across turns. The host queue controls admission and ordering; this is not an Agent SDK asynchronous input generator. Local admission. When a message passes local validation, the host admits a command and assigns its own command identifier. Admission is not the same as provider acceptance and does not mean the turn has completed. Wait while busy. If the first message is still running, the next command stays in the host queue. It waits for completed idle evidence before submission. Follow the waiting count instead of assuming two simultaneous provider turns. Provider acceptance. A provider accepted user event has its own identity. Keep it distinct from the host command identifier. Correlate the accepted event, later messages and the outcome rather than treating all identifiers as interchangeable. Turn outcome. Inspect the reported result for each queued command. A completed first turn does not automatically certify a later turn. Verify both outcomes and confirm that the retained session identity is the one you expected. Explicit close. Closing the queue is an explicit operation. Waiting commands should be cancelled before submission, and cleanup evidence should describe what happened. Offline simulated cleanup and confirmed live archival are different evidence sources.",
+      "contentSha256": "ce52e8f91ad9506fccbb920869659d9e39bce0de3ec6966cc7a036a62190940e",
+      "recording": {
+        "file": "audio/infographics/visual-12-concepts-953f55f5e571056b.mp3",
+        "timingFile": "audio/infographics/visual-12-concepts-953f55f5e571056b.json",
+        "sha256": "953f55f5e571056b5d876d5bf28c9f6c7c1b8e2eff763f210855bb4d238b2a18",
+        "durationSeconds": 92.304
+      }
+    },
+    "12:lab": {
+      "image": {
+        "file": "infographics/lab-12-lab.png",
+        "sha256": "715eb46667ce1e26ab7388bb59669fbd81e57516f249c58c9de88c0bd5bf35e2",
+        "width": 1536,
+        "height": 1024
+      },
+      "text": "Create offline session. Choose Create offline session in the exercise and note its session identity. This creates the authored local baseline. Opening the infographic does not create any queue or session. Send one message. Queue one Normal message. Inspect the host command identifier and returned user event identifier separately. Read its outcome before interpreting the baseline as complete. Queue while busy. Choose Slow and queue a message. While it is busy, queue a follow up. The follow up should wait rather than immediately starting a second provider turn. Watch the waiting commands evidence. Verify ordering. Inspect both command results and their event correlations. Check that the follow up started after the first completed idle boundary and that both results refer to the retained session. Test rejection. Try a message longer than the allowed limit. It should be rejected before provider submission. A rejected input must not be counted as an accepted or completed turn. Close pending work. Use the Hang scenario with waiting work, then choose Close queue and clean up. Inspect cancelled before submission for waiting commands. Record the cleanup source; an offline simulation is not proof of a live archive.",
+      "contentSha256": "2ac1181923b2e21baa401e15f293562f50109581b7f9aeed13f900e83cec17a5",
+      "recording": {
+        "file": "audio/infographics/visual-12-lab-2034f3f2716ecc1e.mp3",
+        "timingFile": "audio/infographics/visual-12-lab-2034f3f2716ecc1e.json",
+        "sha256": "2034f3f2716ecc1e267089f47723f237bec6d827a535b06e3e9112c15a08c3d8",
+        "durationSeconds": 82.104
+      }
+    },
+    "65:concepts": {
+      "image": {
+        "file": "infographics/lab-65-concepts.png",
+        "sha256": "e16ed171dde0b4f0cf6475a984cad06b3ba332536cb1056ad73e2ee1faa1121f",
+        "width": 1536,
+        "height": 1024
+      },
+      "text": "Immutable proposal. The proposed action is a fictional case archive with fixed validated arguments. Review the immutable proposal. An agent message or tool proposal must not execute the business effect by itself. Separate identities. The tool event identifier correlates the tool interaction. The business key identifies the effect that must remain unique. Do not use a new proposal or a different event identifier to repeat the same case effect. Notification only. Notification asks someone to review. It is not an approval decision. The local notification path sends no external message; optional external delivery requires separate configured channels and explicit learner action. Trusted reviewer. The host validates the trusted reviewer, proposal owner, notification state, expiry and exact action. A changed argument, wrong reviewer or expired proposal must be refused before an effect is allowed. Effect ledger. The SQLite effect ledger records the fictional effect independently of agent prose. A repeated click or a second proposal for the same owner and case must not increase the effect count beyond one. Audit the boundary. Compare the audit and effect ledger with the human decision. Rejection leaves no effect. Successful local approval demonstrates this fictional local gate; it does not prove delivery through Slack, Teams or email.",
+      "contentSha256": "3936f50f89dad6d4a6015434d5d4367ae01c866b9b6469347481dd2a2b3b21aa",
+      "recording": {
+        "file": "audio/infographics/visual-65-concepts-61f8070d0532984e.mp3",
+        "timingFile": "audio/infographics/visual-65-concepts-61f8070d0532984e.json",
+        "sha256": "61f8070d0532984eb10e2b94f183b4af0c4d62903475e92cf1565b2323465677",
+        "durationSeconds": 90.48
+      }
+    },
+    "65:lab": {
+      "image": {
+        "file": "infographics/lab-65-lab.png",
+        "sha256": "25714ec269d52d5ad057ac796dc9672075b53a744a4638b938e3c869613b0792",
+        "width": 1536,
+        "height": 1024
+      },
+      "text": "Preview proposal. Choose Preview proposal in the exercise. Inspect the fictional case, immutable action, tool event identifier and business key. The effect count should still be zero after preview. Notify locally. Choose Notify locally for the baseline. This records local notification only, without sending Slack, Teams or email. The effect count remains zero because notification does not authorize the archive. Inspect guards. Read the reviewer and immutable proposal. Try the changed action or wrong reviewer scenarios. The host should block the decision before any fictional archive effect is recorded. Decide explicitly. Choose the trusted reviewer approval yourself, or test rejection on a fresh proposal. Approval can record one fictional effect after the checks pass. Rejection is terminal and records no archive effect. Try duplicate click. After a valid approval, choose Duplicate click. Read the already decided result and inspect the effect count. A repeated decision must not create another effect, and a new proposal must not bypass the business key. Record the evidence. Record the observed decision, effect count and audit evidence in your notebook. State whether notification was local or externally delivered. Do not describe a local demonstration as verified external messaging.",
+      "contentSha256": "cf8abe887c9039f70455e3b6110b5c1585caa1ace4dd2dc37869df52efa5e3e8",
+      "recording": {
+        "file": "audio/infographics/visual-65-lab-55383ee4a6fff617.mp3",
+        "timingFile": "audio/infographics/visual-65-lab-55383ee4a6fff617.json",
+        "sha256": "55383ee4a6fff6171cf0fe80ce04dadb70d57b2078a2e167f3457a2937bcbc9b",
+        "durationSeconds": 88.632
+      }
+    }
+  }
+}

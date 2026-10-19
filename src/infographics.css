@@ -1,0 +1,42 @@
+.workspace-tabs { flex-wrap: wrap; }
+.workspace-tabs button { min-width: 0; }
+.lesson-infographic { min-width: 0; }
+.lesson-infographic h2 { overflow-wrap: anywhere; }
+.infographic-toolbar { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; margin: 12px 0; }
+.infographic-toolbar button { font-size: .8rem; min-height: 42px; }
+.infographic-toolbar label { font-size: .8rem; }
+.infographic-toolbar select { margin-left: 8px; }
+.infographic-toolbar input[type='range'] { width: min(170px, 35vw); padding: 0; }
+.infographic-playback { border: 1px solid var(--border); border-radius: 10px; padding: 12px; background: var(--surface); }
+.infographic-playback audio { width: 100%; height: 40px; }
+.infographic-follow { display: flex; gap: 8px; align-items: center; margin-top: 8px; font-size: .8rem; }
+.infographic-clock, .infographic-help { font-size: .8rem; margin: 8px 0; }
+.infographic-viewport { width: 100%; height: min(60dvh, 620px); min-height: 280px; overflow: auto; border: 1px solid var(--border); border-radius: 10px; background: #e8eef5; overscroll-behavior: contain; }
+.infographic-quick-controls { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; position: sticky; top: 88px; z-index: 4; padding: 10px; border: 1px solid var(--border); border-radius: 8px; background: var(--surface); }
+.infographic-quick-controls strong { flex: 1 1 210px; font-size: .85rem; }
+.infographic-quick-controls button { font-size: .75rem; padding: 8px; min-height: 40px; }
+.lesson-infographic:has(.infographic-quick-controls) .infographic-viewport { scroll-margin-top: 180px; }
+.infographic-viewport.pan-enabled { cursor: grab; }
+.infographic-viewport.pan-enabled:active { cursor: grabbing; }
+.infographic-canvas { position: relative; flex: none; }
+.infographic-canvas img { display: block; width: 100%; height: 100%; max-width: none; pointer-events: none; user-select: none; }
+.infographic-region-highlight { position: absolute; border: 4px solid #ed2424; border-radius: 10px; box-shadow: 0 0 0 3px rgb(255 255 255 / 85%); pointer-events: none; }
+.infographic-marker { position: absolute; width: 36px; height: 36px; min-height: 36px; padding: 0; border-radius: 50%; background: #153f7c; color: #fff; font-size: 16px; border: 2px solid white; }
+.infographic-marker[aria-pressed='true'] { background: #c92020; }
+.infographic-study-links { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 230px), 1fr)); gap: 8px; margin: 20px 0; }
+.infographic-study-links button { text-align: left; font-size: .85rem; }
+.infographic-study-links [aria-pressed='true'] { outline: 3px solid #ed2424; outline-offset: 1px; }
+.infographic-selected { padding: 16px; border: 1px solid var(--border); border-left: 4px solid #ed2424; border-radius: 8px; background: var(--surface); }
+.infographic-selected button { margin: 4px 0; font-size: .85rem; }
+.infographic-transcript { margin-top: 20px; }
+.infographic-transcript li { margin-bottom: 20px; }
+.infographic-placeholder { padding: 30px; border: 1px dashed var(--border); }
+@media (max-width: 600px) {
+  .workspace-tabs button { flex: 1 1 115px; }
+  .infographic-viewport { height: 350px; max-height: 55dvh; }
+  .infographic-toolbar button { flex: 1 1 auto; }
+  .infographic-playback { padding: 8px; }
+  .infographic-quick-controls strong { flex-basis: 100%; }
+  .infographic-quick-controls button { flex: 1 1 70px; }
+  .lesson-infographic:has(.infographic-quick-controls) .infographic-viewport { scroll-margin-top: 220px; }
+}

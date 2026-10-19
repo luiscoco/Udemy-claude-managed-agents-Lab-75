@@ -37,7 +37,12 @@ const wordAlignmentSchema = z.object({
 
 /** Accept provider timing only when its words match the exact authored narration. */
 export function alignNarration(lessonId: number, step: GuideStep, timestampInfo: unknown): NarrationTimeline {
-  const fallback = sectionTimeline(lessonId, step.id);
+  return alignNarrationSegments(lessonId, step.id, narrationSegments(step), timestampInfo);
+}
+
+/** Align exact authored regions as well as paragraphs using the same provider contract. */
+export function alignNarrationSegments(lessonId: number, stepId: string, segments: readonly NarrationSegment[], timestampInfo: unknown): NarrationTimeline {
+  const fallback = sectionTimeline(lessonId, stepId);
   const info = z.object({ wordAlignment: wordAlignmentSchema }).safeParse(timestampInfo);
   if (!info.success) return fallback;
   const alignment = info.data.wordAlignment;
@@ -48,7 +53,7 @@ export function alignNarration(lessonId: number, step: GuideStep, timestampInfo:
     if (end < start || index && start < alignment.wordStartTimeSeconds[index - 1]!) return fallback;
     for (const text of words(alignment.words[index]!)) tokens.push({ text, start, end });
   }
-  const segments = narrationSegments(step), expected = segments.flatMap(segment => words(segment.text));
+  const expected = segments.flatMap(segment => words(segment.text));
   if (tokens.length !== expected.length || tokens.some((token, index) => token.text !== expected[index])) return fallback;
   let offset = 0;
   const cues = segments.map(segment => {
@@ -57,7 +62,7 @@ export function alignNarration(lessonId: number, step: GuideStep, timestampInfo:
     offset += length;
     return { id: segment.id, start, end };
   });
-  const timeline = narrationTimelineSchema.safeParse({ version: 1, lessonId, stepId: step.id, source: 'inworld-word', cues });
+  const timeline = narrationTimelineSchema.safeParse({ version: 1, lessonId, stepId, source: 'inworld-word', cues });
   return timeline.success ? timeline.data : fallback;
 }
 

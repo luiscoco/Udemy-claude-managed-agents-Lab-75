@@ -10,12 +10,15 @@ import { LessonExperiment } from './LessonExperiment';
 import { learningGuide } from '../../shared/learning-guide';
 import { LessonKnowledgeCheck } from './LessonKnowledgeCheck';
 import type { TextCatalog, TextLoader } from '../lessons/catalog';
+import { lessonInfographics } from '../../shared/learning-infographics';
+import { LessonInfographic } from './LessonInfographic';
 
 export type ExerciseLoader = () => Promise<{ default: ComponentType }>;
 export function LessonWorkspace({ lesson, loadGuide, sources, mainSources, loadExercise }: {
   lesson: LessonMetadata; loadGuide: TextLoader; sources: TextCatalog; mainSources: readonly string[]; loadExercise: ExerciseLoader;
 }) {
-  const id = useId(); const tabs = ['Learn', 'Run the exercise', 'TypeScript source'];
+  const id = useId(), visuals = lessonInfographics.filter(item => item.lessonId === lesson.id);
+  const tabs = ['Learn', 'Run the exercise', 'TypeScript source', ...visuals.map(item => item.kind === 'concepts' ? 'Concept map' : 'Lab walkthrough')];
   const tabId = (index: number) => index === 1 ? `lesson-exercise-${lesson.id}` : `${id}-tab-${index}`;
   const workspace = useRef<HTMLDivElement>(null);
   const tour = learningGuide(lesson.id);
@@ -29,6 +32,8 @@ export function LessonWorkspace({ lesson, loadGuide, sources, mainSources, loadE
   const [visited, setVisited] = useState(active === 1);
   const [guidanceOpen, setGuidanceOpen] = useState(true);
   const [Exercise, setExercise] = useState<ComponentType>(); const [error, setError] = useState(false);
+  const [requestedSource, setRequestedSource] = useState({ path: '', serial: 0 });
+  const [explanation, setExplanation] = useState<string>();
   const buttons = useRef<(HTMLButtonElement | null)[]>([]);
   const [reopenGuide] = useState(() => { try { return sessionStorage.getItem('lesson-resource-retry') === 'guide'; } catch { return false; } });
   useEffect(() => { try { sessionStorage.removeItem('lesson-exercise-retry'); sessionStorage.removeItem('lesson-resource-retry'); } catch { /* Storage is optional. */ } }, []);
@@ -47,6 +52,12 @@ export function LessonWorkspace({ lesson, loadGuide, sources, mainSources, loadE
   function activate(index: number, focus = false) {
     setActive(index); if (index === 1) setVisited(true); if (focus) buttons.current[index]?.focus();
   }
+  useEffect(() => {
+    if (!explanation) return;
+    const target = workspace.current?.querySelector<HTMLElement>(`[data-guide-target="${explanation}"]`);
+    if (target) { if (target instanceof HTMLDetailsElement) target.open = true; target.scrollIntoView({ block: 'start', behavior: 'instant' }); }
+    setExplanation(undefined);
+  }, [explanation, active]);
   return <div className="lesson-workspace" ref={workspace}>
     <LearningGuide lessonId={lesson.id} view={active} onView={activate} workspace={workspace} />
     <LessonKnowledgeCheck lessonId={lesson.id} onReviewSource={() => activate(2, true)} />
@@ -55,7 +66,7 @@ export function LessonWorkspace({ lesson, loadGuide, sources, mainSources, loadE
         ref={(element) => { buttons.current[index] = element; }} aria-selected={active === index}
         aria-controls={`${id}-panel-${index}`} tabIndex={active === index ? 0 : -1}
         onClick={() => activate(index)} onKeyDown={(event) => {
-          const target = event.key === 'Home' ? 0 : event.key === 'End' ? 2 : event.key === 'ArrowRight' ? (index + 1) % 3 : event.key === 'ArrowLeft' ? (index + 2) % 3 : undefined;
+          const target = event.key === 'Home' ? 0 : event.key === 'End' ? tabs.length - 1 : event.key === 'ArrowRight' ? (index + 1) % tabs.length : event.key === 'ArrowLeft' ? (index + tabs.length - 1) % tabs.length : undefined;
           if (target !== undefined) { event.preventDefault(); activate(target, true); }
         }}>{name}</button>)}
     </div>
@@ -89,6 +100,10 @@ export function LessonWorkspace({ lesson, loadGuide, sources, mainSources, loadE
         </div>
       </div>
     </div>
-    <div role="tabpanel" id={`${id}-panel-2`} aria-labelledby={`${id}-tab-2`} hidden={active !== 2} tabIndex={0}><GuideExplanation step={tour[5]!} /><div data-guide-source><SourceViewer sources={sources} mainSources={mainSources} /></div></div>
+    <div role="tabpanel" id={`${id}-panel-2`} aria-labelledby={`${id}-tab-2`} hidden={active !== 2} tabIndex={0}><GuideExplanation step={tour[5]!} /><div data-guide-source><SourceViewer sources={sources} mainSources={mainSources} requestedSource={requestedSource} /></div></div>
+    {visuals.map((visual, index) => <div key={visual.kind} role="tabpanel" id={`${id}-panel-${index + 3}`} aria-labelledby={tabId(index + 3)} hidden={active !== index + 3} tabIndex={0}>
+      {active === index + 3 && <LessonInfographic visual={visual} onSource={path => { setRequestedSource(previous => ({ path, serial: previous.serial + 1 })); activate(2, true); }}
+        onExplanation={target => { const step = tour.find(item => item.id === target); if (step) { activate(step.view, true); setExplanation(target); } }} />}
+    </div>)}
   </div>;
 }

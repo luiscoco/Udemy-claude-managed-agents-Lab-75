@@ -1,0 +1,14 @@
+Use case: infographic-diagram. Asset type: a complete illustrated educational PNG infographic for an existing Claude Managed Agents course. Brand-new artwork, accurate teaching content, landscape 3:2 canvas, high resolution and crisp readable English typography.
+Audience: software developers. Style: polished illustrated workbook, warm white background, navy headings, blue and teal accents, thin connector arrows and restrained orange caution details. Relevant small technical illustrations in each card; no mascot required. No photographs, screenshots of real accounts, secrets or claims of real execution.
+Layout is critical for synchronized highlights: a header in the top 14% of the canvas. Exactly six equal rectangular teaching cards in a three-column, two-row grid. Card left edges at 3%, 35%, 67%; each card width 30%. Top-row cards span y=18% through y=53%. Bottom-row cards span y=57% through y=92%. Keep all illustration and card text inside each respective card. Do not put red highlight rectangles into the artwork. Number cards 1 through 6 in left-to-right reading order, then the second row. Use bold card titles, large concise body text and a meaningful icon or miniature diagram. Keep the content clear at normal screen size.
+Header text verbatim: "LAB 65 / LAB WALKTHROUGH" and "Review one fictional case archive".
+The exact text for each card is:
+1. "Preview proposal" / "Inspect the pending action. Effects stay at zero."
+2. "Notify locally" / "Prepare review without sending an external message."
+3. "Inspect guards" / "Try a changed action or an invalid reviewer."
+4. "Decide explicitly" / "A trusted reviewer approves or rejects."
+5. "Try duplicate click" / "Repeat approval and confirm the count stays one."
+6. "Record the evidence" / "Compare the effect ledger, decision and audit."
+Footer text verbatim: "Illustrated teaching summary. Run the exercise to inspect actual evidence."
+Render the specified copy accurately, with no invented API calls, endpoint names, code snippets, extra cards or extra paragraphs. Distinguish Claude Managed Agents from Claude Agent SDK. All artwork stays inside the complete canvas; do not crop any card.
+Render ONLY the exact supplied copy. No extra header badges, platform comparisons, product names, code identifiers, button captions or other written content in the illustrations. Unlabeled illustrations of proposals, envelopes, an identity check, a SQLite-style ledger and review decisions are appropriate. Never depict a notification directly executing an effect; the trusted reviewer gate must be distinct. Do not print the words Agent SDK. The case archive is explicitly fictional.

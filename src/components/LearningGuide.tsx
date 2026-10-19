@@ -52,7 +52,7 @@ export function LearningGuide({ lessonId, view, onView, workspace }: {
     try { localStorage.setItem(positionKey, selectedId); } catch { /* The guide still works without persistence. */ }
     notifyLearningProgress();
   }
-  function close() { narratedTour.current = false; setAutoContinue(false); setCompact(false); stop(); release(); setIndex(null); setNotice(''); start.current?.focus(); }
+  function close(restoreFocus = true) { narratedTour.current = false; setAutoContinue(false); setCompact(false); stop(); release(); setIndex(null); setNotice(''); if (restoreFocus) start.current?.focus(); }
   function finish() { close(); setResumeId(null); try { localStorage.removeItem(positionKey); } catch { /* Storage is optional. */ } notifyLearningProgress(); }
   useEffect(() => {
     const controller = new AbortController();
@@ -116,7 +116,7 @@ export function LearningGuide({ lessonId, view, onView, workspace }: {
     target.scrollIntoView({ block: 'start', behavior: 'instant' });
     return () => { root.classList.remove('guide-timed-highlight'); target.classList.remove('learning-guide-cue-highlight'); };
   }, [spokenCue, view, index]);
-  useEffect(() => { if (step && view !== step.view) { stop(); setNotice('You changed views. Choose Show section to return to this guide step.'); } }, [view]);
+  useEffect(() => { if (view > 2 && index !== null) close(false); else if (step && view !== step.view) { stop(); setNotice('You changed views. Choose Show section to return to this guide step.'); } }, [view]);
   useEffect(() => { if (index === null) return; const escape = (event: KeyboardEvent) => { if (event.key === 'Escape') close(); };
     window.addEventListener('keydown', escape); return () => window.removeEventListener('keydown', escape);
   }, [index]);
@@ -169,7 +169,7 @@ export function LearningGuide({ lessonId, view, onView, workspace }: {
       }}>Start narrated tour</button>
       <p className="muted">{setup?.ready ? 'Included Inworld recordings follow each explanation with timed red rectangles. No API key is needed; the tour pauses for your exercise actions.' : 'Written explanations are available while the included recordings load.'}</p>
       {resumeId && <button type="button" onClick={() => select(steps.findIndex(item => item.id === resumeId))}>Resume saved tour</button>}</> : step && <>
-      <div className="guide-toolbar"><span>Step {index + 1} of {steps.length}</span><button onClick={() => setCompact(value => !value)} aria-expanded={!compact}>{compact ? 'Expand guide' : 'Minimize guide'}</button>{!compact && <button onClick={stop}>Pause</button>}<button onClick={close}>Close guide</button></div>
+      <div className="guide-toolbar"><span>Step {index + 1} of {steps.length}</span><button onClick={() => setCompact(value => !value)} aria-expanded={!compact}>{compact ? 'Expand guide' : 'Minimize guide'}</button>{!compact && <button onClick={stop}>Pause</button>}<button onClick={() => close()}>Close guide</button></div>
       <h3 aria-live="polite">{step.title}</h3>
       <div className="guide-toolbar"><button disabled={index === 0} onClick={() => select(index - 1)}>Previous section</button><button onClick={() => select(index, false)}>Show section</button>{index < steps.length - 1 ? <button onClick={() => select(index + 1)}>Next section</button> : <button onClick={finish}>Finish tour</button>}</div>
       <div className="guide-audio-progress" aria-label="Narration progress">

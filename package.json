@@ -54,7 +54,10 @@
     "test:live:authorized": "node --env-file-if-exists=.env --import tsx scripts/run-live-audit.mjs --execute-authorized-live-tests",
     "narration:plan": "node --import tsx scripts/record-learning-narration.ts --plan",
     "narration:record": "node --env-file-if-exists=.env --import tsx scripts/record-learning-narration.ts --execute-authorized-narration-recording",
-    "narration:check": "node --import tsx scripts/audit-learning-narration.ts"
+    "narration:check": "node --import tsx scripts/audit-learning-narration.ts",
+    "infographics:plan": "node --import tsx scripts/record-infographic-narration.ts --plan",
+    "infographics:record": "node --env-file-if-exists=.env --import tsx scripts/record-infographic-narration.ts --execute-authorized-infographic-recording",
+    "infographics:check": "node --import tsx scripts/audit-infographic-assets.ts"
   },
   "dependencies": {
     "@anthropic-ai/aws-sdk": "0.8.0",
