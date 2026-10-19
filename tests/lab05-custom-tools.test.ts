@@ -268,6 +268,7 @@ test('router: GET /tools, POST /query, GET /tasks, SDK-only fields, origin guard
   const address = server.address(); assert(address && typeof address !== 'string');
   const root = `http://127.0.0.1:${address.port}/api/c5`;
   const post = (body: unknown, signal: AbortSignal | null = null) => fetch(`${root}/query`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body), signal });
+  const controllers: AbortController[] = [], hangingReads: Promise<Lab05Result | null>[] = [];
   try {
     const tools = await (await fetch(`${root}/tools`)).json() as { tools: { name: ToolName }[]; liveAgent: { envVar: string } };
     assert.deepEqual(tools.tools.map((t) => t.name), ['list_tasks', 'add_task', 'complete_task']);
@@ -288,15 +289,22 @@ test('router: GET /tools, POST /query, GET /tasks, SDK-only fields, origin guard
     assert.equal((await fetch(`${root}/tasks?runId=${randomUUID()}`)).status, 404);
 
     // Capacity: two hanging runs are active; a third query is refused until they end.
-    const controllers = [new AbortController(), new AbortController()];
-    for (const controller of controllers) await post({ ...base, scenario: 'hang' }, controller.signal);
+    controllers.push(new AbortController(), new AbortController());
+    // Hold and drain each SSE body until explicit cancellation. Discarding an
+    // unread Response lets HTTP resource cleanup close the supposedly busy run.
+    for (const controller of controllers) {
+      const response = await post({ ...base, scenario: 'hang' }, controller.signal);
+      assert.equal(response.status, 200);
+      hangingReads.push(readSse(response).catch(error => { if (!controller.signal.aborted) throw error; return null; }));
+    }
     for (let i = 0; i < 80 && router.stores.activeCount() < 2; i++) await delay(25);
     assert.equal(router.stores.activeCount(), 2);
     assert.equal((await post(base)).status, 429);
     controllers.forEach((c) => c.abort());
+    await Promise.all(hangingReads);
     for (let i = 0; i < 80 && router.stores.activeCount() > 0; i++) await delay(25);
     await delay(100);
     const after = await post({ ...base, scenario: 'valid-only' });
     assert.equal(after.status, 200, 'capacity released'); await readSse(after);
-  } finally { await router.close(); server.closeAllConnections(); await new Promise<void>((resolve) => server.close(() => resolve())); }
+  } finally { controllers.forEach(controller => controller.abort()); await Promise.allSettled(hangingReads); await router.close(); server.closeAllConnections(); await new Promise<void>((resolve) => server.close(() => resolve())); }
 });
