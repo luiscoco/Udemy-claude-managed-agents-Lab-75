@@ -40,7 +40,7 @@ export function App({ lessons = implementedLessons }: { lessons?: readonly Lesso
   useEffect(() => { if (selected) recordLessonVisit(selected.id); }, [selected?.id]);
   useEffect(() => {
     const section = window.location.hash.slice(1);
-    if (!section || !(/^lesson-(notebook|checklist|exercise)-\d+$/.test(section) || /^course-(progress|learning-backup|validation)$/.test(section))) return;
+    if (!section || !(/^lesson-(notebook|checklist|exercise)-\d+$/.test(section) || /^course-(progress|learning-backup|validation|start-here|learning-milestones)$/.test(section))) return;
     const frame = requestAnimationFrame(() => openLearningSection(section));
     return () => cancelAnimationFrame(frame);
   }, [route]);
@@ -94,6 +94,7 @@ export function App({ lessons = implementedLessons }: { lessons?: readonly Lesso
     return <nav aria-label="Course navigation">
       <a className="home-link" href={routeHref()} aria-current={!selected ? 'page' : undefined} onClick={(event) => navigate(event)}>Home <span aria-hidden="true">↗</span></a>
       <div className="learning-quick-links" aria-label="Learning shortcuts">
+        <a href={`${routeHref()}#course-start-here`} onClick={event => navigate(event, undefined, 'course-start-here')}>Start here</a>
         <a href={routeHref()} onClick={event => navigate(event, undefined, 'course-progress')}>Course progress</a>
         <a href={routeHref()} onClick={event => navigate(event, undefined, 'course-learning-backup')}>Back up or restore</a>
         <a href={`${routeHref()}#course-validation`} onClick={event => navigate(event, undefined, 'course-validation')}>Validation results</a>

@@ -22,6 +22,16 @@ function contentItems(value: unknown): { type: string; text?: string; data?: str
   return Array.isArray(value) ? value.filter(item => item && typeof item === 'object' && typeof item.type === 'string') : [];
 }
 
+// Chrome can reject a capture transiently even after fonts and DOM are ready.
+// Retry this read once; never replay navigation, form submission or other errors.
+export async function captureLab64Screenshot<T extends Record<string, unknown>>(capture: () => Promise<T>, recover: () => Promise<void>): Promise<T> {
+  const first = await capture();
+  const text = contentItems(first.content).filter(item => item.type === 'text').map(item => item.text ?? '').join('\n');
+  if (!first.isError || !text.includes('Protocol error (Page.captureScreenshot): Unable to capture screenshot')) return first;
+  await recover();
+  return capture();
+}
+
 export function createLab64Runner() {
   const proofs = new Map<string, Proof>();
   let active = 0;
@@ -103,8 +113,15 @@ export function createLab64Runner() {
         product === 'Aurora Finch Field Kit' && price === 'Price: 29 credits' &&
         (scenario !== 'fill-form' || confirmation === 'Request saved for Ada Finch');
       if (calls >= 6) throw new Error('Host browser tool limit exceeded.');
-      calls++;
-      const screenshot = await client.callTool({ name: 'browser_take_screenshot', arguments: { scale: 'css', type: 'png' } }, undefined, { timeout: 20000 });
+      const screenshot = await captureLab64Screenshot(async () => {
+        // Six normal tool calls plus at most one read-only capture recovery.
+        if (calls >= 7) throw new Error('Host browser tool limit exceeded.');
+        calls++;
+        return client!.callTool({ name: 'browser_take_screenshot', arguments: { scale: 'css', type: 'png' } }, undefined, { timeout: 20000 });
+      }, async () => {
+        events.push('browser_take_screenshot: transient Chrome capture failure; retrying once');
+        await page.bringToFront();
+      });
       if (screenshot.isError) {
         const detail = contentItems(screenshot.content).filter(item => item.type === 'text')
           .map(item => item.text ?? '').join('\n').slice(0, 1000);
@@ -114,7 +131,7 @@ export function createLab64Runner() {
       const image = contentItems(screenshot.content).find(item => item.type === 'image');
       const proofId = randomUUID();
       if (verified && image?.type === 'image' && image.mimeType === 'image/png' && image.data) {
-        const png = await page.screenshot({ type: 'png' });
+        const png = Buffer.from(image.data, 'base64');
         if (png.subarray(0, 8).equals(Buffer.from([137, 80, 78, 71, 13, 10, 26, 10])))
           proofs.set(proofId, { owner, png, expires: Date.now() + 300000 });
       }

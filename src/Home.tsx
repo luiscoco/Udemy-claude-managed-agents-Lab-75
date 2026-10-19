@@ -8,6 +8,7 @@ import type { MouseEvent, ReactNode } from 'react';
 import { ManagedFoundation } from './components/ManagedFoundation';
 import { topicGroups } from './lessons/navigation';
 import { CourseValidation } from './components/CourseValidation';
+import { lessonSectionHref } from './lib/learning-shortcuts';
 
 export function Home({ invalid, lessonCount, startHref, onStart, progress }: { invalid: boolean; lessonCount: number; startHref: string | undefined; onStart: (event: MouseEvent<HTMLAnchorElement>) => void; progress?: ReactNode }) {
   const [health, setHealth] = useState<Health>();
@@ -47,6 +48,19 @@ export function Home({ invalid, lessonCount, startHref, onStart, progress }: { i
     <p className="lead">A hands-on course in Claude Managed Agents. Follow a request across the browser, the backend, and the runtime—with real source and evidence you can inspect.</p>
     <div className="hero-actions">{startHref ? <a className="button" href={startHref} onClick={onStart}>Start with Lab 01 <span aria-hidden="true">&rarr;</span></a> : <span className="muted">Lab 01 is coming next.</span>}<span className="muted">{lessonCount} implemented {lessonCount === 1 ? 'lesson' : 'lessons'}</span></div>
     <p className="home-guide-hint">Open a lab and choose <strong>Open notebook</strong>, <strong>Open checklist</strong> or <strong>Open exercise</strong> beside its title. These shortcuts are also in the lesson menu and Course progress. Choose <strong>Open Learning Guide</strong> for voice narration and highlighted steps.</p>
+    <section id="course-start-here" className="learning-card" tabIndex={-1} aria-labelledby="start-here-heading">
+      <p className="phase-label">Your first steps</p><h2 id="start-here-heading">Start here</h2>
+      <p>Try one example, keep a note, then build something. Follow these steps at your own pace or open any lesson directly.</p>
+      <ol className="build-sequence">
+        <li><strong>Inspect an event stream.</strong> Open Lab 01, choose its offline mode and run the example. Compare the answer text with the lifecycle events and turn outcome.
+          {startHref && <p><a href={lessonSectionHref(1, 'exercise')} onClick={onStart}>Open Lab 01 exercise</a></p>}</li>
+        <li><strong>Save what you observed.</strong> Record the outcome and one question in the lesson notebook, then choose Save note. Notes stay in this browser; use a learning backup to keep a copy.
+          {startHref && <p><a href={lessonSectionHref(1, 'notebook')} onClick={onStart}>Open Lab 01 notebook</a></p>}</li>
+        <li><strong>Build a milestone project.</strong> Start with the Event stream evidence viewer. Download its starter into a separate study folder and follow its test instructions. These projects use Node 24 or newer and need no API key.
+          <p><a href="#course-learning-milestones">Open milestone projects</a></p></li>
+      </ol>
+      <p className="muted">Opening a link does not start an exercise. Live scenarios are optional and billed when you explicitly run them.</p>
+    </section>
     {progress}
     <CourseValidation />
     <section className="learning-card" aria-labelledby="system-heading"><p className="eyebrow">THE FOUR PARTS</p><h2 id="system-heading">Know what runs where.</h2>
