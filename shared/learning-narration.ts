@@ -63,5 +63,8 @@ export function alignNarration(lessonId: number, step: GuideStep, timestampInfo:
 
 export function narrationCueAt(timeline: NarrationTimeline | undefined, seconds: number): string | undefined {
   if (!timeline || !Number.isFinite(seconds) || seconds < 0) return undefined;
-  return timeline.cues.find(cue => seconds >= cue.start && seconds < cue.end)?.id;
+  // During silence between paragraphs, prepare the next paragraph rather than
+  // dropping its outline and exposing the whole-section fallback. Keep the
+  // final paragraph selected through the audio tail and until navigation.
+  return (timeline.cues.find(cue => seconds < cue.end) ?? timeline.cues.at(-1))?.id;
 }

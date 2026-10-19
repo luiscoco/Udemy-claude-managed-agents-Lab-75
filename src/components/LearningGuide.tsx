@@ -32,7 +32,7 @@ export function LearningGuide({ lessonId, view, onView, workspace }: {
   const audio = useRef<HTMLAudioElement>(null), start = useRef<HTMLButtonElement>(null);
   const pending = useRef<AbortController | null>(null), generation = useRef(0), clip = useRef<{ key: string; url: string } | null>(null);
   const step = index === null ? undefined : steps[index];
-  const spokenCue = !clock.ended && (clock.playing || clock.current > 0) ? narrationCueAt(timeline, clock.current) : undefined;
+  const spokenCue = narrationCueAt(timeline, clock.current);
   const spokenText = step && narrationSegments(step).find(segment => segment.id === spokenCue)?.text;
   function syncClock() {
     const element = audio.current; if (!element) return;

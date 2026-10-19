@@ -49,12 +49,21 @@ test('media-clock rectangles follow pause, seek and replay without refetching re
   await audio.evaluate((element: HTMLAudioElement, time) => { element.currentTime = time; }, cue.start + 0.01);
   const highlighted = page.locator(`[data-guide-cue="${cue.id}"]`);
   await expect(highlighted).toHaveClass(/learning-guide-cue-highlight/);
+  // A provider timestamp gap must advance to the upcoming paragraph, with no
+  // flash of the entire section, including when paused or seeking backwards.
+  for (let index = state.timeline().cues.length - 1; index > 0; index--) {
+    const previous = state.timeline().cues[index - 1]!, next = state.timeline().cues[index]!;
+    await audio.evaluate((element: HTMLAudioElement, time) => { element.currentTime = time; }, (previous.end + next.start) / 2);
+    await expect(page.locator(`[data-guide-cue="${next.id}"]`)).toHaveClass(/learning-guide-cue-highlight/);
+    await expect(page.locator('[data-guide-target="goal"]')).toHaveCSS('outline-style', 'none');
+  }
+  await audio.evaluate((element: HTMLAudioElement, time) => { element.currentTime = time; }, cue.start + 0.01);
   const paused = await audio.evaluate((element: HTMLAudioElement) => element.currentTime);
   await page.waitForTimeout(350); // Verify a paused media clock does not advance the rectangle.
   expect(await audio.evaluate((element: HTMLAudioElement) => element.currentTime)).toBe(paused);
   await expect(highlighted).toHaveClass(/learning-guide-cue-highlight/);
   const first = state.timeline().cues[0]!;
-  await audio.evaluate((element: HTMLAudioElement, time) => { element.currentTime = time; }, first.start + 0.01);
+  await audio.evaluate((element: HTMLAudioElement) => { element.currentTime = 0; });
   await expect(page.locator(`[data-guide-cue="${first.id}"]`)).toHaveClass(/learning-guide-cue-highlight/);
   await guide.getByRole('button', { name: 'Replay narration', exact: true }).click();
   await expect.poll(() => audio.evaluate((element: HTMLAudioElement) => !element.paused)).toBe(true);

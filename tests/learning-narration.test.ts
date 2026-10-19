@@ -22,7 +22,13 @@ test('all 525 explanations have matching authored speech and complete provider-d
     const first = timeline.cues[0]!, last = timeline.cues.at(-1)!;
     assert.equal(narrationCueAt(timeline, last.start + 0.001), last.id);
     assert.equal(narrationCueAt(timeline, first.start + 0.001), first.id);
-    assert.equal(narrationCueAt(timeline, last.end), undefined);
+    assert.equal(narrationCueAt(timeline, last.end), last.id);
+    assert.equal(narrationCueAt(timeline, last.end + 1), last.id);
+    for (let index = 1; index < timeline.cues.length; index++) {
+      const previous = timeline.cues[index - 1]!, next = timeline.cues[index]!;
+      assert.equal(narrationCueAt(timeline, previous.end), next.id);
+      assert.equal(narrationCueAt(timeline, (previous.end + next.start) / 2), next.id);
+    }
   }
 });
 test('missing, mismatched and invalid alignment never manufacture sentence timing', () => {
