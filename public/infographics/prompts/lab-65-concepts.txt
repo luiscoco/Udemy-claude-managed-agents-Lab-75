@@ -1,14 +1,36 @@
-Use case: infographic-diagram. Asset type: a complete illustrated educational PNG infographic for an existing Claude Managed Agents course. Brand-new artwork, accurate teaching content, landscape 3:2 canvas, high resolution and crisp readable English typography.
-Audience: software developers. Style: polished illustrated workbook, warm white background, navy headings, blue and teal accents, thin connector arrows and restrained orange caution details. Relevant small technical illustrations in each card; no mascot required. No photographs, screenshots of real accounts, secrets or claims of real execution.
-Layout is critical for synchronized highlights: a header in the top 14% of the canvas. Exactly six equal rectangular teaching cards in a three-column, two-row grid. Card left edges at 3%, 35%, 67%; each card width 30%. Top-row cards span y=18% through y=53%. Bottom-row cards span y=57% through y=92%. Keep all illustration and card text inside each respective card. Do not put red highlight rectangles into the artwork. Number cards 1 through 6 in left-to-right reading order, then the second row. Use bold card titles, large concise body text and a meaningful icon or miniature diagram. Keep the content clear at normal screen size.
-Header text verbatim: "LAB 65 / CONCEPT MAP" and "A notification is not an approval".
-The exact text for each card is:
-1. "Immutable proposal" / "Bind the exact fictional action and case."
-2. "Separate identities" / "Tool event ID and business key have different roles."
-3. "Notification only" / "Local, Slack, Teams or email delivery is not consent."
-4. "Trusted reviewer" / "Check identity, expiry and the unchanged action."
-5. "Effect ledger" / "A unique business key prevents duplicate effects."
-6. "Audit the boundary" / "Inspect the ledger and audit, not just the answer."
-Footer text verbatim: "Illustrated teaching summary. Run the exercise to inspect actual evidence."
-Render the specified copy accurately, with no invented API calls, endpoint names, code snippets, extra cards or extra paragraphs. Distinguish Claude Managed Agents from Claude Agent SDK. All artwork stays inside the complete canvas; do not crop any card.
-Render ONLY the exact supplied copy. No extra header badges, platform comparisons, product names, code identifiers, button captions or other written content in the illustrations. Unlabeled illustrations of proposals, envelopes, an identity check, a SQLite-style ledger and review decisions are appropriate. Never depict a notification directly executing an effect; the trusted reviewer gate must be distinct. Do not print the words Agent SDK. The case archive is explicitly fictional.
+Use case: infographic-diagram. Create a polished, high-resolution, landscape 16:9 educational infographic for a Claude Managed Agents course.
+Input reference role: STYLE AND CONTENT HIERARCHY ONLY. Match the supplied teaching-poster examples: oversized heavy navy headline with vivid orange emphasis, pale blue subtitle capsule, a friendly astronaut in a white padded spacesuit, blue gloves, navy visor and life-support backpack in the upper right, airy white background with subtle peach and sky-blue rounded corner shapes, pastel blue/mint/lilac/peach/pink panels, glossy technical icons, bright blue directional arrows, and a star takeaway strip. This is original artwork with new Managed Agents content. Do not copy the reference's Agent SDK claims, query() code, endpoints or server-process architecture.
+Header at y=2%-25%: "How Claude Managed Agents Works" (Claude Managed Agents in orange); subtitle "Lab 65 — Concept map"; then "A notification is not an approval". Robot stays in the header and does not cover text.
+Content structure: six individually bounded regions with varied editorial hierarchy, not six identical cards. Region 1 is a core-idea panel at x=2%-40%, y=28%-54%. Region 2 is a narrower explanation at x=42%-69%, y=28%-54%. Region 3 is a contract/evidence panel at x=71%-98%, y=28%-54%. Region 4 is a wide architecture or decision-flow diagram at x=2%-59%, y=56%-83%. Region 5 is a step-by-step check list at x=61%-98%, y=56%-83%. Region 6 is a full-width takeaway strip at x=2%-98%, y=86%-96%. Keep panels separated by white gutters. Give each a small numbered circle 1 through 6. All six regions must remain independent for synchronized audio highlighting. No embedded red rectangle.
+Each region must include its exact title and summary below, plus a useful mini-diagram or visual sequence derived strictly from its teaching context. Use concise labels instead of full narration paragraphs. Use recognizable browser, session, queue, document, shield, reviewer and ledger icons where relevant. Show arrows and labeled state changes instead of generic decorative icons. Optional small dark monospace evidence chips may quote exact identifiers from the teaching context; do not invent code or execution results.
+REGION 1
+Title verbatim: "Immutable proposal"
+Summary verbatim: "Bind the exact fictional action and case."
+Teaching context for the visual explanation (do not print this entire paragraph): The proposed action is a fictional case archive with fixed validated arguments. Review the immutable proposal. An agent message or tool proposal must not execute the business effect by itself.
+
+REGION 2
+Title verbatim: "Separate identities"
+Summary verbatim: "Tool event ID and business key have different roles."
+Teaching context for the visual explanation (do not print this entire paragraph): The tool event identifier correlates the tool interaction. The business key identifies the effect that must remain unique. Do not use a new proposal or a different event identifier to repeat the same case effect.
+
+REGION 3
+Title verbatim: "Notification only"
+Summary verbatim: "Local, Slack, Teams or email delivery is not consent."
+Teaching context for the visual explanation (do not print this entire paragraph): Notification asks someone to review. It is not an approval decision. The local notification path sends no external message; optional external delivery requires separate configured channels and explicit learner action.
+
+REGION 4
+Title verbatim: "Trusted reviewer"
+Summary verbatim: "Check identity, expiry and the unchanged action."
+Teaching context for the visual explanation (do not print this entire paragraph): The host validates the trusted reviewer, proposal owner, notification state, expiry and exact action. A changed argument, wrong reviewer or expired proposal must be refused before an effect is allowed.
+
+REGION 5
+Title verbatim: "Effect ledger"
+Summary verbatim: "A unique business key prevents duplicate effects."
+Teaching context for the visual explanation (do not print this entire paragraph): The SQLite effect ledger records the fictional effect independently of agent prose. A repeated click or a second proposal for the same owner and case must not increase the effect count beyond one.
+
+REGION 6
+Title verbatim: "Audit the boundary"
+Summary verbatim: "Inspect the ledger and audit, not just the answer."
+Teaching context for the visual explanation (do not print this entire paragraph): Compare the audit and effect ledger with the human decision. Rejection leaves no effect. Successful local approval demonstrates this fictional local gate; it does not prove delivery through Slack, Teams or email.
+Maintain complete readable English copy, strong navy contrast, generous spacing and clean diagram alignment. No cropped panels or tiny illegible pseudo-code. Do not imply that notification alone authorizes an effect, that a local cancel archives a remote session, or that this illustration proves a live run. Small footer: "Illustrated teaching summary — inspect actual exercise evidence."
+The reference is STYLE ONLY, create all new LAB 65 CONCEPT MAP content. Upper-right ASTRONAUT POSE MUST DIFFER from reference: A standing astronaut reviewing an immutable proposal clipboard in one hand, other hand raised with an open STOP palm beside a shield, vigilant approval-gate pose.. Keep astronaut in the header. Region 4 is a gate diagram: exact proposal + notified + owner + trusted reviewer + unexpired -> approve OR reject. Region 5 shows unique owner-and-case business key -> SQLite effect ledger -> at most ONE effect. A new proposal or event ID cannot bypass that business key. Notification only asks for review; no notification or agent prose authorizes the effect. Rejection records zero effects. No invented APIs, code, external delivery evidence or actual archive results.

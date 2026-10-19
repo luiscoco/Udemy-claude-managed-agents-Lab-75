@@ -64,30 +64,37 @@ export const lessonInfographics: LessonInfographic[] = [
   ]),
 ];
 export const infographicKey = (lessonId: number, kind: InfographicKind) => `${lessonId}:${kind}`;
-// Measured against the final 1536 x 1024 artwork, rather than assuming that
-// generation followed the requested grid exactly. Values are percentages.
-const artworkBoxes: Record<string, { columns: number[]; widths: number[]; rows: [number, number][] }> = {
-  '1:concepts': { columns: [2.1, 34.6, 66.4], widths: [31.6, 30.9, 31.6], rows: [[16.4, 39.8], [58.1, 36.0]] },
-  '1:lab': { columns: [2.1, 34.4, 66.6], widths: [31.4, 31.3, 31.3], rows: [[18.2, 34.1], [54.2, 36.8]] },
-  '12:concepts': { columns: [2.1, 34.7, 66.6], widths: [31.4, 30.7, 31.3], rows: [[16.6, 37.1], [55.4, 37.1]] },
-  '12:lab': { columns: [1.9, 35.1, 66.5], widths: [31.7, 30, 31.7], rows: [[17.1, 35.2], [55, 35.1]] },
-  '65:concepts': { columns: [1.9, 34.7, 66.8], widths: [31.4, 30.8, 31.5], rows: [[16, 37.8], [55.7, 37.6]] },
-  '65:lab': { columns: [1.9, 35, 67], widths: [31.2, 30.3, 31.2], rows: [[14.5, 38], [55, 37.2]] },
+// Measured panel bounds in the final 1672 x 941 reference-style artwork.
+// Panels have different sizes; the last region is a wide takeaway strip.
+const artworkPanels: Record<string, [number, number, number, number][]> = {
+  '1:concepts': [[24,217,622,314],[651,217,467,314],[1126,217,523,314],[24,539,965,267],[995,539,654,267],[24,813,1625,91]],
+  '1:lab': [[24,217,622,364],[651,217,467,364],[1126,217,523,364],[24,588,965,225],[995,588,654,225],[24,819,1625,85]],
+  '12:concepts': [[24,217,645,324],[674,217,444,324],[1126,217,523,324],[24,548,957,270],[988,548,661,270],[24,825,1625,79]],
+  '12:lab': [[24,217,621,316],[651,217,467,316],[1126,217,523,316],[24,539,965,263],[995,539,654,263],[24,808,1625,96]],
+  '65:concepts': [[24,214,633,329],[663,214,455,329],[1123,214,526,329],[24,550,974,252],[1005,550,644,252],[24,810,1625,94]],
+  '65:lab': [[24,217,626,310],[656,217,462,310],[1126,217,523,310],[24,534,965,275],[995,534,654,275],[24,816,1625,88]],
 };
 for (const item of lessonInfographics) item.regions.forEach((region, index) => {
-  const box = artworkBoxes[infographicKey(item.lessonId, item.kind)]!, row = box.rows[index < 3 ? 0 : 1]!;
-  region.box = { x: box.columns[index % 3]!, y: row[0], width: box.widths[index % 3]!, height: row[1] };
+  const [x, y, width, height] = artworkPanels[infographicKey(item.lessonId, item.kind)]![index]!;
+  region.box = { x: x / 1672 * 100, y: y / 941 * 100, width: width / 1672 * 100, height: height / 941 * 100 };
 });
+const astronautPoses: Record<string, string> = {
+  '1:concepts': 'Floating with bent knees, presenting the event stream with an open left palm and holding a glowing message card in the right hand.',
+  '1:lab': 'Seated at a violet control laptop, leaning forward to operate the fixture with one hand and pointing to its outcome with the other.',
+  '12:concepts': 'Floating diagonally with two separate message envelopes held in outstretched arms, arranging messages for one retained session.',
+  '12:lab': 'Crouching to place a message block at the back of a queue, with the other gloved hand raised in a wait gesture.',
+  '65:concepts': 'Standing with a proposal clipboard and raising an open STOP palm beside a shield, checking the approval gate.',
+  '65:lab': 'Kneeling to inspect an approval ledger with a magnifying glass and pointing to one recorded entry.',
+};
 export const infographicSegments = (visual: LessonInfographic) => visual.regions.map(region => ({ id: region.id, text: `${region.title}. ${region.narration}`, kind: 'explanation' as const }));
 export const infographicText = (visual: LessonInfographic) => infographicSegments(visual).map(segment => segment.text).join(' ');
 
 export function infographicPrompt(visual: LessonInfographic) {
-  return `Use case: infographic-diagram. Asset type: a complete illustrated educational PNG infographic for an existing Claude Managed Agents course. Brand-new artwork, accurate teaching content, landscape 3:2 canvas, high resolution and crisp readable English typography.
-Audience: software developers. Style: polished illustrated workbook, warm white background, navy headings, blue and teal accents, thin connector arrows and restrained orange caution details. Relevant small technical illustrations in each card; no mascot required. No photographs, screenshots of real accounts, secrets or claims of real execution.
-Layout is critical for synchronized highlights: a header in the top 14% of the canvas. Exactly six equal rectangular teaching cards in a three-column, two-row grid. Card left edges at 3%, 35%, 67%; each card width 30%. Top-row cards span y=18% through y=53%. Bottom-row cards span y=57% through y=92%. Keep all illustration and card text inside each respective card. Do not put red highlight rectangles into the artwork. Number cards 1 through 6 in left-to-right reading order, then the second row. Use bold card titles, large concise body text and a meaningful icon or miniature diagram. Keep the content clear at normal screen size.
-Header text verbatim: "LAB ${String(visual.lessonId).padStart(2, '0')} / ${visual.kind === 'concepts' ? 'CONCEPT MAP' : 'LAB WALKTHROUGH'}" and "${visual.title}".
-The exact text for each card is:
-${visual.regions.map((region, index) => `${index + 1}. "${region.title}" / "${region.summary}"`).join('\n')}
-Footer text verbatim: "Illustrated teaching summary. Run the exercise to inspect actual evidence."
-Render the specified copy accurately, with no invented API calls, endpoint names, code snippets, extra cards or extra paragraphs. Distinguish Claude Managed Agents from Claude Agent SDK. All artwork stays inside the complete canvas; do not crop any card.`;
+  return `Use case: infographic-diagram. Create a polished, high-resolution, landscape 16:9 educational infographic for a Claude Managed Agents course.
+Input reference role: STYLE AND CONTENT HIERARCHY ONLY. Match the supplied teaching-poster examples: oversized heavy navy headline with vivid orange emphasis, pale blue subtitle capsule, a friendly astronaut with a padded white spacesuit, blue gloves, navy reflective visor, boots and life-support backpack in the upper right, airy white background with subtle peach and sky-blue rounded corner shapes, pastel blue/mint/lilac/peach/pink panels, glossy technical icons, bright blue directional arrows, and a star takeaway strip. This is original artwork with new Managed Agents content. Do not copy the reference's Agent SDK claims, query() code, endpoints or server-process architecture.
+Header at y=2%-25%: "How Claude Managed Agents Works" (Claude Managed Agents in orange); subtitle "Lab ${String(visual.lessonId).padStart(2, '0')} — ${visual.kind === 'concepts' ? 'Concept map' : 'Lab walkthrough'}"; then "${visual.title}". Astronaut stays in the header and does not cover text. Its unique content-specific pose: ${astronautPoses[infographicKey(visual.lessonId, visual.kind)]}
+Content structure: six individually bounded regions with varied editorial hierarchy, not six identical cards. Region 1 is a core-idea panel at x=2%-40%, y=28%-54%. Region 2 is a narrower explanation at x=42%-69%, y=28%-54%. Region 3 is a contract/evidence panel at x=71%-98%, y=28%-54%. Region 4 is a wide architecture or decision-flow diagram at x=2%-59%, y=56%-83%. Region 5 is a step-by-step check list at x=61%-98%, y=56%-83%. Region 6 is a full-width takeaway strip at x=2%-98%, y=86%-96%. Keep panels separated by white gutters. Give each a small numbered circle 1 through 6. All six regions must remain independent for synchronized audio highlighting. No embedded red rectangle.
+Each region must include its exact title and summary below, plus a useful mini-diagram or visual sequence derived strictly from its teaching context. Use concise labels instead of full narration paragraphs. Use recognizable browser, session, queue, document, shield, reviewer and ledger icons where relevant. Show arrows and labeled state changes instead of generic decorative icons. Optional small dark monospace evidence chips may quote exact identifiers from the teaching context; do not invent code or execution results.
+${visual.regions.map((region, index) => `REGION ${index + 1}\nTitle verbatim: "${region.title}"\nSummary verbatim: "${region.summary}"\nTeaching context for the visual explanation (do not print this entire paragraph): ${region.narration}`).join('\n\n')}
+Maintain complete readable English copy, strong navy contrast, generous spacing and clean diagram alignment. No cropped panels or tiny illegible pseudo-code. If event types are shown, use event_start, event_delta, agent.message, session.status_running and session.status_idle in the correct lifecycle order. The fictional approval case is CASE-2042 and its effect business key binds owner and case. Do not imply that notification alone authorizes an effect, that a local cancel archives a remote session, or that this illustration proves a live run. Small footer: "Illustrated teaching summary — inspect actual exercise evidence."`;
 }

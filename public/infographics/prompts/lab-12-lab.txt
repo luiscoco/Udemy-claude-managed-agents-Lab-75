@@ -1,14 +1,36 @@
-Use case: infographic-diagram. Asset type: a complete illustrated educational PNG infographic for an existing Claude Managed Agents course. Brand-new artwork, accurate teaching content, landscape 3:2 canvas, high resolution and crisp readable English typography.
-Audience: software developers. Style: polished illustrated workbook, warm white background, navy headings, blue and teal accents, thin connector arrows and restrained orange caution details. Relevant small technical illustrations in each card; no mascot required. No photographs, screenshots of real accounts, secrets or claims of real execution.
-Layout is critical for synchronized highlights: a header in the top 14% of the canvas. Exactly six equal rectangular teaching cards in a three-column, two-row grid. Card left edges at 3%, 35%, 67%; each card width 30%. Top-row cards span y=18% through y=53%. Bottom-row cards span y=57% through y=92%. Keep all illustration and card text inside each respective card. Do not put red highlight rectangles into the artwork. Number cards 1 through 6 in left-to-right reading order, then the second row. Use bold card titles, large concise body text and a meaningful icon or miniature diagram. Keep the content clear at normal screen size.
-Header text verbatim: "LAB 12 / LAB WALKTHROUGH" and "Queue a follow-up and inspect its evidence".
-The exact text for each card is:
-1. "Create offline session" / "Start a local baseline and note its session ID."
-2. "Send one message" / "Queue Normal and inspect both kinds of IDs."
-3. "Queue while busy" / "Choose Slow, then queue a follow-up."
-4. "Verify ordering" / "Both turns complete in the retained session."
-5. "Test rejection" / "An oversized message fails before submission."
-6. "Close pending work" / "Close a Hang run and inspect waiting cancellations."
-Footer text verbatim: "Illustrated teaching summary. Run the exercise to inspect actual evidence."
-Render the specified copy accurately, with no invented API calls, endpoint names, code snippets, extra cards or extra paragraphs. Distinguish Claude Managed Agents from Claude Agent SDK. All artwork stays inside the complete canvas; do not crop any card.
-Render ONLY the exact supplied copy. No extra header badges, platform comparisons, product labels, code identifiers, button captions or other written content in the illustrations. Do not print the words Agent SDK. Illustrations use unlabeled queue slots, message shapes, clocks, event cards and session containers; their meaning comes from the exact titles and summaries. Do not invent acceptance or completion evidence.
+Use case: infographic-diagram. Create a polished, high-resolution, landscape 16:9 educational infographic for a Claude Managed Agents course.
+Input reference role: STYLE AND CONTENT HIERARCHY ONLY. Match the supplied teaching-poster examples: oversized heavy navy headline with vivid orange emphasis, pale blue subtitle capsule, a friendly astronaut in a white padded spacesuit, blue gloves, navy visor and life-support backpack in the upper right, airy white background with subtle peach and sky-blue rounded corner shapes, pastel blue/mint/lilac/peach/pink panels, glossy technical icons, bright blue directional arrows, and a star takeaway strip. This is original artwork with new Managed Agents content. Do not copy the reference's Agent SDK claims, query() code, endpoints or server-process architecture.
+Header at y=2%-25%: "How Claude Managed Agents Works" (Claude Managed Agents in orange); subtitle "Lab 12 — Lab walkthrough"; then "Queue a follow-up and inspect its evidence". Robot stays in the header and does not cover text.
+Content structure: six individually bounded regions with varied editorial hierarchy, not six identical cards. Region 1 is a core-idea panel at x=2%-40%, y=28%-54%. Region 2 is a narrower explanation at x=42%-69%, y=28%-54%. Region 3 is a contract/evidence panel at x=71%-98%, y=28%-54%. Region 4 is a wide architecture or decision-flow diagram at x=2%-59%, y=56%-83%. Region 5 is a step-by-step check list at x=61%-98%, y=56%-83%. Region 6 is a full-width takeaway strip at x=2%-98%, y=86%-96%. Keep panels separated by white gutters. Give each a small numbered circle 1 through 6. All six regions must remain independent for synchronized audio highlighting. No embedded red rectangle.
+Each region must include its exact title and summary below, plus a useful mini-diagram or visual sequence derived strictly from its teaching context. Use concise labels instead of full narration paragraphs. Use recognizable browser, session, queue, document, shield, reviewer and ledger icons where relevant. Show arrows and labeled state changes instead of generic decorative icons. Optional small dark monospace evidence chips may quote exact identifiers from the teaching context; do not invent code or execution results.
+REGION 1
+Title verbatim: "Create offline session"
+Summary verbatim: "Start a local baseline and note its session ID."
+Teaching context for the visual explanation (do not print this entire paragraph): Choose Create offline session in the exercise and note its session identity. This creates the authored local baseline. Opening the infographic does not create any queue or session.
+
+REGION 2
+Title verbatim: "Send one message"
+Summary verbatim: "Queue Normal and inspect both kinds of IDs."
+Teaching context for the visual explanation (do not print this entire paragraph): Queue one Normal message. Inspect the host command identifier and returned user event identifier separately. Read its outcome before interpreting the baseline as complete.
+
+REGION 3
+Title verbatim: "Queue while busy"
+Summary verbatim: "Choose Slow, then queue a follow-up."
+Teaching context for the visual explanation (do not print this entire paragraph): Choose Slow and queue a message. While it is busy, queue a follow up. The follow up should wait rather than immediately starting a second provider turn. Watch the waiting commands evidence.
+
+REGION 4
+Title verbatim: "Verify ordering"
+Summary verbatim: "Both turns complete in the retained session."
+Teaching context for the visual explanation (do not print this entire paragraph): Inspect both command results and their event correlations. Check that the follow up started after the first completed idle boundary and that both results refer to the retained session.
+
+REGION 5
+Title verbatim: "Test rejection"
+Summary verbatim: "An oversized message fails before submission."
+Teaching context for the visual explanation (do not print this entire paragraph): Try a message longer than the allowed limit. It should be rejected before provider submission. A rejected input must not be counted as an accepted or completed turn.
+
+REGION 6
+Title verbatim: "Close pending work"
+Summary verbatim: "Close a Hang run and inspect waiting cancellations."
+Teaching context for the visual explanation (do not print this entire paragraph): Use the Hang scenario with waiting work, then choose Close queue and clean up. Inspect cancelled before submission for waiting commands. Record the cleanup source; an offline simulation is not proof of a live archive.
+Maintain complete readable English copy, strong navy contrast, generous spacing and clean diagram alignment. No cropped panels or tiny illegible pseudo-code. Do not imply that notification alone authorizes an effect, that a local cancel archives a remote session, or that this illustration proves a live run. Small footer: "Illustrated teaching summary — inspect actual exercise evidence."
+The reference is STYLE ONLY, create all new specified LAB 12 WALKTHROUGH content. Upper-right ASTRONAUT POSE MUST DIFFER from reference: A crouching astronaut placing a message block at the back of a small queue, other gloved hand raised in a wait gesture, looking toward the active turn.. Keep it in the header. Region 4 diagram: First turn running -> follow-up waits -> completed idle evidence -> next command submitted -> same session. Do not label a local command ID as a provider user event ID. Actual control labels: Create offline session; Normal; Slow; Hang; Close queue and clean up. Invalid oversized input is rejected before submission. Never imply offline cleanup proves live archival. No invented API code.

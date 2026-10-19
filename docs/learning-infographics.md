@@ -2,6 +2,8 @@
 
 Labs **01, 12 and 65** have two additional tabs: **Concept map** and **Lab walkthrough**. Each tab has a distinct illustrated PNG and a matching prerecorded Inworld tour. The pilot contains six images, six MP3s and 36 timed study regions. Other lessons retain their original three views.
 
+The artwork follows the supplied teaching-poster references with bold navy/orange headings, pastel panels, architecture and decision diagrams, step-by-step checks, and a wide takeaway strip. Each of the six images has a different astronaut pose related to its content. Highlight coordinates follow the actual panel boundaries, including their different widths and heights. The existing MP3s and WORD timestamps are preserved.
+
 Select a visual tab to read the image. Nothing runs or plays automatically. **Play visual tour** explains the six regions in order. The red rectangle follows the actual audio position, including pause, seek and replay. During a gap between regions it selects the upcoming region; at the end it keeps the final region selected. The compact controls remain available as you explore the image.
 
 **Follow the spoken region with zoom and pan** fits the current region inside the image viewport. Use **Fit image**, **100%**, the zoom slider, mouse dragging or touch scrolling to explore manually. Manual zoom or mouse panning turns automatic following off. Enable the checkbox again to follow the narration. Focus the image area and use `+`, `-` or `0` for keyboard zoom and fit; arrow keys and scrollbars move around the enlarged canvas.

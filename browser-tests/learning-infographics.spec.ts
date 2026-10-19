@@ -13,7 +13,9 @@ for (const visual of lessonInfographics) test(`Lab ${visual.lessonId} ${visual.k
   await page.getByRole('tab', { name, exact: true }).click();
   const panel = page.getByRole('tabpanel', { name, exact: true });
   const image = panel.locator('img'); await expect(image).toBeVisible();
-  expect(await image.evaluate((element: HTMLImageElement) => element.naturalWidth)).toBe(1536);
+  const manifest = infographicManifestSchema.parse(JSON.parse(await readFile('public/infographics/pilot-manifest.json', 'utf8')));
+  const asset = manifest.assets[infographicKey(visual.lessonId, visual.kind)]!;
+  expect(await image.evaluate((element: HTMLImageElement) => [element.naturalWidth, element.naturalHeight])).toEqual([asset.image.width, asset.image.height]);
   await panel.getByRole('button', { name: 'Next region', exact: true }).click();
   await expect(panel.locator('[data-visual-region]')).toHaveAttribute('data-visual-region', visual.regions[1]!.id);
   await panel.getByRole('button', { name: '100%', exact: true }).click();
