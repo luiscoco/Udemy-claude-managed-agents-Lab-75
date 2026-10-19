@@ -37,6 +37,9 @@ for (const width of [1280, 390]) for (let lesson = 1; lesson <= 75; lesson++) {
     }
     try {
       await page.goto(`/?lesson=${lesson}`);
+      // HTTP navigation can finish before React mounts on a shared Windows
+      // runner. Bound startup separately, then keep every audit assertion.
+      await page.locator('main h1').first().waitFor({ state: 'visible', timeout: 30000 });
       await expect(page.locator('main h1')).toHaveCount(1);
       await expect(page.getByRole('region', { name: 'Worked experiment plan' })).toBeVisible();
       await page.getByText('Detailed guide', { exact: true }).click();
