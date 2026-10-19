@@ -249,3 +249,12 @@ The first focused local run reproduced the missing startup distinction: its firs
 
 
 All 24 Lab 05/Lab 14 cases passed through the revised supervised runner (three repetitions each, browser process exit 0). JavaScript syntax validation and TypeScript typecheck passed. A new complete hosted run is required to confirm the combined regression after this harness correction. The Vite team-holdouts denial is expected: Lab 75 explicitly asserts HTTP 403 for that private acceptance source; the serving restriction is retained.
+
+
+## Refreshed recorded results (19 October 2026)
+
+Hosted regression 39220328920 on ff2cc39a25876110431f226a149a593a4927a406 passed: 519 offline unit tests, 13 evaluator/setup tests, 322 browser checks and one optional cached-audio skip. All 75 guide/source audits, three milestone reference checks, production build, distribution scanning and source ZIP upload passed. The supervised runner confirmed the real lesson UI rendered before starting scenarios.
+
+The Home validation overview now links this successful offline run and successful all-suite online run 39166185199 on 0725b6b9f4032e1062f068c2794cd12078622a7a. The online card lists course (4), learning (6), host/Python (3) and engineering team (5), with all 18 sessions confirmed archived. Both run conclusions and log counts were rechecked against GitHub. Earlier failed attempts remain documented above; the overview presents the latest verified successful evidence.
+
+The evidence snapshot remains scoped to the linked commits, with no automatic GitHub polling or provider execution. This presentation update does not rerun paid scenarios or claim newer commits were covered by older runs. Typecheck, production build and the desktop/mobile overview browser checks passed, including correct evidence/commit links, navigation focus, unchanged notebook/checklist state and no automatic POST or GitHub requests.

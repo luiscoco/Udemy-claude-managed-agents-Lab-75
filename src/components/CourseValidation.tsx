@@ -8,7 +8,7 @@ function RunEvidence({ runId, commit, children }: { runId: string; commit: strin
 export function CourseValidation() {
   return <section id="course-validation" tabIndex={-1} className="learning-card course-validation" aria-labelledby="course-validation-heading">
     <p className="phase-label">Recorded test evidence</p><h2 id="course-validation-heading">Validation results</h2>
-    <p>Verified on <time dateTime={evidence.recordedOn}>18 October 2026</time>. These records cover the commits linked below. Open GitHub for current workflow status; newer changes need their own checks.</p>
+    <p>Verified on <time dateTime={evidence.recordedOn}>19 October 2026</time>. These records cover the commits linked below. Open GitHub for current workflow status; newer changes need their own checks.</p>
     <div className="validation-grid">
       <article className="validation-record" aria-labelledby="offline-validation-heading">
         <h3 id="offline-validation-heading">Offline regression</h3><p className="validation-result">Passed</p>
@@ -19,17 +19,11 @@ export function CourseValidation() {
         <RunEvidence {...evidence.offline}>Open successful offline run</RunEvidence>
       </article>
       <article className="validation-record" aria-labelledby="live-validation-heading">
-        <h3 id="live-validation-heading">Live course, learning and host</h3><p className="validation-result">Three suites passed</p>
-        <ul>{evidence.liveScenarios.suites.map(suite => <li key={suite.name}>{suite.name}: {suite.sessions} sessions passed.</li>)}</ul>
-        <p>Cleanup: all 13 sessions in these three suites were confirmed archived.</p>
-        <p>The original run later failed at the team stage because of an unresolved policy question. Its five team sessions were also confirmed archived. The correction passed in the separate retest.</p>
-        <RunEvidence {...evidence.liveScenarios}>Open original live run (overall failure)</RunEvidence>
-      </article>
-      <article className="validation-record" aria-labelledby="team-validation-heading">
-        <h3 id="team-validation-heading">Live engineering team retest</h3><p className="validation-result">Passed</p>
-        <p>All three tasks merged, host acceptance passed and no unresolved questions remained.</p>
-        <p>Cleanup: all {evidence.liveTeam.sessions} retest sessions were confirmed archived.</p>
-        <RunEvidence {...evidence.liveTeam}>Open successful team retest</RunEvidence>
+        <h3 id="live-validation-heading">Online acceptance</h3><p className="validation-result">All four suites passed</p>
+        <ul>{evidence.live.suites.map(suite => <li key={suite.name}>{suite.name}: {suite.sessions} sessions passed.</li>)}</ul>
+        <p>Cleanup: all {evidence.live.suites.reduce((total, suite) => total + suite.sessions, 0)} sessions were confirmed archived.</p>
+        <p>The engineering team merged all three tasks, passed host acceptance and left no unresolved questions.</p>
+        <RunEvidence {...evidence.live}>Open successful online run</RunEvidence>
       </article>
     </div>
     <p>Opening this overview does not run tests, contact a provider or change your learning checklist. This is recorded evidence, not a certification of all 75 live integrations. Slack, Teams, email, AWS, Azure export and Inworld synthesis are outside these live suites.</p>
