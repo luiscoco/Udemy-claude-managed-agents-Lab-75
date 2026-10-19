@@ -1,0 +1,43 @@
+{
+  "version": 1,
+  "lessonId": 13,
+  "stepId": "source",
+  "source": "inworld-word",
+  "cues": [
+    {
+      "id": "source-title",
+      "start": 0,
+      "end": 1.66
+    },
+    {
+      "id": "source-text-0",
+      "start": 2.24,
+      "end": 6.31
+    },
+    {
+      "id": "source-text-1",
+      "start": 6.87,
+      "end": 15.2
+    },
+    {
+      "id": "source-text-2",
+      "start": 16.36,
+      "end": 20.73
+    },
+    {
+      "id": "source-text-3",
+      "start": 21.02,
+      "end": 23.65
+    },
+    {
+      "id": "source-text-4",
+      "start": 24.01,
+      "end": 28.92
+    },
+    {
+      "id": "source-action",
+      "start": 29.34,
+      "end": 35.75
+    }
+  ]
+}

@@ -10,9 +10,17 @@ Your last visited section is saved per lab in this browser. Returning to a lab o
 
 When a relevant exercise input, control group, result panel or source block is visible, a second red rectangle marks it. **Show exercise target** scrolls to that element without focusing, clicking or changing it. If a lesson has no separate result panel yet, the guide explains that you must run the example yourself and inspect its output. Dynamically loaded targets are detected as the exercise renders.
 
-## Voice setup
+## Included voice recordings
 
-Set these in the server's ignored `.env`, then restart `npm run dev`:
+All 75 labs ship with seven prerecorded Inworld MP3s each: **525 recordings**. Students need **no Inworld account, API key or synthesis request**. Select **Start narrated tour** for the compact player, or start a written tour and press **Play narration**. Nothing plays automatically when you open a lesson.
+
+The manifest in `public/audio/guides/manifest.json` binds each recording to its exact authored transcript, SHA-256, duration and timing file. MP3s and timing JSON files are committed to GitHub, copied by Vite into the production build, and included in the downloadable source ZIP. Serve them with the app; no external audio service is needed during lessons.
+
+Red rectangles follow the provider's verified word timestamps and the actual media clock. Pause holds the current rectangle; seeking and replay move it. A missing timing file falls back to a whole-section outline. A missing, stale or damaged MP3 leaves the written explanation available. Playback supports 0.75x?1.5x speed. Automatic continuation stops at learner-action steps and never runs an exercise.
+
+### Author-only recording workflow
+
+Students can leave all `INWORLD_*` settings empty/disabled. Only course authors recording new or changed narration configure these in the ignored `.env`:
 
 ```dotenv
 INWORLD_API_KEY=<Base64 credentials copied from the Inworld portal>
@@ -21,11 +29,17 @@ INWORLD_VOICE_ID=Yash
 INWORLD_MODEL_ID=inworld-tts-2
 ```
 
-Use an exact voice ID available to your Inworld workspace. The voice is configurable; the reference recordings used Yash. Do not encode portal credentials a second time, put them in a `VITE_` variable or commit them. Existing Anthropic settings are independent.
+Do not encode portal credentials again, expose them through `VITE_` variables, or commit `.env`. Use Node 24+ and install FFmpeg/ffprobe on the author's machine for full MP3 decode and duration verification. Inspect the bounded plan first:
 
-**Play narration** explicitly requests synthesis for the selected authored section. Provider charges can apply. Opening a lab or starting the tour does not generate audio. Pause cancels a pending local request or pauses playback; cancellation cannot guarantee that Inworld did no billable work. Replay reuses the current recording. A bounded in-memory server cache also reuses identical text, voice and model combinations until eviction or server restart.
+```powershell
+npm run narration:plan
+npm run narration:record
+npm run narration:check
+```
 
-The player supports native audio controls, 0.75x-1.5x playback, replay and optional section advancement after narration. It always waits at learner-action steps. Advancing does not generate the next clip automatically. Written transcripts remain available when the key is missing, the provider rejects a request or playback fails.
+Recording is an explicit paid authoring operation. The command processes only the known 525 authored sections, with bounded concurrency, text size and response size. It reuses matching recordings and an ignored author cache; rerunning resumes completed work. It retries rate-limit responses only. Review failures before retrying other errors. After changing a transcript, record the updated clip, remove its superseded public MP3/timing pair, run the audit and commit `public/audio/guides` with the changed lesson code. Runtime caches under `artifacts` remain private and excluded from distribution.
+
+Each generated MP3 is fully decoded with FFmpeg, measured with ffprobe and matched to Inworld WORD timings before entering the public manifest. The offline audit checks every clip's hash, exact transcript, cue coverage, duration bounds and file inventory without an API key. Browser tests play committed recordings and check timing controls without provider requests. The optional local author synthesis endpoint remains disabled by default and is not used by the student player.
 
 The four learning checkboxes are self-assessment saved per lab in this browser. They do not certify exercise success or live execution.
 
@@ -89,7 +103,7 @@ Use **Home → Milestone projects** to practise an event viewer, a local SSE end
 
 An explicitly requested live smoke test is available as `npm run guide:live:test`. It synthesizes one Lab 65 objective clip, checks the MP3 header and writes audio plus redacted evidence to ignored `artifacts/learning-guide`. This incurs one provider request; it does not run a lesson agent. Listen to the saved clip separately to assess pronunciation and delivery.
 
-The authorized initial live test passed on 18 October 2026 with Yash and inworld-tts-2. One request returned a 259,584-byte MP3 (32.448 seconds, 48 kHz mono), decoded without errors by FFmpeg. The local API key remains ignored; narration requires restarting the backend after configuration changes. The live test is separate from offline checks and does not claim every lab recording has been generated.
+The authorized initial live test passed on 18 October 2026 with Yash and inworld-tts-2. One request returned a 259,584-byte MP3 (32.448 seconds, 48 kHz mono), decoded without errors by FFmpeg. That initial transport smoke test predates the included 525-recording catalog and is retained as historical author evidence. Student playback now uses the committed static files.
 
 ## How it was built, step by step
 
@@ -100,6 +114,7 @@ The authorized initial live test passed on 18 October 2026 with Yash and inworld
 5. Added `/api/learning-guide/status` and explicit POST `/api/learning-guide/audio`. Only known lesson and step IDs are accepted; arbitrary browser text is rejected. The key stays on the server. Requests use a fixed Inworld HTTPS endpoint, timeout, response-size limit, one concurrent synthesis and a twelve-uncached-request-per-minute limit.
 6. Added bounded caching by text, voice and model. Provider errors are sanitized. Tour navigation does not submit an exercise request.
 7. Added tests for all 525 authored sections, closed synthesis input, origin/header checks, authentication, caching, credential redaction, browser highlighting and mobile controls.
+8. Replaced student synthesis requests with committed MP3s, an exact-transcript manifest and word-aligned timing files. The compact narrated tour follows the actual audio clock and waits for learner actions. Recording and paid API access now belong to the separate author workflow.
 
 The guide highlights explanations and visible exercise targets without selecting values or activating controls. The reference's Agent SDK narration was adapted to Managed Agents concepts and host evidence.
 

@@ -1,17 +1,14 @@
 import { test, expect } from '@playwright/test';
 import { writeFile, mkdir } from 'node:fs/promises';
-import { resolve } from 'node:path';
 
-// Explicit local artifact opt-in: reuse an existing provider recording, never synthesize during this test.
+// Plays the committed course recording; no author credentials or synthesis routes.
 test('existing Inworld recording plays, pauses and replays in the actual guide', async ({ page }) => {
-  const clip = process.env.LEARNING_GUIDE_AUDIO_CLIP;
-  test.skip(!clip, 'Set LEARNING_GUIDE_AUDIO_CLIP to an existing authorized MP3 to verify playback without provider calls.');
-  let requests = 0;
-  await page.route('**/api/learning-guide/status', route => route.fulfill({ json: { ready: true, voiceId: 'Yash', missing: [] } }));
-  await page.route('**/api/learning-guide/audio', route => {
-    requests++; return route.fulfill({ path: resolve(clip!), contentType: 'audio/mpeg' });
+  let requests = 0, providerRequests = 0;
+  page.on('request', request => {
+    if (request.url().includes('/audio/guides/') && request.url().endsWith('.mp3')) requests++;
+    if (request.url().includes('/api/learning-guide/') || request.url().includes('api.inworld.ai')) providerRequests++;
   });
-  await page.goto('/?lesson=65');
+  await page.goto('/?lesson=1');
   const guide = page.getByRole('complementary', { name: 'Learning Guide', exact: true });
   await guide.getByRole('button', { name: 'Start guided tour' }).click();
   await guide.getByRole('button', { name: 'Play narration', exact: true }).click();
@@ -23,7 +20,7 @@ test('existing Inworld recording plays, pauses and replays in the actual guide',
   await guide.getByRole('button', { name: 'Replay narration', exact: true }).click();
   await expect.poll(() => audio.evaluate((element: HTMLAudioElement) => element.paused)).toBe(false);
   await expect.poll(() => audio.evaluate((element: HTMLAudioElement) => element.playbackRate)).toBe(1.25);
-  expect(requests).toBe(1);
+  expect(requests).toBe(1); expect(providerRequests).toBe(0);
   await guide.getByRole('button', { name: 'Next section' }).click();
   await expect.poll(() => audio.evaluate((element: HTMLAudioElement) => element.paused)).toBe(true);
   await expect(audio).not.toHaveAttribute('src');

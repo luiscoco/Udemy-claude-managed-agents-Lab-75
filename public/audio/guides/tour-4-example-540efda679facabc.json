@@ -1,0 +1,63 @@
+{
+  "version": 1,
+  "lessonId": 4,
+  "stepId": "example",
+  "source": "inworld-word",
+  "cues": [
+    {
+      "id": "example-title",
+      "start": 0,
+      "end": 1.07
+    },
+    {
+      "id": "example-text-0",
+      "start": 1.66,
+      "end": 5.39
+    },
+    {
+      "id": "example-text-1",
+      "start": 6.04,
+      "end": 11.63
+    },
+    {
+      "id": "example-text-2",
+      "start": 12.3,
+      "end": 19.85
+    },
+    {
+      "id": "example-text-3",
+      "start": 20.52,
+      "end": 28.34
+    },
+    {
+      "id": "example-text-4",
+      "start": 29,
+      "end": 36.88
+    },
+    {
+      "id": "example-text-5",
+      "start": 37.2,
+      "end": 43.86
+    },
+    {
+      "id": "example-text-6",
+      "start": 44.31,
+      "end": 47.94
+    },
+    {
+      "id": "example-text-7",
+      "start": 48.42,
+      "end": 53.38
+    },
+    {
+      "id": "example-text-8",
+      "start": 53.93,
+      "end": 58.16
+    },
+    {
+      "id": "example-action",
+      "start": 58.46,
+      "end": 66.82
+    }
+  ]
+}

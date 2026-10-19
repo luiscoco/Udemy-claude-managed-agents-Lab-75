@@ -42,16 +42,15 @@ test('Learning Guide highlights explanations across views without running an exe
 });
 
 test('guide handles missing voice, narration failure and persisted self-assessment', async ({ page }) => {
-  await page.route('**/api/learning-guide/status', route => route.fulfill({ json: { ready: true, voiceId: 'test-voice', missing: [] } }));
   let calls = 0;
-  await page.route('**/api/learning-guide/audio', route => { calls++; return route.fulfill({ status: 502, json: { message: 'Narration unavailable; use the transcript.' } }); });
-  await page.goto('/?lesson=75');
+  await page.route('**/audio/guides/*.mp3', route => { calls++; return route.fulfill({ status: 502, json: { message: 'Narration unavailable; use the transcript.' } }); });
+  await page.goto('/?lesson=1');
   const guide = page.getByRole('complementary', { name: 'Learning Guide', exact: true });
   await guide.getByRole('button', { name: 'Start guided tour' }).click();
   await guide.getByRole('button', { name: 'Play narration', exact: true }).click();
   await expect(page.getByRole('status', { name: 'Learning Guide status' })).toContainText('Narration unavailable');
   await guide.getByText('Read narration transcript', { exact: true }).click();
-  await expect(guide.getByText(/In Lab 75, your objective/)).toBeVisible();
+  await expect(guide.getByText(/In Lab 1, your objective/)).toBeVisible();
   await guide.getByText('My learning checklist', { exact: false }).click();
   await guide.getByRole('checkbox', { name: 'I can explain the objective.' }).check();
   await page.reload(); await guide.getByText('My learning checklist', { exact: false }).click();

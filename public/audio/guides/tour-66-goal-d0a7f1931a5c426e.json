@@ -1,0 +1,33 @@
+{
+  "version": 1,
+  "lessonId": 66,
+  "stepId": "goal",
+  "source": "inworld-word",
+  "cues": [
+    {
+      "id": "goal-title",
+      "start": 0.03,
+      "end": 1.08
+    },
+    {
+      "id": "goal-text-0",
+      "start": 1.69,
+      "end": 13.13
+    },
+    {
+      "id": "goal-text-1",
+      "start": 13.44,
+      "end": 17.03
+    },
+    {
+      "id": "goal-text-2",
+      "start": 17.39,
+      "end": 25.62
+    },
+    {
+      "id": "goal-action",
+      "start": 25.86,
+      "end": 30.83
+    }
+  ]
+}

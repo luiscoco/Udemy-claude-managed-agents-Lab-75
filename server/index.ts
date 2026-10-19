@@ -9,7 +9,7 @@ import { apiError, apiErrorHandler } from './lib/errors.js';
 const app = express();
 app.disable('x-powered-by');
 app.use('/api', createHealthRouter());
-app.use('/api/learning-guide', createLearningGuideRouter());
+app.use('/api/learning-guide', createLearningGuideRouter(process.env, fetch, { cacheDirectory: 'artifacts/learning-guide/narration-cache' }));
 app.use('/api/learning-milestones', createLearningMilestonesRouter());
 const managed = createManagedRouter();
 app.use('/api/managed', managed.router);

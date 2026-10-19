@@ -1,0 +1,43 @@
+{
+  "version": 1,
+  "lessonId": 9,
+  "stepId": "practice",
+  "source": "inworld-word",
+  "cues": [
+    {
+      "id": "practice-title",
+      "start": 0,
+      "end": 1.25
+    },
+    {
+      "id": "practice-text-0",
+      "start": 1.78,
+      "end": 7.43
+    },
+    {
+      "id": "practice-text-1",
+      "start": 7.86,
+      "end": 10.88
+    },
+    {
+      "id": "practice-text-2",
+      "start": 11.47,
+      "end": 13.82
+    },
+    {
+      "id": "practice-text-3",
+      "start": 14.34,
+      "end": 17.55
+    },
+    {
+      "id": "practice-text-4",
+      "start": 17.91,
+      "end": 25.85
+    },
+    {
+      "id": "practice-action",
+      "start": 26.12,
+      "end": 34.52
+    }
+  ]
+}

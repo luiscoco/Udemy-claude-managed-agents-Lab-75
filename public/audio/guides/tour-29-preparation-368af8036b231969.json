@@ -1,0 +1,53 @@
+{
+  "version": 1,
+  "lessonId": 29,
+  "stepId": "preparation",
+  "source": "inworld-word",
+  "cues": [
+    {
+      "id": "preparation-title",
+      "start": 0,
+      "end": 1.41
+    },
+    {
+      "id": "preparation-text-0",
+      "start": 1.88,
+      "end": 9.8
+    },
+    {
+      "id": "preparation-text-1",
+      "start": 10.34,
+      "end": 12.72
+    },
+    {
+      "id": "preparation-text-2",
+      "start": 13.23,
+      "end": 16.2
+    },
+    {
+      "id": "preparation-text-3",
+      "start": 16.49,
+      "end": 20.25
+    },
+    {
+      "id": "preparation-text-4",
+      "start": 20.79,
+      "end": 26.47
+    },
+    {
+      "id": "preparation-text-5",
+      "start": 26.95,
+      "end": 31.57
+    },
+    {
+      "id": "preparation-text-6",
+      "start": 32.06,
+      "end": 34.71
+    },
+    {
+      "id": "preparation-action",
+      "start": 34.85,
+      "end": 41.14
+    }
+  ]
+}

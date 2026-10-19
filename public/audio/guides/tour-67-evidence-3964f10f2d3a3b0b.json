@@ -1,0 +1,48 @@
+{
+  "version": 1,
+  "lessonId": 67,
+  "stepId": "evidence",
+  "source": "inworld-word",
+  "cues": [
+    {
+      "id": "evidence-title",
+      "start": 0,
+      "end": 1.21
+    },
+    {
+      "id": "evidence-text-0",
+      "start": 1.64,
+      "end": 13.39
+    },
+    {
+      "id": "evidence-text-1",
+      "start": 13.68,
+      "end": 19.99
+    },
+    {
+      "id": "evidence-text-2",
+      "start": 20.34,
+      "end": 24.46
+    },
+    {
+      "id": "evidence-text-3",
+      "start": 24.93,
+      "end": 31.49
+    },
+    {
+      "id": "evidence-text-4",
+      "start": 31.86,
+      "end": 36.13
+    },
+    {
+      "id": "evidence-text-5",
+      "start": 36.63,
+      "end": 39.5
+    },
+    {
+      "id": "evidence-action",
+      "start": 39.87,
+      "end": 47.24
+    }
+  ]
+}

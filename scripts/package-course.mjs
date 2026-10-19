@@ -4,11 +4,12 @@ import { createHash } from 'node:crypto';
 import { zipFiles } from '../docgen-skills/atmira-docx/scripts/build-docx.mjs';
 import { forbiddenPath, scanFiles } from './scan-distribution.mjs';
 // Explicit authored-source allowlist. Runtime folders are never traversed.
-const roots = ['src', 'shared', 'server', 'scripts', 'tests', 'browser-tests', 'fixtures', 'docgen-skills', 'skills', 'mcp-servers', 'managed', 'ci-kit', 'python/lab70', 'extensions/lab69', 'docs', '.github/workflows'];
-const rootFiles = ['package.json', 'package-lock.json', 'tsconfig.json', 'vite.config.ts', 'playwright.config.ts', 'index.html', '.env.example', '.gitignore', '.npmignore', 'README.md'];
+const roots = ['public/audio/guides', 'src', 'shared', 'server', 'scripts', 'tests', 'browser-tests', 'fixtures', 'docgen-skills', 'skills', 'mcp-servers', 'managed', 'ci-kit', 'python/lab70', 'extensions/lab69', 'docs', '.github/workflows'];
+const rootFiles = ['package.json', 'package-lock.json', 'tsconfig.json', 'vite.config.ts', 'playwright.config.ts', 'index.html', '.env.example', '.gitattributes', '.gitignore', '.npmignore', 'README.md'];
 const allowed = path => !forbiddenPath(path) && !/\.(?:local|tmp|lock)\.json$|\.local\.|(?:^|\/)(?:dist|node_modules|__pycache__|artifacts|\.git|\.venv)(?:\/|$)/i.test(path)
   && (rootFiles.includes(path) || /^Tab\d+(?:-[a-z0-9-]+)?\.md$/.test(path)
     || /^(?:src|shared|server|scripts|tests|browser-tests|fixtures|docgen-skills|skills|mcp-servers|managed|ci-kit|python\/lab70|extensions\/lab69)\/[^\0]+\.(?:ts|tsx|mjs|js|json|md|html|css|svg|png|csv|txt|py|ps1|yaml|yml)$/.test(path)
+    || /^public\/audio\/guides\/(?:manifest\.json|tour-(?:[1-9]|[1-6][0-9]|7[0-5])-(?:goal|preparation|example|controls|evidence|source|practice)-[a-f0-9]{16}\.(?:mp3|json))$/.test(path)
     || /^\.github\/workflows\/[a-z-]+\.yml$/.test(path)
     || path === 'ci-kit/Dockerfile' || /^docs\/managed-foundation-(?:390|1280)\.png$/.test(path) || /^docs\/[^\0]+\.(?:md|docx)$/.test(path));
 const paths = new Set(rootFiles);

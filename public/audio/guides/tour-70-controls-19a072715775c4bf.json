@@ -1,0 +1,48 @@
+{
+  "version": 1,
+  "lessonId": 70,
+  "stepId": "controls",
+  "source": "inworld-word",
+  "cues": [
+    {
+      "id": "controls-title",
+      "start": 0,
+      "end": 1.39
+    },
+    {
+      "id": "controls-text-0",
+      "start": 1.89,
+      "end": 10.11
+    },
+    {
+      "id": "controls-text-1",
+      "start": 10.82,
+      "end": 13.48
+    },
+    {
+      "id": "controls-text-2",
+      "start": 13.94,
+      "end": 22.18
+    },
+    {
+      "id": "controls-text-3",
+      "start": 22.43,
+      "end": 25.59
+    },
+    {
+      "id": "controls-text-4",
+      "start": 26.17,
+      "end": 31.43
+    },
+    {
+      "id": "controls-text-5",
+      "start": 31.97,
+      "end": 38.14
+    },
+    {
+      "id": "controls-action",
+      "start": 38.52,
+      "end": 44.68
+    }
+  ]
+}
