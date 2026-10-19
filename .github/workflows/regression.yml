@@ -12,7 +12,9 @@ concurrency:
 jobs:
   offline:
     runs-on: windows-latest
-    timeout-minutes: 35
+    # The complete 75-lesson browser suite takes about 25 minutes on Windows;
+    # allow setup, offline checks, media scanning, packaging and artifact upload.
+    timeout-minutes: 60
     env:
       MANAGED_LIVE_ENABLED: 'false'
       INWORLD_NARRATION_ENABLED: '0'
