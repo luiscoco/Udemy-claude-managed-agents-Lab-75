@@ -1,0 +1,1 @@
+Edit ONLY panel 2 caption under 'Attempt branch instruction takeover'. Replace 'Use the branch instructions as prompts' with 'Host refuses to promote branch text into instructions'. Branch text stays untrusted data; checked local tools demonstrate refusal, not actual model execution. Preserve all six panels, bounds and astronaut.

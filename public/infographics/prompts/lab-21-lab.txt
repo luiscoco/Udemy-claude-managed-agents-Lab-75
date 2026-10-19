@@ -1,0 +1,71 @@
+Use case: infographic-diagram. Create a polished, high-resolution, landscape 16:9 educational infographic for a Claude Managed Agents course.
+Input reference role: STYLE AND CONTENT HIERARCHY ONLY. Match the supplied teaching-poster examples: oversized heavy navy headline with vivid orange emphasis, pale blue subtitle capsule, a friendly astronaut with a padded white spacesuit, blue gloves, navy reflective visor, boots and life-support backpack in the upper right, airy white background with subtle peach and sky-blue rounded corner shapes, pastel blue/mint/lilac/peach/pink panels, glossy technical icons, bright blue directional arrows, and a star takeaway strip. This is original artwork with new Managed Agents content. Do not copy the reference's Agent SDK claims, query() code, endpoints or server-process architecture.
+Header at y=2%-25%: "How Claude Managed Agents Works" (Claude Managed Agents in orange); subtitle "Lab 21 — Lab walkthrough"; then "Host commands and prompt expansion: guided experiment". Astronaut stays in the header and does not cover text. Its unique content-specific pose: Standing with a clipboard and raising a gloved stop palm, front view with the working prop raised at shoulder level. The prop illustrates Host commands and prompt expansion. Show the astronaut actively carrying out the learner workflow. Vary the body angle, arm positions and topic-specific prop from every other poster; preserve the white suit and blue visor design.
+Content structure: six individually bounded regions with varied editorial hierarchy, not six identical cards. Region 1 is a core-idea panel at x=2%-40%, y=28%-54%. Region 2 is a narrower explanation at x=42%-69%, y=28%-54%. Region 3 is a contract/evidence panel at x=71%-98%, y=28%-54%. Region 4 is a wide architecture or decision-flow diagram at x=2%-59%, y=56%-83%. Region 5 is a step-by-step check list at x=61%-98%, y=56%-83%. Region 6 is a full-width takeaway strip at x=2%-98%, y=86%-96%. Keep panels separated by white gutters. Give each a small numbered circle 1 through 6. All six regions must remain independent for synchronized audio highlighting. No embedded red rectangle.
+Each region must include its exact title and summary below, plus a useful mini-diagram or visual sequence derived strictly from its teaching context. Use concise labels instead of full narration paragraphs. Use recognizable browser, session, queue, document, shield, reviewer and ledger icons where relevant. Show arrows and labeled state changes instead of generic decorative icons. Optional small dark monospace evidence chips may quote exact identifiers from the teaching context; do not invent code or execution results.
+REGION 1
+Title verbatim: "Prepare the baseline"
+Summary verbatim: "Prepare one bounded offline command session and inspect the fixed command registry."
+Teaching context for the visual explanation (do not print this entire paragraph): Prepare one bounded offline command session and inspect the fixed command registry.
+
+REGION 2
+Title verbatim: "Run the comparison"
+Summary verbatim: "Run a known model command and compare its exact expanded user message with the retained session result."
+Teaching context for the visual explanation (do not print this entire paragraph): Run a known model command and compare its exact expanded user message with the retained session result.
+
+REGION 3
+Title verbatim: "Inspect the boundary"
+Summary verbatim: "Try an invalid argument and an unknown command; confirm both are rejected before a provider send."
+Teaching context for the visual explanation (do not print this entire paragraph): Try an invalid argument and an unknown command; confirm both are rejected before a provider send.
+
+REGION 4
+Title verbatim: "Follow the workflow"
+Summary verbatim: "Inspect and reset the bounded local history; compare provider send counts before and after."
+Teaching context for the visual explanation (do not print this entire paragraph): Inspect and reset the bounded local history; compare provider send counts before and after.
+
+REGION 5
+Title verbatim: "Verify the result"
+Summary verbatim: "Checked command expansion and explicit dispatch evidence."
+Teaching context for the visual explanation (do not print this entire paragraph): Checked command expansion and explicit dispatch evidence. The host must validate expansion and distinguish local actions from session messages. Compare the result with your baseline.
+
+REGION 6
+Title verbatim: "Reflect and record"
+Summary verbatim: "Why does a local inspect command not create a model turn, while a fixed prompt template does?"
+Teaching context for the visual explanation (do not print this entire paragraph): Why does a local inspect command not create a model turn, while a fixed prompt template does? Save the observed result and its limitations in your notebook. A saved note is self-assessment, not proof of a new live run.
+Maintain complete readable English copy, strong navy contrast, generous spacing and clean diagram alignment. No cropped panels or tiny illegible pseudo-code. Do not import event-stream diagrams, event type labels, API fields, source paths, controls, or identifiers from the style reference. Use only the supplied lesson context. Never assign numeric status codes, handler counts, timeouts, identifier values or guaranteed effects to a condition unless the context explicitly states that exact mapping. Where the mapping is not supplied, label a refusal as rejected without inventing a code or count. Region 4 must illustrate the specified workflow, not a generic session stream. Region 5 must show evidence checks, not invented event sequences. If no code or event names are supplied, omit them entirely. Do not introduce fictional identifiers or code not present in this lesson context. Do not imply that notification alone authorizes an effect, that a local cancel archives a remote session, or that this illustration proves a live run. Small footer: "Illustrated teaching summary — inspect actual exercise evidence."
+
+AUTHORITATIVE LESSON REFERENCE (not text to reproduce wholesale):
+## Controls
+
+Prepare an offline session, select **observation** or **checklist**, and run it. Use **Try invalid args** and **Try unknown command** to see pre-send rejection. **Inspect local history** reads at most three command records; **Reset local history** clears them. Close the command session when finished. The registry is read via `GET /api/c21/commands`; `POST /api/c21/session` prepares or closes; `POST /api/c21/run` handles both local and model commands.
+
+
+## Evidence to inspect
+
+Compare the displayed expanded `user.message` with the fixed template and selected enum values. A model command increments the session message count. Inspect and reset return zero provider sends, and do not change the retained session's model-message count. Invalid input and foreign owners are rejected before any model call.
+
+
+## Limitations
+
+The offline response is an authored fixture. The local history is bounded, process-local and discarded on restart. There is no shell, arbitrary path, command-file discovery or SDK `supportedCommands` assumption. The registry is distinct from managed skills, whose instruction files are progressively read only when selected by the model. A local inspect action does not attest that a remote session exists yet: session creation is deferred until the first model command.
+
+
+## Challenge
+
+Why does a local inspect command not create a model turn, while a fixed prompt template does? Show the exact message and the two send counts.
+
+### PowerShell checks
+
+```powershell
+npm.cmd run typecheck
+node --import tsx --test tests/lab21-slash-commands.test.ts
+npm.cmd run audit:lesson-guides
+npm.cmd run test:lesson-guides
+npm.cmd run build
+node scripts/lab21-browser-demonstration.mjs
+```
+
+Official references: [session events and streaming](https://platform.claude.com/docs/en/managed-agents/events-and-streaming), [session operations](https://platform.claude.com/docs/en/managed-agents/session-operations).
+
+
+Follow the exact lesson semantics above. Do not infer outcomes from a scenario name. If a status code, count, state transition or effect is not specified, use an inspection instruction without guessing. Preserve the six verbatim region titles and summaries. Do not copy the reference image technical labels or workflow.

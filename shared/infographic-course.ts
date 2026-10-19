@@ -33,7 +33,9 @@ type Card = [string, string, string, InfographicRegion['target'], string];
 export function courseInfographics(): LessonInfographic[] {
   return Object.keys(titles).map(Number).filter(id => ![1, 12, 65].includes(id)).flatMap(lessonId => {
     const lesson = content[lessonId]!, quiz = lessonKnowledgeCheck(lessonId);
-    const correct = quiz.choices[quiz.correctIndex]!;
+    const answer = quiz.choices[quiz.correctIndex]!;
+    // A negative quiz question needs its qualifier when reused as a standalone rule.
+    const correct = lessonId === 27 ? `Avoid ${answer.charAt(0).toLowerCase()}${answer.slice(1)}` : answer;
     const schema = lesson.inspect.find(path => /^shared\/.*\.ts$/.test(path))!;
     const handler = lesson.inspect.find(path => /^server\/.*\.ts$/.test(path))!;
     if (!schema || !handler) throw new Error(`Missing infographic teaching sources: ${lessonId}`);

@@ -1,0 +1,1 @@
+Preserve every panel, exact bounds and astronaut. In panel 4 'Try unselected execution tool' caption currently says '(during planning)'; replace that parenthetical with '(even after approval)'. The write_anywhere tool remains denied even when current plan is approved. Plan text never grants capabilities. No other content change.

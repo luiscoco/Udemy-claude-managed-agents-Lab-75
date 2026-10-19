@@ -1,0 +1,61 @@
+Use case: infographic-diagram. Create a polished, high-resolution, landscape 16:9 educational infographic for a Claude Managed Agents course.
+Input reference role: STYLE AND CONTENT HIERARCHY ONLY. Match the supplied teaching-poster examples: oversized heavy navy headline with vivid orange emphasis, pale blue subtitle capsule, a friendly astronaut with a padded white spacesuit, blue gloves, navy reflective visor, boots and life-support backpack in the upper right, airy white background with subtle peach and sky-blue rounded corner shapes, pastel blue/mint/lilac/peach/pink panels, glossy technical icons, bright blue directional arrows, and a star takeaway strip. This is original artwork with new Managed Agents content. Do not copy the reference's Agent SDK claims, query() code, endpoints or server-process architecture.
+Header at y=2%-25%: "How Claude Managed Agents Works" (Claude Managed Agents in orange); subtitle "Lab 53 — Concept map"; then "Debugging session and host traces". Astronaut stays in the header and does not cover text. Its unique content-specific pose: Bracing one knee while checking a shield-shaped control panel, upright posture with the prop held above the waist. The prop illustrates Debugging session and host traces. Show the astronaut presenting the core concept. Vary the body angle, arm positions and topic-specific prop from every other poster; preserve the white suit and blue visor design.
+Content structure: six individually bounded regions with varied editorial hierarchy, not six identical cards. Region 1 is a core-idea panel at x=2%-40%, y=28%-54%. Region 2 is a narrower explanation at x=42%-69%, y=28%-54%. Region 3 is a contract/evidence panel at x=71%-98%, y=28%-54%. Region 4 is a wide architecture or decision-flow diagram at x=2%-59%, y=56%-83%. Region 5 is a step-by-step check list at x=61%-98%, y=56%-83%. Region 6 is a full-width takeaway strip at x=2%-98%, y=86%-96%. Keep panels separated by white gutters. Give each a small numbered circle 1 through 6. All six regions must remain independent for synchronized audio highlighting. No embedded red rectangle.
+Each region must include its exact title and summary below, plus a useful mini-diagram or visual sequence derived strictly from its teaching context. Use concise labels instead of full narration paragraphs. Use recognizable browser, session, queue, document, shield, reviewer and ledger icons where relevant. Show arrows and labeled state changes instead of generic decorative icons. Optional small dark monospace evidence chips may quote exact identifiers from the teaching context; do not invent code or execution results.
+REGION 1
+Title verbatim: "The objective"
+Summary verbatim: "Reproduce a session or host failure and identify its first useful redacted event, decision or effect."
+Teaching context for the visual explanation (do not print this entire paragraph): Reproduce a session or host failure and identify its first useful redacted event, decision or effect.
+
+REGION 2
+Title verbatim: "Core rule"
+Summary verbatim: "The first useful redacted event, decision or effect."
+Teaching context for the visual explanation (do not print this entire paragraph): Where should failure investigation begin? The first useful redacted event, decision or effect.
+
+REGION 3
+Title verbatim: "Keep the boundary clear"
+Summary verbatim: "The lesson traces a failure while preserving useful evidence and redaction."
+Teaching context for the visual explanation (do not print this entire paragraph): The lesson traces a failure while preserving useful evidence and redaction.
+
+REGION 4
+Title verbatim: "How the flow works"
+Summary verbatim: "Run the valid control and compare the host refund ledger with replayed event outcome."
+Teaching context for the visual explanation (do not print this entire paragraph): Run the valid control and compare the host refund ledger with replayed event outcome. Inspect malformed report and denied tool traces; identify the first host gate that explains each.
+
+REGION 5
+Title verbatim: "Evidence to inspect"
+Summary verbatim: "The first useful redacted event, decision or effect."
+Teaching context for the visual explanation (do not print this entire paragraph): The first useful redacted event, decision or effect. The lesson traces a failure while preserving useful evidence and redaction. Inspect the reported outcome and the host evidence before drawing a conclusion.
+
+REGION 6
+Title verbatim: "Put it to the test"
+Summary verbatim: "Change one trace variable and explain whether it fixes the first evidenced cause without inventing a remote outcome."
+Teaching context for the visual explanation (do not print this entire paragraph): Change one trace variable and explain whether it fixes the first evidenced cause without inventing a remote outcome. Record what your evidence establishes and what remains unverified.
+Maintain complete readable English copy, strong navy contrast, generous spacing and clean diagram alignment. No cropped panels or tiny illegible pseudo-code. Do not import event-stream diagrams, event type labels, API fields, source paths, controls, or identifiers from the style reference. Use only the supplied lesson context. Never assign numeric status codes, handler counts, timeouts, identifier values or guaranteed effects to a condition unless the context explicitly states that exact mapping. Where the mapping is not supplied, label a refusal as rejected without inventing a code or count. Region 4 must illustrate the specified workflow, not a generic session stream. Region 5 must show evidence checks, not invented event sequences. If no code or event names are supplied, omit them entirely. Do not introduce fictional identifiers or code not present in this lesson context. Do not imply that notification alone authorizes an effect, that a local cancel archives a remote session, or that this illustration proves a live run. Small footer: "Illustrated teaching summary — inspect actual exercise evidence."
+
+AUTHORITATIVE LESSON REFERENCE (not text to reproduce wholesale):
+## Controls
+
+Choose a scenario and press **Run trace**. **Inspect saved run** retrieves the same owner-scoped record without reapplying host effects. Start with the valid control, then compare malformed report, denied tool, missing idle event, local turn limit, stream EOF and cleanup timeout.
+
+
+## Evidence to inspect
+
+Each result records a local run ID, fictional remote session ID, optional thread ID, `sevt_` event IDs, resolved fixture tool list, redacted event summaries, host decisions and ledger effects. The orange marker identifies the first useful evidence for the cause. The replay passes the recorded events through `createEventConsumer`, then compares its lifecycle verdict with the original and checks the recorded effect count against the host ledger. The replay does not re-execute a refund.
+
+A final-looking `agent.message` followed by EOF remains incomplete without `session.status_idle`. A completed turn with malformed final JSON still fails the application report schema. A denied custom tool is a host decision, while `requires_action` is a paused session state. A local turn limit and cleanup timeout are host-side boundaries. The latter leaves archival pending and remote stop unconfirmed. The trace flags history gaps instead of filling them with inferred events.
+
+
+## Limitations
+
+The traces are bounded authored fixtures with whitelisted, redacted summaries and at most 40 entries. Agent version and provider usage are unknown offline. No SDK hook trace or child-process initialization is assumed. A local replay proves only that the consumer reproduces its recorded event interpretation; it cannot resolve missing remote history or a cleanup timeout.
+
+
+## Challenge
+
+Change one variable in a failing trace. Explain whether the change addresses the first evidenced cause. For example, add a confirmed idle event to the missing-idle scenario, then compare it with the malformed-report case where idle already exists but validation fails.
+
+
+
+Follow the exact lesson semantics above. Do not infer outcomes from a scenario name. If a status code, count, state transition or effect is not specified, use an inspection instruction without guessing. Preserve the six verbatim region titles and summaries. Do not copy the reference image technical labels or workflow.\nDIAGRAM SAFETY: Every conditional arrow must state its condition. Show alternative scenarios as independent branches, not one shared chain. Never group host limits with provider pauses, or local connectivity with cloud reachability. When a relation is a comparison rather than a connection, use a divider labeled Compare. Do not insert addition symbols between quantities that must stay separate. If an outcome is not explicitly supported by the lesson reference, write Inspect the result rather than inventing a guarantee.

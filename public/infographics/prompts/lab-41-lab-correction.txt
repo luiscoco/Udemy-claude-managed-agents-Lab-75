@@ -1,0 +1,1 @@
+Edit ONLY first box of orange panel 4: replace 'Retained session is running' with 'Owned idle retained session'. The panel's instruction is interrupt an idle retained session then inspect authored idle confirmation before continuing. Preserve everything else including six panels and astronaut.

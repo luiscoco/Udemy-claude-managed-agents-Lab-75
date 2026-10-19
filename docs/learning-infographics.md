@@ -1,6 +1,6 @@
-# Illustrated lesson rollout
+# Illustrated guided learning
 
-Reviewed lessons have two additional tabs: **Concept map** and **Lab walkthrough**. Each tab has a distinct illustrated PNG and a matching prerecorded Inworld tour. Each published lesson has two images, two MP3s and twelve timed study regions. The approved pilot covers Labs 01, 12 and 65; the remaining 72 lessons are being authored and validated in batches. `shared/infographic-published.ts` is the current publication list. Unfinished pairs retain their original three views.
+All 75 lessons have two additional tabs: **Concept map** and **Lab walkthrough**. Each tab has a distinct illustrated PNG and a matching prerecorded Inworld tour. The complete collection contains 150 images, 150 MP3s and 900 timed study regions. `shared/infographic-published.ts` lists the lessons whose complete pairs passed the media and source checks.
 
 The artwork follows the supplied teaching-poster references with bold navy/orange headings, pastel panels, architecture and decision diagrams, step-by-step checks, and a wide takeaway strip. Each image has a content-specific astronaut pose related to its content. Highlight coordinates follow the actual panel boundaries, including their different widths and heights. The existing MP3s and WORD timestamps are preserved.
 
@@ -17,6 +17,8 @@ Use **Download PNG image** for the illustration and **Read visual tour transcrip
 - Lab 01 separates session identity, provisional previews, authoritative messages, lifecycle evidence and outcomes.
 - Lab 12 distinguishes local queue admission, provider acceptance, per-command outcomes and explicit cleanup around a retained session.
 - Lab 65 separates an immutable fictional proposal, notification, trusted reviewer decision and the idempotent effect ledger.
+
+The remaining lessons cover their implemented objectives, experiments, boundaries and challenges. Their six-region explanations link to the corresponding lesson guide and teaching source. Diagrams were reviewed against the detailed lesson references, including local-versus-live execution, event correlation, ownership, retries, cancellation and independent acceptance. A different astronaut pose accompanies every illustration.
 
 These are illustrations of the implemented course, not screenshots of verified live provider activity. See [artwork provenance and prompts](../public/infographics/ARTWORK.md).
 

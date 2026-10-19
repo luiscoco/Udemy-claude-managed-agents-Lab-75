@@ -8,7 +8,7 @@ Use the sidebar by topic or lesson number, search by title or objective, and swi
 
 The [Learning Guide](docs/learning-guide.md) adds section-by-section explanations, red highlighting, Inworld voice narration and a saved self-assessment checklist to all 75 labs. Start a guided tour from any lesson. All 525 Inworld MP3 narrations and their word timings are included. Students need no Inworld API key. Start a narrated tour to follow the spoken explanations with timed red rectangles.
 
-The infographic rollout adds **Concept map** and **Lab walkthrough** tabs to reviewed lessons with original illustrated PNGs, zoom/pan, accessible text, source links and prerecorded visual tours. Timed red rectangles follow six regions per image; students need no image or narration API keys. Completed lesson pairs are listed in `shared/infographic-published.ts`; unfinished pairs stay hidden. See the [infographic guide](docs/learning-infographics.md).
+All 75 lessons include **Concept map** and **Lab walkthrough** tabs: 150 original illustrated PNGs, 150 prerecorded Inworld tours and 900 timed study regions. Each image has a different astronaut pose, zoom/pan, accessible text and source links. Red rectangles follow the spoken regions; students need no image or narration API keys. See the [infographic guide](docs/learning-infographics.md).
 
 Home includes a browser-local course progress overview and **Continue learning** shortcut. Checklist completion is self-assessment, separate from verified exercise evidence. Saved tours resume only when explicitly selected.
 

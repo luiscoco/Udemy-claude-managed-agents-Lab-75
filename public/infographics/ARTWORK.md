@@ -1,4 +1,4 @@
-# Pilot artwork provenance
+# Artwork provenance
 
 Six original illustrated PNGs were created for the Managed Agents implementation using the **built-in image generation tool**, not the CLI fallback. This pilot adapts the visual-tab pattern from `luiscoco/Udemy-Claude-Agent-SDK-Learning-Platform-v2`; its Agent SDK images were not copied into these Managed Agents lessons.
 
@@ -14,6 +14,6 @@ All images are illustrated teaching summaries. They do not prove a model call, r
 
 ## Full-course expansion
 
-The approved pilot is being extended to the remaining implemented lessons. Published pairs are listed in `shared/infographic-published.ts`; an authoring plan is not a publication claim. Each additional pair uses the lesson's implemented objective, experiment steps, concept check, challenge and source paths. Detailed `Tab*.md` teaching references constrain diagram semantics. Generation prompts and any targeted corrections are saved alongside each final image in `prompts/`.
+The completed collection covers all 75 lessons: 150 original PNGs, 150 prerecorded Inworld MP3s and 900 timed regions. Published pairs are listed in `shared/infographic-published.ts`. Each additional pair uses the lesson's implemented objective, experiment steps, concept check, challenge and source paths. Detailed `Tab*.md` teaching references constrain diagram semantics. Generation prompts and any targeted corrections are saved alongside each final image in `prompts/`. The additional measured region boxes live in `shared/infographic-panel-bounds.ts`; native image dimensions are retained in the manifest.
 
 Additional images use the same built-in image tool and varied content-specific astronaut poses. Every candidate is visually reviewed, corrected where needed and assigned measured panel bounds before its pair is published. The author-only narration command generates new Inworld MP3s with real WORD timings, verifies their hashes and FFmpeg decoding, and reuses completed recordings on resume. This expansion does make authorized author synthesis requests; students still make none. The original six pilot recordings remain unchanged.

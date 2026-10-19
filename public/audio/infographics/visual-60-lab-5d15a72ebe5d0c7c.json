@@ -1,0 +1,38 @@
+{
+  "version": 1,
+  "lessonId": 60,
+  "stepId": "lab",
+  "source": "inworld-word",
+  "cues": [
+    {
+      "id": "lab-region-1",
+      "start": 0,
+      "end": 10.17
+    },
+    {
+      "id": "lab-region-2",
+      "start": 10.73,
+      "end": 17.88
+    },
+    {
+      "id": "lab-region-3",
+      "start": 18.4,
+      "end": 28.01
+    },
+    {
+      "id": "lab-region-4",
+      "start": 28.26,
+      "end": 34.56
+    },
+    {
+      "id": "lab-region-5",
+      "start": 35.1,
+      "end": 47.66
+    },
+    {
+      "id": "lab-region-6",
+      "start": 48.12,
+      "end": 65.38
+    }
+  ]
+}

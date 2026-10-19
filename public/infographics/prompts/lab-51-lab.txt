@@ -1,0 +1,60 @@
+Use case: infographic-diagram. Create a polished, high-resolution, landscape 16:9 educational infographic for a Claude Managed Agents course.
+Input reference role: STYLE AND CONTENT HIERARCHY ONLY. Match the supplied teaching-poster examples: oversized heavy navy headline with vivid orange emphasis, pale blue subtitle capsule, a friendly astronaut with a padded white spacesuit, blue gloves, navy reflective visor, boots and life-support backpack in the upper right, airy white background with subtle peach and sky-blue rounded corner shapes, pastel blue/mint/lilac/peach/pink panels, glossy technical icons, bright blue directional arrows, and a star takeaway strip. This is original artwork with new Managed Agents content. Do not copy the reference's Agent SDK claims, query() code, endpoints or server-process architecture.
+Header at y=2%-25%: "How Claude Managed Agents Works" (Claude Managed Agents in orange); subtitle "Lab 51 — Lab walkthrough"; then "Testing the Managed host offline: guided experiment". Astronaut stays in the header and does not cover text. Its unique content-specific pose: Standing with a clipboard and raising a gloved stop palm, upright posture with the prop held above the waist. The prop illustrates Testing the Managed host offline. Show the astronaut actively carrying out the learner workflow. Vary the body angle, arm positions and topic-specific prop from every other poster; preserve the white suit and blue visor design.
+Content structure: six individually bounded regions with varied editorial hierarchy, not six identical cards. Region 1 is a core-idea panel at x=2%-40%, y=28%-54%. Region 2 is a narrower explanation at x=42%-69%, y=28%-54%. Region 3 is a contract/evidence panel at x=71%-98%, y=28%-54%. Region 4 is a wide architecture or decision-flow diagram at x=2%-59%, y=56%-83%. Region 5 is a step-by-step check list at x=61%-98%, y=56%-83%. Region 6 is a full-width takeaway strip at x=2%-98%, y=86%-96%. Keep panels separated by white gutters. Give each a small numbered circle 1 through 6. All six regions must remain independent for synchronized audio highlighting. No embedded red rectangle.
+Each region must include its exact title and summary below, plus a useful mini-diagram or visual sequence derived strictly from its teaching context. Use concise labels instead of full narration paragraphs. Use recognizable browser, session, queue, document, shield, reviewer and ledger icons where relevant. Show arrows and labeled state changes instead of generic decorative icons. Optional small dark monospace evidence chips may quote exact identifiers from the teaching context; do not invent code or execution results.
+REGION 1
+Title verbatim: "Prepare the baseline"
+Summary verbatim: "Run the full offline suite and inspect the handler and ledger assertions."
+Teaching context for the visual explanation (do not print this entire paragraph): Run the full offline suite and inspect the handler and ledger assertions.
+
+REGION 2
+Title verbatim: "Run the comparison"
+Summary verbatim: "Run malformed input, foreign-order, denial and cancellation cases individually."
+Teaching context for the visual explanation (do not print this entire paragraph): Run malformed input, foreign-order, denial and cancellation cases individually.
+
+REGION 3
+Title verbatim: "Inspect the boundary"
+Summary verbatim: "Replay child-thread, duplicate and missing-terminal events through the shared consumer."
+Teaching context for the visual explanation (do not print this entire paragraph): Replay child-thread, duplicate and missing-terminal events through the shared consumer.
+
+REGION 4
+Title verbatim: "Follow the workflow"
+Summary verbatim: "Run the virtual-time policy mutation and identify the expected failed assertion."
+Teaching context for the visual explanation (do not print this entire paragraph): Run the virtual-time policy mutation and identify the expected failed assertion.
+
+REGION 5
+Title verbatim: "Verify the result"
+Summary verbatim: "No; test actual host logic with controlled inputs."
+Teaching context for the visual explanation (do not print this entire paragraph): No; test actual host logic with controlled inputs. Provider-free tests can exercise real host behavior and event consumption. Compare the result with your baseline.
+
+REGION 6
+Title verbatim: "Reflect and record"
+Summary verbatim: "Enable the 60-day mutation and explain why the 30-day policy assertion fails for the same order and clock."
+Teaching context for the visual explanation (do not print this entire paragraph): Enable the 60-day mutation and explain why the 30-day policy assertion fails for the same order and clock. Save the observed result and its limitations in your notebook. A saved note is self-assessment, not proof of a new live run.
+Maintain complete readable English copy, strong navy contrast, generous spacing and clean diagram alignment. No cropped panels or tiny illegible pseudo-code. Do not import event-stream diagrams, event type labels, API fields, source paths, controls, or identifiers from the style reference. Use only the supplied lesson context. Never assign numeric status codes, handler counts, timeouts, identifier values or guaranteed effects to a condition unless the context explicitly states that exact mapping. Where the mapping is not supplied, label a refusal as rejected without inventing a code or count. Region 4 must illustrate the specified workflow, not a generic session stream. Region 5 must show evidence checks, not invented event sequences. If no code or event names are supplied, omit them entirely. Do not introduce fictional identifiers or code not present in this lesson context. Do not imply that notification alone authorizes an effect, that a local cancel archives a remote session, or that this illustration proves a live run. Small footer: "Illustrated teaching summary — inspect actual exercise evidence."
+
+AUTHORITATIVE LESSON REFERENCE (not text to reproduce wholesale):
+## Controls
+
+Choose **Run complete offline suite** to inspect assertions for malformed and foreign orders, review denial, cancellation, missing terminal state, child-thread metadata, duplicate events, invalid JSON report, retained session and a virtual-time policy mutation. Select one scenario to narrow the evidence. **Replay recorded events** is available for the three event-consumer cases.
+
+
+## Evidence to inspect
+
+The host rejects malformed custom-tool input before changing the approval or refund ledger. Customer identity comes from the host context, so a foreign order cannot cross the boundary. Denial and cancellation leave no refund. A missing idle event is incomplete even if a stream ends. A repeated persisted event cannot create a second authoritative message, while a preview is replaced by its final message. A child-thread identifier stays evidence, not a new owner or independent refund authority. The closed report schema rejects extra fields. Two chat turns retain one session and reject a foreign owner.
+
+The mutation case advances the store's virtual clock to 31 days after purchase. The real 30-day rule rejects a refund. A deliberate 60-day policy variant would allow it, so its boundary assertion fails **as expected**. The overall suite passes only when that failure is detected and the unmodified handler still denies the request. This is a local mutation demonstration, not a change to the deployed policy.
+
+
+## Challenge
+
+Change the virtual policy window from 30 to 60 days. Predict the failed assertion for the 31-day-old order, then restore the 30-day rule. Compare the mutated predicate's answer with the actual handler's ledger evidence.
+
+
+## Limitations
+
+These assertions verify the host and injected event handling, not model quality. The exercise does not use Agent SDK hooks or a local Claude process. Its synthetic thread and event IDs are authored examples; no billed Managed session is opened.
+
+
+Follow the exact lesson semantics above. Do not infer outcomes from a scenario name. If a status code, count, state transition or effect is not specified, use an inspection instruction without guessing. Preserve the six verbatim region titles and summaries. Do not copy the reference image technical labels or workflow.\nDIAGRAM SAFETY: Every conditional arrow must state its condition. Show alternative scenarios as independent branches, not one shared chain. Never group host limits with provider pauses, or local connectivity with cloud reachability. When a relation is a comparison rather than a connection, use a divider labeled Compare. Do not insert addition symbols between quantities that must stay separate. If an outcome is not explicitly supported by the lesson reference, write Inspect the result rather than inventing a guarantee.

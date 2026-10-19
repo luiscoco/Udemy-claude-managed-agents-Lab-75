@@ -1,0 +1,1 @@
+Preserve every panel and astronaut. Replace all task-board example row labels 'Plan', 'Build', 'Review' in the header astronaut board and panel 1 board with the actual sequence 'Draft', 'Review', 'Publish' respectively. No other content changes.

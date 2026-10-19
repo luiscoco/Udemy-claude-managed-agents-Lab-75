@@ -1,0 +1,1 @@
+Edit ONLY panel 3 Missing metrics case. This authored scenario returns usage=null, so ALL displayed counters Input, Output and Cache must show em dash and 'Unavailable (not zero)', not green Available bars. Other unavailable metrics can also show dash. Remove invented bar values. Preserve six panel bounds, all other panels and astronaut.

@@ -1,0 +1,38 @@
+{
+  "version": 1,
+  "lessonId": 75,
+  "stepId": "concepts",
+  "source": "inworld-word",
+  "cues": [
+    {
+      "id": "concepts-region-1",
+      "start": 0,
+      "end": 10.53
+    },
+    {
+      "id": "concepts-region-2",
+      "start": 10.89,
+      "end": 18.97
+    },
+    {
+      "id": "concepts-region-3",
+      "start": 19.36,
+      "end": 25.32
+    },
+    {
+      "id": "concepts-region-4",
+      "start": 25.55,
+      "end": 37.28
+    },
+    {
+      "id": "concepts-region-5",
+      "start": 37.52,
+      "end": 52.15
+    },
+    {
+      "id": "concepts-region-6",
+      "start": 52.78,
+      "end": 67.71
+    }
+  ]
+}

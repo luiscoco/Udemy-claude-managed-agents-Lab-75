@@ -1,0 +1,1 @@
+Correct two labels only in this offline educational infographic. Panel 1 replace 'Claude Managed Agent' with 'Worst-case scripted model (offline)'; there are no model/provider requests. Panel 4 replace 'Deploy utility safely' with 'Verify safe-draft utility' (the exercise performs no deployment). Preserve six panel outlines, dimensions, astronaut and all remaining content.

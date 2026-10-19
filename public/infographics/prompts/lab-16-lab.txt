@@ -1,0 +1,66 @@
+Use case: infographic-diagram. Create a polished, high-resolution, landscape 16:9 educational infographic for a Claude Managed Agents course.
+Input reference role: STYLE AND CONTENT HIERARCHY ONLY. Match the supplied teaching-poster examples: oversized heavy navy headline with vivid orange emphasis, pale blue subtitle capsule, a friendly astronaut with a padded white spacesuit, blue gloves, navy reflective visor, boots and life-support backpack in the upper right, airy white background with subtle peach and sky-blue rounded corner shapes, pastel blue/mint/lilac/peach/pink panels, glossy technical icons, bright blue directional arrows, and a star takeaway strip. This is original artwork with new Managed Agents content. Do not copy the reference's Agent SDK claims, query() code, endpoints or server-process architecture.
+Header at y=2%-25%: "How Claude Managed Agents Works" (Claude Managed Agents in orange); subtitle "Lab 16 — Lab walkthrough"; then "Environment and configuration provenance: guided experiment". Astronaut stays in the header and does not cover text. Its unique content-specific pose: Floating diagonally while guiding a glowing arrow between panels, three-quarter side view, looking upward toward the diagram. The prop illustrates Environment and configuration provenance. Show the astronaut actively carrying out the learner workflow. Vary the body angle, arm positions and topic-specific prop from every other poster; preserve the white suit and blue visor design.
+Content structure: six individually bounded regions with varied editorial hierarchy, not six identical cards. Region 1 is a core-idea panel at x=2%-40%, y=28%-54%. Region 2 is a narrower explanation at x=42%-69%, y=28%-54%. Region 3 is a contract/evidence panel at x=71%-98%, y=28%-54%. Region 4 is a wide architecture or decision-flow diagram at x=2%-59%, y=56%-83%. Region 5 is a step-by-step check list at x=61%-98%, y=56%-83%. Region 6 is a full-width takeaway strip at x=2%-98%, y=86%-96%. Keep panels separated by white gutters. Give each a small numbered circle 1 through 6. All six regions must remain independent for synchronized audio highlighting. No embedded red rectangle.
+Each region must include its exact title and summary below, plus a useful mini-diagram or visual sequence derived strictly from its teaching context. Use concise labels instead of full narration paragraphs. Use recognizable browser, session, queue, document, shield, reviewer and ledger icons where relevant. Show arrows and labeled state changes instead of generic decorative icons. Optional small dark monospace evidence chips may quote exact identifiers from the teaching context; do not invent code or execution results.
+REGION 1
+Title verbatim: "Prepare the baseline"
+Summary verbatim: "Change user and session region overrides; compare which host layer wins."
+Teaching context for the visual explanation (do not print this entire paragraph): Change user and session region overrides; compare which host layer wins.
+
+REGION 2
+Title verbatim: "Run the comparison"
+Summary verbatim: "Run the missing-credential and absent-mount fixtures; keep unknown remote values separate."
+Teaching context for the visual explanation (do not print this entire paragraph): Run the missing-credential and absent-mount fixtures; keep unknown remote values separate.
+
+REGION 3
+Title verbatim: "Inspect the boundary"
+Summary verbatim: "Inspect an allowed fixture path and an outside path with the host guard."
+Teaching context for the visual explanation (do not print this entire paragraph): Inspect an allowed fixture path and an outside path with the host guard.
+
+REGION 4
+Title verbatim: "Follow the workflow"
+Summary verbatim: "Review the authored cloud environment definition and server-only manifest."
+Teaching context for the visual explanation (do not print this entire paragraph): Review the authored cloud environment definition and server-only manifest.
+
+REGION 5
+Title verbatim: "Verify the result"
+Summary verbatim: "No; trace their separate scopes explicitly."
+Teaching context for the visual explanation (do not print this entire paragraph): No; trace their separate scopes explicitly. Host precedence, credential readiness and remote resources are distinct. Compare the result with your baseline.
+
+REGION 6
+Title verbatim: "Reflect and record"
+Summary verbatim: "Change a host configuration layer. Identify its winning provenance and explain why the remote sandbox value does not change automatically."
+Teaching context for the visual explanation (do not print this entire paragraph): Change a host configuration layer. Identify its winning provenance and explain why the remote sandbox value does not change automatically. Save the observed result and its limitations in your notebook. A saved note is self-assessment, not proof of a new live run.
+Maintain complete readable English copy, strong navy contrast, generous spacing and clean diagram alignment. No cropped panels or tiny illegible pseudo-code. Do not import event-stream diagrams, event type labels, API fields, source paths, controls, or identifiers from the style reference. Use only the supplied lesson context. Never assign numeric status codes, handler counts, timeouts, identifier values or guaranteed effects to a condition unless the context explicitly states that exact mapping. Where the mapping is not supplied, label a refusal as rejected without inventing a code or count. Region 4 must illustrate the specified workflow, not a generic session stream. Region 5 must show evidence checks, not invented event sequences. If no code or event names are supplied, omit them entirely. Do not introduce fictional identifiers or code not present in this lesson context. Do not imply that notification alone authorizes an effect, that a local cancel archives a remote session, or that this illustration proves a live run. Small footer: "Illustrated teaching summary — inspect actual exercise evidence."
+
+AUTHORITATIVE LESSON REFERENCE (not text to reproduce wholesale):
+## Controls
+
+The authored cloud example uses supported `BetaCloudConfigParams`: limited networking with no allowed hosts, MCP egress or package managers, and no packages. It is an example definition, not a provisioned environment or a claim about the configured account. The local manifest names one approved fixture mount, `/mnt/session/uploads/field-guide.txt`.
+
+`GET /api/c16/files` reads server readiness and the allowlist without provider calls. It shows the **names** of `ANTHROPIC_API_KEY`, the base environment setting and `CLAUDE_MANAGED_LAB16_FILE_ID`, plus redacted present/missing status. Keys remain server-side. A host process variable is not automatically injected into the remote container. Agent SDK `env` inheritance/replacement, `settings.env`, `settingSources`, `resolveSettings` and `additionalDirectories` are not translated to Managed session options.
+
+For a deliberate live run, configure the isolated server API key, an active single-agent base and cloud environment matching the restricted authored policy, `MANAGED_LIVE_ENABLED=true`, and a previously uploaded, reviewed fictional file ID in server-only `CLAUDE_MANAGED_LAB16_FILE_ID`. Upload the file separately using the documented Files API; this lesson does not provision, upload or copy any local personal file. Click **Run live** only when ready. The server retrieves the actual environment and agent, checks the limited network and empty package settings, pins the agent version, creates a capped text-only session with one file resource, and lists returned session resources to verify its mount path before sending the prompt. It archives after confirmed idle. A resource listing confirms the mount metadata; an agent answer does not prove that the file was read. No vault is attached by this lesson. Future credential examples should use a reviewed Managed vault, never `VITE_` variables or agent-visible API keys.
+
+
+## Evidence to inspect
+
+Run Winning host layer with user `south` and session `north`, then remove the session override: the winner changes from session to user. The remote `OBSERVATION_REGION` row remains “not injected” in both cases. Missing credential changes only the synthetic readiness row. Absent remote mount removes the fictional file resource. Restricted path asks the host guard about `/etc/passwd`; it is denied without opening any file. The path check is a host policy demonstration, not proof of cloud OS containment or blanket filesystem access.
+
+Routes under `/api/c16` are `GET /files` and `POST /env-run`, `/resolve`, `/layers-run`, `/access-run`. Requests are closed Zod shapes, locally owned, bounded and origin checked. Only `/env-run` supports a separately selected live mode; the other experiments are offline. The live run uses the shared SSE, event-consumer and session cleanup boundary through an injected port.
+
+
+## Limitations
+
+Offline environment, credential and mount evidence is authored. Live environment and resource metadata comes from API responses; the text-only agent has no file-read tool, so the lesson does not claim content-read evidence. An unknown create response may require Claude Console reconciliation. Local abort is not proof of remote stop, and cleanup may remain pending. Environment networking metadata shows configuration, not a network test.
+
+
+## Challenge
+
+Change a host layer and identify the winning source. Explain why the remote container still lacks that variable unless an explicitly supported resource or service path supplies the needed context.
+
+Official references checked 2026-10-14: [Managed environments API](https://platform.claude.com/docs/en/api/typescript/beta/environments/create), [adding files](https://platform.claude.com/docs/en/managed-agents/files), and [secure deployment](https://platform.claude.com/docs/en/managed-agents/secure-deployment).
+
+
+Follow the exact lesson semantics above. Do not infer outcomes from a scenario name. If a status code, count, state transition or effect is not specified, use an inspection instruction without guessing. Preserve the six verbatim region titles and summaries. Do not copy the reference image technical labels or workflow.

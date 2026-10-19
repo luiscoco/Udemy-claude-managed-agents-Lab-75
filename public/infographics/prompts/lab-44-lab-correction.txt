@@ -1,0 +1,1 @@
+Edit ONLY panel 2 third column Failed-tool case: replace red 'Rejected' row with 'Allowed; handler fails'. A failed-tool run reached the handler; do not conflate it with denied-before-handler case. Keep next 'Handler attempt fails' and inspect result. No invented effect count. Preserve all panels, bounds and astronaut.

@@ -1,0 +1,1 @@
+Preserve every panel and astronaut. In panel 2 under Worker 2 replace 'Owns a worktree after Worker 1 is integrated' with 'Has its own worktree; host integrates its checked commit second'. Both worktrees are created up front. Serial integration order does not mean worktree 2 is created after first integration. Everything else unchanged.

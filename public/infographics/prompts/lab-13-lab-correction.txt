@@ -1,0 +1,1 @@
+Change ONLY the short body caption below "Close the session" in region4. Replace its current claim with the exact neutral instruction: "Stop owned local transports. Inspect cleanup evidence; confirm idle before archive." Use readable short lines within the same tile. Keep all other content, panels, labels, astronaut and dimensions unchanged.

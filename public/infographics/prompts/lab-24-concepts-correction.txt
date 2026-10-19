@@ -1,0 +1,1 @@
+Preserve every pixel except the final bullet in panel 1 middle Messages SDK tool runner column. Replace 'Runner cleans up' with 'Host handles cleanup'. The panel 2 table already correctly says Your host. Keep all six panels, lettering, bounds and astronaut unchanged.
