@@ -2,17 +2,19 @@ import { createHash } from 'node:crypto';
 import { readFile, writeFile, mkdir, rename } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import { spawnSync } from 'node:child_process';
-import { lessonInfographics, infographicKey, infographicText, infographicSegments, infographicPrompt } from '../shared/learning-infographics.js';
+import { allLessonInfographics, infographicKey, infographicText, infographicSegments, infographicPrompt } from '../shared/learning-infographics.js';
 import { alignNarrationSegments } from '../shared/learning-narration.js';
 import { infographicManifestSchema, type InfographicManifest } from '../shared/infographic-assets.js';
 import { isNarrationMp3, readNarrationRecording, writeNarrationRecording } from '../server/lib/learning-narration-cache.js';
 
 const hash = (value: string | Buffer) => createHash('sha256').update(value).digest('hex');
 const args = process.argv.slice(2);
-if (args.some(arg => !['--plan', '--execute-authorized-infographic-recording'].includes(arg))) throw new Error('Unknown infographic recording option.');
-const plan = lessonInfographics.map(visual => ({ visual, text: infographicText(visual) }));
-if (plan.length !== 6 || plan.some(item => item.text.length > 2000)) throw new Error('Review narration bounds.');
-if (args.includes('--plan')) { console.log(JSON.stringify({ images: 6, recordings: 6, regions: 36, characters: plan.reduce((n, p) => n + p.text.length, 0), providerRequests: 0 })); process.exit(0); }
+if (args.some(arg => !['--plan', '--execute-authorized-infographic-recording'].includes(arg) && !/^--lessons=\d+(?:,\d+)*$/.test(arg))) throw new Error('Unknown infographic recording option.');
+const selection = args.find(arg => arg.startsWith('--lessons='))?.slice(10).split(',').map(Number);
+if (selection?.some(id => id < 1 || id > 75)) throw new Error('Invalid lesson selection.');
+const plan = allLessonInfographics.filter(visual => !selection || selection.includes(visual.lessonId)).map(visual => ({ visual, text: infographicText(visual) }));
+if (!plan.length || plan.length > 150 || plan.some(item => item.text.length > 2000)) throw new Error('Review narration bounds.');
+if (args.includes('--plan')) { console.log(JSON.stringify({ images: plan.length, recordings: plan.length, regions: plan.length * 6, characters: plan.reduce((n, p) => n + p.text.length, 0), providerRequests: 0 })); process.exit(0); }
 if (!args.includes('--execute-authorized-infographic-recording') || !process.env.INWORLD_API_KEY?.trim() || process.env.INWORLD_NARRATION_ENABLED !== '1') throw new Error('Explicit author opt-in and Inworld configuration required.');
 const voiceId = process.env.INWORLD_VOICE_ID || 'Yash', modelId = process.env.INWORLD_MODEL_ID || 'inworld-tts-2';
 const directory = resolve('public/infographics'), output = resolve('public/audio/infographics'), cache = resolve('artifacts/learning-guide/infographic-cache');

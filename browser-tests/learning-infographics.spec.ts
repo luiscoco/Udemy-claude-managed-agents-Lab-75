@@ -39,8 +39,8 @@ for (const visual of lessonInfographics) test(`Lab ${visual.lessonId} ${visual.k
   expect(posts).toBe(0); expect(providers).toBe(0);
 });
 
-for (const lessonId of [1, 65]) test(`Lab ${lessonId} committed visual narration follows real region gaps and stops on tab change`, async ({ page }) => {
-  await page.setViewportSize({ width: lessonId === 65 ? 390 : 1280, height: 900 });
+for (const lessonId of [1, 2, 3, 12, 65, 75].filter(id => lessonInfographics.some(visual => visual.lessonId === id))) test(`Lab ${lessonId} committed visual narration follows real region gaps and stops on tab change`, async ({ page }) => {
+  await page.setViewportSize({ width: [2, 65, 75].includes(lessonId) ? 390 : 1280, height: 900 });
   const kind = lessonId === 65 ? 'lab' : 'concepts';
   const name = kind === 'concepts' ? 'Concept map' : 'Lab walkthrough';
   const manifest = infographicManifestSchema.parse(JSON.parse(await readFile('public/infographics/pilot-manifest.json', 'utf8')));
@@ -79,7 +79,7 @@ for (const lessonId of [1, 65]) test(`Lab ${lessonId} committed visual narration
   expect(posts).toBe(0); expect(recordings).toBe(1);
 });
 
-test('missing image keeps the complete text and links available; non-pilot lessons retain three tabs', async ({ page }) => {
+test('missing image keeps the complete text and links available', async ({ page }) => {
   await page.route('**/infographics/*.png', route => route.fulfill({ status: 404 }));
   await page.goto('/?lesson=12'); await page.getByRole('tab', { name: 'Concept map', exact: true }).click();
   await expect(page.getByRole('status', { name: 'Infographic status' })).toContainText('unavailable');
@@ -88,7 +88,6 @@ test('missing image keeps the complete text and links available; non-pilot lesso
   await page.getByRole('button', { name: 'Open related explanation', exact: true }).click();
   await expect(page.getByRole('tab', { name: 'Learn', exact: true })).toHaveAttribute('aria-selected', 'true');
   await expect(page.locator('[data-guide-target="goal"]')).toHaveAttribute('open', '');
-  await page.goto('/?lesson=2'); await expect(page.getByRole('tab')).toHaveCount(3);
 });
 
 test('pilot infographic views preserve exercise inputs', async ({ page }) => {

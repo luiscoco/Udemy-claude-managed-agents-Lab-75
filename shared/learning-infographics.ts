@@ -1,4 +1,6 @@
-export const infographicLessons = [1, 12, 65] as const;
+import { courseInfographics, courseAstronautPose } from './infographic-course.js';
+import { publishedInfographicLessons } from './infographic-published.js';
+export const infographicLessons = publishedInfographicLessons;
 export type InfographicKind = 'concepts' | 'lab';
 export type InfographicRegion = {
   id: string; title: string; summary: string; narration: string;
@@ -13,7 +15,7 @@ function visual(lessonId: number, kind: InfographicKind, title: string, cards: C
     box: { x: 3 + index % 3 * 32, y: index < 3 ? 18 : 57, width: 30, height: 35 },
   })) };
 }
-export const lessonInfographics: LessonInfographic[] = [
+const pilotInfographics: LessonInfographic[] = [
   visual(1, 'concepts', 'Session event streaming', [
     ['Session identity', 'Keep session metadata separate from answer text.', 'The session panel identifies the session and its configuration. It is metadata, not the answer and not proof that the current turn completed. Keep that identity while following the other panels.', 'goal', 'shared/lab01-events.ts'],
     ['Streaming preview', 'Deltas are provisional while the answer arrives.', 'The text preview helps you follow a response as it streams. A visible preview alone does not establish success. If the stream ends early, it may remain incomplete.', 'example', 'server/lib/session-events.ts'],
@@ -74,10 +76,12 @@ const artworkPanels: Record<string, [number, number, number, number][]> = {
   '65:concepts': [[24,214,633,329],[663,214,455,329],[1123,214,526,329],[24,550,974,252],[1005,550,644,252],[24,810,1625,94]],
   '65:lab': [[24,217,626,310],[656,217,462,310],[1126,217,523,310],[24,534,965,275],[995,534,654,275],[24,816,1625,88]],
 };
-for (const item of lessonInfographics) item.regions.forEach((region, index) => {
+for (const item of pilotInfographics) item.regions.forEach((region, index) => {
   const [x, y, width, height] = artworkPanels[infographicKey(item.lessonId, item.kind)]![index]!;
   region.box = { x: x / 1672 * 100, y: y / 941 * 100, width: width / 1672 * 100, height: height / 941 * 100 };
 });
+export const allLessonInfographics = [...pilotInfographics, ...courseInfographics()].sort((a, b) => a.lessonId - b.lessonId || (a.kind === 'concepts' ? -1 : 1));
+export const lessonInfographics = allLessonInfographics.filter(item => infographicLessons.includes(item.lessonId));
 const astronautPoses: Record<string, string> = {
   '1:concepts': 'Floating with bent knees, presenting the event stream with an open left palm and holding a glowing message card in the right hand.',
   '1:lab': 'Seated at a violet control laptop, leaning forward to operate the fixture with one hand and pointing to its outcome with the other.',
@@ -92,9 +96,9 @@ export const infographicText = (visual: LessonInfographic) => infographicSegment
 export function infographicPrompt(visual: LessonInfographic) {
   return `Use case: infographic-diagram. Create a polished, high-resolution, landscape 16:9 educational infographic for a Claude Managed Agents course.
 Input reference role: STYLE AND CONTENT HIERARCHY ONLY. Match the supplied teaching-poster examples: oversized heavy navy headline with vivid orange emphasis, pale blue subtitle capsule, a friendly astronaut with a padded white spacesuit, blue gloves, navy reflective visor, boots and life-support backpack in the upper right, airy white background with subtle peach and sky-blue rounded corner shapes, pastel blue/mint/lilac/peach/pink panels, glossy technical icons, bright blue directional arrows, and a star takeaway strip. This is original artwork with new Managed Agents content. Do not copy the reference's Agent SDK claims, query() code, endpoints or server-process architecture.
-Header at y=2%-25%: "How Claude Managed Agents Works" (Claude Managed Agents in orange); subtitle "Lab ${String(visual.lessonId).padStart(2, '0')} — ${visual.kind === 'concepts' ? 'Concept map' : 'Lab walkthrough'}"; then "${visual.title}". Astronaut stays in the header and does not cover text. Its unique content-specific pose: ${astronautPoses[infographicKey(visual.lessonId, visual.kind)]}
+Header at y=2%-25%: "How Claude Managed Agents Works" (Claude Managed Agents in orange); subtitle "Lab ${String(visual.lessonId).padStart(2, '0')} — ${visual.kind === 'concepts' ? 'Concept map' : 'Lab walkthrough'}"; then "${visual.title}". Astronaut stays in the header and does not cover text. Its unique content-specific pose: ${astronautPoses[infographicKey(visual.lessonId, visual.kind)] ?? courseAstronautPose(visual.lessonId, visual.kind)}
 Content structure: six individually bounded regions with varied editorial hierarchy, not six identical cards. Region 1 is a core-idea panel at x=2%-40%, y=28%-54%. Region 2 is a narrower explanation at x=42%-69%, y=28%-54%. Region 3 is a contract/evidence panel at x=71%-98%, y=28%-54%. Region 4 is a wide architecture or decision-flow diagram at x=2%-59%, y=56%-83%. Region 5 is a step-by-step check list at x=61%-98%, y=56%-83%. Region 6 is a full-width takeaway strip at x=2%-98%, y=86%-96%. Keep panels separated by white gutters. Give each a small numbered circle 1 through 6. All six regions must remain independent for synchronized audio highlighting. No embedded red rectangle.
 Each region must include its exact title and summary below, plus a useful mini-diagram or visual sequence derived strictly from its teaching context. Use concise labels instead of full narration paragraphs. Use recognizable browser, session, queue, document, shield, reviewer and ledger icons where relevant. Show arrows and labeled state changes instead of generic decorative icons. Optional small dark monospace evidence chips may quote exact identifiers from the teaching context; do not invent code or execution results.
 ${visual.regions.map((region, index) => `REGION ${index + 1}\nTitle verbatim: "${region.title}"\nSummary verbatim: "${region.summary}"\nTeaching context for the visual explanation (do not print this entire paragraph): ${region.narration}`).join('\n\n')}
-Maintain complete readable English copy, strong navy contrast, generous spacing and clean diagram alignment. No cropped panels or tiny illegible pseudo-code. If event types are shown, use event_start, event_delta, agent.message, session.status_running and session.status_idle in the correct lifecycle order. The fictional approval case is CASE-2042 and its effect business key binds owner and case. Do not imply that notification alone authorizes an effect, that a local cancel archives a remote session, or that this illustration proves a live run. Small footer: "Illustrated teaching summary — inspect actual exercise evidence."`;
+Maintain complete readable English copy, strong navy contrast, generous spacing and clean diagram alignment. No cropped panels or tiny illegible pseudo-code. ${visual.lessonId === 1 ? "If event types are shown, use session.status_running, event_start, event_delta, agent.message and session.status_idle in correct lifecycle order." : "Do not import event-stream diagrams, event type labels, API fields, source paths, controls, or identifiers from the style reference. Use only the supplied lesson context. Never assign numeric status codes, handler counts, timeouts, identifier values or guaranteed effects to a condition unless the context explicitly states that exact mapping. Where the mapping is not supplied, label a refusal as rejected without inventing a code or count. Region 4 must illustrate the specified workflow, not a generic session stream. Region 5 must show evidence checks, not invented event sequences. If no code or event names are supplied, omit them entirely."} ${visual.lessonId === 65 ? "The fictional approval case is CASE-2042 and its effect business key binds owner and case." : "Do not introduce fictional identifiers or code not present in this lesson context."} Do not imply that notification alone authorizes an effect, that a local cancel archives a remote session, or that this illustration proves a live run. Small footer: "Illustrated teaching summary — inspect actual exercise evidence."`;
 }

@@ -1,0 +1,1 @@
+Edit ONLY one numeric cell in region3 "Inspect the boundary". In the table row "Unknown ID", change the Handler calls cell from "0" to "1". A well-typed unknown task ID reaches complete_task, which runs and returns is_error without changing task state. Keep malformed add_task at0, and all other counts, task states, rows, text, panels, astronaut and dimensions exactly unchanged.

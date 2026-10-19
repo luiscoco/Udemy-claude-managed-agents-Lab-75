@@ -6,11 +6,11 @@ import { infographicManifestSchema } from '../shared/infographic-assets.js';
 import { narrationTimelineSchema } from '../shared/learning-narration.js';
 import { isNarrationMp3 } from '../server/lib/learning-narration-cache.js';
 const hash = (data: string | Buffer) => createHash('sha256').update(data).digest('hex');
-export async function auditInfographicAssets(root = resolve('public')) {
+export async function auditInfographicAssets(root = resolve('public'), visuals = lessonInfographics) {
   const manifest = infographicManifestSchema.parse(JSON.parse(await readFile(resolve(root, 'infographics/pilot-manifest.json'), 'utf8')));
   let imageBytes = 0, audioBytes = 0, seconds = 0;
   const expectedAudio = new Set<string>();
-  for (const visual of lessonInfographics) {
+  for (const visual of visuals) {
     const key = infographicKey(visual.lessonId, visual.kind), asset = manifest.assets[key];
     if (!asset || asset.text !== infographicText(visual) || asset.contentSha256 !== hash(JSON.stringify(visual))) throw new Error(`Stale visual catalog: ${key}`);
     if (asset.image.file !== `infographics/lab-${String(visual.lessonId).padStart(2, '0')}-${visual.kind}.png`) throw new Error('Image identity mismatch.');
@@ -36,8 +36,8 @@ export async function auditInfographicAssets(root = resolve('public')) {
     expectedAudio.add(asset.recording.file.split('/').at(-1)!); expectedAudio.add(asset.recording.timingFile.split('/').at(-1)!);
   }
   const files = await readdir(resolve(root, 'audio/infographics'));
-  if (Object.keys(manifest.assets).length !== 6 || files.length !== 12 || files.some(file => !expectedAudio.has(file))) throw new Error('Unexpected pilot recording inventory.');
-  if ((await readdir(resolve(root, 'infographics'))).filter(file => file.endsWith('.png')).length !== 6) throw new Error('Unexpected pilot image inventory.');
-  return { images: 6, recordings: 6, regions: 36, imageBytes, audioBytes, minutes: Math.round(seconds / 60), providerRequests: 0 };
+  if (Object.keys(manifest.assets).length !== visuals.length || files.length !== expectedAudio.size || files.some(file => !expectedAudio.has(file))) throw new Error('Unexpected infographic recording inventory.');
+  if ((await readdir(resolve(root, 'infographics'))).filter(file => file.endsWith('.png')).length !== visuals.length) throw new Error('Unexpected infographic image inventory.');
+  return { images: visuals.length, recordings: visuals.length, regions: visuals.length * 6, imageBytes, audioBytes, minutes: Math.round(seconds / 60), providerRequests: 0 };
 }
 if (process.argv[1]?.endsWith('audit-infographic-assets.ts')) console.log(JSON.stringify(await auditInfographicAssets()));

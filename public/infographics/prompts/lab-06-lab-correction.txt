@@ -1,0 +1,4 @@
+Correct this Lab06 walkthrough in these places only. Region4 must show the actual reconnect order: "Reconnect" -> "Establish event stream FIRST" -> "Hydrate paginated history" -> "Merge by persisted event ID" -> "Ignore already-seen IDs". Replace all incorrect history-first / new-answer-later claims with these exact labels. Region5 row "Correct ordering": replace "History appears before the new answer." with "Stream established before reading history." Change fictional project name "Aurora" to "Aurora Finch" in region1 and region2, matching the authored fixture. Keep all other panels, positions, text, astronaut pose, colors and dimensions unchanged. Do not add or change any outcome guarantees.
+
+FINAL RECONNECT CAPTION:
+Edit ONLY the short caption below the first "Reconnect" icon in region4. Replace "Close and reopen the session." with "Reconnect to the owned session." Keep every other word, the stream-FIRST ordering, all panels, astronaut and dimensions unchanged.

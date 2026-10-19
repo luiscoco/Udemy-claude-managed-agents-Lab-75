@@ -11,8 +11,8 @@
         "width": 1672,
         "height": 941
       },
-      "text": "Session identity. The session panel identifies the session and its configuration. It is metadata, not the answer and not proof that the current turn completed. Keep that identity while following the other panels. Streaming preview. The text preview helps you follow a response as it streams. A visible preview alone does not establish success. If the stream ends early, it may remain incomplete. Authoritative message. The authoritative agent message replaces its matching preview instead of being appended again. Compare the message identity and final text so the same answer is not displayed twice. Lifecycle evidence. Lifecycle events tell you when the session is running and when it becomes idle. Read the stop reason as well as the status. Idle with end turn supports normal completion; other reasons can mean a pause. Explicit outcome. Read the reported outcome independently from the answer text. A partial answer can coexist with an error or an incomplete stream. Requires action and budget reached are not normal successful completion. Execution boundary. An offline fixture teaches the event contract without calling a model. A live run is separate evidence and can incur charges. A local browser cancel does not by itself prove remote interruption or cleanup.",
       "contentSha256": "689140585488f012bbee4ab36bc1c02a9f295553469fd1294a71d68a0861a9ab",
+      "text": "Session identity. The session panel identifies the session and its configuration. It is metadata, not the answer and not proof that the current turn completed. Keep that identity while following the other panels. Streaming preview. The text preview helps you follow a response as it streams. A visible preview alone does not establish success. If the stream ends early, it may remain incomplete. Authoritative message. The authoritative agent message replaces its matching preview instead of being appended again. Compare the message identity and final text so the same answer is not displayed twice. Lifecycle evidence. Lifecycle events tell you when the session is running and when it becomes idle. Read the stop reason as well as the status. Idle with end turn supports normal completion; other reasons can mean a pause. Explicit outcome. Read the reported outcome independently from the answer text. A partial answer can coexist with an error or an incomplete stream. Requires action and budget reached are not normal successful completion. Execution boundary. An offline fixture teaches the event contract without calling a model. A live run is separate evidence and can incur charges. A local browser cancel does not by itself prove remote interruption or cleanup.",
       "recording": {
         "file": "audio/infographics/visual-1-concepts-60eab89f3e8fd557.mp3",
         "timingFile": "audio/infographics/visual-1-concepts-60eab89f3e8fd557.json",
@@ -27,8 +27,8 @@
         "width": 1672,
         "height": 941
       },
-      "text": "Choose offline. Open the exercise and choose the Normal turn offline scenario. Keep the baseline prompt so you can compare the result with later scenarios. Viewing this illustration never starts the exercise for you. Run the fixture. Press Run offline fixture in the exercise. Watch the separate session, text, raw event and outcome panels. This baseline is authored evidence and makes no model provider request. Compare text. Locate the authoritative agent message. Compare it with the preview and confirm that the preview was replaced. The final answer should not appear twice because two event representations arrived. Verify completion. Inspect the idle lifecycle event, its stop reason and the outcome panel together. In the normal fixture, end turn supports completed. Text appearing on its own is not the completion signal. Compare failures. Change one offline scenario at a time. Repeated events test deduplication. Stream ended demonstrates incomplete evidence. Session error demonstrates a failure even when some text has already arrived. Reflect and record. Explain which message is authoritative and which lifecycle evidence supports the outcome. Save your observation in the lesson notebook. A saved note or checked learning box is self assessment, not a new verified run.",
       "contentSha256": "d5b7f55b7207ed4640301c3196df1f57145a8ee88db9af51d816ee35d2f94a90",
+      "text": "Choose offline. Open the exercise and choose the Normal turn offline scenario. Keep the baseline prompt so you can compare the result with later scenarios. Viewing this illustration never starts the exercise for you. Run the fixture. Press Run offline fixture in the exercise. Watch the separate session, text, raw event and outcome panels. This baseline is authored evidence and makes no model provider request. Compare text. Locate the authoritative agent message. Compare it with the preview and confirm that the preview was replaced. The final answer should not appear twice because two event representations arrived. Verify completion. Inspect the idle lifecycle event, its stop reason and the outcome panel together. In the normal fixture, end turn supports completed. Text appearing on its own is not the completion signal. Compare failures. Change one offline scenario at a time. Repeated events test deduplication. Stream ended demonstrates incomplete evidence. Session error demonstrates a failure even when some text has already arrived. Reflect and record. Explain which message is authoritative and which lifecycle evidence supports the outcome. Save your observation in the lesson notebook. A saved note or checked learning box is self assessment, not a new verified run.",
       "recording": {
         "file": "audio/infographics/visual-1-lab-5d8e96a13713cfb3.mp3",
         "timingFile": "audio/infographics/visual-1-lab-5d8e96a13713cfb3.json",
@@ -43,8 +43,8 @@
         "width": 1672,
         "height": 941
       },
-      "text": "Retained session. This lesson retains one session while several messages are processed. Track its identity across turns. The host queue controls admission and ordering; this is not an Agent SDK asynchronous input generator. Local admission. When a message passes local validation, the host admits a command and assigns its own command identifier. Admission is not the same as provider acceptance and does not mean the turn has completed. Wait while busy. If the first message is still running, the next command stays in the host queue. It waits for completed idle evidence before submission. Follow the waiting count instead of assuming two simultaneous provider turns. Provider acceptance. A provider accepted user event has its own identity. Keep it distinct from the host command identifier. Correlate the accepted event, later messages and the outcome rather than treating all identifiers as interchangeable. Turn outcome. Inspect the reported result for each queued command. A completed first turn does not automatically certify a later turn. Verify both outcomes and confirm that the retained session identity is the one you expected. Explicit close. Closing the queue is an explicit operation. Waiting commands should be cancelled before submission, and cleanup evidence should describe what happened. Offline simulated cleanup and confirmed live archival are different evidence sources.",
       "contentSha256": "9bd4e21387e418043df5e7d99f8c16e6d1cf9095f684401887339eb482ab0242",
+      "text": "Retained session. This lesson retains one session while several messages are processed. Track its identity across turns. The host queue controls admission and ordering; this is not an Agent SDK asynchronous input generator. Local admission. When a message passes local validation, the host admits a command and assigns its own command identifier. Admission is not the same as provider acceptance and does not mean the turn has completed. Wait while busy. If the first message is still running, the next command stays in the host queue. It waits for completed idle evidence before submission. Follow the waiting count instead of assuming two simultaneous provider turns. Provider acceptance. A provider accepted user event has its own identity. Keep it distinct from the host command identifier. Correlate the accepted event, later messages and the outcome rather than treating all identifiers as interchangeable. Turn outcome. Inspect the reported result for each queued command. A completed first turn does not automatically certify a later turn. Verify both outcomes and confirm that the retained session identity is the one you expected. Explicit close. Closing the queue is an explicit operation. Waiting commands should be cancelled before submission, and cleanup evidence should describe what happened. Offline simulated cleanup and confirmed live archival are different evidence sources.",
       "recording": {
         "file": "audio/infographics/visual-12-concepts-953f55f5e571056b.mp3",
         "timingFile": "audio/infographics/visual-12-concepts-953f55f5e571056b.json",
@@ -59,8 +59,8 @@
         "width": 1672,
         "height": 941
       },
-      "text": "Create offline session. Choose Create offline session in the exercise and note its session identity. This creates the authored local baseline. Opening the infographic does not create any queue or session. Send one message. Queue one Normal message. Inspect the host command identifier and returned user event identifier separately. Read its outcome before interpreting the baseline as complete. Queue while busy. Choose Slow and queue a message. While it is busy, queue a follow up. The follow up should wait rather than immediately starting a second provider turn. Watch the waiting commands evidence. Verify ordering. Inspect both command results and their event correlations. Check that the follow up started after the first completed idle boundary and that both results refer to the retained session. Test rejection. Try a message longer than the allowed limit. It should be rejected before provider submission. A rejected input must not be counted as an accepted or completed turn. Close pending work. Use the Hang scenario with waiting work, then choose Close queue and clean up. Inspect cancelled before submission for waiting commands. Record the cleanup source; an offline simulation is not proof of a live archive.",
       "contentSha256": "ebcfe3b3dd565ffe2cead8dcdec78520f0b8df811c3879cf6b95a8defe125282",
+      "text": "Create offline session. Choose Create offline session in the exercise and note its session identity. This creates the authored local baseline. Opening the infographic does not create any queue or session. Send one message. Queue one Normal message. Inspect the host command identifier and returned user event identifier separately. Read its outcome before interpreting the baseline as complete. Queue while busy. Choose Slow and queue a message. While it is busy, queue a follow up. The follow up should wait rather than immediately starting a second provider turn. Watch the waiting commands evidence. Verify ordering. Inspect both command results and their event correlations. Check that the follow up started after the first completed idle boundary and that both results refer to the retained session. Test rejection. Try a message longer than the allowed limit. It should be rejected before provider submission. A rejected input must not be counted as an accepted or completed turn. Close pending work. Use the Hang scenario with waiting work, then choose Close queue and clean up. Inspect cancelled before submission for waiting commands. Record the cleanup source; an offline simulation is not proof of a live archive.",
       "recording": {
         "file": "audio/infographics/visual-12-lab-2034f3f2716ecc1e.mp3",
         "timingFile": "audio/infographics/visual-12-lab-2034f3f2716ecc1e.json",
@@ -75,8 +75,8 @@
         "width": 1672,
         "height": 941
       },
-      "text": "Immutable proposal. The proposed action is a fictional case archive with fixed validated arguments. Review the immutable proposal. An agent message or tool proposal must not execute the business effect by itself. Separate identities. The tool event identifier correlates the tool interaction. The business key identifies the effect that must remain unique. Do not use a new proposal or a different event identifier to repeat the same case effect. Notification only. Notification asks someone to review. It is not an approval decision. The local notification path sends no external message; optional external delivery requires separate configured channels and explicit learner action. Trusted reviewer. The host validates the trusted reviewer, proposal owner, notification state, expiry and exact action. A changed argument, wrong reviewer or expired proposal must be refused before an effect is allowed. Effect ledger. The SQLite effect ledger records the fictional effect independently of agent prose. A repeated click or a second proposal for the same owner and case must not increase the effect count beyond one. Audit the boundary. Compare the audit and effect ledger with the human decision. Rejection leaves no effect. Successful local approval demonstrates this fictional local gate; it does not prove delivery through Slack, Teams or email.",
       "contentSha256": "a3a6aa2aced794a1cbfe7aeab165f9cdf71936f46035bbb9b2655b1eeffc9f44",
+      "text": "Immutable proposal. The proposed action is a fictional case archive with fixed validated arguments. Review the immutable proposal. An agent message or tool proposal must not execute the business effect by itself. Separate identities. The tool event identifier correlates the tool interaction. The business key identifies the effect that must remain unique. Do not use a new proposal or a different event identifier to repeat the same case effect. Notification only. Notification asks someone to review. It is not an approval decision. The local notification path sends no external message; optional external delivery requires separate configured channels and explicit learner action. Trusted reviewer. The host validates the trusted reviewer, proposal owner, notification state, expiry and exact action. A changed argument, wrong reviewer or expired proposal must be refused before an effect is allowed. Effect ledger. The SQLite effect ledger records the fictional effect independently of agent prose. A repeated click or a second proposal for the same owner and case must not increase the effect count beyond one. Audit the boundary. Compare the audit and effect ledger with the human decision. Rejection leaves no effect. Successful local approval demonstrates this fictional local gate; it does not prove delivery through Slack, Teams or email.",
       "recording": {
         "file": "audio/infographics/visual-65-concepts-61f8070d0532984e.mp3",
         "timingFile": "audio/infographics/visual-65-concepts-61f8070d0532984e.json",
@@ -91,13 +91,333 @@
         "width": 1672,
         "height": 941
       },
-      "text": "Preview proposal. Choose Preview proposal in the exercise. Inspect the fictional case, immutable action, tool event identifier and business key. The effect count should still be zero after preview. Notify locally. Choose Notify locally for the baseline. This records local notification only, without sending Slack, Teams or email. The effect count remains zero because notification does not authorize the archive. Inspect guards. Read the reviewer and immutable proposal. Try the changed action or wrong reviewer scenarios. The host should block the decision before any fictional archive effect is recorded. Decide explicitly. Choose the trusted reviewer approval yourself, or test rejection on a fresh proposal. Approval can record one fictional effect after the checks pass. Rejection is terminal and records no archive effect. Try duplicate click. After a valid approval, choose Duplicate click. Read the already decided result and inspect the effect count. A repeated decision must not create another effect, and a new proposal must not bypass the business key. Record the evidence. Record the observed decision, effect count and audit evidence in your notebook. State whether notification was local or externally delivered. Do not describe a local demonstration as verified external messaging.",
       "contentSha256": "6c8ae7d3759b9ec0926e601c9e413a061f009a1c72355eab2043a109ea839918",
+      "text": "Preview proposal. Choose Preview proposal in the exercise. Inspect the fictional case, immutable action, tool event identifier and business key. The effect count should still be zero after preview. Notify locally. Choose Notify locally for the baseline. This records local notification only, without sending Slack, Teams or email. The effect count remains zero because notification does not authorize the archive. Inspect guards. Read the reviewer and immutable proposal. Try the changed action or wrong reviewer scenarios. The host should block the decision before any fictional archive effect is recorded. Decide explicitly. Choose the trusted reviewer approval yourself, or test rejection on a fresh proposal. Approval can record one fictional effect after the checks pass. Rejection is terminal and records no archive effect. Try duplicate click. After a valid approval, choose Duplicate click. Read the already decided result and inspect the effect count. A repeated decision must not create another effect, and a new proposal must not bypass the business key. Record the evidence. Record the observed decision, effect count and audit evidence in your notebook. State whether notification was local or externally delivered. Do not describe a local demonstration as verified external messaging.",
       "recording": {
         "file": "audio/infographics/visual-65-lab-55383ee4a6fff617.mp3",
         "timingFile": "audio/infographics/visual-65-lab-55383ee4a6fff617.json",
         "sha256": "55383ee4a6fff6171cf0fe80ce04dadb70d57b2078a2e167f3457a2937bcbc9b",
         "durationSeconds": 88.632
+      }
+    },
+    "2:concepts": {
+      "image": {
+        "file": "infographics/lab-02-concepts.png",
+        "sha256": "fda4b57f5dd89c8ee94844bfbcb3b74b8f75422e9d73436572c85b05a1ea614d",
+        "width": 1672,
+        "height": 941
+      },
+      "contentSha256": "7b01ce074993d898721d0a248593a678e6bcb4eacd11e235211e3f2b54cfc64b",
+      "text": "The objective. Control a dedicated Managed Agents session with model and system overrides, a list-cost budget, connection previews and a local deadline. Core rule. What does a local deadline prove? The host stopped waiting locally. Keep the boundary clear. Local waiting limits and remote session state require separate evidence. How the flow works. Run normal completion offline, then disable previews while keeping prompt and model fixed. Compare requested options with the effective session creation snapshot. Evidence to inspect. The host stopped waiting locally. Local waiting limits and remote session state require separate evidence. Inspect the reported outcome and the host evidence before drawing a conclusion. Put it to the test. Reduce the session budget or local deadline. Explain the outcome, which limit produced it, and whether remote execution was confirmed stopped. Record what your evidence establishes and what remains unverified.",
+      "recording": {
+        "file": "audio/infographics/visual-2-concepts-cf6b1abdf032ea20.mp3",
+        "timingFile": "audio/infographics/visual-2-concepts-cf6b1abdf032ea20.json",
+        "sha256": "cf6b1abdf032ea2075de5d0753af8ea9d30cf592d22be94b9a36f6a5fd5ac60c",
+        "durationSeconds": 65.592
+      }
+    },
+    "2:lab": {
+      "image": {
+        "file": "infographics/lab-02-lab.png",
+        "sha256": "ce9d61f64123d74be52c7e8ab7a2896cbdc5567d27e3307d1d61cdb85dd5700a",
+        "width": 1672,
+        "height": 941
+      },
+      "contentSha256": "c91eed18d0a35e8890773d19f47441bb1001fb39f0c161d462baf31d9011ba6e",
+      "text": "Prepare the baseline. Run normal completion offline, then disable previews while keeping prompt and model fixed. Run the comparison. Compare requested options with the effective session creation snapshot. Inspect the boundary. Run Budget reached and Deadline expires; distinguish paused work from local timeout. Follow the workflow. Inspect interruption, cleanup and reported usage; offline fixtures are not measurements of Claude. Verify the result. The host stopped waiting locally. Local waiting limits and remote session state require separate evidence. Compare the result with your baseline. Reflect and record. Reduce the session budget or local deadline. Explain the outcome, which limit produced it, and whether remote execution was confirmed stopped. Save the observed result and its limitations in your notebook. A saved note is self-assessment, not proof of a new live run.",
+      "recording": {
+        "file": "audio/infographics/visual-2-lab-7b81609d72b87f0e.mp3",
+        "timingFile": "audio/infographics/visual-2-lab-7b81609d72b87f0e.json",
+        "sha256": "7b81609d72b87f0ee626600b14a06bcc35be5cc9eee9b3ffd6fe2115a0e6a0f0",
+        "durationSeconds": 61.224
+      }
+    },
+    "3:concepts": {
+      "image": {
+        "file": "infographics/lab-03-concepts.png",
+        "sha256": "c23bed15ebf94ca918930d26ea00c8f14ec73cd379b580f9eada80fb44df8bcf",
+        "width": 1672,
+        "height": 941
+      },
+      "contentSha256": "869db6308c1b1cc87bbb3823879159e2fdf5d8843a7550d903f9f7f04cf71fff",
+      "text": "The objective. Distinguish a tool being enabled in the session toolset from a call being permitted by its permission_policy and the host, and verify the effects in files rather than in agent claims. Core rule. What proves a permitted file action occurred? The checked file effects and policy evidence. Keep the boundary clear. Availability, permission and observed effects are distinct. How the flow works. Run Read-only offline and confirm that every file on disk is unchanged. Run Unavailable Write and Denied Write; compare the evaluated_permission, the evaluation object and the permission denials list. Evidence to inspect. The checked file effects and policy evidence. Availability, permission and observed effects are distinct. Inspect the reported outcome and the host evidence before drawing a conclusion. Put it to the test. Take the Permitted edit preset and remove edit from the enabled tools. Before you run it, predict whether the edit attempt is unavailable (deny with no evaluation) or denied, and what outputs/draft.md contains on disk afterwards. Record what your evidence establishes and what remains unverified.",
+      "recording": {
+        "file": "audio/infographics/visual-3-concepts-05edc9d9e227eb41.mp3",
+        "timingFile": "audio/infographics/visual-3-concepts-05edc9d9e227eb41.json",
+        "sha256": "05edc9d9e227eb4190e944fbf85e34affa03da74d1f14d7866670de38eea9ee7",
+        "durationSeconds": 79.512
+      }
+    },
+    "3:lab": {
+      "image": {
+        "file": "infographics/lab-03-lab.png",
+        "sha256": "d7acb735b4da78b3d3c1f649c21d9750b5725fb2df7d0e7b52346b2284a9ba08",
+        "width": 1672,
+        "height": 941
+      },
+      "contentSha256": "0bfb8dd090abbe981b12a5aeb44ebe390c9c5642a0150b2ac0ea88d9f5e04b26",
+      "text": "Prepare the baseline. Run Read-only offline and confirm that every file on disk is unchanged. Run the comparison. Run Unavailable Write and Denied Write; compare the evaluated_permission, the evaluation object and the permission denials list. Inspect the boundary. Run Permitted edit: the host allows the allowlisted cp and the in-fixture edit, and denies the traversal attempts. Follow the workflow. Inspect outputs/draft.md on disk, then reset the sandbox and run Auto to see server-evaluated outcomes. Verify the result. The checked file effects and policy evidence. Availability, permission and observed effects are distinct. Compare the result with your baseline. Reflect and record. Take the Permitted edit preset and remove edit from the enabled tools. Before you run it, predict whether the edit attempt is unavailable (deny with no evaluation) or denied, and what outputs/draft.md contains on disk afterwards. Save the observed result and its limitations in your notebook. A saved note is self-assessment, not proof of a new live run.",
+      "recording": {
+        "file": "audio/infographics/visual-3-lab-9f31ec291a7cadd8.mp3",
+        "timingFile": "audio/infographics/visual-3-lab-9f31ec291a7cadd8.json",
+        "sha256": "9f31ec291a7cadd84bf979685de78a39f44e3b5ee9fecd33a0e85bd4e9218b85",
+        "durationSeconds": 74.664
+      }
+    },
+    "4:concepts": {
+      "image": {
+        "file": "infographics/lab-04-concepts.png",
+        "sha256": "8dbf251e9f6bc045a43dcff7813e0968776769731d5ef81411b3a4292c4d948a",
+        "width": 1672,
+        "height": 941
+      },
+      "contentSha256": "501455827e8e1f674691f8d1f71c9ecbd5bddf51992ae29c0007858fb95b32cb",
+      "text": "The objective. Approve or deny paused tool calls through a host review dialog: the Managed Agents equivalent of canUseTool is a requires_action pause answered once with user.tool_confirmation. Core rule. How is a paused tool decision answered? One correlated user.tool_confirmation. Keep the boundary clear. Host decisions must match the paused action and avoid duplicate confirmation. How the flow works. Run the Review scenario offline. Approve the write and the first edit, deny the second edit, and deny the summary write. Confirm on disk that only the first edit landed, and read how the authored agent acknowledges each deny_message. Evidence to inspect. One correlated user.tool_confirmation. Host decisions must match the paused action and avoid duplicate confirmation. Inspect the reported outcome and the host evidence before drawing a conclusion. Put it to the test. Deny one write with your own deny_message and explain how the agent responds: the message comes back as an error agent.tool_result and the session keeps running. Why is the offline reaction authored, while a live agent may try another approach? Record what your evidence establishes and what remains unverified.",
+      "recording": {
+        "file": "audio/infographics/visual-4-concepts-a8323e8a181f2c06.mp3",
+        "timingFile": "audio/infographics/visual-4-concepts-a8323e8a181f2c06.json",
+        "sha256": "a8323e8a181f2c0634119529dc25e947dfd009c4d360ff716e4ed60f5f08535e",
+        "durationSeconds": 84.384
+      }
+    },
+    "4:lab": {
+      "image": {
+        "file": "infographics/lab-04-lab.png",
+        "sha256": "6aba81faba8ae86d7e5a80c8410907418334584a518708fa9fade6c1001c29a1",
+        "width": 1672,
+        "height": 941
+      },
+      "contentSha256": "9c65a6af9150fff5dfa623904ac1c2d0a7192c9d31fea0764e7e41d641ab26a5",
+      "text": "Prepare the baseline. Run the Review scenario offline. Approve the write and the first edit, deny the second edit, and deny the summary write. Run the comparison. Confirm on disk that only the first edit landed, and read how the authored agent acknowledges each deny_message. Inspect the boundary. Run again with a 5-second approval window and let one review expire; then cancel a run while a review is pending. Follow the workflow. Use the decision tester to replay a decision and send one with a wrong token; compare the 409 and 404 answers. Verify the result. One correlated user.tool_confirmation. Host decisions must match the paused action and avoid duplicate confirmation. Compare the result with your baseline. Reflect and record. Deny one write with your own deny_message and explain how the agent responds: the message comes back as an error agent.tool_result and the session keeps running. Why is the offline reaction authored, while a live agent may try another approach? Save the observed result and its limitations in your notebook. A saved note is self-assessment, not proof of a new live run.",
+      "recording": {
+        "file": "audio/infographics/visual-4-lab-d6430472c7ac1eb0.mp3",
+        "timingFile": "audio/infographics/visual-4-lab-d6430472c7ac1eb0.json",
+        "sha256": "d6430472c7ac1eb0d566122396723bf6f994a92cf5c6a34379380e4db5b3f282",
+        "durationSeconds": 78.48
+      }
+    },
+    "5:concepts": {
+      "image": {
+        "file": "infographics/lab-05-concepts.png",
+        "sha256": "f24fb2027a225d195ecc149598ec7f5b4f6a52fa4050de418ae0c7ab4c34aa9b",
+        "width": 1672,
+        "height": 941
+      },
+      "contentSha256": "205857a13389addba9487c16a56ead36128b908eed40569c5fd3566b4d70c808",
+      "text": "The objective. Expose typed application functions as Managed Agents custom tools: the agent declares them, the session pauses on agent.custom_tool_use, and the host validates the input, runs the handler and answers once with user.custom_tool_result. Core rule. Who executes an application custom-tool handler? The host after validating the paused call. Keep the boundary clear. The host validates input and returns a correlated custom-tool result. How the flow works. Read the three tool definitions and confirm each input_schema is generated from its Zod shape. Run the Tour offline: list, add and complete a task, then watch the malformed add_task and the unknown ID come back as is_error results. Evidence to inspect. The host after validating the paused call. The host validates input and returns a correlated custom-tool result. Inspect the reported outcome and the host evidence before drawing a conclusion. Put it to the test. Send add_task with a missing or wrong-typed title. Confirm that the result is is_error, that the handler call count is unchanged and that the task list is identical before and after. Record what your evidence establishes and what remains unverified.",
+      "recording": {
+        "file": "audio/infographics/visual-5-concepts-20abf5a7ba5153ea.mp3",
+        "timingFile": "audio/infographics/visual-5-concepts-20abf5a7ba5153ea.json",
+        "sha256": "20abf5a7ba5153ea8a12a507bed199dd402022886c826dc3fac2ee8fb052c8db",
+        "durationSeconds": 86.64
+      }
+    },
+    "5:lab": {
+      "image": {
+        "file": "infographics/lab-05-lab.png",
+        "sha256": "032dd6dc0a9d66b16280d0b565eff5f6a0f0daa6b543a6daafafc54af55df463",
+        "width": 1672,
+        "height": 941
+      },
+      "contentSha256": "002e1582b4396c21ca32cd92d1ded359b6e3a203b48e946a22a9e96e5c151c96",
+      "text": "Prepare the baseline. Read the three tool definitions and confirm each input_schema is generated from its Zod shape. Run the comparison. Run the Tour offline: list, add and complete a task, then watch the malformed add_task and the unknown ID come back as is_error results. Inspect the boundary. Compare the before and after task state for each call, and the handler call counts against the number of calls. Follow the workflow. Run Slow handler and see a handler pass its deadline: the session gets an is_error result and no task is saved. Verify the result. The host after validating the paused call. The host validates input and returns a correlated custom-tool result. Compare the result with your baseline. Reflect and record. Send add_task with a missing or wrong-typed title. Confirm that the result is is_error, that the handler call count is unchanged and that the task list is identical before and after. Save the observed result and its limitations in your notebook. A saved note is self-assessment, not proof of a new live run.",
+      "recording": {
+        "file": "audio/infographics/visual-5-lab-c0a8a5932c2f31fa.mp3",
+        "timingFile": "audio/infographics/visual-5-lab-c0a8a5932c2f31fa.json",
+        "sha256": "c0a8a5932c2f31fa9849ade076232dd9e60356027fa4d81984a36d212a32be44",
+        "durationSeconds": 68.688
+      }
+    },
+    "6:concepts": {
+      "image": {
+        "file": "infographics/lab-06-concepts.png",
+        "sha256": "727cfc263eb2d35a7c988a6193b39474dc96efdf0ed9cc90d204d44b0b5c31e5",
+        "width": 1672,
+        "height": 941
+      },
+      "contentSha256": "e819eb2f6f7b406b27336c7189aaccea66f67f5f50ade698f6302848b80b15c4",
+      "text": "The objective. Continue a conversation in the same server-owned Managed session, compare it with fresh context, and reconnect without duplicating persisted events. Core rule. What preserves the same remote conversation? Continuing the owned retained session. Keep the boundary clear. Retained context and reconnect deduplication are separate responsibilities. How the flow works. Start a new offline session with the fictional project introduction. Select the follow-up and Continue; confirm the session ID stays the same and the name is recalled. Evidence to inspect. Continuing the owned retained session. Retained context and reconnect deduplication are separate responsibilities. Inspect the reported outcome and the host evidence before drawing a conclusion. Put it to the test. Ask a follow-up that depends on the first answer. Explain which ID proves session reuse and why fixture recall is evidence only of fixture behavior. Record what your evidence establishes and what remains unverified.",
+      "recording": {
+        "file": "audio/infographics/visual-6-concepts-5dea6e1058ba19f6.mp3",
+        "timingFile": "audio/infographics/visual-6-concepts-5dea6e1058ba19f6.json",
+        "sha256": "5dea6e1058ba19f6ecabf3c51d34a8ff70e28ae9820125c434fe51319754249f",
+        "durationSeconds": 67.464
+      }
+    },
+    "6:lab": {
+      "image": {
+        "file": "infographics/lab-06-lab.png",
+        "sha256": "1b105631231874eefef2b122c5a1c93b381c9c4b8a3b4f16f76b65b63fc18253",
+        "width": 1672,
+        "height": 941
+      },
+      "contentSha256": "9276697ce363416af6f1dae034c13da502d207a570cbdc93b8a09165263f3b99",
+      "text": "Prepare the baseline. Start a new offline session with the fictional project introduction. Run the comparison. Select the follow-up and Continue; confirm the session ID stays the same and the name is recalled. Inspect the boundary. Start a fresh session with only the follow-up and compare the answer. Follow the workflow. Reconnect and inspect stream-before-history ordering plus duplicate counts. Verify the result. Continuing the owned retained session. Retained context and reconnect deduplication are separate responsibilities. Compare the result with your baseline. Reflect and record. Ask a follow-up that depends on the first answer. Explain which ID proves session reuse and why fixture recall is evidence only of fixture behavior. Save the observed result and its limitations in your notebook. A saved note is self-assessment, not proof of a new live run.",
+      "recording": {
+        "file": "audio/infographics/visual-6-lab-d1c1ac3c8981b3b5.mp3",
+        "timingFile": "audio/infographics/visual-6-lab-d1c1ac3c8981b3b5.json",
+        "sha256": "d1c1ac3c8981b3b5eda8d42b0b5c392918467cb940b6514ddbcd14c8d632c5ff",
+        "durationSeconds": 60.696
+      }
+    },
+    "7:concepts": {
+      "image": {
+        "file": "infographics/lab-07-concepts.png",
+        "sha256": "25fdaf094f67ac06943ccd74c48c722b5c8e55f40993efc75d2db23bab453f79",
+        "width": 1672,
+        "height": 941
+      },
+      "contentSha256": "472d22ee07532d2ff856fba499d5e33faae016f0a9c8a5670e4b7602bbe63cc4",
+      "text": "The objective. Replace Agent SDK tool hooks with a host policy pipeline that validates before execution and records the actual effect afterward. Core rule. When should host policy validate a tool action? Before execution, then audit actual effects. Keep the boundary clear. The host pipeline enforces policy before execution and records what actually happened. How the flow works. Run Audit only and confirm the safe draft edit executes. Run Deny write and verify the protected file is unchanged and the handler did not run. Evidence to inspect. Before execution, then audit actual effects. The host pipeline enforces policy before execution and records what actually happened. Inspect the reported outcome and the host evidence before drawing a conclusion. Put it to the test. Block a protected-file call and identify the host decision that prevented the effect before any handler ran. Record what your evidence establishes and what remains unverified.",
+      "recording": {
+        "file": "audio/infographics/visual-7-concepts-37d83dc928153d0f.mp3",
+        "timingFile": "audio/infographics/visual-7-concepts-37d83dc928153d0f.json",
+        "sha256": "37d83dc928153d0fe23300d00832b89af9fcab8d517c7e6fb35512a49ba9059d",
+        "durationSeconds": 68.688
+      }
+    },
+    "7:lab": {
+      "image": {
+        "file": "infographics/lab-07-lab.png",
+        "sha256": "26a7684006fb0b810e3600fb8021ae238628fa11b01671c7dd098f1d05893a81",
+        "width": 1672,
+        "height": 941
+      },
+      "contentSha256": "9bf82ed7ec808450b33c5bfb2b824197c0921a70c2f1a0fda8283f29d4505067",
+      "text": "Prepare the baseline. Run Audit only and confirm the safe draft edit executes. Run the comparison. Run Deny write and verify the protected file is unchanged and the handler did not run. Inspect the boundary. Run Rewrite input and compare original proposed.md with effective draft.md after revalidation. Follow the workflow. Run the handler-exception and repeated-call fixtures. Verify the result. Before execution, then audit actual effects. The host pipeline enforces policy before execution and records what actually happened. Compare the result with your baseline. Reflect and record. Block a protected-file call and identify the host decision that prevented the effect before any handler ran. Save the observed result and its limitations in your notebook. A saved note is self-assessment, not proof of a new live run.",
+      "recording": {
+        "file": "audio/infographics/visual-7-lab-3bad850972c7b1af.mp3",
+        "timingFile": "audio/infographics/visual-7-lab-3bad850972c7b1af.json",
+        "sha256": "3bad850972c7b1aff2cb01e9d77a1d20205ecf3047199bd152a65db0abb9b518",
+        "durationSeconds": 60.096
+      }
+    },
+    "8:concepts": {
+      "image": {
+        "file": "infographics/lab-08-concepts.png",
+        "sha256": "2adcaa339acc8a9fede30428923e7cfe2a29661be71d938b1bdbeb9bd0381143",
+        "width": 1672,
+        "height": 941
+      },
+      "text": "The objective. Delegate bounded work to predefined Managed Agents, inspect separate session-thread histories, and verify role capabilities and effects in the host. Core rule. What establishes a worker role capability? Verified role configuration and host-observed effects. Keep the boundary clear. Worker names alone are not evidence of their configured tools or effects. How the flow works. Run the normal fixture and identify the researcher, reviewer and calculator thread IDs. Separate delegation, report receipt and independent verification states. Evidence to inspect. Verified role configuration and host-observed effects. Worker names alone are not evidence of their configured tools or effects. Inspect the reported outcome and the host evidence before drawing a conclusion. Put it to the test. Restrict one worker capability and compare its report with the host effect ledger. Record what your evidence establishes and what remains unverified.",
+      "contentSha256": "7c2e8fd7b27237e20ecc76d72d9d173b8192fad0e7b22b27b697d49d303fb115",
+      "recording": {
+        "file": "audio/infographics/visual-8-concepts-7235ed9477ca7860.mp3",
+        "timingFile": "audio/infographics/visual-8-concepts-7235ed9477ca7860.json",
+        "sha256": "7235ed9477ca7860523bf99f466d5a7539b389c7a7cd8def743c0e6bb863695f",
+        "durationSeconds": 66.408
+      }
+    },
+    "8:lab": {
+      "image": {
+        "file": "infographics/lab-08-lab.png",
+        "sha256": "515ecff213e9b93d02d90b2ec106ffc4a31a24d04e961e8e78fb0eebbfabafa3",
+        "width": 1672,
+        "height": 941
+      },
+      "text": "Prepare the baseline. Run the normal fixture and identify the researcher, reviewer and calculator thread IDs. Run the comparison. Separate delegation, report receipt and independent verification states. Inspect the boundary. Confirm the reviewer write is denied and the calculator sum is recomputed by the host. Follow the workflow. Run cross-posted, duplicate and wrong-role scenarios. Verify the result. Verified role configuration and host-observed effects. Worker names alone are not evidence of their configured tools or effects. Compare the result with your baseline. Reflect and record. Restrict one worker capability and compare its report with the host effect ledger. Save the observed result and its limitations in your notebook. A saved note is self-assessment, not proof of a new live run.",
+      "contentSha256": "f246973b4b2d778ddbc841e12d03afefa43a100b23b06e726ff4a90ce0683ee9",
+      "recording": {
+        "file": "audio/infographics/visual-8-lab-9496c27e35afecd8.mp3",
+        "timingFile": "audio/infographics/visual-8-lab-9496c27e35afecd8.json",
+        "sha256": "9496c27e35afecd8729ce9eb061cb4c3ffd7d75aa36226876303d54b226bdaee",
+        "durationSeconds": 57.192
+      }
+    },
+    "9:concepts": {
+      "image": {
+        "file": "infographics/lab-09-concepts.png",
+        "sha256": "ef5d773b804ae9a0f88a59ec68499c5ef9f9319452deb579542b77f61cef8008",
+        "width": 1672,
+        "height": 941
+      },
+      "text": "The objective. Compare inherited and explicitly composed system instructions in fresh sessions while keeping the question and base model fixed. Core rule. How should instruction variants be compared? Fresh sessions with the same question and base model. Keep the boundary clear. Holding question and model fixed helps isolate the instruction change. How the flow works. Compare all four offline variants with the same question. Find the omitted system override in Base and the replacement in Custom. Evidence to inspect. Fresh sessions with the same question and base model. Holding question and model fixed helps isolate the instruction change. Inspect the reported outcome and the host evidence before drawing a conclusion. Put it to the test. Keep the question fixed and change only the system instructions. Explain what is inherited and what is replaced. Record what your evidence establishes and what remains unverified.",
+      "contentSha256": "7309d8dff4d12a16797030743f4a01c3bbfaee39eaf220eb108e70b48ef9eb1b",
+      "recording": {
+        "file": "audio/infographics/visual-9-concepts-f265ca6666c1c5d3.mp3",
+        "timingFile": "audio/infographics/visual-9-concepts-f265ca6666c1c5d3.json",
+        "sha256": "f265ca6666c1c5d3aabf27e75bfafd3dd66051a51da33e25309e318da236c90f",
+        "durationSeconds": 64.128
+      }
+    },
+    "9:lab": {
+      "image": {
+        "file": "infographics/lab-09-lab.png",
+        "sha256": "8541ef45f9cbdd4f0effa311ff23c53570c5b2b387a6ac5052c2ee96459a4105",
+        "width": 1672,
+        "height": 941
+      },
+      "text": "Prepare the baseline. Compare all four offline variants with the same question. Run the comparison. Find the omitted system override in Base and the replacement in Custom. Inspect the boundary. Inspect base plus append and the authored project context selection. Follow the workflow. Compare requested composition with the resolved session snapshot. Verify the result. Fresh sessions with the same question and base model. Holding question and model fixed helps isolate the instruction change. Compare the result with your baseline. Reflect and record. Keep the question fixed and change only the system instructions. Explain what is inherited and what is replaced. Save the observed result and its limitations in your notebook. A saved note is self-assessment, not proof of a new live run.",
+      "contentSha256": "3a9d10b8be87ac25fcc38a5e1e83bc10040e251d13e0d433eff65747c6b23bcf",
+      "recording": {
+        "file": "audio/infographics/visual-9-lab-a49a64c6dc80f0da.mp3",
+        "timingFile": "audio/infographics/visual-9-lab-a49a64c6dc80f0da.json",
+        "sha256": "a49a64c6dc80f0da4ae6a77a8eec2c41726570f09243dbeba134674687dbcd0a",
+        "durationSeconds": 53.304
+      }
+    },
+    "10:concepts": {
+      "image": {
+        "file": "infographics/lab-10-concepts.png",
+        "sha256": "dcdf046f7b6eb2dbadaacf7cc46299c5c6483c141743fed9748bdf553057fd19",
+        "width": 1672,
+        "height": 941
+      },
+      "text": "The objective. Validate final JSON reports with a closed application schema and distinguish interrupt, local abort and idle-session close. Core rule. What verifies a final JSON report? Validation against the closed application schema. Keep the boundary clear. Application validation determines whether the final report satisfies its contract. How the flow works. Run valid and invalid report fixtures and inspect host verification. Run Corrected and Exhausted to see the single corrective-round limit. Evidence to inspect. Validation against the closed application schema. Application validation determines whether the final report satisfies its contract. Inspect the reported outcome and the host evidence before drawing a conclusion. Put it to the test. Identify the stop action that keeps the same session available for another turn and the evidence required before reuse. Record what your evidence establishes and what remains unverified.",
+      "contentSha256": "30d919cdcd2d6e67c6a1d51471098342bbf3e584692c7cfcc92f3dfa28cb8cf3",
+      "recording": {
+        "file": "audio/infographics/visual-10-concepts-6e1c92d7e735c044.mp3",
+        "timingFile": "audio/infographics/visual-10-concepts-6e1c92d7e735c044.json",
+        "sha256": "6e1c92d7e735c044c8129ef75318281b2582a11eb6b6def8411b4f7782f849ea",
+        "durationSeconds": 65.352
+      }
+    },
+    "10:lab": {
+      "image": {
+        "file": "infographics/lab-10-lab.png",
+        "sha256": "9d8ca6211e5b767765d518388d5bf1736b5e4e8519ac2f94d5e45e22f168de78",
+        "width": 1672,
+        "height": 941
+      },
+      "text": "Prepare the baseline. Run valid and invalid report fixtures and inspect host verification. Run the comparison. Run Corrected and Exhausted to see the single corrective-round limit. Inspect the boundary. Run Hang, interrupt it and confirm idle before sending another turn. Follow the workflow. Disconnect locally or abort and inspect remote cleanup separately. Verify the result. Validation against the closed application schema. Application validation determines whether the final report satisfies its contract. Compare the result with your baseline. Reflect and record. Identify the stop action that keeps the same session available for another turn and the evidence required before reuse. Save the observed result and its limitations in your notebook. A saved note is self-assessment, not proof of a new live run.",
+      "contentSha256": "4d967e0adecc618345e732ee2d6499a4168e1a299ea996c3820bca503d2f0a0b",
+      "recording": {
+        "file": "audio/infographics/visual-10-lab-f6400cfb9bdcad19.mp3",
+        "timingFile": "audio/infographics/visual-10-lab-f6400cfb9bdcad19.json",
+        "sha256": "f6400cfb9bdcad19bbbe19e6d46efb01f32697489ffd5d3c3b0643f4c004ad88",
+        "durationSeconds": 54.648
+      }
+    },
+    "11:concepts": {
+      "image": {
+        "file": "infographics/lab-11-concepts.png",
+        "sha256": "506fde064d6a5a4b38ff6c02d7a471200735c7054074c5fe6d2704f23de292fb",
+        "width": 1672,
+        "height": 941
+      },
+      "text": "The objective. Inspect pinned skill metadata separately from observed instruction and reference file reads in fresh sessions. Core rule. What establishes an observed skill-file read? Matching file-read call and result evidence. Keep the boundary clear. Attached metadata does not establish that instructions or references were read. How the flow works. Compare all five offline variants and identify distinct session IDs. Preview the authored instructions and reference; confirm a host preview is not an agent read. Evidence to inspect. Matching file-read call and result evidence. Attached metadata does not establish that instructions or references were read. Inspect the reported outcome and the host evidence before drawing a conclusion. Put it to the test. Compare attached metadata with event evidence that SKILL.md was read. Explain why no observed read does not prove the skill was unavailable. Record what your evidence establishes and what remains unverified.",
+      "contentSha256": "0d1cf184a2faa2df7377a19506593bff1629ad8eddb29016fcd6ec89d9408b2a",
+      "recording": {
+        "file": "audio/infographics/visual-11-concepts-6af385c8c64e5471.mp3",
+        "timingFile": "audio/infographics/visual-11-concepts-6af385c8c64e5471.json",
+        "sha256": "6af385c8c64e54712170abe6eed2ddd23738b364f370fa839a11595cf2c689cc",
+        "durationSeconds": 65.808
+      }
+    },
+    "11:lab": {
+      "image": {
+        "file": "infographics/lab-11-lab.png",
+        "sha256": "3ed005f80574e8860489f59f71ceea9c1d291520ed2b29428534b623d5cef422",
+        "width": 1672,
+        "height": 941
+      },
+      "text": "Prepare the baseline. Compare all five offline variants and identify distinct session IDs. Run the comparison. Preview the authored instructions and reference; confirm a host preview is not an agent read. Inspect the boundary. Run Metadata only and Failed read to distinguish attachment, attempted loading and successful loading. Follow the workflow. Compare revision v1 with v2 and inspect their different pinned versions. Verify the result. Matching file-read call and result evidence. Attached metadata does not establish that instructions or references were read. Compare the result with your baseline. Reflect and record. Compare attached metadata with event evidence that SKILL.md was read. Explain why no observed read does not prove the skill was unavailable. Save the observed result and its limitations in your notebook. A saved note is self-assessment, not proof of a new live run.",
+      "contentSha256": "85ac27dc565fb0de0df811256615883262d6536e28add964b340f9d594d802bd",
+      "recording": {
+        "file": "audio/infographics/visual-11-lab-60a6f4a57ea2b4b4.mp3",
+        "timingFile": "audio/infographics/visual-11-lab-60a6f4a57ea2b4b4.json",
+        "sha256": "60a6f4a57ea2b4b408c8d9b5b5a7bc22d1cc432af601f5dea2745f30459d1b0e",
+        "durationSeconds": 61.752
       }
     }
   }

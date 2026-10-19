@@ -11,3 +11,9 @@ The concept artwork was checked against session-event reconciliation and lifecyc
 The final measured region boxes live in `shared/learning-infographics.ts`; the differently sized panels replace the original uniform grid. `pilot-manifest.json` binds each final image hash and dimensions to the catalog content hash and its matching Inworld MP3/timing files. The six existing MP3 recordings and their actual WORD timings are preserved byte-for-byte; this image revision makes no Inworld requests. Audio narration uses authored explanatory text, not OCR of the image. Full text remains available in the app.
 
 All images are illustrated teaching summaries. They do not prove a model call, remote session, external notification, human decision or effect took place. Actual exercise evidence is separate.
+
+## Full-course expansion
+
+The approved pilot is being extended to the remaining implemented lessons. Published pairs are listed in `shared/infographic-published.ts`; an authoring plan is not a publication claim. Each additional pair uses the lesson's implemented objective, experiment steps, concept check, challenge and source paths. Detailed `Tab*.md` teaching references constrain diagram semantics. Generation prompts and any targeted corrections are saved alongside each final image in `prompts/`.
+
+Additional images use the same built-in image tool and varied content-specific astronaut poses. Every candidate is visually reviewed, corrected where needed and assigned measured panel bounds before its pair is published. The author-only narration command generates new Inworld MP3s with real WORD timings, verifies their hashes and FFmpeg decoding, and reuses completed recordings on resume. This expansion does make authorized author synthesis requests; students still make none. The original six pilot recordings remain unchanged.
