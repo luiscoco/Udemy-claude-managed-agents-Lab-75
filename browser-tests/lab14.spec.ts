@@ -1,8 +1,4 @@
 import { expect, test } from '@playwright/test';
-// Cold lesson-registry loading can exceed 30 seconds on Windows. This suite
-// checks model behavior and cleanup, not page-load performance; assertions keep
-// their normal deadlines and no automatic retry is enabled.
-test.describe.configure({ timeout: 60000 });
 async function open(page: import('@playwright/test').Page) { await page.goto('/?lesson=14'); await page.getByRole('tab', { name: 'Run the exercise' }).click(); }
 test('effort comparisons use fresh sessions and preserve the original prompt', async ({ page }) => {
   await open(page); const evidence = page.getByLabel('Model experiment evidence', { exact: true });

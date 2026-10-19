@@ -2,6 +2,10 @@ import { defineConfig } from '@playwright/test';
 
 export default defineConfig({
   testDir: './browser-tests', fullyParallel: false, workers: 1,
+  // Shared Windows runners can spend over 30 seconds loading the lesson registry.
+  // Keep assertions at their normal deadlines; allow loading plus the scenario
+  // within one bounded test, without retrying failed exercises.
+  timeout: 60000,
   use: { baseURL: process.env.LESSON_UI_URL ?? 'http://127.0.0.1:5184', channel: 'chrome', viewport: { width: 1280, height: 900 } },
   // Allows an already supervised server pair to be used on hosts that restrict child-process teardown.
   webServer: process.env.LEARNING_BROWSER_EXTERNAL_SERVERS === '1' ? [] : [

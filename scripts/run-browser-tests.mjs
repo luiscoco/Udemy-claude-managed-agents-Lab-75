@@ -2,6 +2,7 @@ import { spawn } from 'node:child_process';
 import { once } from 'node:events';
 import { setTimeout as delay } from 'node:timers/promises';
 import { createServer } from 'vite';
+import { chromium } from 'playwright';
 
 // Own Node children directly; Windows shell wrappers otherwise leave servers running.
 let web; let api;
@@ -20,10 +21,18 @@ try {
       if (attempt >= 300) throw new Error('Backend readiness timed out.');
       await delay(100);
     }
-    // Complete Vite's initial static-import transforms before starting the
-    // first timed browser test, especially after installing server adapters.
-    await web.transformRequest('/src/main.tsx');
-    await web.waitForRequestsIdle();
+    // An HTTP-ready Vite server is not yet a rendered React application.
+    // Load the actual lesson registry before measuring individual scenarios.
+    // This performs no exercise POST or provider action.
+    const warmup = await chromium.launch({ channel: 'chrome', headless: true });
+    try {
+      const page = await warmup.newPage();
+      await page.goto(`${process.env.LESSON_UI_URL}/?lesson=1`, { timeout: 120000, waitUntil: 'domcontentloaded' });
+      await page.locator('main h1').waitFor({ state: 'visible', timeout: 120000 });
+      console.log('Lesson UI rendered; starting browser scenarios.');
+    } finally {
+      await warmup.close();
+    }
   }
   const runner = spawn(process.execPath, ['node_modules/@playwright/test/cli.js', 'test', ...process.argv.slice(2)], {
     stdio: 'inherit', env: { ...process.env, LEARNING_BROWSER_EXTERNAL_SERVERS: '1' },
