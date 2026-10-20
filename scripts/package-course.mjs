@@ -13,6 +13,7 @@ const allowed = path => !forbiddenPath(path) && !/\.(?:local|tmp|lock)\.json$|\.
     || /^public\/audio\/infographics\/visual-(?:[1-9]|[1-6][0-9]|7[0-5])-(?:concepts|lab)-[a-f0-9]{16}\.(?:mp3|json)$/.test(path)
     || /^public\/infographics\/(?:pilot-manifest\.json|ARTWORK\.md|lab-(?:0[1-9]|[1-6][0-9]|7[0-5])-(?:concepts|lab)\.png|prompts\/lab-(?:0[1-9]|[1-6][0-9]|7[0-5])-(?:concepts|lab)(?:-correction)?\.txt)$/.test(path)
     || /^\.github\/workflows\/[a-z-]+\.yml$/.test(path)
+    || /^docs\/student-build-prompts\/(?:coverage\.json|reference-data\/(?:course|media-catalog|reference-versions)\.json)$/.test(path)
     || path === 'ci-kit/Dockerfile' || /^docs\/managed-foundation-(?:390|1280)\.png$/.test(path) || /^docs\/[^\0]+\.(?:md|docx)$/.test(path));
 const paths = new Set(rootFiles);
 async function walk(path) { for (const entry of await readdir(path, { withFileTypes: true })) { const name = `${path}/${entry.name}`;

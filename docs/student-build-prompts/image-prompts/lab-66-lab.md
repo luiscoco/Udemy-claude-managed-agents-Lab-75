@@ -1,0 +1,83 @@
+# Lab 66 lab walkthrough image prompt
+
+Use after P14 and before P16. Generate an original image, inspect it against its actual lesson, and measure the final panels. Supply an approved style reference if the tool supports references; the prompt's reference wording is not an attached file. It must not copy Agent SDK API claims. The pose and content below are specific to this image. Generative output is not pixel deterministic.
+
+COPY PROMPT START
+
+````text
+Use case: infographic-diagram. Create a polished, high-resolution, landscape 16:9 educational infographic for a Claude Managed Agents course.
+Input reference role: STYLE AND CONTENT HIERARCHY ONLY. Match the supplied teaching-poster examples: oversized heavy navy headline with vivid orange emphasis, pale blue subtitle capsule, a friendly astronaut with a padded white spacesuit, blue gloves, navy reflective visor, boots and life-support backpack in the upper right, airy white background with subtle peach and sky-blue rounded corner shapes, pastel blue/mint/lilac/peach/pink panels, glossy technical icons, bright blue directional arrows, and a star takeaway strip. This is original artwork with new Managed Agents content. Do not copy the reference's Agent SDK claims, query() code, endpoints or server-process architecture.
+Header at y=2%-25%: "How Claude Managed Agents Works" (Claude Managed Agents in orange); subtitle "Lab 66 — Lab walkthrough"; then "Real-time frontends over WebSocket: guided experiment". Astronaut stays in the header and does not cover text. Its unique content-specific pose: Standing with one boot on a platform and pointing at a diagram, focused side posture with one glove pointing to a label. The prop illustrates Real-time frontends over WebSocket. Show the astronaut actively carrying out the learner workflow. Vary the body angle, arm positions and topic-specific prop from every other poster; preserve the white suit and blue visor design.
+Content structure: six individually bounded regions with varied editorial hierarchy, not six identical cards. Region 1 is a core-idea panel at x=2%-40%, y=28%-54%. Region 2 is a narrower explanation at x=42%-69%, y=28%-54%. Region 3 is a contract/evidence panel at x=71%-98%, y=28%-54%. Region 4 is a wide architecture or decision-flow diagram at x=2%-59%, y=56%-83%. Region 5 is a step-by-step check list at x=61%-98%, y=56%-83%. Region 6 is a full-width takeaway strip at x=2%-98%, y=86%-96%. Keep panels separated by white gutters. Give each a small numbered circle 1 through 6. All six regions must remain independent for synchronized audio highlighting. No embedded red rectangle.
+Each region must include its exact title and summary below, plus a useful mini-diagram or visual sequence derived strictly from its teaching context. Use concise labels instead of full narration paragraphs. Use recognizable browser, session, queue, document, shield, reviewer and ledger icons where relevant. Show arrows and labeled state changes instead of generic decorative icons. Optional small dark monospace evidence chips may quote exact identifiers from the teaching context; do not invent code or execution results.
+REGION 1
+Title verbatim: "Prepare the baseline"
+Summary verbatim: "Start a guided run, send one message and inspect ordered chunks and the terminal event."
+Teaching context for the visual explanation (do not print this entire paragraph): Start a guided run, send one message and inspect ordered chunks and the terminal event.
+
+REGION 2
+Title verbatim: "Run the comparison"
+Summary verbatim: "Disconnect midstream, reconnect with the same start command and replay from the last sequence."
+Teaching context for the visual explanation (do not print this entire paragraph): Disconnect midstream, reconnect with the same start command and replay from the last sequence.
+
+REGION 3
+Title verbatim: "Inspect the boundary"
+Summary verbatim: "Repeat a message command and confirm it does not start a second turn."
+Teaching context for the visual explanation (do not print this entire paragraph): Repeat a message command and confirm it does not start a second turn.
+
+REGION 4
+Title verbatim: "Follow the workflow"
+Summary verbatim: "Cancel a fresh run and compare transport close with host run cancellation."
+Teaching context for the visual explanation (do not print this entire paragraph): Cancel a fresh run and compare transport close with host run cancellation.
+
+REGION 5
+Title verbatim: "Verify the result"
+Summary verbatim: "Authenticated ownership and bounded event replay."
+Teaching context for the visual explanation (do not print this entire paragraph): Authenticated ownership and bounded event replay. Reconnect follows the owned stream rather than duplicating accepted work. Compare the result with your baseline.
+
+REGION 6
+Title verbatim: "Reflect and record"
+Summary verbatim: "Reconnect after a terminal frame and show the same run ID and sequence without another accepted message."
+Teaching context for the visual explanation (do not print this entire paragraph): Reconnect after a terminal frame and show the same run ID and sequence without another accepted message. Save the observed result and its limitations in your notebook. A saved note is self-assessment, not proof of a new live run.
+Maintain complete readable English copy, strong navy contrast, generous spacing and clean diagram alignment. No cropped panels or tiny illegible pseudo-code. Do not import event-stream diagrams, event type labels, API fields, source paths, controls, or identifiers from the style reference. Use only the supplied lesson context. Never assign numeric status codes, handler counts, timeouts, identifier values or guaranteed effects to a condition unless the context explicitly states that exact mapping. Where the mapping is not supplied, label a refusal as rejected without inventing a code or count. Region 4 must illustrate the specified workflow, not a generic session stream. Region 5 must show evidence checks, not invented event sequences. If no code or event names are supplied, omit them entirely. Do not introduce fictional identifiers or code not present in this lesson context. Do not imply that notification alone authorizes an effect, that a local cancel archives a remote session, or that this illustration proves a live run. Small footer: "Illustrated teaching summary — inspect actual exercise evidence."
+
+AUTHORITATIVE LESSON REFERENCE (not text to reproduce wholesale):
+## Controls
+
+**Start guided run** creates a retained host run without sending a message. **Send message** triggers one turn and streams ordered events. **Disconnect** closes only the socket; the run continues in Node. **Reconnect and replay** repeats the original start command with `afterSeq` and reattaches to the same run. **Duplicate command** repeats the message command ID and must not start a second turn. **Cancel** aborts the host run. A new turn requires a new run.
+
+
+## Evidence to inspect
+
+The browser first obtains a short-lived HttpOnly, SameSite local cookie from `GET /api/c66/code`; the HTTP server attaches a `/api/c66/ws` upgrade handler and checks same-origin, cookie and connection capacity. Client commands use closed Zod schemas for start, message, cancel and ack. Each emitted frame has a run ID, sequence, source and state. The host retains at most 64 frames, sends a gap marker if older frames have been evicted, and closes a slow consumer while retaining the run. The WebSocket payload is capped at 2 KiB.
+
+The offline reply passes through a closed, Zod-derived `compose_fixture_reply` custom-tool input and a `user.custom_tool_result` correlated to its `sevt_` ID. It has no business effect; the host does not enable built-in tools, MCP or skills in this path. Live mode reuses the existing Managed session-event consumer and cleanup port. Credentials remain in Node; reconnection never calls the runner again.
+
+
+## Limitations
+
+Each run accepts one message. Guided frames are authored text delivered over a real socket, not a cloud agent stream. A live run, if explicitly enabled, uses a fresh Managed session for its one turn and follows the existing Lab 01 cleanup behavior. WebSocket ack records what the browser has seen; it is not proof of model completion. Runs and replay buffers are process-local and expire with server restart.
+
+
+## Challenge
+
+Disconnect before the terminal event, reconnect with the original start command and last sequence, then repeat the message command. Explain why the run ID and terminal outcome stay the same.
+
+
+
+Follow the exact lesson semantics above. Do not infer outcomes from a scenario name. If a status code, count, state transition or effect is not specified, use an inspection instruction without guessing. Preserve the six verbatim region titles and summaries. Do not copy the reference image technical labels or workflow.\nDIAGRAM SAFETY: Every conditional arrow must state its condition. Show alternative scenarios as independent branches, not one shared chain. Never group host limits with provider pauses, or local connectivity with cloud reachability. When a relation is a comparison rather than a connection, use a divider labeled Compare. Do not insert addition symbols between quantities that must stay separate. If an outcome is not explicitly supported by the lesson reference, write Inspect the result rather than inventing a guarantee.
+````
+
+COPY PROMPT END
+
+## Observed correction prompt
+
+This corrected the instructor's generated candidate. Apply only if the same defect exists in your candidate; preserve all other correct content and inspect again. Do not blindly edit a differently composed image.
+
+COPY PROMPT START
+
+````text
+Correct only the Cancel branch in panel 4 of this educational infographic. Replace the final 'No more events' statement with 'Inspect cancellation and cleanup. No second model turn; terminal frames may still report state.' Do not claim cancellation prevents all events or that local disconnect proves remote completion. Preserve six panel outlines, all other text, layout, dimensions, and astronaut.
+````
+
+COPY PROMPT END

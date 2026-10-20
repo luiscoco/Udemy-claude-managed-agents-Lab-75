@@ -1,0 +1,71 @@
+# Lab 62 lab walkthrough image prompt
+
+Use after P14 and before P16. Generate an original image, inspect it against its actual lesson, and measure the final panels. Supply an approved style reference if the tool supports references; the prompt's reference wording is not an attached file. It must not copy Agent SDK API claims. The pose and content below are specific to this image. Generative output is not pixel deterministic.
+
+COPY PROMPT START
+
+````text
+Use case: infographic-diagram. Create a polished, high-resolution, landscape 16:9 educational infographic for a Claude Managed Agents course.
+Input reference role: STYLE AND CONTENT HIERARCHY ONLY. Match the supplied teaching-poster examples: oversized heavy navy headline with vivid orange emphasis, pale blue subtitle capsule, a friendly astronaut with a padded white spacesuit, blue gloves, navy reflective visor, boots and life-support backpack in the upper right, airy white background with subtle peach and sky-blue rounded corner shapes, pastel blue/mint/lilac/peach/pink panels, glossy technical icons, bright blue directional arrows, and a star takeaway strip. This is original artwork with new Managed Agents content. Do not copy the reference's Agent SDK claims, query() code, endpoints or server-process architecture.
+Header at y=2%-25%: "How Claude Managed Agents Works" (Claude Managed Agents in orange); subtitle "Lab 62 — Lab walkthrough"; then "Retrieval RAG through custom tools: guided experiment". Astronaut stays in the header and does not cover text. Its unique content-specific pose: Crouching while placing a block into a queue, focused side posture with one glove pointing to a label. The prop illustrates Retrieval RAG through custom tools. Show the astronaut actively carrying out the learner workflow. Vary the body angle, arm positions and topic-specific prop from every other poster; preserve the white suit and blue visor design.
+Content structure: six individually bounded regions with varied editorial hierarchy, not six identical cards. Region 1 is a core-idea panel at x=2%-40%, y=28%-54%. Region 2 is a narrower explanation at x=42%-69%, y=28%-54%. Region 3 is a contract/evidence panel at x=71%-98%, y=28%-54%. Region 4 is a wide architecture or decision-flow diagram at x=2%-59%, y=56%-83%. Region 5 is a step-by-step check list at x=61%-98%, y=56%-83%. Region 6 is a full-width takeaway strip at x=2%-98%, y=86%-96%. Keep panels separated by white gutters. Give each a small numbered circle 1 through 6. All six regions must remain independent for synchronized audio highlighting. No embedded red rectangle.
+Each region must include its exact title and summary below, plus a useful mini-diagram or visual sequence derived strictly from its teaching context. Use concise labels instead of full narration paragraphs. Use recognizable browser, session, queue, document, shield, reviewer and ledger icons where relevant. Show arrows and labeled state changes instead of generic decorative icons. Optional small dark monospace evidence chips may quote exact identifiers from the teaching context; do not invent code or execution results.
+REGION 1
+Title verbatim: "Prepare the baseline"
+Summary verbatim: "Search current Acme policy and compare stable heading IDs with archived and foreign documents."
+Teaching context for the visual explanation (do not print this entire paragraph): Search current Acme policy and compare stable heading IDs with archived and foreign documents.
+
+REGION 2
+Title verbatim: "Run the comparison"
+Summary verbatim: "Run a grounded 30-day answer and inspect quote and ID verification."
+Teaching context for the visual explanation (do not print this entire paragraph): Run a grounded 30-day answer and inspect quote and ID verification.
+
+REGION 3
+Title verbatim: "Inspect the boundary"
+Summary verbatim: "Run fabricated citation, archived 60-day answer, no-match and hostile-note scenarios."
+Teaching context for the visual explanation (do not print this entire paragraph): Run fabricated citation, archived 60-day answer, no-match and hostile-note scenarios.
+
+REGION 4
+Title verbatim: "Follow the workflow"
+Summary verbatim: "Compare lexical scores with evidence validity; imported text cannot set host policy."
+Teaching context for the visual explanation (do not print this entire paragraph): Compare lexical scores with evidence validity; imported text cannot set host policy.
+
+REGION 5
+Title verbatim: "Verify the result"
+Summary verbatim: "The exact tenant-filtered chunks returned for this request."
+Teaching context for the visual explanation (do not print this entire paragraph): The exact tenant-filtered chunks returned for this request. Citation verification is bounded by the returned current-policy evidence set. Compare the result with your baseline.
+
+REGION 6
+Title verbatim: "Reflect and record"
+Summary verbatim: "Cite an archived or foreign-tenant policy ID and explain why the run’s filtered result set rejects it."
+Teaching context for the visual explanation (do not print this entire paragraph): Cite an archived or foreign-tenant policy ID and explain why the run’s filtered result set rejects it. Save the observed result and its limitations in your notebook. A saved note is self-assessment, not proof of a new live run.
+Maintain complete readable English copy, strong navy contrast, generous spacing and clean diagram alignment. No cropped panels or tiny illegible pseudo-code. Do not import event-stream diagrams, event type labels, API fields, source paths, controls, or identifiers from the style reference. Use only the supplied lesson context. Never assign numeric status codes, handler counts, timeouts, identifier values or guaranteed effects to a condition unless the context explicitly states that exact mapping. Where the mapping is not supplied, label a refusal as rejected without inventing a code or count. Region 4 must illustrate the specified workflow, not a generic session stream. Region 5 must show evidence checks, not invented event sequences. If no code or event names are supplied, omit them entirely. Do not introduce fictional identifiers or code not present in this lesson context. Do not imply that notification alone authorizes an effect, that a local cancel archives a remote session, or that this illustration proves a live run. Small footer: "Illustrated teaching summary — inspect actual exercise evidence."
+
+AUTHORITATIVE LESSON REFERENCE (not text to reproduce wholesale):
+## Controls
+
+Enter a question and choose grounded, fabricated citation, wrong policy, no match or hostile note. Run the offline retrieval fixture. `POST /search` exposes a bounded search; `GET /eval` replays the five regressions; `POST /query` returns the tool event, filtered results, authored report and host verification.
+
+
+## Evidence to inspect
+
+Documents are split by heading into stable IDs such as `doc-acme-returns#eligibility`. The host filters tenant `acme` and current version before keyword/heading scoring. The current return policy says unused items may be returned within **30 days**. An archived Acme document says 60 days and a foreign-tenant document says 90 days; neither enters the scored set. A shipping document, security document and imported hostile note round out the corpus.
+
+The Zod-derived `search_knowledge` custom-tool schema is closed. The offline handler returns `user.custom_tool_result` correlated by the original `sevt_` ID. Reports require an answer and evidence IDs/quotes. The host checks every ID against the exact results returned during that run and each quote against that chunk's text. A policy answer must match the 30-day host key and cite the current eligibility chunk. A fabricated ID, an archived answer, empty no-match evidence and an imported instruction claiming 365 days fail. The hostile note is data, not authority.
+
+
+## Limitations
+
+This is heading and keyword scoring, not semantic/vector retrieval. The answer drafts are authored fixtures and not observed model behavior. A live Managed extension would need an injected session, narrow toolset, bounded calls and host validation of its final JSON or tool report. No local files are assumed present in the cloud sandbox.
+
+
+## Challenge
+
+Try to cite the archived 60-day policy or the foreign 90-day policy. Explain why filtering before scoring means neither ID can validate against the run’s returned evidence.
+
+
+
+Follow the exact lesson semantics above. Do not infer outcomes from a scenario name. If a status code, count, state transition or effect is not specified, use an inspection instruction without guessing. Preserve the six verbatim region titles and summaries. Do not copy the reference image technical labels or workflow.\nDIAGRAM SAFETY: Every conditional arrow must state its condition. Show alternative scenarios as independent branches, not one shared chain. Never group host limits with provider pauses, or local connectivity with cloud reachability. When a relation is a comparison rather than a connection, use a divider labeled Compare. Do not insert addition symbols between quantities that must stay separate. If an outcome is not explicitly supported by the lesson reference, write Inspect the result rather than inventing a guarantee.
+````
+
+COPY PROMPT END

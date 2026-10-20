@@ -1,0 +1,58 @@
+# Lab 65 concept map image prompt
+
+Use after P14 and before P16. Generate an original image, inspect it against its actual lesson, and measure the final panels. Supply an approved style reference if the tool supports references; the prompt's reference wording is not an attached file. It must not copy Agent SDK API claims. The pose and content below are specific to this image. Generative output is not pixel deterministic.
+
+COPY PROMPT START
+
+````text
+Use case: infographic-diagram. Create a polished, high-resolution, landscape 16:9 educational infographic for a Claude Managed Agents course.
+Input reference role: STYLE AND CONTENT HIERARCHY ONLY. Match the supplied teaching-poster examples: oversized heavy navy headline with vivid orange emphasis, pale blue subtitle capsule, a friendly astronaut in a white padded spacesuit, blue gloves, navy visor and life-support backpack in the upper right, airy white background with subtle peach and sky-blue rounded corner shapes, pastel blue/mint/lilac/peach/pink panels, glossy technical icons, bright blue directional arrows, and a star takeaway strip. This is original artwork with new Managed Agents content. Do not copy the reference's Agent SDK claims, query() code, endpoints or server-process architecture.
+Header at y=2%-25%: "How Claude Managed Agents Works" (Claude Managed Agents in orange); subtitle "Lab 65 — Concept map"; then "A notification is not an approval". Robot stays in the header and does not cover text.
+Content structure: six individually bounded regions with varied editorial hierarchy, not six identical cards. Region 1 is a core-idea panel at x=2%-40%, y=28%-54%. Region 2 is a narrower explanation at x=42%-69%, y=28%-54%. Region 3 is a contract/evidence panel at x=71%-98%, y=28%-54%. Region 4 is a wide architecture or decision-flow diagram at x=2%-59%, y=56%-83%. Region 5 is a step-by-step check list at x=61%-98%, y=56%-83%. Region 6 is a full-width takeaway strip at x=2%-98%, y=86%-96%. Keep panels separated by white gutters. Give each a small numbered circle 1 through 6. All six regions must remain independent for synchronized audio highlighting. No embedded red rectangle.
+Each region must include its exact title and summary below, plus a useful mini-diagram or visual sequence derived strictly from its teaching context. Use concise labels instead of full narration paragraphs. Use recognizable browser, session, queue, document, shield, reviewer and ledger icons where relevant. Show arrows and labeled state changes instead of generic decorative icons. Optional small dark monospace evidence chips may quote exact identifiers from the teaching context; do not invent code or execution results.
+REGION 1
+Title verbatim: "Immutable proposal"
+Summary verbatim: "Bind the exact fictional action and case."
+Teaching context for the visual explanation (do not print this entire paragraph): The proposed action is a fictional case archive with fixed validated arguments. Review the immutable proposal. An agent message or tool proposal must not execute the business effect by itself.
+
+REGION 2
+Title verbatim: "Separate identities"
+Summary verbatim: "Tool event ID and business key have different roles."
+Teaching context for the visual explanation (do not print this entire paragraph): The tool event identifier correlates the tool interaction. The business key identifies the effect that must remain unique. Do not use a new proposal or a different event identifier to repeat the same case effect.
+
+REGION 3
+Title verbatim: "Notification only"
+Summary verbatim: "Local, Slack, Teams or email delivery is not consent."
+Teaching context for the visual explanation (do not print this entire paragraph): Notification asks someone to review. It is not an approval decision. The local notification path sends no external message; optional external delivery requires separate configured channels and explicit learner action.
+
+REGION 4
+Title verbatim: "Trusted reviewer"
+Summary verbatim: "Check identity, expiry and the unchanged action."
+Teaching context for the visual explanation (do not print this entire paragraph): The host validates the trusted reviewer, proposal owner, notification state, expiry and exact action. A changed argument, wrong reviewer or expired proposal must be refused before an effect is allowed.
+
+REGION 5
+Title verbatim: "Effect ledger"
+Summary verbatim: "A unique business key prevents duplicate effects."
+Teaching context for the visual explanation (do not print this entire paragraph): The SQLite effect ledger records the fictional effect independently of agent prose. A repeated click or a second proposal for the same owner and case must not increase the effect count beyond one.
+
+REGION 6
+Title verbatim: "Audit the boundary"
+Summary verbatim: "Inspect the ledger and audit, not just the answer."
+Teaching context for the visual explanation (do not print this entire paragraph): Compare the audit and effect ledger with the human decision. Rejection leaves no effect. Successful local approval demonstrates this fictional local gate; it does not prove delivery through Slack, Teams or email.
+Maintain complete readable English copy, strong navy contrast, generous spacing and clean diagram alignment. No cropped panels or tiny illegible pseudo-code. Do not imply that notification alone authorizes an effect, that a local cancel archives a remote session, or that this illustration proves a live run. Small footer: "Illustrated teaching summary — inspect actual exercise evidence."
+The reference is STYLE ONLY, create all new LAB 65 CONCEPT MAP content. Upper-right ASTRONAUT POSE MUST DIFFER from reference: A standing astronaut reviewing an immutable proposal clipboard in one hand, other hand raised with an open STOP palm beside a shield, vigilant approval-gate pose.. Keep astronaut in the header. Region 4 is a gate diagram: exact proposal + notified + owner + trusted reviewer + unexpired -> approve OR reject. Region 5 shows unique owner-and-case business key -> SQLite effect ledger -> at most ONE effect. A new proposal or event ID cannot bypass that business key. Notification only asks for review; no notification or agent prose authorizes the effect. Rejection records zero effects. No invented APIs, code, external delivery evidence or actual archive results.
+````
+
+COPY PROMPT END
+
+## Observed correction prompt
+
+This corrected the instructor's generated candidate. Apply only if the same defect exists in your candidate; preserve all other correct content and inspect again. Do not blindly edit a differently composed image.
+
+COPY PROMPT START
+
+````text
+Edit ONLY the three small dark monospace identifier chips in this Lab65 concept map. In region2 replace "event_1234" with "tool event ID", and replace "owner-42:case-abc" with "owner + CASE-2042". In region5 replace "owner-42:case-abc" with "owner + CASE-2042". These are explanatory labels, not evidence of real execution. Preserve all other text, panel positions, diagrams, colors, astronaut STOP pose and dimensions unchanged.
+````
+
+COPY PROMPT END

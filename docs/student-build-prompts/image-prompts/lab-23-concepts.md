@@ -1,0 +1,81 @@
+# Lab 23 concept map image prompt
+
+Use after P14 and before P16. Generate an original image, inspect it against its actual lesson, and measure the final panels. Supply an approved style reference if the tool supports references; the prompt's reference wording is not an attached file. It must not copy Agent SDK API claims. The pose and content below are specific to this image. Generative output is not pixel deterministic.
+
+COPY PROMPT START
+
+````text
+Use case: infographic-diagram. Create a polished, high-resolution, landscape 16:9 educational infographic for a Claude Managed Agents course.
+Input reference role: STYLE AND CONTENT HIERARCHY ONLY. Match the supplied teaching-poster examples: oversized heavy navy headline with vivid orange emphasis, pale blue subtitle capsule, a friendly astronaut with a padded white spacesuit, blue gloves, navy reflective visor, boots and life-support backpack in the upper right, airy white background with subtle peach and sky-blue rounded corner shapes, pastel blue/mint/lilac/peach/pink panels, glossy technical icons, bright blue directional arrows, and a star takeaway strip. This is original artwork with new Managed Agents content. Do not copy the reference's Agent SDK claims, query() code, endpoints or server-process architecture.
+Header at y=2%-25%: "How Claude Managed Agents Works" (Claude Managed Agents in orange); subtitle "Lab 23 — Concept map"; then "Reusable capability bundles". Astronaut stays in the header and does not cover text. Its unique content-specific pose: Bracing one knee while checking a shield-shaped control panel, front view with the working prop raised at shoulder level. The prop illustrates Reusable capability bundles. Show the astronaut presenting the core concept. Vary the body angle, arm positions and topic-specific prop from every other poster; preserve the white suit and blue visor design.
+Content structure: six individually bounded regions with varied editorial hierarchy, not six identical cards. Region 1 is a core-idea panel at x=2%-40%, y=28%-54%. Region 2 is a narrower explanation at x=42%-69%, y=28%-54%. Region 3 is a contract/evidence panel at x=71%-98%, y=28%-54%. Region 4 is a wide architecture or decision-flow diagram at x=2%-59%, y=56%-83%. Region 5 is a step-by-step check list at x=61%-98%, y=56%-83%. Region 6 is a full-width takeaway strip at x=2%-98%, y=86%-96%. Keep panels separated by white gutters. Give each a small numbered circle 1 through 6. All six regions must remain independent for synchronized audio highlighting. No embedded red rectangle.
+Each region must include its exact title and summary below, plus a useful mini-diagram or visual sequence derived strictly from its teaching context. Use concise labels instead of full narration paragraphs. Use recognizable browser, session, queue, document, shield, reviewer and ledger icons where relevant. Show arrows and labeled state changes instead of generic decorative icons. Optional small dark monospace evidence chips may quote exact identifiers from the teaching context; do not invent code or execution results.
+REGION 1
+Title verbatim: "The objective"
+Summary verbatim: "Compose a reviewed, hash-pinned host bundle of commands, tools, skills, agent definitions and optional MCP declarations while enforcing worker least privilege."
+Teaching context for the visual explanation (do not print this entire paragraph): Compose a reviewed, hash-pinned host bundle of commands, tools, skills, agent definitions and optional MCP declarations while enforcing worker least privilege.
+
+REGION 2
+Title verbatim: "Core rule"
+Summary verbatim: "Hash pins and worker least privilege."
+Teaching context for the visual explanation (do not print this entire paragraph): What should a reviewed host bundle preserve? Hash pins and worker least privilege.
+
+REGION 3
+Title verbatim: "Keep the boundary clear"
+Summary verbatim: "A composed bundle still requires explicit capability and integrity boundaries."
+Teaching context for the visual explanation (do not print this entire paragraph): A composed bundle still requires explicit capability and integrity boundaries.
+
+REGION 4
+Title verbatim: "How the flow works"
+Summary verbatim: "Inspect the six contribution hashes and the active host bundle version."
+Teaching context for the visual explanation (do not print this entire paragraph): Inspect the six contribution hashes and the active host bundle version. Compare bundle disabled and enabled inventories, then run the read-only host tool.
+
+REGION 5
+Title verbatim: "Evidence to inspect"
+Summary verbatim: "Hash pins and worker least privilege."
+Teaching context for the visual explanation (do not print this entire paragraph): Hash pins and worker least privilege. A composed bundle still requires explicit capability and integrity boundaries. Inspect the reported outcome and the host evidence before drawing a conclusion.
+
+REGION 6
+Title verbatim: "Put it to the test"
+Summary verbatim: "Reload a reviewed bundle and compare the requested capabilities with the fixture-resolved inventory. What remains unverified in Managed Agents?"
+Teaching context for the visual explanation (do not print this entire paragraph): Reload a reviewed bundle and compare the requested capabilities with the fixture-resolved inventory. What remains unverified in Managed Agents? Record what your evidence establishes and what remains unverified.
+Maintain complete readable English copy, strong navy contrast, generous spacing and clean diagram alignment. No cropped panels or tiny illegible pseudo-code. Do not import event-stream diagrams, event type labels, API fields, source paths, controls, or identifiers from the style reference. Use only the supplied lesson context. Never assign numeric status codes, handler counts, timeouts, identifier values or guaranteed effects to a condition unless the context explicitly states that exact mapping. Where the mapping is not supplied, label a refusal as rejected without inventing a code or count. Region 4 must illustrate the specified workflow, not a generic session stream. Region 5 must show evidence checks, not invented event sequences. If no code or event names are supplied, omit them entirely. Do not introduce fictional identifiers or code not present in this lesson context. Do not imply that notification alone authorizes an effect, that a local cancel archives a remote session, or that this illustration proves a live run. Small footer: "Illustrated teaching summary — inspect actual exercise evidence."
+
+AUTHORITATIVE LESSON REFERENCE (not text to reproduce wholesale):
+## Controls
+
+`GET /api/c23/plugins` shows the active manifest and recent owner-local comparisons. `POST /api/c23/reload` rereads the reviewed files. Try Valid, Malformed, Missing directory, Changed hash, and Elevated worker; a rejected reload leaves the active inventory unchanged. Select bundle on/off, skill and optional MCP inclusion, and one of two fictional locations. `POST /api/c23/inventory` compares requested capabilities with an authored fixture resolution. `POST /api/c23/run` invokes the actual read-only host handler only when the bundle is enabled. `POST /api/c23/reset` clears this owner's local comparisons after confirmation.
+
+
+## Evidence to inspect
+
+Compare each contribution path and pinned hash with the active manifest digest. When disabled, the handler count is zero. When enabled, the `bird.list_sightings` handler reads its validated fixture records and records the checked result. The worker has no tools, skills, MCP servers or dynamic delegation. Skill inclusion is metadata in this exercise, not evidence of an agent file read. MCP inclusion is a declaration; the reserved `example.invalid` endpoint is never contacted. Requested and resolved inventories match only in the authored fixture; no Managed session is created.
+
+
+## Limitations
+
+This lab does not install a marketplace plugin, register hooks, provision a Managed agent, upload a skill, or connect to MCP. Live mode returns unavailable until those resources are reviewed and provisioned in a separate explicit setup workflow. A future live session would need exact resource IDs and versions, a capability check, and resolved session verification. [Managed agent configuration](https://platform.claude.com/docs/en/managed-agents/agent-setup) is versioned; [session updates](https://platform.claude.com/docs/en/managed-agents/session-operations) can replace tools and MCP servers only while eligible and idle. A changed skill or system value requires a fresh session. Local Reload never updates a remote session.
+
+
+## Challenge
+
+Reload the reviewed bundle and compare requested with fixture-resolved capabilities. Which observations prove a host effect, and which Managed capabilities remain unverified?
+
+### PowerShell checks
+
+```powershell
+npm.cmd run typecheck
+node --import tsx --test tests/lab23-plugins.test.ts
+npm.cmd run audit:lesson-guides
+npm.cmd run test:lesson-guides
+npm.cmd run build
+node scripts/lab23-browser-demonstration.mjs
+```
+
+Official references: [agent setup](https://platform.claude.com/docs/en/managed-agents/agent-setup), [session operations](https://platform.claude.com/docs/en/managed-agents/session-operations), [skills](https://platform.claude.com/docs/en/managed-agents/skills), [MCP connector](https://platform.claude.com/docs/en/managed-agents/mcp-connector).
+
+
+Follow the exact lesson semantics above. Do not infer outcomes from a scenario name. If a status code, count, state transition or effect is not specified, use an inspection instruction without guessing. Preserve the six verbatim region titles and summaries. Do not copy the reference image technical labels or workflow.
+````
+
+COPY PROMPT END

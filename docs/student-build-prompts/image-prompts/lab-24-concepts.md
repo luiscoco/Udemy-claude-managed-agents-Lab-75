@@ -1,0 +1,91 @@
+# Lab 24 concept map image prompt
+
+Use after P14 and before P16. Generate an original image, inspect it against its actual lesson, and measure the final panels. Supply an approved style reference if the tool supports references; the prompt's reference wording is not an attached file. It must not copy Agent SDK API claims. The pose and content below are specific to this image. Generative output is not pixel deterministic.
+
+COPY PROMPT START
+
+````text
+Use case: infographic-diagram. Create a polished, high-resolution, landscape 16:9 educational infographic for a Claude Managed Agents course.
+Input reference role: STYLE AND CONTENT HIERARCHY ONLY. Match the supplied teaching-poster examples: oversized heavy navy headline with vivid orange emphasis, pale blue subtitle capsule, a friendly astronaut with a padded white spacesuit, blue gloves, navy reflective visor, boots and life-support backpack in the upper right, airy white background with subtle peach and sky-blue rounded corner shapes, pastel blue/mint/lilac/peach/pink panels, glossy technical icons, bright blue directional arrows, and a star takeaway strip. This is original artwork with new Managed Agents content. Do not copy the reference's Agent SDK claims, query() code, endpoints or server-process architecture.
+Header at y=2%-25%: "How Claude Managed Agents Works" (Claude Managed Agents in orange); subtitle "Lab 24 — Concept map"; then "Who owns the agent loop". Astronaut stays in the header and does not cover text. Its unique content-specific pose: Floating sideways while turning a holographic control dial, front view with the working prop raised at shoulder level. The prop illustrates Who owns the agent loop. Show the astronaut presenting the core concept. Vary the body angle, arm positions and topic-specific prop from every other poster; preserve the white suit and blue visor design.
+Content structure: six individually bounded regions with varied editorial hierarchy, not six identical cards. Region 1 is a core-idea panel at x=2%-40%, y=28%-54%. Region 2 is a narrower explanation at x=42%-69%, y=28%-54%. Region 3 is a contract/evidence panel at x=71%-98%, y=28%-54%. Region 4 is a wide architecture or decision-flow diagram at x=2%-59%, y=56%-83%. Region 5 is a step-by-step check list at x=61%-98%, y=56%-83%. Region 6 is a full-width takeaway strip at x=2%-98%, y=86%-96%. Keep panels separated by white gutters. Give each a small numbered circle 1 through 6. All six regions must remain independent for synchronized audio highlighting. No embedded red rectangle.
+Each region must include its exact title and summary below, plus a useful mini-diagram or visual sequence derived strictly from its teaching context. Use concise labels instead of full narration paragraphs. Use recognizable browser, session, queue, document, shield, reviewer and ledger icons where relevant. Show arrows and labeled state changes instead of generic decorative icons. Optional small dark monospace evidence chips may quote exact identifiers from the teaching context; do not invent code or execution results.
+REGION 1
+Title verbatim: "The objective"
+Summary verbatim: "Compare who iterates, executes host tools, holds state and cleans up in a manual Messages loop, the Messages SDK tool runner and Managed session custom tools."
+Teaching context for the visual explanation (do not print this entire paragraph): Compare who iterates, executes host tools, holds state and cleans up in a manual Messages loop, the Messages SDK tool runner and Managed session custom tools.
+
+REGION 2
+Title verbatim: "Core rule"
+Summary verbatim: "Who iterates, executes tools, holds state and cleans up."
+Teaching context for the visual explanation (do not print this entire paragraph): What distinguishes the compared agent loops? Who iterates, executes tools, holds state and cleans up.
+
+REGION 3
+Title verbatim: "Keep the boundary clear"
+Summary verbatim: "Loop ownership and execution responsibility explain the architectural difference."
+Teaching context for the visual explanation (do not print this entire paragraph): Loop ownership and execution responsibility explain the architectural difference.
+
+REGION 4
+Title verbatim: "How the flow works"
+Summary verbatim: "Run Reserve 2 in all three offline harnesses and compare typed call adapters and identical host effects."
+Teaching context for the visual explanation (do not print this entire paragraph): Run Reserve 2 in all three offline harnesses and compare typed call adapters and identical host effects. Run Reject 5 and confirm the host policy leaves stock unchanged despite the fixture call.
+
+REGION 5
+Title verbatim: "Evidence to inspect"
+Summary verbatim: "Who iterates, executes tools, holds state and cleans up."
+Teaching context for the visual explanation (do not print this entire paragraph): Who iterates, executes tools, holds state and cleans up. Loop ownership and execution responsibility explain the architectural difference. Inspect the reported outcome and the host evidence before drawing a conclusion.
+
+REGION 6
+Title verbatim: "Put it to the test"
+Summary verbatim: "Identify one responsibility the manual loop owns that the Managed session harness supplies."
+Teaching context for the visual explanation (do not print this entire paragraph): Identify one responsibility the manual loop owns that the Managed session harness supplies. Record what your evidence establishes and what remains unverified.
+Maintain complete readable English copy, strong navy contrast, generous spacing and clean diagram alignment. No cropped panels or tiny illegible pseudo-code. Do not import event-stream diagrams, event type labels, API fields, source paths, controls, or identifiers from the style reference. Use only the supplied lesson context. Never assign numeric status codes, handler counts, timeouts, identifier values or guaranteed effects to a condition unless the context explicitly states that exact mapping. Where the mapping is not supplied, label a refusal as rejected without inventing a code or count. Region 4 must illustrate the specified workflow, not a generic session stream. Region 5 must show evidence checks, not invented event sequences. If no code or event names are supplied, omit them entirely. Do not introduce fictional identifiers or code not present in this lesson context. Do not imply that notification alone authorizes an effect, that a local cancel archives a remote session, or that this illustration proves a live run. Small footer: "Illustrated teaching summary — inspect actual exercise evidence."
+
+AUTHORITATIVE LESSON REFERENCE (not text to reproduce wholesale):
+## Controls
+
+Choose Manual Messages loop, Messages SDK tool runner, or Managed session custom tools. Choose Reserve 2, Reject 5, or Read then limit. Set the host call cap to 1, 2, or 3 and run the offline harness. `GET /api/c24/tools` shows the shared host contract, `GET /api/c24/code` lists the three provider boundaries and source files, and `POST /api/c24/run` produces a bounded result. Live mode is rejected before any API call.
+
+
+## Evidence to inspect
+
+The trace orders request, typed call, checked host effect, tool result, answer, and cleanup. The manual loop owns iteration and result history. The tool runner would own iteration but still invokes an application callback for a checked tool effect. Managed Agents owns the session loop and pauses for `agent.custom_tool_use`; the client supplies `user.custom_tool_result`. The offline event adapters demonstrate these shapes, not provider execution. All three paths execute the same host handler in their offline modes. The host effect ledger and final stock, rather than fixture answer text, prove whether inventory changed. A five-unit reservation is rejected; the one-call limit blocks the second call before reservation.
+
+
+## Limitations
+
+The offline experiment does not execute Anthropic Messages or Managed API methods, so its fixture answers and typed call events are not model observations. Live Messages requests need a separate opt-in, model and budget; a Managed run needs a pinned, reviewed agent and environment plus session cleanup. Those paths are deliberately unavailable here. A Messages `toolRunner` is a Messages API helper and its options must not be sent to `sessions.create`. See [TypeScript SDK](https://platform.claude.com/docs/en/cli-sdks-libraries/sdks/typescript), [tool runner](https://platform.claude.com/docs/en/agents-and-tools/tool-use/tool-runner), and [Managed session events](https://platform.claude.com/docs/en/managed-agents/events-and-streaming).
+
+
+## Challenge
+
+Identify a responsibility the manual loop owns that the Managed harness supplies. Then explain which host responsibility neither layer can take over for this exercise.
+
+### PowerShell checks
+
+```powershell
+npm.cmd run typecheck
+node --import tsx --test tests/lab24-harnesses.test.ts
+npm.cmd run audit:lesson-guides
+npm.cmd run test:lesson-guides
+npm.cmd run build
+node scripts/lab24-browser-demonstration.mjs
+```
+
+
+Follow the exact lesson semantics above. Do not infer outcomes from a scenario name. If a status code, count, state transition or effect is not specified, use an inspection instruction without guessing. Preserve the six verbatim region titles and summaries. Do not copy the reference image technical labels or workflow.
+````
+
+COPY PROMPT END
+
+## Observed correction prompt
+
+This corrected the instructor's generated candidate. Apply only if the same defect exists in your candidate; preserve all other correct content and inspect again. Do not blindly edit a differently composed image.
+
+COPY PROMPT START
+
+````text
+Preserve every pixel except the final bullet in panel 1 middle Messages SDK tool runner column. Replace 'Runner cleans up' with 'Host handles cleanup'. The panel 2 table already correctly says Your host. Keep all six panels, lettering, bounds and astronaut unchanged.
+````
+
+COPY PROMPT END

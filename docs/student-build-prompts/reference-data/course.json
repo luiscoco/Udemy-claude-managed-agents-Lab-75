@@ -1,0 +1,2207 @@
+{
+  "referenceCommit": "963cbbf8a30b2341d0a932baab53d79766c32337",
+  "lessons": [
+    {
+      "id": 1,
+      "title": "Session event streaming",
+      "objective": "Consume a Managed Agents event stream and tell agent response text apart from session lifecycle events and turn completion.",
+      "steps": [
+        "Run the Normal turn fixture offline and watch the four panels fill separately: session, agent text, raw events, outcome.",
+        "Find where the preview text is replaced by the authoritative agent.message instead of being appended to it.",
+        "Run Repeated events, Stream ended and Session error and compare the outcomes.",
+        "Run Requires action and Budget reached to see paused turns that are not successes.",
+        "Start Cancel, press Cancel query, and read the guide section on what a local abort does and does not stop."
+      ],
+      "inspect": [
+        "server/lib/session-events.ts",
+        "server/lib/lab01-run.ts",
+        "server/lib/lab01-port.ts",
+        "server/lib/lab01-fixtures.ts",
+        "shared/lab01-events.ts"
+      ],
+      "challenge": "Ask for three bullet points. Identify the authoritative agent.message containing them and the lifecycle event confirming that the turn finished.",
+      "guidePath": "Tab1-query.md",
+      "sources": [
+        "src/concepts/Concept01Query.tsx",
+        "server/concepts/01-query.ts",
+        "server/lib/session-events.ts",
+        "server/lib/lab01-run.ts",
+        "server/lib/lab01-port.ts",
+        "server/lib/lab01-fixtures.ts",
+        "shared/lab01-events.ts"
+      ],
+      "tests": [
+        "tests/lab01-query.test.ts"
+      ]
+    },
+    {
+      "id": 2,
+      "title": "Session options",
+      "objective": "Control a dedicated Managed Agents session with model and system overrides, a list-cost budget, connection previews and a local deadline.",
+      "steps": [
+        "Run normal completion offline, then disable previews while keeping prompt and model fixed.",
+        "Compare requested options with the effective session creation snapshot.",
+        "Run Budget reached and Deadline expires; distinguish paused work from local timeout.",
+        "Inspect interruption, cleanup and reported usage; offline fixtures are not measurements of Claude."
+      ],
+      "inspect": [
+        "shared/lab02-options.ts",
+        "server/lib/lab02-port.ts",
+        "server/lib/lab02-run.ts",
+        "server/lib/lab02-fixtures.ts",
+        "server/lib/lab01-run.ts",
+        "server/lib/session-events.ts"
+      ],
+      "challenge": "Reduce the session budget or local deadline. Explain the outcome, which limit produced it, and whether remote execution was confirmed stopped.",
+      "guidePath": "Tab2-options.md",
+      "sources": [
+        "src/concepts/Concept02Options.tsx",
+        "server/concepts/02-options.ts",
+        "shared/lab02-options.ts",
+        "server/lib/lab02-port.ts",
+        "server/lib/lab02-run.ts",
+        "server/lib/lab02-fixtures.ts",
+        "server/lib/lab01-run.ts",
+        "server/lib/session-events.ts"
+      ],
+      "tests": [
+        "tests/lab02-options.test.ts"
+      ]
+    },
+    {
+      "id": 3,
+      "title": "Built-in tools",
+      "objective": "Distinguish a tool being enabled in the session toolset from a call being permitted by its permission_policy and the host, and verify the effects in files rather than in agent claims.",
+      "steps": [
+        "Run Read-only offline and confirm that every file on disk is unchanged.",
+        "Run Unavailable Write and Denied Write; compare the evaluated_permission, the evaluation object and the permission denials list.",
+        "Run Permitted edit: the host allows the allowlisted cp and the in-fixture edit, and denies the traversal attempts.",
+        "Inspect outputs/draft.md on disk, then reset the sandbox and run Auto to see server-evaluated outcomes."
+      ],
+      "inspect": [
+        "shared/lab03-tools.ts",
+        "server/lib/lab03-sandbox.ts",
+        "server/lib/lab03-run.ts",
+        "server/lib/lab03-port.ts",
+        "server/lib/lab03-fixtures.ts"
+      ],
+      "challenge": "Take the Permitted edit preset and remove edit from the enabled tools. Before you run it, predict whether the edit attempt is unavailable (deny with no evaluation) or denied, and what outputs/draft.md contains on disk afterwards.",
+      "guidePath": "Tab3-tools.md",
+      "sources": [
+        "src/concepts/Concept03Tools.tsx",
+        "server/concepts/03-tools.ts",
+        "shared/lab03-tools.ts",
+        "server/lib/lab03-sandbox.ts",
+        "server/lib/lab03-run.ts",
+        "server/lib/lab03-port.ts",
+        "server/lib/lab03-fixtures.ts"
+      ],
+      "tests": [
+        "tests/lab03-tools.test.ts"
+      ]
+    },
+    {
+      "id": 4,
+      "title": "Permissions",
+      "objective": "Approve or deny paused tool calls through a host review dialog: the Managed Agents equivalent of canUseTool is a requires_action pause answered once with user.tool_confirmation.",
+      "steps": [
+        "Run the Review scenario offline. Approve the write and the first edit, deny the second edit, and deny the summary write.",
+        "Confirm on disk that only the first edit landed, and read how the authored agent acknowledges each deny_message.",
+        "Run again with a 5-second approval window and let one review expire; then cancel a run while a review is pending.",
+        "Use the decision tester to replay a decision and send one with a wrong token; compare the 409 and 404 answers.",
+        "Run Preallowed only and notice that no review appears: always_allow calls never reach the reviewer."
+      ],
+      "inspect": [
+        "shared/lab04-permissions.ts",
+        "server/lib/lab04-approvals.ts",
+        "server/lib/lab04-run.ts",
+        "server/concepts/04-permissions.ts",
+        "server/lib/tool-session-run.ts",
+        "server/lib/lab03-sandbox.ts"
+      ],
+      "challenge": "Deny one write with your own deny_message and explain how the agent responds: the message comes back as an error agent.tool_result and the session keeps running. Why is the offline reaction authored, while a live agent may try another approach?",
+      "guidePath": "Tab4-permissions.md",
+      "sources": [
+        "src/concepts/Concept04Permissions.tsx",
+        "server/concepts/04-permissions.ts",
+        "shared/lab04-permissions.ts",
+        "server/lib/lab04-approvals.ts",
+        "server/lib/lab04-run.ts",
+        "server/lib/tool-session-run.ts",
+        "server/lib/lab03-sandbox.ts"
+      ],
+      "tests": [
+        "tests/lab04-permissions.test.ts"
+      ]
+    },
+    {
+      "id": 5,
+      "title": "Custom tools",
+      "objective": "Expose typed application functions as Managed Agents custom tools: the agent declares them, the session pauses on agent.custom_tool_use, and the host validates the input, runs the handler and answers once with user.custom_tool_result.",
+      "steps": [
+        "Read the three tool definitions and confirm each input_schema is generated from its Zod shape.",
+        "Run the Tour offline: list, add and complete a task, then watch the malformed add_task and the unknown ID come back as is_error results.",
+        "Compare the before and after task state for each call, and the handler call counts against the number of calls.",
+        "Run Slow handler and see a handler pass its deadline: the session gets an is_error result and no task is saved.",
+        "Run Hang, cancel it, and read how user.interrupt and cleanup are reported. Then load the run's task state through GET /api/c5/tasks."
+      ],
+      "inspect": [
+        "shared/lab05-custom-tools.ts",
+        "server/lib/lab05-tasks.ts",
+        "server/lib/lab05-run.ts",
+        "server/lib/lab05-port.ts",
+        "server/lib/lab05-fixtures.ts",
+        "server/lib/tool-session-run.ts"
+      ],
+      "challenge": "Send add_task with a missing or wrong-typed title. Confirm that the result is is_error, that the handler call count is unchanged and that the task list is identical before and after.",
+      "guidePath": "Tab5-custom-tools.md",
+      "sources": [
+        "src/concepts/Concept05CustomTools.tsx",
+        "server/concepts/05-custom-tools.ts",
+        "shared/lab05-custom-tools.ts",
+        "server/lib/lab05-tasks.ts",
+        "server/lib/lab05-run.ts",
+        "server/lib/lab05-port.ts",
+        "server/lib/lab05-fixtures.ts",
+        "server/lib/tool-session-run.ts"
+      ],
+      "tests": [
+        "tests/lab05-custom-tools.test.ts"
+      ]
+    },
+    {
+      "id": 6,
+      "title": "Sessions and retained context",
+      "objective": "Continue a conversation in the same server-owned Managed session, compare it with fresh context, and reconnect without duplicating persisted events.",
+      "steps": [
+        "Start a new offline session with the fictional project introduction.",
+        "Select the follow-up and Continue; confirm the session ID stays the same and the name is recalled.",
+        "Start a fresh session with only the follow-up and compare the answer.",
+        "Reconnect and inspect stream-before-history ordering plus duplicate counts.",
+        "Inspect the server conversation index, then close the idle session and confirm later access is rejected."
+      ],
+      "inspect": [
+        "shared/lab06-sessions.ts",
+        "server/lib/lab06-store.ts",
+        "server/lib/lab06-port.ts",
+        "server/concepts/06-sessions.ts"
+      ],
+      "challenge": "Ask a follow-up that depends on the first answer. Explain which ID proves session reuse and why fixture recall is evidence only of fixture behavior.",
+      "guidePath": "Tab6-sessions.md",
+      "sources": [
+        "src/concepts/Concept06Sessions.tsx",
+        "server/concepts/06-sessions.ts",
+        "shared/lab06-sessions.ts",
+        "server/lib/lab06-store.ts",
+        "server/lib/lab06-port.ts"
+      ],
+      "tests": [
+        "tests/lab06-sessions.test.ts"
+      ]
+    },
+    {
+      "id": 7,
+      "title": "Tool policy and execution audit",
+      "objective": "Replace Agent SDK tool hooks with a host policy pipeline that validates before execution and records the actual effect afterward.",
+      "steps": [
+        "Run Audit only and confirm the safe draft edit executes.",
+        "Run Deny write and verify the protected file is unchanged and the handler did not run.",
+        "Run Rewrite input and compare original proposed.md with effective draft.md after revalidation.",
+        "Run the handler-exception and repeated-call fixtures.",
+        "Load file evidence from GET /api/c7/file and distinguish executed, denied and failed audit outcomes."
+      ],
+      "inspect": [
+        "shared/lab07-hooks.ts",
+        "server/lib/lab07-policy.ts",
+        "server/lib/lab07-run.ts",
+        "server/lib/lab07-port.ts",
+        "server/concepts/07-hooks.ts"
+      ],
+      "challenge": "Block a protected-file call and identify the host decision that prevented the effect before any handler ran.",
+      "guidePath": "Tab7-hooks.md",
+      "sources": [
+        "src/concepts/Concept07Hooks.tsx",
+        "server/concepts/07-hooks.ts",
+        "shared/lab07-hooks.ts",
+        "server/lib/lab07-policy.ts",
+        "server/lib/lab07-run.ts",
+        "server/lib/lab07-port.ts"
+      ],
+      "tests": [
+        "tests/lab07-hooks.test.ts"
+      ]
+    },
+    {
+      "id": 8,
+      "title": "Delegation and session threads",
+      "objective": "Delegate bounded work to predefined Managed Agents, inspect separate session-thread histories, and verify role capabilities and effects in the host.",
+      "steps": [
+        "Run the normal fixture and identify the researcher, reviewer and calculator thread IDs.",
+        "Separate delegation, report receipt and independent verification states.",
+        "Confirm the reviewer write is denied and the calculator sum is recomputed by the host.",
+        "Run cross-posted, duplicate and wrong-role scenarios.",
+        "Cancel the hanging child activity and inspect the interrupt outcome."
+      ],
+      "inspect": [
+        "shared/lab08-subagents.ts",
+        "server/lib/lab08-port.ts",
+        "server/lib/lab08-run.ts",
+        "server/concepts/08-subagents.ts"
+      ],
+      "challenge": "Restrict one worker capability and compare its report with the host effect ledger.",
+      "guidePath": "Tab8-subagents.md",
+      "sources": [
+        "src/concepts/Concept08Subagents.tsx",
+        "server/concepts/08-subagents.ts",
+        "shared/lab08-subagents.ts",
+        "server/lib/lab08-port.ts",
+        "server/lib/lab08-run.ts"
+      ],
+      "tests": [
+        "tests/lab08-subagents.test.ts"
+      ]
+    },
+    {
+      "id": 9,
+      "title": "System instructions and explicit context",
+      "objective": "Compare inherited and explicitly composed system instructions in fresh sessions while keeping the question and base model fixed.",
+      "steps": [
+        "Compare all four offline variants with the same question.",
+        "Find the omitted system override in Base and the replacement in Custom.",
+        "Inspect base plus append and the authored project context selection.",
+        "Compare requested composition with the resolved session snapshot.",
+        "Use one live variant explicitly and inspect actual usage and cleanup evidence."
+      ],
+      "inspect": [
+        "shared/lab09-system-prompts.ts",
+        "server/lib/lab09-composer.ts",
+        "server/lib/lab09-port.ts",
+        "server/lib/lab09-run.ts"
+      ],
+      "challenge": "Keep the question fixed and change only the system instructions. Explain what is inherited and what is replaced.",
+      "guidePath": "Tab9-system-prompts.md",
+      "sources": [
+        "src/concepts/Concept09SystemPrompts.tsx",
+        "server/concepts/09-system-prompts.ts",
+        "shared/lab09-system-prompts.ts",
+        "server/lib/lab09-composer.ts",
+        "server/lib/lab09-port.ts",
+        "server/lib/lab09-run.ts"
+      ],
+      "tests": [
+        "tests/lab09-system-prompts.test.ts"
+      ]
+    },
+    {
+      "id": 10,
+      "title": "Validated reports and interruption",
+      "objective": "Validate final JSON reports with a closed application schema and distinguish interrupt, local abort and idle-session close.",
+      "steps": [
+        "Run valid and invalid report fixtures and inspect host verification.",
+        "Run Corrected and Exhausted to see the single corrective-round limit.",
+        "Run Hang, interrupt it and confirm idle before sending another turn.",
+        "Disconnect locally or abort and inspect remote cleanup separately.",
+        "Close an idle session and verify future sends are rejected."
+      ],
+      "inspect": [
+        "shared/lab10-structured-interrupt.ts",
+        "server/lib/lab10-port.ts",
+        "server/lib/lab10-run.ts",
+        "server/concepts/10-structured-interrupt.ts"
+      ],
+      "challenge": "Identify the stop action that keeps the same session available for another turn and the evidence required before reuse.",
+      "guidePath": "Tab10-structured-interrupt.md",
+      "sources": [
+        "src/concepts/Concept10StructuredInterrupt.tsx",
+        "server/concepts/10-structured-interrupt.ts",
+        "shared/lab10-structured-interrupt.ts",
+        "server/lib/lab10-port.ts",
+        "server/lib/lab10-run.ts"
+      ],
+      "tests": [
+        "tests/lab10-structured-interrupt.test.ts"
+      ]
+    },
+    {
+      "id": 11,
+      "title": "Managed skills and progressive loading",
+      "objective": "Inspect pinned skill metadata separately from observed instruction and reference file reads in fresh sessions.",
+      "steps": [
+        "Compare all five offline variants and identify distinct session IDs.",
+        "Preview the authored instructions and reference; confirm a host preview is not an agent read.",
+        "Run Metadata only and Failed read to distinguish attachment, attempted loading and successful loading.",
+        "Compare revision v1 with v2 and inspect their different pinned versions.",
+        "Check the bundle locally, upload only through the explicit CLI, and opt into a live fresh session separately."
+      ],
+      "inspect": [
+        "shared/lab11-skills.ts",
+        "server/lib/lab11-bundle.ts",
+        "server/lib/lab11-port.ts",
+        "server/lib/lab11-run.ts"
+      ],
+      "challenge": "Compare attached metadata with event evidence that SKILL.md was read. Explain why no observed read does not prove the skill was unavailable.",
+      "guidePath": "Tab11-skills.md",
+      "sources": [
+        "src/concepts/Concept11Skills.tsx",
+        "server/concepts/11-skills.ts",
+        "shared/lab11-skills.ts",
+        "server/lib/lab11-bundle.ts",
+        "server/lib/lab11-port.ts",
+        "server/lib/lab11-run.ts"
+      ],
+      "tests": [
+        "tests/lab11-skills.test.ts"
+      ]
+    },
+    {
+      "id": 12,
+      "title": "Multiple messages in one session",
+      "objective": "Queue multiple messages in one retained session, separating local admission, provider acceptance and correlated turn outcomes.",
+      "steps": [
+        "Create an offline session and queue one Normal message. Inspect its local command and returned user event IDs.",
+        "Choose Slow, queue a message, then queue a follow-up while the first is running. Confirm that the second waits for completed idle evidence.",
+        "Compare one message with the two-message script; the script is a bounded host queue, not an Agent SDK async generator.",
+        "Try an oversized message, then close a Hang run with waiting work. Confirm rejection before submission and cancellation of waiting commands.",
+        "Open idle configuration. Apply read-only tools, append explicit system context, then create a new model session with a context handoff."
+      ],
+      "inspect": [
+        "shared/lab12-streaming-input.ts",
+        "server/lib/lab12-queue.ts",
+        "server/lib/lab12-port.ts",
+        "server/concepts/12-streaming-input.ts"
+      ],
+      "challenge": "Queue a follow-up while busy. Identify admission, processing, provider acceptance and completion evidence, then prove that closing the queue prevented waiting commands from being sent.",
+      "guidePath": "Tab12-streaming-input.md",
+      "sources": [
+        "src/concepts/Concept12StreamingInput.tsx",
+        "server/concepts/12-streaming-input.ts",
+        "shared/lab12-streaming-input.ts",
+        "server/lib/lab12-queue.ts",
+        "server/lib/lab12-port.ts"
+      ],
+      "tests": [
+        "tests/lab12-streaming-input.test.ts"
+      ]
+    },
+    {
+      "id": 13,
+      "title": "MCP connections and reachability",
+      "objective": "Connect real local MCP transports, separate configuration from observed reachability, and compare host bridges with native Managed HTTPS MCP.",
+      "steps": [
+        "Run Working offline and inspect the real notes stdio and authenticated inventory HTTP handshakes.",
+        "Compare advertised tools with effective tools. Enable fictional reservation, apply the idle configuration and attempt one reservation.",
+        "Disable the inventory server or reservation tool, apply while idle, then attempt the same call. Confirm local stock stayed unchanged.",
+        "Close the session and compare Missing and Unauthorized scenarios. Local HTTP 404/401 errors are not cloud reachability tests.",
+        "Inspect the typed host bridge and native URL source. Live native MCP requires a reviewed reachable HTTPS endpoint and a matching pre-registered vault."
+      ],
+      "inspect": [
+        "shared/lab13-mcp.ts",
+        "server/lib/lab13-local-mcp.ts",
+        "server/lib/lab13-port.ts",
+        "server/lib/lab13-sessions.ts",
+        "mcp-servers/lab13-notes.mjs",
+        "mcp-servers/lab13-inventory.ts"
+      ],
+      "challenge": "Disable a server and inspect which calls remain possible. Prove the disabled tool had no host MCP effect, and explain why local success does not prove cloud access.",
+      "guidePath": "Tab13-mcp-servers.md",
+      "sources": [
+        "src/concepts/Concept13McpServers.tsx",
+        "server/concepts/13-mcp-servers.ts",
+        "shared/lab13-mcp.ts",
+        "server/lib/lab13-local-mcp.ts",
+        "server/lib/lab13-port.ts",
+        "server/lib/lab13-sessions.ts",
+        "mcp-servers/lab13-notes.mjs",
+        "mcp-servers/lab13-inventory.ts"
+      ],
+      "tests": [
+        "tests/lab13-mcp.test.ts"
+      ]
+    },
+    {
+      "id": 14,
+      "title": "Models and supported effort",
+      "objective": "Compare supported model and effort settings in fresh sessions with resolved metadata, public responses and explicit fallback budgets.",
+      "steps": [
+        "Hold the prompt and model fixed; compare low, medium and high effort offline.",
+        "Reject incompatible values and inspect the resolved model snapshot.",
+        "Simulate unavailable and uncertain primary models with one explicitly budgeted host fallback."
+      ],
+      "inspect": [
+        "shared/lab14-models.ts",
+        "server/lib/lab14-port.ts",
+        "server/lib/lab14-run.ts"
+      ],
+      "challenge": "Change supported effort while keeping prompt and model fixed in fresh sessions. Explain why uncertain work blocks fallback.",
+      "guidePath": "Tab14-thinking-effort-models.md",
+      "sources": [
+        "src/concepts/Concept14ThinkingEffortModels.tsx",
+        "server/concepts/14-thinking-effort-models.ts",
+        "shared/lab14-models.ts",
+        "server/lib/lab14-port.ts",
+        "server/lib/lab14-run.ts"
+      ],
+      "tests": [
+        "tests/lab14-models.test.ts"
+      ]
+    },
+    {
+      "id": 15,
+      "title": "Usage and session budgets",
+      "objective": "Read cumulative session usage and separate overlapping scopes while enforcing platform budgets and bounded host turns.",
+      "steps": [
+        "Compare an intermediate usage event with the retrieved idle-session snapshot.",
+        "Repeat usage events and inspect child attribution without double counting.",
+        "Reach a local turn limit or platform budget, then explicitly decide whether to raise the cap."
+      ],
+      "inspect": [
+        "shared/lab15-usage.ts",
+        "server/lib/lab15-accounting.ts",
+        "server/lib/lab15-port.ts",
+        "server/lib/lab15-sessions.ts"
+      ],
+      "challenge": "Explain why intermediate usage differs from the final session snapshot, and why list cost is not a guaranteed invoice total.",
+      "guidePath": "Tab15-cost-usage.md",
+      "sources": [
+        "src/concepts/Concept15CostUsage.tsx",
+        "server/concepts/15-cost-usage.ts",
+        "shared/lab15-usage.ts",
+        "server/lib/lab15-accounting.ts",
+        "server/lib/lab15-port.ts",
+        "server/lib/lab15-sessions.ts"
+      ],
+      "tests": [
+        "tests/lab15-usage.test.ts"
+      ]
+    },
+    {
+      "id": 16,
+      "title": "Environment and configuration provenance",
+      "objective": "Trace synthetic host configuration precedence, server credential readiness and explicit Managed environment resources without conflating their scopes.",
+      "steps": [
+        "Change user and session region overrides; compare which host layer wins.",
+        "Run the missing-credential and absent-mount fixtures; keep unknown remote values separate.",
+        "Inspect an allowed fixture path and an outside path with the host guard.",
+        "Review the authored cloud environment definition and server-only manifest.",
+        "Optionally start one bounded live session after independently configuring an approved uploaded file ID."
+      ],
+      "inspect": [
+        "shared/lab16-settings-env.ts",
+        "server/lib/lab16-provenance.ts",
+        "server/lib/lab16-port.ts",
+        "server/concepts/16-settings-env.ts"
+      ],
+      "challenge": "Change a host configuration layer. Identify its winning provenance and explain why the remote sandbox value does not change automatically.",
+      "guidePath": "Tab16-settings-env.md",
+      "sources": [
+        "src/concepts/Concept16SettingsEnv.tsx",
+        "server/concepts/16-settings-env.ts",
+        "shared/lab16-settings-env.ts",
+        "server/lib/lab16-provenance.ts",
+        "server/lib/lab16-port.ts"
+      ],
+      "tests": [
+        "tests/lab16-settings-env.test.ts"
+      ]
+    },
+    {
+      "id": 17,
+      "title": "Host snapshots and file restoration",
+      "objective": "Restore tracked host fixture files from an owned snapshot while the retained Managed conversation remains intact.",
+      "steps": [
+        "Prepare an offline fixture session and take a snapshot of notes.md and absent draft.md.",
+        "Send turns that edit notes.md, create draft.md and create untracked scratch.md.",
+        "Dry-run restoration to inspect exact tracked restores and deletes.",
+        "Confirm only with the current host version and matching plan ID; inspect files and unchanged conversation history.",
+        "Try an unknown snapshot, then inspect remote outputs separately and close the session."
+      ],
+      "inspect": [
+        "shared/lab17-checkpointing.ts",
+        "server/lib/lab17-files.ts",
+        "server/lib/lab17-run.ts",
+        "server/concepts/17-checkpointing.ts"
+      ],
+      "challenge": "Explain why restoring notes.md and deleting draft.md leaves the conversation and untracked scratch.md intact.",
+      "guidePath": "Tab17-checkpointing.md",
+      "sources": [
+        "src/concepts/Concept17Checkpointing.tsx",
+        "server/concepts/17-checkpointing.ts",
+        "shared/lab17-checkpointing.ts",
+        "server/lib/lab17-files.ts",
+        "server/lib/lab17-run.ts"
+      ],
+      "tests": [
+        "tests/lab17-checkpointing.test.ts"
+      ]
+    },
+    {
+      "id": 18,
+      "title": "Cloud sandbox and host boundaries",
+      "objective": "Inspect configured cloud sandbox policy and independently test a disposable host file boundary without conflating either with agent permission flags.",
+      "steps": [
+        "Read the local platform manifest without starting a session.",
+        "Run Allowed mount and Outside mount offline; compare actual host read counts and hashes.",
+        "Run Blocked network and Missing environment; inspect the fail-closed results and zero socket calls.",
+        "Explicitly inspect live cloud metadata, then optionally start a bounded billed pwd diagnostic with host confirmation.",
+        "Check tool use and result evidence; explain why local path checks do not attest cloud containment."
+      ],
+      "inspect": [
+        "shared/lab18-sandbox.ts",
+        "server/lib/lab18-sandbox.ts",
+        "server/concepts/18-sandbox.ts"
+      ],
+      "challenge": "Explain why an unavailable configured environment fails closed before a session and why an offline host path denial does not prove cloud OS containment.",
+      "guidePath": "Tab18-sandbox.md",
+      "sources": [
+        "src/concepts/Concept18Sandbox.tsx",
+        "server/concepts/18-sandbox.ts",
+        "shared/lab18-sandbox.ts",
+        "server/lib/lab18-sandbox.ts"
+      ],
+      "tests": [
+        "tests/lab18-sandbox.test.ts"
+      ]
+    },
+    {
+      "id": 19,
+      "title": "Session inventory and explicit branches",
+      "objective": "Inventory owned Managed sessions, inspect bounded history pages and derive a fresh conversation from an explicit host summary.",
+      "steps": [
+        "Start an offline session and send a second turn to the same session ID.",
+        "Inspect the inventory and history pages, then branch from a selected host event boundary.",
+        "Compare parent and derived session IDs and the exact summary handoff; the parent history remains intact.",
+        "Rename and tag an idle session, then compare archive with explicit deletion on a separate fixture.",
+        "Inspect provider metadata only when deliberately selected in a live run."
+      ],
+      "inspect": [
+        "shared/lab19-session-management.ts",
+        "server/lib/lab19-sessions.ts",
+        "server/concepts/19-session-management.ts"
+      ],
+      "challenge": "Show why a derived conversation is a new session with explicit selected history, not a native fork carrying hidden state.",
+      "guidePath": "Tab19-session-management.md",
+      "sources": [
+        "src/concepts/Concept19SessionManagement.tsx",
+        "server/concepts/19-session-management.ts",
+        "shared/lab19-session-management.ts",
+        "server/lib/lab19-sessions.ts"
+      ],
+      "tests": [
+        "tests/lab19-session-management.test.ts"
+      ]
+    },
+    {
+      "id": 20,
+      "title": "Lifecycle events and host interceptors",
+      "objective": "Correlate Managed lifecycle events with host interceptor decisions and actual custom-tool effects without treating observations as SDK hook callbacks.",
+      "steps": [
+        "Run the passing offline policy and compare provider events, host audit, and the draft file.",
+        "Run denied pre-execution, tool failure, and interceptor exception; identify which boundary prevented or attempted execution.",
+        "Use the virtual-time deadline fixture and inspect cleanup without waiting for a real provider timeout.",
+        "Run final validation failure and distinguish the completed provider turn from a rejected application report.",
+        "Inspect source and, only with isolated setup, deliberately run a bounded live custom-tool session."
+      ],
+      "inspect": [
+        "shared/lab20-hooks-in-depth.ts",
+        "server/lib/lab20-run.ts",
+        "server/concepts/20-hooks-in-depth.ts"
+      ],
+      "challenge": "Compare a host interceptor exception with a failed tool execution. Which one reached the handler, and what did the fixture file prove?",
+      "guidePath": "Tab20-hooks-in-depth.md",
+      "sources": [
+        "src/concepts/Concept20HooksInDepth.tsx",
+        "server/concepts/20-hooks-in-depth.ts",
+        "shared/lab20-hooks-in-depth.ts",
+        "server/lib/lab20-run.ts"
+      ],
+      "tests": [
+        "tests/lab20-hooks-in-depth.test.ts"
+      ]
+    },
+    {
+      "id": 21,
+      "title": "Host commands and prompt expansion",
+      "objective": "Validate host commands, inspect exact fixed-template expansion, and distinguish local-only actions from messages sent on an owned session.",
+      "steps": [
+        "Prepare one bounded offline command session and inspect the fixed command registry.",
+        "Run a known model command and compare its exact expanded user message with the retained session result.",
+        "Try an invalid argument and an unknown command; confirm both are rejected before a provider send.",
+        "Inspect and reset the bounded local history; compare provider send counts before and after.",
+        "Close the session and inspect the host command implementation and Managed session port."
+      ],
+      "inspect": [
+        "shared/lab21-slash-commands.ts",
+        "server/lib/lab21-commands.ts",
+        "server/concepts/21-slash-commands.ts"
+      ],
+      "challenge": "Why does a local inspect command not create a model turn, while a fixed prompt template does?",
+      "guidePath": "Tab21-slash-commands.md",
+      "sources": [
+        "src/concepts/Concept21SlashCommands.tsx",
+        "server/concepts/21-slash-commands.ts",
+        "shared/lab21-slash-commands.ts",
+        "server/lib/lab21-commands.ts"
+      ],
+      "tests": [
+        "tests/lab21-slash-commands.test.ts"
+      ]
+    },
+    {
+      "id": 22,
+      "title": "Explicit project context and memory",
+      "objective": "Trace exactly which authored project and summary files the host selects for a fresh Managed session without assuming automatic CLAUDE.md discovery.",
+      "steps": [
+        "Inspect the four allowlisted fixture files and their content hashes.",
+        "Run nested selection and compare actual host reads with the complete user message.",
+        "Run the conflicting untrusted note and explain why its prose cannot change permissions.",
+        "Run with context disabled, then start a fresh session with the explicit handoff summary.",
+        "Compare local file reads, cloud memory attachment and remote file-read evidence separately."
+      ],
+      "inspect": [
+        "shared/lab22-claude-md-memory.ts",
+        "server/lib/lab22-context.ts",
+        "server/concepts/22-claude-md-memory.ts"
+      ],
+      "challenge": "Disable nested context and select the summary instead. Which authored markers disappear, and which appear in the new session input?",
+      "guidePath": "Tab22-claude-md-memory.md",
+      "sources": [
+        "src/concepts/Concept22ClaudeMdMemory.tsx",
+        "server/concepts/22-claude-md-memory.ts",
+        "shared/lab22-claude-md-memory.ts",
+        "server/lib/lab22-context.ts"
+      ],
+      "tests": [
+        "tests/lab22-claude-md-memory.test.ts"
+      ]
+    },
+    {
+      "id": 23,
+      "title": "Reusable capability bundles",
+      "objective": "Compose a reviewed, hash-pinned host bundle of commands, tools, skills, agent definitions and optional MCP declarations while enforcing worker least privilege.",
+      "steps": [
+        "Inspect the six contribution hashes and the active host bundle version.",
+        "Compare bundle disabled and enabled inventories, then run the read-only host tool.",
+        "Include the skill snapshot and optional MCP declaration without claiming an observed skill read or server contact.",
+        "Try malformed, missing-directory, changed-hash and elevated-worker reloads; verify the accepted inventory stays pinned.",
+        "Reload the reviewed bundle and distinguish host inventory refresh from a resolved Managed session change."
+      ],
+      "inspect": [
+        "shared/lab23-plugins.ts",
+        "server/lib/lab23-bundles.ts",
+        "server/concepts/23-plugins.ts"
+      ],
+      "challenge": "Reload a reviewed bundle and compare the requested capabilities with the fixture-resolved inventory. What remains unverified in Managed Agents?",
+      "guidePath": "Tab23-plugins.md",
+      "sources": [
+        "src/concepts/Concept23Plugins.tsx",
+        "server/concepts/23-plugins.ts",
+        "shared/lab23-plugins.ts",
+        "server/lib/lab23-bundles.ts"
+      ],
+      "tests": [
+        "tests/lab23-plugins.test.ts"
+      ]
+    },
+    {
+      "id": 24,
+      "title": "Who owns the agent loop",
+      "objective": "Compare who iterates, executes host tools, holds state and cleans up in a manual Messages loop, the Messages SDK tool runner and Managed session custom tools.",
+      "steps": [
+        "Run Reserve 2 in all three offline harnesses and compare typed call adapters and identical host effects.",
+        "Run Reject 5 and confirm the host policy leaves stock unchanged despite the fixture call.",
+        "Run Read then limit with a one-call cap; inspect the read effect and the blocked reservation.",
+        "Read the ownership notes and distinguish fixture answer text from the checked host stock.",
+        "Inspect separate SDK contracts before configuring any billed Messages or Managed run."
+      ],
+      "inspect": [
+        "shared/lab24-harnesses.ts",
+        "server/lib/lab24-harnesses.ts",
+        "server/lib/lab24-sdk-contracts.ts",
+        "server/concepts/24-harnesses.ts"
+      ],
+      "challenge": "Identify one responsibility the manual loop owns that the Managed session harness supplies.",
+      "guidePath": "Tab24-harnesses.md",
+      "sources": [
+        "src/concepts/Concept24Harnesses.tsx",
+        "server/concepts/24-harnesses.ts",
+        "shared/lab24-harnesses.ts",
+        "server/lib/lab24-harnesses.ts",
+        "server/lib/lab24-sdk-contracts.ts"
+      ],
+      "tests": [
+        "tests/lab24-harnesses.test.ts"
+      ]
+    },
+    {
+      "id": 25,
+      "title": "Context growth and compaction evidence",
+      "objective": "Distinguish observed Managed compaction events, available cumulative thread usage and a separate host-authored summary handoff without inventing context capacity.",
+      "steps": [
+        "Inspect the bounded report files and checked host reads.",
+        "Replay the authored compaction event and compare it with a stream where no such event appears.",
+        "Run Missing metrics and keep unavailable values distinct from zero.",
+        "Run Summary omits and inspect which original report fact the new-session summary lost.",
+        "Explain why an offline event cannot establish a real platform compaction threshold."
+      ],
+      "inspect": [
+        "shared/lab25-compaction-context.ts",
+        "server/lib/lab25-compaction-context.ts",
+        "server/concepts/25-compaction-context.ts"
+      ],
+      "challenge": "Compare the authored compaction event with the host summary handoff. Which one could prove a platform action, and which retained facts can you verify from source reports?",
+      "guidePath": "Tab25-compaction-context.md",
+      "sources": [
+        "src/concepts/Concept25CompactionContext.tsx",
+        "server/concepts/25-compaction-context.ts",
+        "shared/lab25-compaction-context.ts",
+        "server/lib/lab25-compaction-context.ts"
+      ],
+      "tests": [
+        "tests/lab25-compaction-context.test.ts"
+      ]
+    },
+    {
+      "id": 26,
+      "title": "Session controls and supported updates",
+      "objective": "Operate an owned session through a strict catalog and compare updates that require idle with an explicit fresh-session model handoff.",
+      "steps": [
+        "Open a slow offline session and send a turn.",
+        "Attempt the idle tool update while running, then interrupt and confirm idle.",
+        "Remove a tool and MCP server by full replacement and inspect the result.",
+        "Try a budget increase without opt-in, then opt in explicitly.",
+        "Create a fresh model session with a short summary; inspect its parent ID and resolved fixture model.",
+        "Archive an idle session and confirm further mutations fail."
+      ],
+      "inspect": [
+        "shared/lab26-query-control.ts",
+        "server/lib/lab26-controls.ts",
+        "server/concepts/26-query-control.ts"
+      ],
+      "challenge": "Change model through a fresh session and inspect its resolved configuration.",
+      "guidePath": "Tab26-query-control.md",
+      "sources": [
+        "src/concepts/Concept26QueryControl.tsx",
+        "server/concepts/26-query-control.ts",
+        "shared/lab26-query-control.ts",
+        "server/lib/lab26-controls.ts"
+      ],
+      "tests": [
+        "tests/lab26-query-control.test.ts"
+      ]
+    },
+    {
+      "id": 27,
+      "title": "Remote work beyond a browser connection",
+      "objective": "Track authored remote work in a host ledger across browser detach and reconnect without creating duplicate sessions or task cards.",
+      "steps": [
+        "Open a slow offline task and inspect separate task, session, thread and browser identities.",
+        "Detach the browser and confirm the task still runs.",
+        "Reconnect the same task and inspect deduplicated event IDs and unchanged create count.",
+        "Wait for authored completion, then inspect the unverified report.",
+        "Open another task and explicitly stop it; close only after confirmed idle.",
+        "Disable host background policy and confirm creation is rejected."
+      ],
+      "inspect": [
+        "shared/lab27-background-tasks.ts",
+        "server/lib/lab27-ledger.ts",
+        "server/concepts/27-background-tasks.ts"
+      ],
+      "challenge": "Reconnect and identify evidence that the original task stopped.",
+      "guidePath": "Tab27-background-tasks.md",
+      "sources": [
+        "src/concepts/Concept27BackgroundTasks.tsx",
+        "server/concepts/27-background-tasks.ts",
+        "shared/lab27-background-tasks.ts",
+        "server/lib/lab27-ledger.ts"
+      ],
+      "tests": [
+        "tests/lab27-background-tasks.test.ts"
+      ]
+    },
+    {
+      "id": 28,
+      "title": "Errors retries and reconciliation",
+      "objective": "Classify authored transport, event, handler and cleanup faults while bounding read retries and reconciling uncertain mutations without duplicate effects.",
+      "steps": [
+        "Run Read rate limit and inspect three bounded GET attempts.",
+        "Run Missing create response and explain why another create is unsafe without an ID.",
+        "Run Tool result failure and compare one host effect with the uncertain result acknowledgment.",
+        "Run Reconnect duplicates and inspect stable event ID deduplication.",
+        "Compare validation, authorization, cancellation, EOF and browser disconnect classifications."
+      ],
+      "inspect": [
+        "shared/lab28-errors-retries.ts",
+        "server/lib/lab28-faults.ts",
+        "server/concepts/28-errors-retries.ts"
+      ],
+      "challenge": "Explain when reconnecting a known session is safer than creating another one.",
+      "guidePath": "Tab28-errors-retries.md",
+      "sources": [
+        "src/concepts/Concept28ErrorsRetries.tsx",
+        "server/concepts/28-errors-retries.ts",
+        "shared/lab28-errors-retries.ts",
+        "server/lib/lab28-faults.ts"
+      ],
+      "tests": [
+        "tests/lab28-errors-retries.test.ts"
+      ]
+    },
+    {
+      "id": 29,
+      "title": "Images documents and mounted files",
+      "objective": "Compare checked inline image/document blocks, explicit file mounts and separate downloaded output evidence using small fictional fixtures.",
+      "steps": [
+        "Inspect the checked PNG, PDF and text inventory without uploading anything.",
+        "Run the same fixture through the inline and file-resource previews; compare redacted block and mount metadata.",
+        "Inspect the downloaded output preview separately from agent answer text.",
+        "Submit malformed base64 and an oversized text payload; confirm rejection.",
+        "Explain why a host filesystem path is not a Managed sandbox path."
+      ],
+      "inspect": [
+        "shared/lab29-images-files.ts",
+        "server/lib/lab29-files.ts",
+        "server/concepts/29-images-files.ts"
+      ],
+      "challenge": "Send the same fixture through two supported routes and compare observed usage.",
+      "guidePath": "Tab29-images-files.md",
+      "sources": [
+        "src/concepts/Concept29ImagesFiles.tsx",
+        "server/concepts/29-images-files.ts",
+        "shared/lab29-images-files.ts",
+        "server/lib/lab29-files.ts"
+      ],
+      "tests": [
+        "tests/lab29-images-files.test.ts"
+      ]
+    },
+    {
+      "id": 30,
+      "title": "Host task board and completion gates",
+      "objective": "Use a host-owned task board and typed custom-tool inputs to enforce dependencies, versions and checked completion evidence independently of agent claims.",
+      "steps": [
+        "Start the three-step offline board and compare agent claim with host task states.",
+        "Attempt review or publish completion before dependencies are done; inspect the correlated is_error result.",
+        "Complete draft, review and publish with exact checked evidence in order.",
+        "Replay a tool event ID and confirm no second effect.",
+        "Try invalid whole-plan replacement and a conflicting version; inspect the deterministic gate."
+      ],
+      "inspect": [
+        "shared/lab30-todo-tracking.ts",
+        "server/lib/lab30-board.ts",
+        "server/concepts/30-todo-tracking.ts"
+      ],
+      "challenge": "Try a plan change and locate the deterministic accepting or refusing gate.",
+      "guidePath": "Tab30-todo-tracking.md",
+      "sources": [
+        "src/concepts/Concept30TodoTracking.tsx",
+        "server/concepts/30-todo-tracking.ts",
+        "shared/lab30-todo-tracking.ts",
+        "server/lib/lab30-board.ts"
+      ],
+      "tests": [
+        "tests/lab30-todo-tracking.test.ts"
+      ]
+    },
+    {
+      "id": 31,
+      "title": "Host questions and correlated answers",
+      "objective": "Collect one human answer to a bounded host question and correlate a single Managed custom-tool result with the paused event ID.",
+      "steps": [
+        "Start the deployment-target or option-selection fixture and inspect the stored run, session and event IDs.",
+        "Submit a valid choice and inspect the one correlated result.",
+        "Try an invalid choice or incomplete answer and confirm no result was sent.",
+        "Run allowed custom text, expiry and cancellation while waiting.",
+        "Repeat a decision or use a foreign run ID and compare the errors."
+      ],
+      "inspect": [
+        "shared/lab31-ask-user-question.ts",
+        "server/lib/lab31-questions.ts",
+        "server/concepts/31-ask-user-question.ts"
+      ],
+      "challenge": "Compare a partial answer with a complete validated response.",
+      "guidePath": "Tab31-ask-user-question.md",
+      "sources": [
+        "src/concepts/Concept31AskUserQuestion.tsx",
+        "server/concepts/31-ask-user-question.ts",
+        "shared/lab31-ask-user-question.ts",
+        "server/lib/lab31-questions.ts"
+      ],
+      "tests": [
+        "tests/lab31-ask-user-question.test.ts"
+      ]
+    },
+    {
+      "id": 32,
+      "title": "Plan review and execution gate",
+      "objective": "Review an immutable host-validated plan before a separate restricted execution phase, with file effects checked independently of plan text.",
+      "steps": [
+        "Start the planning fixture and compare its initial and current file hashes; planning has zero write effects.",
+        "Try a planning write and an unselected execution tool; inspect the host denials.",
+        "Request a revision and try the older approval; the version and hash must fail.",
+        "Approve the current plan and inspect the fresh execution session and one checked file change.",
+        "Reject or cancel another pending plan; confirm it cannot execute."
+      ],
+      "inspect": [
+        "shared/lab32-plan-mode.ts",
+        "server/lib/lab32-plan-gate.ts",
+        "server/concepts/32-plan-mode.ts"
+      ],
+      "challenge": "Request a revision and verify an older approval cannot authorize the new plan.",
+      "guidePath": "Tab32-plan-mode.md",
+      "sources": [
+        "src/concepts/Concept32PlanMode.tsx",
+        "server/concepts/32-plan-mode.ts",
+        "shared/lab32-plan-mode.ts",
+        "server/lib/lab32-plan-gate.ts"
+      ],
+      "tests": [
+        "tests/lab32-plan-mode.test.ts"
+      ]
+    },
+    {
+      "id": 33,
+      "title": "Human forms during tool work",
+      "objective": "Collect schema-validated human input during a real local MCP tool call, keeping MCP, custom-tool and consent correlation IDs separate.",
+      "steps": [
+        "Start the local MCP form and inspect the initialize, tools/list, tools/call and elicitation evidence.",
+        "Submit a valid date and quantity; inspect the correlated MCP tool response and custom-tool result shape.",
+        "Submit invalid values and identify the host schema rejection before an MCP reply.",
+        "Try decline, timeout and abort; confirm there is no accepted form.",
+        "Inspect the fixed local consent demonstration and distinguish it from OAuth."
+      ],
+      "inspect": [
+        "shared/lab33-mcp-elicitation.ts",
+        "server/lib/lab33-elicitation.ts",
+        "server/concepts/33-mcp-elicitation.ts",
+        "mcp-servers/lab33-form.mjs"
+      ],
+      "challenge": "Submit invalid values and identify the layer that rejects them.",
+      "guidePath": "Tab33-mcp-elicitation.md",
+      "sources": [
+        "src/concepts/Concept33McpElicitation.tsx",
+        "server/concepts/33-mcp-elicitation.ts",
+        "shared/lab33-mcp-elicitation.ts",
+        "server/lib/lab33-elicitation.ts",
+        "mcp-servers/lab33-form.mjs"
+      ],
+      "tests": [
+        "tests/lab33-mcp-elicitation.test.ts"
+      ]
+    },
+    {
+      "id": 34,
+      "title": "Output instruction variants",
+      "objective": "Compare trusted host output-instruction files in fresh session snapshots while validating JSON reports independently of style text.",
+      "steps": [
+        "Inspect the trusted concise, explanatory and review style catalog and its hashes.",
+        "Compare the same fixed question across styles; each run has a fresh session ID and identical empty capabilities.",
+        "Inspect the exact composed system override and host-file provenance.",
+        "Compare review-v1 with review-v2; older session snapshots stay unchanged.",
+        "Try an unknown style and observe preflight rejection before any session is created."
+      ],
+      "inspect": [
+        "shared/lab34-output-styles.ts",
+        "server/lib/lab34-styles.ts",
+        "server/concepts/34-output-styles.ts"
+      ],
+      "challenge": "Use an unknown style and inspect the preflight rejection.",
+      "guidePath": "Tab34-output-styles.md",
+      "sources": [
+        "src/concepts/Concept34OutputStyles.tsx",
+        "server/concepts/34-output-styles.ts",
+        "shared/lab34-output-styles.ts",
+        "server/lib/lab34-styles.ts"
+      ],
+      "tests": [
+        "tests/lab34-output-styles.test.ts"
+      ]
+    },
+    {
+      "id": 35,
+      "title": "Event mirrors and conversation indexes",
+      "objective": "Persist a bounded local mirror of canonical session events by thread without claiming ownership of remote Managed session state.",
+      "steps": [
+        "Start eager and batched mirrors and compare persisted versus pending canonical events.",
+        "Simulate a crash and restart before flushing a batch; identify the lost local pending records.",
+        "Try an append failure, restore appends and reconcile canonical history without duplicates.",
+        "Inspect missing-thread and archived-session cases; the mirror cannot invent history or restore a sandbox.",
+        "Compare the conversation index, thread partitions and separate empty effect ledger."
+      ],
+      "inspect": [
+        "shared/lab35-session-stores.ts",
+        "server/lib/lab35-mirror.ts",
+        "server/concepts/35-session-stores.ts"
+      ],
+      "challenge": "Compare flush strategies and identify which records survive a simulated crash.",
+      "guidePath": "Tab35-session-stores.md",
+      "sources": [
+        "src/concepts/Concept35SessionStores.tsx",
+        "server/concepts/35-session-stores.ts",
+        "shared/lab35-session-stores.ts",
+        "server/lib/lab35-mirror.ts"
+      ],
+      "tests": [
+        "tests/lab35-session-stores.test.ts"
+      ]
+    },
+    {
+      "id": 36,
+      "title": "Remote transport and host runners",
+      "objective": "Inspect the host HTTP/event boundary, bounded event consumption, fixed host worker lifecycle and remote cleanup without spawning Claude Code.",
+      "steps": [
+        "Run the successful loopback Managed-port fixture and inspect host request and remote lifecycle events.",
+        "Compare connection failure with an early stream close; neither produces a verified completed turn.",
+        "Run handler-worker failure and confirm one child exit with private stderr withheld.",
+        "Cancel during a pending stream; inspect local abort and unconfirmed remote cleanup.",
+        "Identify which code runs on the host and which lifecycle belongs to a remote session."
+      ],
+      "inspect": [
+        "shared/lab36-process-spawning.ts",
+        "server/lib/lab36-transport.ts",
+        "server/concepts/36-process-spawning.ts",
+        "mcp-servers/lab36-worker.mjs"
+      ],
+      "challenge": "Identify which work runs on the host and which belongs to the remote session.",
+      "guidePath": "Tab36-process-spawning.md",
+      "sources": [
+        "src/concepts/Concept36ProcessSpawning.tsx",
+        "server/concepts/36-process-spawning.ts",
+        "shared/lab36-process-spawning.ts",
+        "server/lib/lab36-transport.ts",
+        "mcp-servers/lab36-worker.mjs"
+      ],
+      "tests": [
+        "tests/lab36-process-spawning.test.ts"
+      ]
+    },
+    {
+      "id": 37,
+      "title": "External policy decision service",
+      "objective": "Ask a host-only policy service about an exact paused action and send one correlated confirmation only after a valid gate decision and independent path check.",
+      "steps": [
+        "Start a preallowed observation and see that no gate request or confirmation is needed.",
+        "Run the worker deny and inspect the exact sevt_ ID, deny_message and unchanged fixture file.",
+        "Try malformed output and timeout; neither can produce a confirmation or file effect.",
+        "Run host-refusal: the worker allows but the fixed host path limit denies.",
+        "Compare a local reviewer decision with the isolated policy worker and replay a decision."
+      ],
+      "inspect": [
+        "shared/lab37-permission-prompt-tool.ts",
+        "server/lib/lab37-policy-gate.ts",
+        "server/concepts/37-permission-prompt-tool.ts",
+        "mcp-servers/lab37-policy.mjs"
+      ],
+      "challenge": "Return an invalid gate response and inspect the prevented effect.",
+      "guidePath": "Tab37-permission-prompt-tool.md",
+      "sources": [
+        "src/concepts/Concept37PermissionPromptTool.tsx",
+        "server/concepts/37-permission-prompt-tool.ts",
+        "shared/lab37-permission-prompt-tool.ts",
+        "server/lib/lab37-policy-gate.ts",
+        "mcp-servers/lab37-policy.mjs"
+      ],
+      "tests": [
+        "tests/lab37-permission-prompt-tool.test.ts"
+      ]
+    },
+    {
+      "id": 38,
+      "title": "Application follow up suggestions",
+      "objective": "Offer optional application follow-up suggestions bound to a conversation, turn and response version without auto-sending or conflating usage with the answer.",
+      "steps": [
+        "Start a normal offline conversation and inspect the answer before checking suggestions.",
+        "Copy a suggestion into the input and confirm the explicit send count does not change.",
+        "Press Send message to submit it as a separate user turn.",
+        "Try delayed, suppressed and disabled suggestions; absence is valid.",
+        "Create a newer turn and confirm an older suggestion is stale and rejected."
+      ],
+      "inspect": [
+        "shared/lab38-prompt-suggestions.ts",
+        "server/lib/lab38-suggestions.ts",
+        "server/concepts/38-prompt-suggestions.ts"
+      ],
+      "challenge": "Explain why a suggestion may be absent and why accepting one needs a separate send.",
+      "guidePath": "Tab38-prompt-suggestions.md",
+      "sources": [
+        "src/concepts/Concept38PromptSuggestions.tsx",
+        "server/concepts/38-prompt-suggestions.ts",
+        "shared/lab38-prompt-suggestions.ts",
+        "server/lib/lab38-suggestions.ts"
+      ],
+      "tests": [
+        "tests/lab38-prompt-suggestions.test.ts"
+      ]
+    },
+    {
+      "id": 39,
+      "title": "Trusted configuration and untrusted checkouts",
+      "objective": "Verify a host-selected configuration manifest and hash before handling branch data through checked file tools.",
+      "steps": [
+        "Create a disposable worktree and compare the trusted host marker with a conflicting CLAUDE.md branch marker.",
+        "Inspect provenance and attempt the branch instruction takeover; confirm no hook ran.",
+        "Read notes.txt as data, then edit only that allowlisted file.",
+        "Try CLAUDE.md as an edit target, traversal and an absolute path; inspect each refusal.",
+        "Repeat with a missing manifest and a changed hash; neither can start a trusted session."
+      ],
+      "inspect": [
+        "shared/lab39-project-config-root.ts",
+        "server/lib/lab39-project-config-root.ts",
+        "server/concepts/39-project-config-root.ts"
+      ],
+      "challenge": "Identify a branch rule the trusted configuration refuses to execute.",
+      "guidePath": "Tab39-project-config-root.md",
+      "sources": [
+        "src/concepts/Concept39ProjectConfigRoot.tsx",
+        "server/concepts/39-project-config-root.ts",
+        "shared/lab39-project-config-root.ts",
+        "server/lib/lab39-project-config-root.ts"
+      ],
+      "tests": [
+        "tests/lab39-project-config-root.test.ts"
+      ]
+    },
+    {
+      "id": 40,
+      "title": "Safe recovery boundaries",
+      "objective": "Choose recovery from a host command/effect ledger without erasing remote history or dropping accepted work.",
+      "steps": [
+        "Build the kept-turn case and compare remote event, command and effect IDs before and after continuation.",
+        "Try host-only undo and confirm it refuses to erase accepted work.",
+        "Compare uncertain send and pending effect; both require reconciliation before continuation or retry.",
+        "Inspect a queued follow-up and explain why fresh derivation would lose accepted work.",
+        "Use the clean snapshot case to restore only a versioned host draft."
+      ],
+      "inspect": [
+        "shared/lab40-resume-drops-turn.ts",
+        "server/lib/lab40-recovery.ts",
+        "server/concepts/40-resume-drops-turn.ts"
+      ],
+      "challenge": "Explain how queued work changes the safe recovery boundary.",
+      "guidePath": "Tab40-resume-drops-turn.md",
+      "sources": [
+        "src/concepts/Concept40ResumeDropsTurn.tsx",
+        "server/concepts/40-resume-drops-turn.ts",
+        "shared/lab40-resume-drops-turn.ts",
+        "server/lib/lab40-recovery.ts"
+      ],
+      "tests": [
+        "tests/lab40-recovery.test.ts"
+      ]
+    },
+    {
+      "id": 41,
+      "title": "Managed session lifecycle comparison",
+      "objective": "Compare one-shot, retained and reconnect workflows using current Managed session events, IDs and archive evidence.",
+      "steps": [
+        "Start one-shot and inspect the sent user event, streamed agent event, idle confirmation and archive.",
+        "Start retained mode and send a second turn using the same session ID.",
+        "Reconnect by listing history and confirm no additional session is created.",
+        "Interrupt an idle retained session and continue it after the fixture idle confirmation.",
+        "Inspect archived-session refusal and the static historical model panel."
+      ],
+      "inspect": [
+        "shared/lab41-v2-session-api.ts",
+        "server/lib/lab41-lifecycle.ts",
+        "server/lib/lab06-port.ts",
+        "server/concepts/41-v2-session-api.ts"
+      ],
+      "challenge": "Describe the Managed event sequence for continuing an idle session.",
+      "guidePath": "Tab41-v2-session-api.md",
+      "sources": [
+        "src/concepts/Concept41V2SessionApi.tsx",
+        "server/concepts/41-v2-session-api.ts",
+        "shared/lab41-v2-session-api.ts",
+        "server/lib/lab41-lifecycle.ts",
+        "server/lib/lab06-port.ts"
+      ],
+      "tests": [
+        "tests/lab41-lifecycle.test.ts"
+      ]
+    },
+    {
+      "id": 42,
+      "title": "Bounded web research and citations",
+      "objective": "Research with bounded, inspected source records and verify citations against returned evidence while refusing unsafe redirects.",
+      "steps": [
+        "Inspect exact installed Managed web_search and web_fetch config fields in the code view.",
+        "Compare a search snippet with a complete authored page.",
+        "Run the hostile page and confirm its instruction remains escaped source data.",
+        "Run redirect and blocked-host cases; compare checked targets and request counts.",
+        "Verify answer citation IDs against inspected source records."
+      ],
+      "inspect": [
+        "shared/lab42-web-tools.ts",
+        "server/lib/lab42-research.ts",
+        "server/concepts/42-web-tools.ts"
+      ],
+      "challenge": "Test a hostile page and inspect the enforcing host decision.",
+      "guidePath": "Tab42-web-tools.md",
+      "sources": [
+        "src/concepts/Concept42WebTools.tsx",
+        "server/concepts/42-web-tools.ts",
+        "shared/lab42-web-tools.ts",
+        "server/lib/lab42-research.ts"
+      ],
+      "tests": [
+        "tests/lab42-web-tools.test.ts"
+      ]
+    },
+    {
+      "id": 43,
+      "title": "MCP resources through a host bridge",
+      "objective": "Read authenticated, bounded MCP resources through a host bridge without assuming Managed query-control methods.",
+      "steps": [
+        "Grant local consent and inspect loopback tool, resource/template and prompt listings.",
+        "Read v1 and v2 server-owned resource URIs and compare versioned results.",
+        "Get the known prompt and inspect the bounded host custom-tool result shape.",
+        "Try bad token, expired token and unknown URI; confirm no result escapes.",
+        "Refresh the bridge token and verify the next authorized read."
+      ],
+      "inspect": [
+        "shared/lab43-remote-mcp-resources.ts",
+        "mcp-servers/lab43-resources.ts",
+        "server/lib/lab43-mcp-bridge.ts",
+        "server/concepts/43-remote-mcp-resources.ts"
+      ],
+      "challenge": "Refresh the bridge token and inspect the next authorized call.",
+      "guidePath": "Tab43-remote-mcp-resources.md",
+      "sources": [
+        "src/concepts/Concept43RemoteMcp.tsx",
+        "server/concepts/43-remote-mcp-resources.ts",
+        "shared/lab43-remote-mcp-resources.ts",
+        "mcp-servers/lab43-resources.ts",
+        "server/lib/lab43-mcp-bridge.ts"
+      ],
+      "tests": [
+        "tests/lab43-mcp-bridge.test.ts"
+      ]
+    },
+    {
+      "id": 44,
+      "title": "Host telemetry and provider event traces",
+      "objective": "Correlate redacted host OTLP spans with separately labeled Managed model-span event evidence and effect counts.",
+      "steps": [
+        "Run a successful tool fixture and follow trace/parent IDs across Express, port, approval, handler and cleanup spans.",
+        "Compare denied and failed-tool cases against effect count and host decisions.",
+        "Inspect a missing provider model-span signal without inferring that no model activity occurred.",
+        "Opt in to fictional content recording and compare attributes with the default redacted run.",
+        "Inspect bounded collector storage and distinguish host export from provider event evidence."
+      ],
+      "inspect": [
+        "shared/lab44-otel-observability.ts",
+        "server/lib/lab44-telemetry.ts",
+        "server/concepts/44-otel-observability.ts"
+      ],
+      "challenge": "Compare denied and executed actions in the host trace and effect ledger.",
+      "guidePath": "Tab44-otel-observability.md",
+      "sources": [
+        "src/concepts/Concept44OtelObservability.tsx",
+        "server/concepts/44-otel-observability.ts",
+        "shared/lab44-otel-observability.ts",
+        "server/lib/lab44-telemetry.ts"
+      ],
+      "tests": [
+        "tests/lab44-telemetry.test.ts"
+      ]
+    },
+    {
+      "id": 45,
+      "title": "Provider availability and configuration",
+      "objective": "Separate documented Managed Agents availability, installed client verification and Messages API support before choosing a provider path.",
+      "steps": [
+        "Load the dated official capability catalog and compare direct Claude API with Claude Platform on AWS.",
+        "Inspect Bedrock, Vertex and Foundry Messages paths without inferring Managed sessions.",
+        "Run synthetic ready and auth/model/config mismatch cases against the loopback emulator.",
+        "Compare a passed emulator wire check with a disabled AWS Managed route.",
+        "Inspect first-party setup readiness without forwarding credentials or starting a billed run."
+      ],
+      "inspect": [
+        "shared/lab45-cloud-providers.ts",
+        "server/lib/lab45-providers.ts",
+        "server/concepts/45-cloud-providers.ts"
+      ],
+      "challenge": "Identify a preflight check that catches an unsupported provider path.",
+      "guidePath": "Tab45-cloud-providers.md",
+      "sources": [
+        "src/concepts/Concept45CloudProviders.tsx",
+        "server/concepts/45-cloud-providers.ts",
+        "shared/lab45-cloud-providers.ts",
+        "server/lib/lab45-providers.ts"
+      ],
+      "tests": [
+        "tests/lab45-providers.test.ts"
+      ]
+    },
+    {
+      "id": 46,
+      "title": "Observed cache usage and cost",
+      "objective": "Compare supported Managed cache-read and creation counters across equal-scope observations without inventing prompt control or savings.",
+      "steps": [
+        "Read the stable authored handbook and dynamic suffixes in the anatomy view.",
+        "Compare two retained-session model-request usage records for reused content.",
+        "Change the prefix and inspect the content hash and observed counter examples.",
+        "Change model or tools in fresh sessions and see why no delta is calculated.",
+        "Try short input and missing usage; zero and unknown are different outcomes."
+      ],
+      "inspect": [
+        "shared/lab46-prompt-caching.ts",
+        "server/lib/lab46-cache-observations.ts",
+        "server/lib/lab15-accounting.ts",
+        "server/concepts/46-prompt-caching.ts"
+      ],
+      "challenge": "Change a content prefix and compare measured cache counters when available.",
+      "guidePath": "Tab46-prompt-caching.md",
+      "sources": [
+        "src/concepts/Concept46PromptCaching.tsx",
+        "server/concepts/46-prompt-caching.ts",
+        "shared/lab46-prompt-caching.ts",
+        "server/lib/lab46-cache-observations.ts",
+        "server/lib/lab15-accounting.ts"
+      ],
+      "tests": [
+        "tests/lab46-cache-observations.test.ts"
+      ]
+    },
+    {
+      "id": 47,
+      "title": "Model driven and host driven orchestration",
+      "objective": "Compare native Managed worker threads with a host pipeline of independent sessions using closed reports and verified sales fixtures.",
+      "steps": [
+        "Choose a native or host orchestration route and inspect session versus thread identity.",
+        "Run regional sales and compare raw worker text with verified reports.",
+        "Run incorrect total and inspect the single corrective round before handoff.",
+        "Run delayed worker and dependency failure to see why parent prose cannot pass the gate.",
+        "Compare shared native session usage with the host aggregate of independent sessions."
+      ],
+      "inspect": [
+        "shared/lab47-multi-agent.ts",
+        "server/lib/lab47-multi-agent.ts",
+        "server/concepts/47-multi-agent.ts"
+      ],
+      "challenge": "Stop one worker and inspect the effect on dependent tasks.",
+      "guidePath": "Tab47-multi-agent.md",
+      "sources": [
+        "src/concepts/Concept47MultiAgent.tsx",
+        "server/concepts/47-multi-agent.ts",
+        "shared/lab47-multi-agent.ts",
+        "server/lib/lab47-multi-agent.ts"
+      ],
+      "tests": [
+        "tests/lab47-multi-agent.test.ts"
+      ]
+    },
+    {
+      "id": 48,
+      "title": "Security hardening",
+      "objective": "Use host-enforced tool input, path and egress checks to distinguish hostile attempts from observed local effects.",
+      "steps": [
+        "Compare a naive prompt-only policy with layered host enforcement.",
+        "Try a fake secret read and inspect whether the canary is exposed.",
+        "Try an out-of-scope write and inspect the outside-file state.",
+        "Try injected egress and inspect the loopback collector hit count.",
+        "Compare the custom-tool event ID with the separate business idempotency key."
+      ],
+      "inspect": [
+        "shared/lab48-security-hardening.ts",
+        "server/lib/lab48-security-range.ts",
+        "server/concepts/48-security-hardening.ts"
+      ],
+      "challenge": "Identify the host check that protects data when the model is misled.",
+      "guidePath": "Tab48-security-hardening.md",
+      "sources": [
+        "src/concepts/Concept48SecurityHardening.tsx",
+        "server/concepts/48-security-hardening.ts",
+        "shared/lab48-security-hardening.ts",
+        "server/lib/lab48-security-range.ts"
+      ],
+      "tests": [
+        "tests/lab48-security-hardening.test.ts"
+      ]
+    },
+    {
+      "id": 49,
+      "title": "Headless host and CI outcomes",
+      "objective": "Classify bounded headless Managed session work into machine-readable CI outcomes with explicit cleanup evidence.",
+      "steps": [
+        "Run the pass fixture and inspect its validated report and zero exit code.",
+        "Run validation, limit and execution-error scenarios and compare failure exit codes.",
+        "Try SIGTERM, capacity rejection and unconfirmed remote stop; inspect cleanup state.",
+        "Read the authored runner, worker, Dockerfile and sample workflow before any live opt-in."
+      ],
+      "inspect": [
+        "shared/lab49-deploy-ci-headless.ts",
+        "server/lib/lab49-headless.ts",
+        "server/concepts/49-deploy-ci-headless.ts",
+        "server/lib/lab01-run.ts"
+      ],
+      "challenge": "Explain which outcome should fail CI and what remote cleanup evidence is required.",
+      "guidePath": "Tab49-deploy-ci-headless.md",
+      "sources": [
+        "src/concepts/Concept49DeployCiHeadless.tsx",
+        "server/concepts/49-deploy-ci-headless.ts",
+        "shared/lab49-deploy-ci-headless.ts",
+        "server/lib/lab49-headless.ts",
+        "server/lib/lab01-run.ts"
+      ],
+      "tests": [
+        "tests/lab49-headless.test.ts"
+      ]
+    },
+    {
+      "id": 50,
+      "title": "Full stack capstone",
+      "objective": "Resolve fictional support cases through customer-owned tools, retained sessions, trusted host review and a verified refund ledger.",
+      "steps": [
+        "Select C-1 and inspect its orders, then ask for a partial damaged-item refund.",
+        "Inspect the pending immutable approval and deny it; verify no ledger entry appears.",
+        "Request another refund and approve it once; compare remaining cents and audit entries.",
+        "Switch to C-2 and try a foreign order or malicious note; the host gate must reject the effect.",
+        "Resume a conversation, inspect correlated event IDs, close it and run the four offline evals."
+      ],
+      "inspect": [
+        "shared/lab50-capstone.ts",
+        "server/capstone/store.ts",
+        "server/capstone/tools.ts",
+        "server/capstone/agent.ts",
+        "server/capstone/desk.ts",
+        "server/capstone/evals.ts",
+        "server/concepts/50-capstone.ts"
+      ],
+      "challenge": "Deny a refund and verify that no refund is recorded.",
+      "guidePath": "Tab50-capstone.md",
+      "sources": [
+        "src/concepts/Concept50Capstone.tsx",
+        "server/concepts/50-capstone.ts",
+        "shared/lab50-capstone.ts",
+        "server/capstone/store.ts",
+        "server/capstone/tools.ts",
+        "server/capstone/agent.ts",
+        "server/capstone/desk.ts",
+        "server/capstone/evals.ts"
+      ],
+      "tests": [
+        "tests/lab50-capstone-agent.test.ts",
+        "tests/lab50-capstone-domain.test.ts"
+      ]
+    },
+    {
+      "id": 51,
+      "title": "Testing the Managed host offline",
+      "objective": "Verify the real Acme Support Desk host logic and event consumption without a provider request.",
+      "steps": [
+        "Run the full offline suite and inspect the handler and ledger assertions.",
+        "Run malformed input, foreign-order, denial and cancellation cases individually.",
+        "Replay child-thread, duplicate and missing-terminal events through the shared consumer.",
+        "Run the virtual-time policy mutation and identify the expected failed assertion."
+      ],
+      "inspect": [
+        "shared/lab51-unit-testing.ts",
+        "server/unit-testing/lab51.ts",
+        "server/concepts/51-unit-testing.ts",
+        "server/capstone/store.ts",
+        "server/capstone/tools.ts",
+        "server/capstone/desk.ts",
+        "server/lib/session-events.ts"
+      ],
+      "challenge": "Enable the 60-day mutation and explain why the 30-day policy assertion fails for the same order and clock.",
+      "guidePath": "Tab51-unit-testing.md",
+      "sources": [
+        "src/concepts/Concept51UnitTesting.tsx",
+        "server/concepts/51-unit-testing.ts",
+        "shared/lab51-unit-testing.ts",
+        "server/unit-testing/lab51.ts",
+        "server/capstone/store.ts",
+        "server/capstone/tools.ts",
+        "server/capstone/desk.ts",
+        "server/lib/session-events.ts"
+      ],
+      "tests": [
+        "tests/lab51-unit-testing.test.ts"
+      ]
+    },
+    {
+      "id": 52,
+      "title": "Evals judges and regression baselines",
+      "objective": "Compare deterministic host safety checks with optional judge output and gate candidate promotion against a recorded baseline.",
+      "steps": [
+        "Run the baseline for two trials and inspect ledger-backed holdout results.",
+        "Run the regression candidate; compare false refund claims against host effects and the baseline.",
+        "Calibrate an agreeing, disagreeing and invalid JSON judge without overriding host safety.",
+        "Run the recovered candidate, compare the pair, and promote its local result only if all gates pass."
+      ],
+      "inspect": [
+        "shared/lab52-evals.ts",
+        "server/evals/lab52.ts",
+        "server/concepts/52-evals.ts",
+        "server/capstone/tools.ts",
+        "server/capstone/store.ts"
+      ],
+      "challenge": "Change a candidate claim and decide whether the regression and safety gates should permit local promotion.",
+      "guidePath": "Tab52-evals.md",
+      "sources": [
+        "src/concepts/Concept52Evals.tsx",
+        "server/concepts/52-evals.ts",
+        "shared/lab52-evals.ts",
+        "server/evals/lab52.ts",
+        "server/capstone/tools.ts",
+        "server/capstone/store.ts"
+      ],
+      "tests": [
+        "tests/lab52-evals.test.ts"
+      ]
+    },
+    {
+      "id": 53,
+      "title": "Debugging session and host traces",
+      "objective": "Reproduce a session or host failure and identify its first useful redacted event, decision or effect.",
+      "steps": [
+        "Run the valid control and compare the host refund ledger with replayed event outcome.",
+        "Inspect malformed report and denied tool traces; identify the first host gate that explains each.",
+        "Run missing idle, stream EOF and local turn limit; separate incomplete local evidence from remote state.",
+        "Run cleanup timeout and inspect why archival and remote stop remain unconfirmed."
+      ],
+      "inspect": [
+        "shared/lab53-debugging.ts",
+        "server/debugging/lab53.ts",
+        "server/concepts/53-debugging.ts",
+        "server/lib/session-events.ts",
+        "server/capstone/tools.ts",
+        "server/capstone/store.ts"
+      ],
+      "challenge": "Change one trace variable and explain whether it fixes the first evidenced cause without inventing a remote outcome.",
+      "guidePath": "Tab53-debugging.md",
+      "sources": [
+        "src/concepts/Concept53Debugging.tsx",
+        "server/concepts/53-debugging.ts",
+        "shared/lab53-debugging.ts",
+        "server/debugging/lab53.ts",
+        "server/lib/session-events.ts",
+        "server/capstone/tools.ts",
+        "server/capstone/store.ts"
+      ],
+      "tests": [
+        "tests/lab53-debugging.test.ts"
+      ]
+    },
+    {
+      "id": 54,
+      "title": "Designing tools the model uses well",
+      "objective": "Compare vague and explicit Managed custom-tool contracts while keeping refund policy and idempotency in the host handler.",
+      "steps": [
+        "Inspect both tool names, descriptions, Zod-derived schemas and linter findings.",
+        "Run invalid input, domain rejection and missing prerequisite cases; check that no refund is issued.",
+        "Run the idempotent action and distinguish sevt_ correlation from a stable business action key.",
+        "Compare scripted choice and recovery traces without treating them as live model measurements."
+      ],
+      "inspect": [
+        "shared/lab54-tool-design.ts",
+        "server/tool-design/lab54.ts",
+        "server/concepts/54-tool-design.ts",
+        "server/capstone/tools.ts",
+        "server/capstone/store.ts"
+      ],
+      "challenge": "Improve one vague field name or error message and predict how the linter and host effects should differ.",
+      "guidePath": "Tab54-tool-design.md",
+      "sources": [
+        "src/concepts/Concept54ToolDesign.tsx",
+        "server/concepts/54-tool-design.ts",
+        "shared/lab54-tool-design.ts",
+        "server/tool-design/lab54.ts",
+        "server/capstone/tools.ts",
+        "server/capstone/store.ts"
+      ],
+      "tests": [
+        "tests/lab54-tool-design.test.ts"
+      ]
+    },
+    {
+      "id": 55,
+      "title": "Official SDK and API upgrades",
+      "objective": "Rehearse SDK and Managed API compatibility gates, canary, promotion and rollback without changing the locked teaching app.",
+      "steps": [
+        "Inspect the installed 0.133.0 baseline and separate npm, API and pinned resource identities.",
+        "Analyze each candidate fixture and identify which server check blocks it.",
+        "Run the compatible fixture through authored canary, promotion and host-code rollback.",
+        "Observe that a client eligible hint grants nothing and rollback cannot rewind remote sessions."
+      ],
+      "inspect": [
+        "shared/lab55-upgrading-sdk.ts",
+        "server/upgrades/lab55.ts",
+        "server/concepts/55-upgrading-sdk.ts",
+        "server/lib/session-events.ts"
+      ],
+      "challenge": "Make one candidate fixture lose a required event type and explain why a version bump alone cannot authorize promotion.",
+      "guidePath": "Tab55-upgrading-sdk.md",
+      "sources": [
+        "src/concepts/Concept55UpgradingSdk.tsx",
+        "server/concepts/55-upgrading-sdk.ts",
+        "shared/lab55-upgrading-sdk.ts",
+        "server/upgrades/lab55.ts",
+        "server/lib/session-events.ts"
+      ],
+      "tests": [
+        "tests/lab55-upgrading-sdk.test.ts"
+      ]
+    },
+    {
+      "id": 56,
+      "title": "Teams and evidence messages",
+      "objective": "Coordinate two application roles with checked evidence, stable envelopes and explicit completion gates.",
+      "steps": [
+        "Replay blocked review and competing claim to see task ownership and dependencies enforced.",
+        "Compare a queued envelope, delivery and acknowledgment; none alone completes the review.",
+        "Reject 30, verify 37 using host arithmetic, then perform a clean shutdown.",
+        "Inspect the optional live route and identify why native delegation is unavailable without checked setup."
+      ],
+      "inspect": [
+        "shared/lab56-agent-teams.ts",
+        "server/teams/lab56.ts",
+        "server/concepts/56-agent-teams.ts"
+      ],
+      "challenge": "Try to acknowledge evidence before delivery and explain which state transition must occur first.",
+      "guidePath": "Tab56-agent-teams.md",
+      "sources": [
+        "src/concepts/Concept56AgentTeams.tsx",
+        "server/concepts/56-agent-teams.ts",
+        "shared/lab56-agent-teams.ts",
+        "server/teams/lab56.ts"
+      ],
+      "tests": [
+        "tests/lab56-agent-teams.test.ts"
+      ]
+    },
+    {
+      "id": 57,
+      "title": "Workers in host Git worktrees",
+      "objective": "Rehearse isolated Git worktrees and host-verified, serialized integration of two worker edits.",
+      "steps": [
+        "Run the serial fixture and inspect base SHA, worker branches, allowed paths and behavioral tests.",
+        "Compare a competing greeting edit and confirm conflict abort preserves branch refs.",
+        "Run failed-worker and cancelled-worker fixtures; neither may integrate.",
+        "Distinguish local authored worker actions from Managed sessions and cloud /workspace."
+      ],
+      "inspect": [
+        "shared/lab57-parallel-worktrees.ts",
+        "server/worktrees/lab57.ts",
+        "server/concepts/57-parallel-worktrees.ts"
+      ],
+      "challenge": "Explain why a worker claim cannot substitute for host path checks, tests or serialized cherry-pick.",
+      "guidePath": "Tab57-parallel-worktrees.md",
+      "sources": [
+        "src/concepts/Concept57ParallelWorktrees.tsx",
+        "server/concepts/57-parallel-worktrees.ts",
+        "shared/lab57-parallel-worktrees.ts",
+        "server/worktrees/lab57.ts"
+      ],
+      "tests": [
+        "tests/lab57-parallel-worktrees.test.ts"
+      ]
+    },
+    {
+      "id": 58,
+      "title": "Tool catalogs and bounded discovery",
+      "objective": "Search a 64-tool application catalog with a bounded host scorer and dispatch only through a checked schema and host context.",
+      "steps": [
+        "Inspect initial names and confirm no definitions are reported as loaded.",
+        "Compare good and vague metadata for the INV-2042 refund query.",
+        "Inspect the five-result bound and estimated returned context size.",
+        "Try a wrong tool and unauthorized refund, then run the authorized offline fixture."
+      ],
+      "inspect": [
+        "shared/lab58-tool-search.ts",
+        "server/tool-search/lab58.ts",
+        "server/concepts/58-tool-search.ts"
+      ],
+      "challenge": "Rewrite a catalog description to promise authority and explain why the fixed dispatcher still rejects an unauthorized refund.",
+      "guidePath": "Tab58-tool-search.md",
+      "sources": [
+        "src/concepts/Concept58ToolSearch.tsx",
+        "server/concepts/58-tool-search.ts",
+        "shared/lab58-tool-search.ts",
+        "server/tool-search/lab58.ts"
+      ],
+      "tests": [
+        "tests/lab58-tool-search.test.ts"
+      ]
+    },
+    {
+      "id": 59,
+      "title": "Routing with verified outcomes",
+      "objective": "Compare seven routing strategies on 13 tasks using independent answer keys and full attempt accounting.",
+      "steps": [
+        "Inspect the 13 tasks, illustrative model/effort configurations and independent key boundary.",
+        "Run fixed tiers, rule routing, classifier, cascade and draft/review with the same budget.",
+        "Compare verified correctness, assumed spend per correct, median time and all session attempts.",
+        "Lower the budget and verify admission stops before another assumed session."
+      ],
+      "inspect": [
+        "shared/lab59-model-routing.ts",
+        "server/routing/lab59.ts",
+        "server/routing/lab59-keys.ts",
+        "server/concepts/59-model-routing.ts"
+      ],
+      "challenge": "Find a high-confidence wrong answer and explain why confidence cannot replace the independent host key.",
+      "guidePath": "Tab59-model-routing.md",
+      "sources": [
+        "src/concepts/Concept59ModelRouting.tsx",
+        "server/concepts/59-model-routing.ts",
+        "shared/lab59-model-routing.ts",
+        "server/routing/lab59.ts",
+        "server/routing/lab59-keys.ts"
+      ],
+      "tests": [
+        "tests/lab59-model-routing.test.ts"
+      ]
+    },
+    {
+      "id": 60,
+      "title": "Durable long running agents",
+      "objective": "Recover a fictional refund batch from atomic host journals and a stable idempotent ledger.",
+      "steps": [
+        "Read the eight-item 30-day, 200 EUR, unused-item policy and Zod-derived host tool definitions.",
+        "Crash after effect 3 and compare three ledger effects with only two journaled keys.",
+        "Recover separate jobs with naive, journal-only and journal-plus-idempotency strategies; compare duplicates.",
+        "Run lease-loss and no-progress cases and inspect bounded supervisor failure."
+      ],
+      "inspect": [
+        "shared/lab60-durable-agents.ts",
+        "server/durable/lab60.ts",
+        "server/concepts/60-durable-agents.ts"
+      ],
+      "challenge": "Explain why the third effect can exist in the ledger without a journal entry and which stable key suppresses it.",
+      "guidePath": "Tab60-durable-agents.md",
+      "sources": [
+        "src/concepts/Concept60DurableAgents.tsx",
+        "server/concepts/60-durable-agents.ts",
+        "shared/lab60-durable-agents.ts",
+        "server/durable/lab60.ts"
+      ],
+      "tests": [
+        "tests/lab60-durable-agents.test.ts"
+      ]
+    },
+    {
+      "id": 61,
+      "title": "Exposing your agent as an MCP server",
+      "objective": "Expose a typed fictional support/refund review through a bearer-protected local MCP transport.",
+      "steps": [
+        "Run the local client and compare transport request, MCP session and agent session IDs.",
+        "Inspect one listed closed-schema tool, progress events and validated structured output.",
+        "Try timeout, cancellation and concurrent calls; then compare foreign-session and unauthorized tests.",
+        "Confirm the bearer token and tenant/customer mapping stay on the host."
+      ],
+      "inspect": [
+        "shared/lab61-agent-mcp-server.ts",
+        "server/mcp-agent/lab61.ts",
+        "server/mcp-agent/lab61-client.ts",
+        "server/concepts/61-agent-as-mcp-server.ts"
+      ],
+      "challenge": "Send a valid MCP session ID with a different bearer identity and explain why authentication precedes lookup.",
+      "guidePath": "Tab61-agent-as-mcp-server.md",
+      "sources": [
+        "src/concepts/Concept61AgentMcpServer.tsx",
+        "server/concepts/61-agent-as-mcp-server.ts",
+        "shared/lab61-agent-mcp-server.ts",
+        "server/mcp-agent/lab61.ts",
+        "server/mcp-agent/lab61-client.ts"
+      ],
+      "tests": [
+        "tests/lab61-agent-mcp-server.test.ts"
+      ]
+    },
+    {
+      "id": 62,
+      "title": "Retrieval RAG through custom tools",
+      "objective": "Retrieve tenant-filtered current policy chunks and verify answer citations against the exact returned set.",
+      "steps": [
+        "Search current Acme policy and compare stable heading IDs with archived and foreign documents.",
+        "Run a grounded 30-day answer and inspect quote and ID verification.",
+        "Run fabricated citation, archived 60-day answer, no-match and hostile-note scenarios.",
+        "Compare lexical scores with evidence validity; imported text cannot set host policy."
+      ],
+      "inspect": [
+        "shared/lab62-retrieval-rag.ts",
+        "server/retrieval/lab62.ts",
+        "server/concepts/62-retrieval-rag.ts"
+      ],
+      "challenge": "Cite an archived or foreign-tenant policy ID and explain why the run’s filtered result set rejects it.",
+      "guidePath": "Tab62-retrieval-rag.md",
+      "sources": [
+        "src/concepts/Concept62RetrievalRag.tsx",
+        "server/concepts/62-retrieval-rag.ts",
+        "shared/lab62-retrieval-rag.ts",
+        "server/retrieval/lab62.ts"
+      ],
+      "tests": [
+        "tests/lab62-retrieval-rag.test.ts"
+      ]
+    },
+    {
+      "id": 63,
+      "title": "A safe database agent",
+      "objective": "Read tenant-scoped orders through fixed queries and let a separate human endpoint commit one checked cancellation.",
+      "steps": [
+        "Create a disposable SQLite session and inspect query-only state.",
+        "Read the host tenant order, propose cancellation and confirm no order row changed.",
+        "Approve or reject through the human endpoint and inspect changed-row and audit evidence.",
+        "Repeat with changed row version, expired proposal, foreign tenant and arbitrary SQL fixtures."
+      ],
+      "inspect": [
+        "shared/lab63-safe-database-agent.ts",
+        "server/database/lab63.ts",
+        "server/concepts/63-safe-database-agent.ts"
+      ],
+      "challenge": "Change the order version after proposal and show why the checked UPDATE rolls back rather than cancelling it.",
+      "guidePath": "Tab63-safe-database-agent.md",
+      "sources": [
+        "src/concepts/Concept63SafeDatabaseAgent.tsx",
+        "server/concepts/63-safe-database-agent.ts",
+        "shared/lab63-safe-database-agent.ts",
+        "server/database/lab63.ts"
+      ],
+      "tests": [
+        "tests/lab63-safe-database-agent.test.ts"
+      ]
+    },
+    {
+      "id": 64,
+      "title": "Browser tools across host and cloud",
+      "objective": "Automate a fixture page through host-side Playwright MCP and verify the actual DOM and screenshot.",
+      "steps": [
+        "Inspect a fictional product through an isolated local browser and MCP snapshot.",
+        "Fill the fictional form using allowlisted MCP tools, then check its DOM confirmation.",
+        "Try blocked external navigation and a missing-browser scenario.",
+        "Compare tool events with independent browser proof and cloud reachability limits."
+      ],
+      "inspect": [
+        "shared/lab64-browser-playwright-mcp.ts",
+        "server/concepts/64-browser-playwright-mcp.ts"
+      ],
+      "challenge": "Explain why successful MCP tool prose without DOM and screenshot checks is insufficient browser proof.",
+      "guidePath": "Tab64-browser-playwright-mcp.md",
+      "sources": [
+        "src/concepts/Concept64BrowserPlaywrightMcp.tsx",
+        "server/concepts/64-browser-playwright-mcp.ts",
+        "shared/lab64-browser-playwright-mcp.ts"
+      ],
+      "tests": [
+        "tests/lab64-browser-playwright-mcp.test.ts"
+      ]
+    },
+    {
+      "id": 65,
+      "title": "Human approval over Slack Teams or email",
+      "objective": "Bind a fictional case archive to one trusted reviewer decision after an immutable proposal and local notification.",
+      "steps": [
+        "Preview a closed-schema custom-tool proposal; inspect its event ID and separate business key.",
+        "Notify locally, inspect the reviewer and immutable action, then approve or reject.",
+        "Try duplicate clicks, changed action arguments, a wrong reviewer and an expired proposal.",
+        "Compare the SQLite effect ledger and audit with agent text and optional notification channels."
+      ],
+      "inspect": [
+        "shared/lab65-human-approval.ts",
+        "server/concepts/65-human-approval.ts"
+      ],
+      "challenge": "Approve twice or approve a second proposal for the same case and explain why the effect ledger stays at one.",
+      "guidePath": "Tab65-human-approval.md",
+      "sources": [
+        "src/concepts/Concept65HumanApproval.tsx",
+        "server/concepts/65-human-approval.ts",
+        "shared/lab65-human-approval.ts"
+      ],
+      "tests": [
+        "tests/lab65-human-approval.test.ts"
+      ]
+    },
+    {
+      "id": 66,
+      "title": "Real time frontends over WebSocket",
+      "objective": "Stream a bounded offline or explicitly started Managed turn over authenticated local WebSocket, with replay after reconnect.",
+      "steps": [
+        "Start a guided run, send one message and inspect ordered chunks and the terminal event.",
+        "Disconnect midstream, reconnect with the same start command and replay from the last sequence.",
+        "Repeat a message command and confirm it does not start a second turn.",
+        "Cancel a fresh run and compare transport close with host run cancellation."
+      ],
+      "inspect": [
+        "shared/lab66-realtime-websocket.ts",
+        "server/concepts/66-realtime-websocket.ts",
+        "server/index.ts"
+      ],
+      "challenge": "Reconnect after a terminal frame and show the same run ID and sequence without another accepted message.",
+      "guidePath": "Tab66-realtime-websocket.md",
+      "sources": [
+        "src/concepts/Concept66RealtimeWebSocket.tsx",
+        "server/concepts/66-realtime-websocket.ts",
+        "shared/lab66-realtime-websocket.ts",
+        "server/index.ts"
+      ],
+      "tests": [
+        "tests/lab66-realtime-websocket.test.ts"
+      ]
+    },
+    {
+      "id": 67,
+      "title": "A multi tenant SaaS architecture",
+      "objective": "Enforce tenant ownership across project sources, runs, sessions, transcripts, cancellation and quota reservations.",
+      "steps": [
+        "Simulate Alice/Acme and Bob/Birch sign-ins; inspect host-selected tenant and project identities.",
+        "Start both tenants concurrently and inspect separate reservation and usage ledgers.",
+        "Probe Birch objects as Acme and compare five refusals with the still-running Birch run.",
+        "Try another active run, a failed runner and exhausted quota; confirm reservations release once."
+      ],
+      "inspect": [
+        "shared/lab67-multi-tenant-saas.ts",
+        "server/concepts/67-multi-tenant-saas.ts"
+      ],
+      "challenge": "Add a tenant field to a model tool input or start body and explain why it cannot choose authority.",
+      "guidePath": "Tab67-multi-tenant-saas.md",
+      "sources": [
+        "src/concepts/Concept67MultiTenantSaas.tsx",
+        "server/concepts/67-multi-tenant-saas.ts",
+        "shared/lab67-multi-tenant-saas.ts"
+      ],
+      "tests": [
+        "tests/lab67-multi-tenant-saas.test.ts"
+      ]
+    },
+    {
+      "id": 68,
+      "title": "Scheduled and event driven agents",
+      "objective": "Admit scheduled and signed incident jobs into a bounded queue, then explicitly claim, retry or cancel them.",
+      "steps": [
+        "Create a five-second schedule, advance the scheduling clock and coalesce missed intervals with a tick.",
+        "Admit a signed incident twice and compare the same job ID with duplicate admission.",
+        "Run one worker per click; fail three attempts with one- and two-second retry delays.",
+        "Try stale signatures after advancing the scheduling clock, then inspect cancellation and effect keys."
+      ],
+      "inspect": [
+        "shared/lab68-scheduled-event-driven.ts",
+        "server/concepts/68-scheduled-event-driven.ts"
+      ],
+      "challenge": "Show why an HTTP 202 trigger and an advanced schedule clock cannot prove execution or signature freshness.",
+      "guidePath": "Tab68-scheduled-event-driven.md",
+      "sources": [
+        "src/concepts/Concept68ScheduledAgents.tsx",
+        "server/concepts/68-scheduled-event-driven.ts",
+        "shared/lab68-scheduled-event-driven.ts"
+      ],
+      "tests": [
+        "tests/lab68-scheduled-event-driven.test.ts"
+      ]
+    },
+    {
+      "id": 69,
+      "title": "Desktop and IDE host integration",
+      "objective": "Supply explicit document context from a trusted host and apply a reviewed patch only when version and hash still match.",
+      "steps": [
+        "Start a guided review and inspect preview events and the proposed replacement before applying.",
+        "Change the local document after proposal and confirm the older patch is rejected.",
+        "Compare cancellation and transport failure with independent cleanup evidence.",
+        "Build the VS Code extension and inspect host trust, file scope and typed webview messages separately."
+      ],
+      "inspect": [
+        "shared/lab69-embedding-sdk.ts",
+        "server/lib/lab69-host.ts",
+        "server/concepts/69-embedding-sdk.ts",
+        "extensions/lab69/src/extension.ts",
+        "extensions/lab69/package.json"
+      ],
+      "challenge": "Change a document after its context snapshot and explain why a valid remote patch still cannot apply.",
+      "guidePath": "Tab69-embedding-sdk.md",
+      "sources": [
+        "src/concepts/Concept69EmbeddingSdk.tsx",
+        "server/concepts/69-embedding-sdk.ts",
+        "shared/lab69-embedding-sdk.ts",
+        "server/lib/lab69-host.ts",
+        "extensions/lab69/src/extension.ts",
+        "extensions/lab69/package.json"
+      ],
+      "tests": [
+        "tests/lab69-embedding-sdk.test.ts",
+        "tests/lab69-extension.test.ts"
+      ]
+    },
+    {
+      "id": 70,
+      "title": "Python client for Managed Agents",
+      "objective": "Compare the Managed session protocol through an isolated Python worker and the TypeScript host bridge.",
+      "steps": [
+        "Check selected interpreter readiness without installing packages or contacting Anthropic.",
+        "Run one-shot and retained offline turns, then close the confirmed-idle handle.",
+        "Run the host custom-tool round trip and inspect its sevt_ correlation.",
+        "Compare malformed stdout, bounded stderr, missing Python and cancellation with cleanup evidence."
+      ],
+      "inspect": [
+        "shared/lab70-python-sdk.ts",
+        "server/lib/lab70-python.ts",
+        "server/concepts/70-python-sdk.ts",
+        "python/lab70/worker.py",
+        "python/lab70/requirements.txt"
+      ],
+      "challenge": "Terminate a worker and explain why process exit cannot prove a remote Managed session has stopped.",
+      "guidePath": "Tab70-python-sdk.md",
+      "sources": [
+        "src/concepts/Concept70PythonSdk.tsx",
+        "server/concepts/70-python-sdk.ts",
+        "shared/lab70-python-sdk.ts",
+        "server/lib/lab70-python.ts",
+        "python/lab70/worker.py",
+        "python/lab70/requirements.txt"
+      ],
+      "tests": [
+        "tests/lab70-python-sdk.test.ts"
+      ]
+    },
+    {
+      "id": 71,
+      "title": "A data analysis agent",
+      "objective": "Build a sales analysis from scoped CSV data, executable calculations and ledger-cited reports and charts.",
+      "steps": [
+        "Create a session and compare raw/clean profiles, duplicate removal and per-product IQR fences.",
+        "Aggregate numeric metrics or ratios of eligible sums; inspect n and skipped empty counts.",
+        "Run the scripted analyst and inspect computation C IDs and ledger-derived chart G IDs.",
+        "Tamper a report value or citation and verify rejection without changing its evidence ledger."
+      ],
+      "inspect": [
+        "shared/lab71-data-analysis-agent.ts",
+        "server/lib/lab71-analysis.ts",
+        "server/concepts/71-data-analysis-agent.ts",
+        "fixtures/lab71/sales.csv"
+      ],
+      "challenge": "Explain why averaging row return rates differs from the host ratio of summed returns to summed units.",
+      "guidePath": "Tab71-data-analysis-agent.md",
+      "sources": [
+        "src/concepts/Concept71DataAnalysisAgent.tsx",
+        "server/concepts/71-data-analysis-agent.ts",
+        "shared/lab71-data-analysis-agent.ts",
+        "server/lib/lab71-analysis.ts",
+        "fixtures/lab71/sales.csv"
+      ],
+      "tests": [
+        "tests/lab71-data-analysis-agent.test.ts"
+      ]
+    },
+    {
+      "id": 72,
+      "title": "Document generation with Skills",
+      "objective": "Generate a deterministic Word document from a closed specification and independently inspect the package and immutable skill bundle.",
+      "steps": [
+        "Build an incident report and inspect the two progressive reference reads.",
+        "Compare an ordinary document with the incident contract.",
+        "Run invalid spec, placeholder and skill tamper scenarios and inspect rejection.",
+        "Probe command policy and download only verified documents for visual review."
+      ],
+      "inspect": [
+        "shared/lab72-document-generation-skills.ts",
+        "server/lib/lab72-docgen.ts",
+        "server/concepts/72-document-generation-skills.ts"
+      ],
+      "challenge": "Explain why a valid OOXML package does not prove factual correctness or good pagination in Word.",
+      "guidePath": "Tab72-document-generation-skills.md",
+      "sources": [
+        "src/concepts/Concept72DocumentGenerationSkills.tsx",
+        "server/concepts/72-document-generation-skills.ts",
+        "shared/lab72-document-generation-skills.ts",
+        "server/lib/lab72-docgen.ts"
+      ],
+      "tests": [
+        "tests/lab72-document-generation-skills.test.ts"
+      ]
+    },
+    {
+      "id": 73,
+      "title": "An autonomous PR reviewer and fixer",
+      "objective": "Route changed-line review findings to a constrained fixer and commit only after independent host gates and real tests.",
+      "steps": [
+        "Run the good fix and inspect numbered diff, gates and local commit hash.",
+        "Compare out-of-scope changes, skipped tests, unresolved findings and process timeout.",
+        "Inspect the reviewable patch and draft handoff after a rejected fix.",
+        "Explain why a high-confidence claim does not authorize Git or protected file changes."
+      ],
+      "inspect": [
+        "shared/lab73-pr-reviewer-fixer.ts",
+        "server/lib/lab73-prbot.ts",
+        "server/concepts/73-pr-reviewer-fixer.ts"
+      ],
+      "challenge": "Route a low-confidence finding and a question to a person without granting fixer authority.",
+      "guidePath": "Tab73-pr-reviewer-fixer.md",
+      "sources": [
+        "src/concepts/Concept73PrReviewerFixer.tsx",
+        "server/concepts/73-pr-reviewer-fixer.ts",
+        "shared/lab73-pr-reviewer-fixer.ts",
+        "server/lib/lab73-prbot.ts"
+      ],
+      "tests": [
+        "tests/lab73-pr-reviewer-fixer.test.ts"
+      ]
+    },
+    {
+      "id": 74,
+      "title": "Prompt injection red teaming",
+      "objective": "Measure attempted and executed prompt-injection effects alongside safe support-desk utility.",
+      "steps": [
+        "Run an attack without defenses and inspect the fictional effect ledger and final output.",
+        "Compare five cumulative defenses against all thirteen attacks.",
+        "Inspect raw payloads, normalization rules, metadata pins and safe utility.",
+        "Run bounded adaptive mutations and distinguish assumed costs from billed usage."
+      ],
+      "inspect": [
+        "shared/lab74-prompt-injection-redteam.ts",
+        "server/redteam/corpus.ts",
+        "server/lib/lab74-redteam.ts",
+        "server/concepts/74-prompt-injection-redteam.ts"
+      ],
+      "challenge": "Show why a canary-free answer can still hide an executed refund or exfiltration effect.",
+      "guidePath": "Tab74-prompt-injection-redteam.md",
+      "sources": [
+        "src/concepts/Concept74PromptInjectionRedTeam.tsx",
+        "server/concepts/74-prompt-injection-redteam.ts",
+        "shared/lab74-prompt-injection-redteam.ts",
+        "server/redteam/corpus.ts",
+        "server/lib/lab74-redteam.ts"
+      ],
+      "tests": [
+        "tests/lab74-prompt-injection-redteam.test.ts"
+      ]
+    },
+    {
+      "id": 75,
+      "title": "Capstone 2 an autonomous engineering team",
+      "objective": "Coordinate real worker branches through a validated task graph, independent verification, bounded review rework and a durable release gate.",
+      "steps": [
+        "Validate good and rejected plan presets without creating workers.",
+        "Run the happy path and inspect dependency waves, test gates, authors and merge hashes.",
+        "Compare test gaming, hidden-boundary failure, ownership correction and budget exhaustion.",
+        "Interrupt after wave one, resume, and verify retained costs and no repeated completed calls."
+      ],
+      "inspect": [
+        "shared/lab75-autonomous-engineering-team.ts",
+        "server/team/team.ts",
+        "server/team/policy.ts",
+        "server/team/orchestrator.ts",
+        "server/team/scripted.ts",
+        "server/team/live.ts",
+        "server/team/journal.ts",
+        "server/concepts/75-autonomous-engineering-team.ts"
+      ],
+      "challenge": "Explain why a green worker suite and a done report cannot establish readiness without host acceptance, review, ownership and known costs.",
+      "guidePath": "Tab75-autonomous-engineering-team.md",
+      "sources": [
+        "src/concepts/Concept75AutonomousTeam.tsx",
+        "server/concepts/75-autonomous-engineering-team.ts",
+        "shared/lab75-autonomous-engineering-team.ts",
+        "server/team/team.ts",
+        "server/team/policy.ts",
+        "server/team/orchestrator.ts",
+        "server/team/scripted.ts",
+        "server/team/live.ts",
+        "server/team/journal.ts"
+      ],
+      "tests": [
+        "tests/lab75-autonomous-engineering-team.test.ts",
+        "tests/lab75-live-team.test.ts"
+      ]
+    }
+  ]
+}

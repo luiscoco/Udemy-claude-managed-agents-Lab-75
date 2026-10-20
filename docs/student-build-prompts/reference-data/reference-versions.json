@@ -1,0 +1,167 @@
+{
+  "referenceCommit": "963cbbf8a30b2341d0a932baab53d79766c32337",
+  "date": "2026-10-20",
+  "node": ">=24",
+  "dependencies": {
+    "@anthropic-ai/aws-sdk": {
+      "declared": "0.8.0",
+      "resolved": "0.8.0"
+    },
+    "@anthropic-ai/sdk": {
+      "declared": "0.133.0",
+      "resolved": "0.133.0"
+    },
+    "@azure/monitor-opentelemetry-exporter": {
+      "declared": "1.0.0-beta.46",
+      "resolved": "1.0.0-beta.46"
+    },
+    "@azure/msal-node": {
+      "declared": "7.1.0",
+      "resolved": "7.1.0"
+    },
+    "@opentelemetry/resources": {
+      "declared": "2.12.0",
+      "resolved": "2.12.0"
+    },
+    "@opentelemetry/sdk-trace-base": {
+      "declared": "2.12.0",
+      "resolved": "2.12.0"
+    },
+    "express": {
+      "declared": "^5.2.1",
+      "resolved": "5.3.0"
+    },
+    "react": {
+      "declared": "^19.3.0",
+      "resolved": "19.3.0"
+    },
+    "react-dom": {
+      "declared": "^19.3.0",
+      "resolved": "19.3.0"
+    },
+    "ws": {
+      "declared": "8.22.0",
+      "resolved": "8.22.0"
+    },
+    "zod": {
+      "declared": "^4.6.5",
+      "resolved": "4.6.5"
+    },
+    "@modelcontextprotocol/sdk": {
+      "declared": "1.32.1",
+      "resolved": "1.32.1"
+    },
+    "@playwright/mcp": {
+      "declared": "0.0.83",
+      "resolved": "0.0.83"
+    },
+    "@playwright/test": {
+      "declared": "^1.64.0",
+      "resolved": "1.64.0"
+    },
+    "@types/express": {
+      "declared": "^5.0.6",
+      "resolved": "5.0.6"
+    },
+    "@types/node": {
+      "declared": "^26.6.2",
+      "resolved": "26.6.5"
+    },
+    "@types/react": {
+      "declared": "^19.3.0",
+      "resolved": "19.3.0"
+    },
+    "@types/react-dom": {
+      "declared": "^19.3.0",
+      "resolved": "19.3.0"
+    },
+    "@types/vscode": {
+      "declared": "1.140.0",
+      "resolved": "1.140.0"
+    },
+    "@types/ws": {
+      "declared": "8.18.2",
+      "resolved": "8.18.2"
+    },
+    "@vitejs/plugin-react": {
+      "declared": "^6.1.1",
+      "resolved": "6.1.2"
+    },
+    "concurrently": {
+      "declared": "^10.0.5",
+      "resolved": "10.0.6"
+    },
+    "esbuild": {
+      "declared": "0.28.2",
+      "resolved": "0.28.2"
+    },
+    "tsx": {
+      "declared": "^4.23.15",
+      "resolved": "4.23.15"
+    },
+    "typescript": {
+      "declared": "^7.0.2",
+      "resolved": "7.0.2"
+    },
+    "vite": {
+      "declared": "^8.3.0",
+      "resolved": "8.3.4"
+    }
+  },
+  "scripts": {
+    "managed:ready": "node --env-file-if-exists=.env --import tsx scripts/managed-setup.ts ready",
+    "managed:verify": "node --env-file-if-exists=.env --import tsx scripts/managed-setup.ts verify",
+    "managed:provision": "node --env-file-if-exists=.env --import tsx scripts/managed-setup.ts provision",
+    "dev": "concurrently --kill-others --names server,web \"npm run dev:server\" \"npm run dev:web\"",
+    "dev:server": "node scripts/dev-server.mjs",
+    "dev:web": "vite",
+    "typecheck": "tsc --noEmit",
+    "build": "npm run typecheck && npm run lab69:extension:build && vite build",
+    "lab69:extension:build": "node scripts/build-lab69-extension.mjs",
+    "test": "npm run test:offline",
+    "test:offline": "node --import tsx --test --test-concurrency=1 tests/*.test.ts",
+    "test:capstone": "node --import tsx --test tests/lab50-capstone-domain.test.ts tests/lab50-capstone-agent.test.ts",
+    "test:analysis": "node --import tsx --test tests/lab71-data-analysis-agent.test.ts",
+    "capstone:check": "node --env-file-if-exists=.env --import tsx scripts/lab50-setup.ts check",
+    "capstone:provision": "node --env-file-if-exists=.env --import tsx scripts/lab50-setup.ts provision",
+    "test:browser": "node scripts/run-browser-tests.mjs",
+    "test:ui:lessons": "node scripts/lesson-ui.smoke.mjs",
+    "test:dev-server": "node --test scripts/dev-server.test.mjs",
+    "scan:distribution": "node scripts/scan-distribution.mjs",
+    "prepack": "npm run scan:distribution",
+    "test:sse": "node --import tsx --test --test-concurrency=1 tests/sse.test.ts",
+    "test:lesson-guides": "node --import tsx --test tests/lesson-guides.test.ts",
+    "audit:lesson-guides": "node --import tsx scripts/audit-lesson-guides.ts",
+    "skills:check": "node --env-file-if-exists=.env --import tsx scripts/lab11-skills-setup.ts check",
+    "skills:upload": "node --env-file-if-exists=.env --import tsx scripts/lab11-skills-setup.ts upload",
+    "test:docgen": "node --import tsx --test tests/lab72-document-generation-skills.test.ts",
+    "docgen:package": "node scripts/lab72-skill-package.mjs",
+    "test:prbot": "node --import tsx --test tests/lab73-pr-reviewer-fixer.test.ts",
+    "test:redteam": "node --import tsx --test tests/lab74-prompt-injection-redteam.test.ts",
+    "test:team": "node --import tsx --test tests/lab75-autonomous-engineering-team.test.ts tests/lab75-live-team.test.ts",
+    "test:ui:live-actions": "node scripts/run-browser-tests.mjs live-actions.spec.ts",
+    "test:course": "node --import tsx --test tests/course-coverage.test.ts",
+    "package:course": "node scripts/package-course.mjs",
+    "team:cleanup": "node --import tsx scripts/lab75-cleanup.ts",
+    "team:ready": "node --env-file-if-exists=.env --import tsx scripts/lab75-setup.ts ready",
+    "team:provision": "node --env-file-if-exists=.env --import tsx scripts/lab75-setup.ts provision",
+    "integrations:ready": "node --env-file-if-exists=.env --import tsx scripts/integration-readiness.ts",
+    "notifications:ready": "node --env-file-if-exists=.env --import tsx scripts/lab65-notification-readiness.ts",
+    "notifications:signin": "node --env-file-if-exists=.env --import tsx scripts/lab65-mail-signin.ts --interactive-personal-signin",
+    "guide:live:test": "node --env-file-if-exists=.env --import tsx scripts/learning-guide-live.ts --execute-authorized-narration-test",
+    "milestones:check": "node --import tsx scripts/check-learning-milestones.ts",
+    "test:editor:real": "npm run lab69:extension:build && node --import tsx scripts/lab69-real-editor.ts",
+    "test:ui:audit": "node scripts/run-browser-tests.mjs course-ui-audit.spec.ts",
+    "test:live:evidence": "node --test scripts/live-audit-evidence.test.mjs scripts/configure-github-live.test.mjs",
+    "test:live:authorized": "node --env-file-if-exists=.env --import tsx scripts/run-live-audit.mjs --execute-authorized-live-tests",
+    "narration:plan": "node --import tsx scripts/record-learning-narration.ts --plan",
+    "narration:record": "node --env-file-if-exists=.env --import tsx scripts/record-learning-narration.ts --execute-authorized-narration-recording",
+    "narration:check": "node --import tsx scripts/audit-learning-narration.ts",
+    "infographics:plan": "node --import tsx scripts/record-infographic-narration.ts --plan",
+    "infographics:record": "node --env-file-if-exists=.env --import tsx scripts/record-infographic-narration.ts --execute-authorized-infographic-recording",
+    "infographics:check": "node --import tsx scripts/audit-infographic-assets.ts",
+    "infographics:publish": "node --import tsx scripts/publish-infographic-batch.ts"
+  },
+  "python": "# Independently verified Python pin; npm uses @anthropic-ai/sdk 0.133.0.\nanthropic==1.7.0",
+  "note": "Frozen reference versions, not a claim that later provider APIs or model availability are unchanged. Never silently substitute unsupported API fields."
+}
