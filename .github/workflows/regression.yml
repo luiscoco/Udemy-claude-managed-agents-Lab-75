@@ -9,18 +9,18 @@ permissions:
 concurrency:
   group: regression-${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
+# No automatic job may provision resources, synthesize narration or call providers.
+env:
+  MANAGED_LIVE_ENABLED: 'false'
+  INWORLD_NARRATION_ENABLED: '0'
+  LAB65_EXTERNAL_NOTIFICATIONS: '0'
+  LAB44_REMOTE_EXPORT_ENABLED: '0'
+  LAB44_AZURE_EXPORT_ENABLED: '0'
 jobs:
-  offline:
+  checks:
+    name: Offline checks
     runs-on: windows-latest
-    # The complete 75-lesson browser suite takes about 25 minutes on Windows;
-    # allow setup, offline checks, media scanning, packaging and artifact upload.
-    timeout-minutes: 60
-    env:
-      MANAGED_LIVE_ENABLED: 'false'
-      INWORLD_NARRATION_ENABLED: '0'
-      LAB65_EXTERNAL_NOTIFICATIONS: '0'
-      LAB44_REMOTE_EXPORT_ENABLED: '0'
-      LAB44_AZURE_EXPORT_ENABLED: '0'
+    timeout-minutes: 25
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -43,17 +43,67 @@ jobs:
       - run: npm run test:dev-server
       - run: npm run milestones:check
       - run: npm run audit:lesson-guides
-      - name: All lesson and learning-tool browser checks
+  browser:
+    name: Browser shard ${{ matrix.shard }}/2
+    runs-on: windows-latest
+    timeout-minutes: 35
+    strategy:
+      # Finish the other shard so a failure still has independent diagnostics.
+      fail-fast: false
+      matrix:
+        shard: [1, 2]
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: '24'
+          cache: npm
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: '3.13'
+      - run: npm ci
+      - name: Prepare isolated Python worker
+        run: |
+          python -m venv .venv
+          .venv/Scripts/python.exe -m pip install -r python/lab70/requirements.txt
+      - run: npx playwright install chrome
+      - name: Lesson and learning-tool browser checks
         id: browser-checks
-        run: npm run test:browser
-      - name: Preserve offline browser failure context
+        run: npm run test:browser -- --shard=${{ matrix.shard }}/2
+      - name: Preserve shard failure context
         if: failure() && steps.browser-checks.outcome == 'failure'
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
-          name: offline-browser-failure-${{ github.run_id }}
+          name: offline-browser-failure-${{ github.run_id }}-shard-${{ matrix.shard }}
           path: test-results/**/error-context.md
           retention-days: 7
           if-no-files-found: ignore
+  # Preserve the existing final "offline" check and publish only after every
+  # prerequisite succeeds. A failed prerequisite must make this gate fail too.
+  offline:
+    needs: [checks, browser]
+    if: ${{ !cancelled() }}
+    runs-on: windows-latest
+    timeout-minutes: 25
+    steps:
+      - name: Require all checks and browser shards
+        env:
+          CHECKS_RESULT: ${{ needs.checks.result }}
+          BROWSER_RESULT: ${{ needs.browser.result }}
+        run: |
+          if ($env:CHECKS_RESULT -ne 'success' -or $env:BROWSER_RESULT -ne 'success') {
+            throw 'Every offline check and browser shard must pass before packaging.'
+          }
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: '24'
+          cache: npm
+      - run: npm ci
       - run: npm run build
       - run: npm run scan:distribution
       - run: npm run package:course
