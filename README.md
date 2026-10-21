@@ -20,6 +20,8 @@ To rebuild the current platform from an empty folder, use the new [student build
 
 The app uses six semantic colour families in both themes: blue for learning, orange for exercises, yellow for walkthroughs and checks, green for progress/review, purple for source/concepts, and red for prompt/attention accents. The shared tokens live in `src/colour-system.css`. Students can copy the [six-colour visual style implementation prompt](docs/student-build-prompts/12-six-colour-visual-style.md), also included in P01, WORKBOOK.md and the student prompt ZIP. TypeScript code panels remain black.
 
+Home now opens with the instructor-style **Claude Managed Agents Learning Portal** banner, including the astronaut and author card. The [Home banner prompt](docs/student-build-prompts/13-home-portal-banner.md) records the artwork request and accessible/responsive integration; see [implementation notes](docs/home-portal-banner.md).
+
 The [earlier Word workbook](docs/prompt-migration/Claude-Managed-Agents-Prompts-Labs-01-75.docx) and [18 October supplement](docs/learning-platform-prompts.md) remain available as historical course material. Use the new student build curriculum above for the complete current feature sequence.
 
 Each lab includes an authored **Knowledge check** with explained answers and retries. Home tracks these practice results separately from self-assessment checklists and verified exercise evidence. Version 2 learning backups include knowledge answers and still accept version 1 backups.

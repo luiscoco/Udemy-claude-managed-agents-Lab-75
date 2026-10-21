@@ -14,6 +14,8 @@ export function Home({ invalid, lessonCount, startHref, onStart, progress }: { i
   const [health, setHealth] = useState<Health>();
   const [status, setStatus] = useState('Ready to check the backend.');
   const [pending, setPending] = useState(false);
+  const [bannerAvailable, setBannerAvailable] = useState(true);
+  const illustratedIntro = lessonCount === 75 && bannerAvailable;
   const controller = useRef<AbortController | null>(null);
   useEffect(() => () => controller.current?.abort(), []);
 
@@ -43,9 +45,17 @@ export function Home({ invalid, lessonCount, startHref, onStart, progress }: { i
 
   return <>
     {invalid && <section className="notice" role="status"><h2>That lesson isn’t available yet.</h2><p>The link contains an invalid or unregistered lesson ID. You’re back at Home; find an implemented lesson in the navigation when one is available.</p></section>}
-    <p className="eyebrow">FROM THE BROWSER TO THE AGENT</p>
-    <h1>Understand the system.<br /><span>Then build it.</span></h1>
-    <p className="lead">A hands-on course in Claude Managed Agents. Follow a request across the browser, the backend, and the runtime—with real source and evidence you can inspect.</p>
+    <section className={`portal-intro${illustratedIntro ? ' portal-intro-illustrated' : ''}`} aria-labelledby="portal-intro-title">
+      <div className="portal-intro-copy">
+        <p className="eyebrow">Learn / Build / Experiment</p>
+        <h1 id="portal-intro-title">Claude Managed Agents<br /><span>Learning Portal</span></h1>
+        <p className="portal-intro-summary">Guided lessons, real source code and practical experiments. Understand how agents work, then build with confidence.</p>
+        <p className="portal-intro-author">Your instructor: <strong>Luis Coco Enríquez</strong></p>
+      </div>
+      {illustratedIntro && <img className="portal-intro-image" src={`${import.meta.env.BASE_URL}images/portal-welcome.png`} width={1672} height={941}
+        alt="Portal introduction: learn with guided lessons and narration, build hands-on experiments, and understand source code and evidence. Instructor Luis Coco Enríquez with his two dogs and the course astronaut mascot."
+        fetchPriority="high" onError={() => setBannerAvailable(false)} />}
+    </section>
     <div className="hero-actions">{startHref ? <a className="button" href={startHref} onClick={onStart}>Start with Lab 01 <span aria-hidden="true">&rarr;</span></a> : <span className="muted">Lab 01 is coming next.</span>}<span className="muted">{lessonCount} implemented {lessonCount === 1 ? 'lesson' : 'lessons'}</span></div>
     <p className="home-guide-hint">Open a lab and choose <strong>Open notebook</strong>, <strong>Open checklist</strong> or <strong>Open exercise</strong> beside its title. These shortcuts are also in the lesson menu and Course progress. Choose <strong>Open Learning Guide</strong> for voice narration and highlighted steps.</p>
     <section id="course-start-here" className="learning-card" tabIndex={-1} aria-labelledby="start-here-heading">

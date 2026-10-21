@@ -12,6 +12,8 @@ Use [WORKBOOK.md](WORKBOOK.md) for one complete document, or open the smaller st
 
 The [six-colour visual style prompt](12-six-colour-visual-style.md) is included in P01 and can also be copied independently to improve an existing app.
 
+The [Home presentation banner prompt](13-home-portal-banner.md) documents the portal title, artwork, responsive and accessible implementation, fallback and source-package inclusion. It is also embedded in P01.
+
 ## Prerequisites
 
 Use an AI coding assistant with local file/terminal access, Node 24 or newer, Git and VS Code or another editor. Chrome is used by browser checks. Windows examples use PowerShell and npm.cmd; use npm on other systems. The reference folder is claude-managed-agents, but it can live anywhere. Dependency installation and obtaining instructor materials need internet access. Local fixtures and included audio playback need no model or Inworld key.

@@ -15,6 +15,23 @@
   --blue: #a6caff; --blue-tint: #192d48;
   --purple: #d6b2ff; --purple-tint: #30243e;
 }
+/* Presentation artwork stays uncropped; real text remains available to readers. */
+.portal-intro { position: relative; padding: 0; overflow: hidden; border: 1px solid #d8e7ff; border-radius: 18px; background: #fff; color: #10113c; }
+.portal-intro-image { display: block; width: 100%; height: auto; }
+.portal-intro-copy { padding: clamp(20px, 3vw, 40px); }
+.portal-intro-copy .eyebrow { color: #185abc; }
+.portal-intro-copy h1 { color: #10113c; }
+.portal-intro-copy h1 span { color: #bb3a00; }
+.portal-intro-summary, .portal-intro-author { color: #36516c; }
+.portal-intro-author { font-size: .85rem; }
+.portal-intro-illustrated .portal-intro-copy { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip-path: inset(50%); }
+@media (max-width: 600px) {
+  .portal-intro-illustrated { display: flex; flex-direction: column; }
+  .portal-intro-image { order: -1; }
+  .portal-intro-illustrated .portal-intro-copy { position: static; width: auto; height: auto; padding: 20px; margin: 0; overflow: visible; clip-path: none; }
+  .portal-intro-copy h1 { font-size: clamp(1.6rem, 6vw, 2rem); }
+  .portal-intro-summary { font-size: .95rem; }
+}
 /* Stable section identities, independent of lesson numbers and DOM order. */
 [data-tone='red'], :where(.lesson-experiment, .notice, [role='alert']) {
   --tone-ink: var(--red); --tone-tint: var(--red-tint); --tone-fill: var(--red-fill); --tone-text: #fff;

@@ -164,3 +164,8 @@ COPY PROMPT END
 ## Six-colour visual style revision - 21 October 2026
 
 Use the complete [copyable six-colour implementation prompt](student-build-prompts/12-six-colour-visual-style.md), also embedded in curriculum step P01 and WORKBOOK.md. It supersedes the earlier blue-primary-only styling guidance with consistent red, orange, yellow, green, blue and purple families, theme-specific contrast tokens and stable section/view identities. Preserve the black TypeScript source panels, navigation, accessible states and all lesson behavior. The generated student prompt ZIP includes this prompt so learners can reproduce the change later.
+
+
+## Home portal presentation revision - 21 October 2026
+
+Replace the old Home text introduction with the instructor-style portal banner titled **Claude Managed Agents Learning Portal**. Follow the complete [student implementation and artwork prompt](student-build-prompts/13-home-portal-banner.md), also included in P01 and WORKBOOK.md. Use the local instructor asset, preserve accessible and phone-readable HTML text, keep an honest fallback for partial catalogs or missing artwork, retain Start navigation, and include the image in course source packages.
