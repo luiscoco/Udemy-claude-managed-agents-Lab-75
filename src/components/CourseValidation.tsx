@@ -8,12 +8,12 @@ function RunEvidence({ runId, commit, children }: { runId: string; commit: strin
 export function CourseValidation() {
   return <section id="course-validation" tabIndex={-1} className="learning-card course-validation" aria-labelledby="course-validation-heading">
     <p className="phase-label">Recorded test evidence</p><h2 id="course-validation-heading">Validation results</h2>
-    <p>Verified on <time dateTime={evidence.recordedOn}>19 October 2026</time>. These records cover the commits linked below. Open GitHub for current workflow status; newer changes need their own checks.</p>
+    <p>Verified on <time dateTime={evidence.recordedOn}>21 October 2026</time>. These records cover the commits linked below. Open GitHub for current workflow status; newer changes need their own checks.</p>
     <div className="validation-grid">
       <article className="validation-record" aria-labelledby="offline-validation-heading">
         <h3 id="offline-validation-heading">Offline regression</h3><p className="validation-result">Passed</p>
         <ul><li>{evidence.offline.testsPassed} offline tests passed.</li><li>{evidence.offline.evaluatorTestsPassed} evaluator and setup tests passed.</li>
-          <li>{evidence.offline.browserPassed} browser tests passed; {evidence.offline.browserSkipped} optional cached-audio test skipped.</li>
+          <li>{evidence.offline.browserPassed} browser tests passed; {evidence.offline.browserSkipped} skipped.</li>
           <li>Production build, distribution scan, source ZIP and artifact upload passed.</li></ul>
         <p>Cleanup: no provider sessions were created by this offline workflow.</p>
         <RunEvidence {...evidence.offline}>Open successful offline run</RunEvidence>
