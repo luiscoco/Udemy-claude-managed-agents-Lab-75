@@ -1,0 +1,55 @@
+/* Shared presentation refinements; semantic colours remain in colour-system.css. */
+:root {
+  --text-body: 1rem;
+  --text-label: .9rem;
+  --text-section: 1.4rem;
+  --text-subsection: 1.12rem;
+  --reading-width: 70ch;
+  --space-unit: 8px;
+  --card-radius: 12px;
+  --card-padding: clamp(16px, 2vw, 24px);
+}
+main { font-size: var(--text-body); }
+main h1 { font-weight: 750; }
+main h2 { font-size: var(--text-section); line-height: 1.3; font-weight: 750; margin-block: 0 16px; }
+main h3, main h4 { font-size: var(--text-subsection); line-height: 1.35; font-weight: 750; margin-block: 16px 8px; }
+main :is(label, legend) { font-size: var(--text-label); line-height: 1.5; font-weight: 650; }
+main :is(button, .button) { font-size: var(--text-label); font-weight: 650; line-height: 1.4; min-height: 44px; border-radius: 8px; max-width: 100%; white-space: normal; }
+main :is(p, .readable-markdown > ul, .readable-markdown > ol, .build-sequence, .learning-steps) { max-inline-size: var(--reading-width); }
+main p { line-height: 1.7; }
+main :is(.readable-markdown, .guide-transcript, .guide-explanation) p { max-inline-size: var(--reading-width); }
+main :is(.learning-card, .exercise-guide, .exercise-frame, .review-card, .source-card, .learning-voice-guide, .lesson-notebook, .learning-backup, .lesson-knowledge-check, .learning-milestones, .learning-paths, .learning-review-queue) {
+  border-radius: var(--card-radius); padding: var(--card-padding);
+}
+main :is(.learning-path-card, .validation-record, .system-grid article, .guide-explanation, .report-turn) { border-radius: var(--card-radius); padding: 16px; }
+main > section:not(.portal-intro) { margin-block: calc(3 * var(--space-unit)); }
+main :is(.actions, .guide-toolbar, .lesson-guide-shortcut) { gap: 12px; }
+main .guide-heading { gap: 16px; }
+main :is(.learning-backup, .lesson-notebook, [id^='lesson-checklist-'], .lesson-knowledge-check) > summary {
+  font-size: var(--text-subsection); font-weight: 750; line-height: 1.35; min-height: 44px; padding-block: 8px;
+}
+/* Explicit supporting actions inherit their section's ink and keep visible borders. */
+main :is(button, .button).button-secondary {
+  background: transparent; color: var(--tone-ink, var(--accent));
+  border: 1px solid currentColor; box-shadow: none;
+}
+main :is(button, .button).button-secondary:hover:not(:disabled) { background: var(--tone-tint, var(--soft)); filter: none; }
+main :is(button, .button):disabled { opacity: .6; cursor: default; }
+main :is(button, .button):focus-visible { outline: 3px solid var(--focus); outline-offset: 4px; }
+/* Preserve the floating guide's compact, bounded controls and one scroll surface. */
+main .guide-active .guide-heading h2, main .guide-active h3 { font-size: 1.1rem; }
+main .guide-heading h2 { margin: 0; }
+main .guide-active .guide-toolbar { gap: 8px; }
+main .guide-active .guide-toolbar button { font-size: .85rem; padding: 8px; }
+main .guide-active .guide-controls button { overflow-wrap: normal; }
+@media (max-width: 600px) {
+  main .guide-active .guide-controls button { font-size: .75rem; padding: 8px 4px; }
+  main :is(.actions, .guide-toolbar) > :is(button, .button) { min-width: 0; }
+}
+
+/* Shortcuts sit directly on the black shell, so use light destination colours. */
+main .lesson-guide-shortcut .button-secondary { color: #a6caff; }
+main .lesson-guide-shortcut .button-secondary[href*='notebook'] { color: #d6b2ff; }
+main .lesson-guide-shortcut .button-secondary[href*='checklist'] { color: #a1dfb8; }
+main .lesson-guide-shortcut .button-secondary[href*='exercise'] { color: #ffc08c; }
+main .lesson-guide-shortcut .button-secondary:hover { background: #242424; }

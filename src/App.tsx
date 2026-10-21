@@ -96,7 +96,7 @@ export function App({ lessons = implementedLessons }: { lessons?: readonly Lesso
       <div className="learning-quick-links" aria-label="Learning shortcuts">
         <a href={`${routeHref()}#course-start-here`} onClick={event => navigate(event, undefined, 'course-start-here')}>Start here</a>
         <a data-tone="green" href={routeHref()} onClick={event => navigate(event, undefined, 'course-progress')}>Course progress</a>
-        <a data-tone="orange" href={routeHref()} onClick={event => navigate(event, undefined, 'course-learning-backup')}>Back up or restore</a>
+        <a data-tone="blue" href={routeHref()} onClick={event => navigate(event, undefined, 'course-learning-backup')}>Back up or restore</a>
         <a data-tone="green" href={`${routeHref()}#course-validation`} onClick={event => navigate(event, undefined, 'course-validation')}>Validation results</a>
         {selected && lessonSections.map(section => <a key={section.key} href={lessonSectionHref(selected.id, section.key)} onClick={event => navigate(event, selected.id)}>{section.label} / Lab {String(selected.id).padStart(2, '0')}</a>)}
       </div>
@@ -122,7 +122,7 @@ export function App({ lessons = implementedLessons }: { lessons?: readonly Lesso
   return <div className="app-shell">
     <a className="skip-link" href="#main">Skip to content</a>
     <header className="topbar">
-      <a className="brand" href={routeHref()} onClick={(event) => navigate(event)}><span className="brand-mark" aria-hidden="true">a/</span><span>Claude Managed Agents<span className="brand-subtitle">LEARNING LAB</span></span></a>
+      <a className="brand" href={routeHref()} onClick={(event) => navigate(event)}><span className="brand-mark" aria-hidden="true"><img src={`${import.meta.env.BASE_URL}images/claude-icon.png`} alt="" width="40" height="40" /></span><span>Claude Managed Agents<span className="brand-subtitle">LEARNING LAB</span></span></a>
       <div className="header-actions"><button className="theme-button" onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')} aria-label={`Switch to ${theme === 'light' ? 'dark' : 'light'} theme`}>{theme === 'light' ? '◐ Dark' : '◑ Light'}</button>
         <button className="menu-button" ref={menuButton} aria-haspopup="dialog" aria-controls="course-drawer" onClick={() => drawer.current?.showModal()}>Menu</button></div>
     </header>
@@ -156,7 +156,7 @@ export function App({ lessons = implementedLessons }: { lessons?: readonly Lesso
           if (check instanceof HTMLDetailsElement) check.open = true;
           check?.scrollIntoView({ block: 'start', behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth' });
           check?.focus({ preventScroll: true });
-        }}>Open knowledge check</button>{lessonSections.map(section => <a className="button" key={section.key} href={lessonSectionHref(selected.id, section.key)} onClick={event => navigate(event, selected.id)}>Open {section.label.toLowerCase()}</a>)}<p>Optional voice narration, highlighted steps, checklist and personal notes. Explore any lab at your own pace.</p></div>
+        }}>Open knowledge check</button>{lessonSections.map(section => <a className="button button-secondary" key={section.key} href={lessonSectionHref(selected.id, section.key)} onClick={event => navigate(event, selected.id)}>Open {section.label.toLowerCase()}</a>)}<p>Optional voice narration, highlighted steps, checklist and personal notes. Explore any lab at your own pace.</p></div>
         <Component key={selected.id} />
         <nav className="lesson-pagination" aria-label="Previous and next lessons">
           {ordered[position - 1] ? <a href={routeHref(ordered[position - 1]!.id)} onClick={(event) => navigate(event, ordered[position - 1]!.id)}>← {ordered[position - 1]!.title}</a> : <span>First implemented lesson</span>}

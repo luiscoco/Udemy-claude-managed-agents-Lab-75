@@ -17,7 +17,7 @@
 }
 /* Presentation artwork stays uncropped; real text remains available to readers. */
 .portal-intro { position: relative; padding: 0; overflow: hidden; border: 1px solid #d8e7ff; border-radius: 18px; background: #fff; color: #10113c; }
-.portal-intro-image { display: block; width: 100%; height: auto; }
+.portal-intro-image { display: block; width: 100%; max-width: 1672px; height: auto; aspect-ratio: auto; object-fit: contain; margin-inline: auto; }
 .portal-intro-copy { padding: clamp(20px, 3vw, 40px); }
 .portal-intro-copy .eyebrow { color: #185abc; }
 .portal-intro-copy h1 { color: #10113c; }
@@ -33,10 +33,10 @@
   .portal-intro-summary { font-size: .95rem; }
 }
 /* Stable section identities, independent of lesson numbers and DOM order. */
-[data-tone='red'], :where(.lesson-experiment, .notice, [role='alert']) {
+[data-tone='red'], :where(.lesson-experiment, .learning-milestones, .notice, [role='alert']) {
   --tone-ink: var(--red); --tone-tint: var(--red-tint); --tone-fill: var(--red-fill); --tone-text: #fff;
 }
-[data-tone='orange'], :where(.exercise-frame, .setup-panel, .learning-backup, .learning-milestones) {
+[data-tone='orange'], :where(.exercise-frame, .setup-panel) {
   --tone-ink: var(--orange); --tone-tint: var(--orange-tint); --tone-fill: var(--orange-fill); --tone-text: #fff;
 }
 [data-tone='yellow'], :where(.lesson-knowledge-check, .learning-review-queue) {
@@ -45,7 +45,7 @@
 [data-tone='green'], :where(.course-progress, .review-card, .course-validation, [id^='lesson-checklist-']) {
   --tone-ink: var(--green); --tone-tint: var(--green-tint); --tone-fill: var(--green-fill); --tone-text: #fff;
 }
-[data-tone='blue'], :where(#course-start-here, .exercise-guide, .learning-voice-guide, .agent-response, .report-turn) {
+[data-tone='blue'], :where(#course-start-here, .learning-backup, .exercise-guide, .learning-voice-guide, .agent-response, .report-turn) {
   --tone-ink: var(--blue); --tone-tint: var(--blue-tint); --tone-fill: var(--blue-fill); --tone-text: #fff;
 }
 [data-tone='purple'], :where(.source-card, .learning-paths, .lesson-notebook) {
@@ -92,7 +92,9 @@ input[type='checkbox'], input[type='radio'], progress { accent-color: var(--tone
 .learning-path-card.path-selected { border-color: var(--tone-ink, var(--purple)); }
 [aria-controls='course-learning-paths'], a.button[href*='notebook'] { --tone-fill: var(--purple-fill); --tone-text: #fff; }
 [aria-controls='course-review-queue'] { --tone-fill: var(--yellow-fill); --tone-text: #352500; }
-[aria-controls='course-learning-milestones'], [aria-controls='course-learning-backup'], a.button[href*='exercise'] { --tone-fill: var(--orange-fill); --tone-text: #fff; }
+[aria-controls='course-learning-milestones'] { --tone-fill: var(--red-fill); --tone-text: #fff; }
+[aria-controls='course-learning-backup'] { --tone-fill: var(--blue-fill); --tone-text: #fff; }
+a.button[href*='exercise'] { --tone-fill: var(--orange-fill); --tone-text: #fff; }
 [aria-controls='course-validation'], a.button[href*='checklist'] { --tone-fill: var(--green-fill); --tone-text: #fff; }
 /* Quick links carry the same accents as their destinations. */
 .learning-quick-links a { border-inline-start: 4px solid #a6caff; padding-inline-start: 12px; }
@@ -110,3 +112,5 @@ input[type='checkbox'], input[type='radio'], progress { accent-color: var(--tone
   .workspace-tabs button { min-height: 52px; padding: 12px 8px; }
   .workspace-tabs button:last-child:nth-child(odd) { grid-column: 1 / -1; }
 }
+
+.portal-original-link a { color: #b6d5ff; }

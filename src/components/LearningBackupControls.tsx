@@ -39,7 +39,7 @@ export function LearningBackupControls({ lessonIds, storageAvailable }: { lesson
         catch (error) { setStatus(error instanceof Error ? error.message : 'Restore could not complete.'); }
         finally { notifyLearningProgress(); }
       }}>Restore this backup</button>
-      <button type="button" onClick={() => { sequence.current++; setPreview(null); setStatus('Restore cancelled. No learning state changed.'); }}>Cancel restore</button>
+      <button className="button-secondary" type="button" onClick={() => { sequence.current++; setPreview(null); setStatus('Restore cancelled. No learning state changed.'); }}>Cancel restore</button>
     </div>}
     <p role="status" aria-label="Learning backup status">{reading ? 'Reading and validating the backup locally.' : status}</p>
   </details>;

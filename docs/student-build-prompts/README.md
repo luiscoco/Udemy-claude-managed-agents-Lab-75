@@ -4,7 +4,7 @@ A copyable prompt curriculum for Udemy students. Authored 20 October 2026 agains
 
 ## What you will build
 
-All 75 Managed Agents lessons and 11 detailed extensions; the responsive shell, safe source views, guides and exact spoken-fragment highlights; optional progress, notes/backups, quizzes/paths/review, milestones and solutions; 150 astronaut infographics with zoom/pan and 900 timed regions; 525 lesson and 150 visual recordings; offline/browser checks, explicit live acceptance, sanitized packaging and release delivery.
+All 75 Managed Agents lessons and 11 detailed extensions; the responsive shell, safe source views, guides and exact spoken-fragment highlights; optional progress, notes/backups, quizzes/paths/review, milestones and solutions; 150 astronaut infographics with zoom/pan and 900 timed regions; 525 lesson, 150 visual and 75 main-concept TypeScript recordings; offline/browser checks, explicit live acceptance, sanitized packaging and release delivery.
 
 ## Choose how to read
 
@@ -13,6 +13,10 @@ Use [WORKBOOK.md](WORKBOOK.md) for one complete document, or open the smaller st
 The [six-colour visual style prompt](12-six-colour-visual-style.md) is included in P01 and can also be copied independently to improve an existing app.
 
 The [Home presentation banner prompt](13-home-portal-banner.md) documents the portal title, artwork, responsive and accessible implementation, fallback and source-package inclusion. It is also embedded in P01.
+
+The [professional learning style prompt](14-professional-learning-style.md) specifies typography, reading widths, primary/secondary actions and consistent card spacing. It is also included in P01.
+
+The [TypeScript code narration prompt](15-typescript-code-narration.md) covers one main concept file per lab, code transcripts, Inworld recordings and timed source rectangles. It is included in P20.
 
 ## Prerequisites
 
@@ -50,7 +54,7 @@ The student prompt ZIP contains Markdown and authored reference JSON, not the la
 
 1. Extract this prompt ZIP into a reference folder outside the empty app folder. Give your coding assistant read access to that reference folder, especially its reference-data files.
 2. Create a separate empty application folder and open it in your editor/assistant. Do not run these build prompts over the instructor application or an unrelated project. Replace C:/claude-managed-agents in an older lesson brief with your own application path.
-3. Open steps/F01.md, copy the text between COPY PROMPT START and COPY PROMPT END, and send it to the assistant. Do not paste the entire 120-prompt workbook into one request.
+3. Open steps/F01.md, copy the text between COPY PROMPT START and COPY PROMPT END, and send it to the assistant. Do not paste the entire 121-prompt workbook into one request.
 4. Run the checkpoint commands and inspect the result. Continue to F02 only after F01 works. Keep a checkpoint after each successful step so a later failure can be repaired locally.
 
-There are 117 ordered implementation/delivery prompts and three recovery/parity prompts, for 120 total. The 150 image-tool prompts are additional separate assets. If the assistant cannot read the reference folder, attach the specific JSON or prompt file needed by that step. Local build steps do not authorize optional paid recording, live sessions or publication.
+There are 118 ordered implementation/delivery prompts and three recovery/parity prompts, for 121 total. The 150 image-tool prompts are additional separate assets. If the assistant cannot read the reference folder, attach the specific JSON or prompt file needed by that step. Local build steps do not authorize optional paid recording, live sessions or publication.

@@ -23,7 +23,8 @@
 }
 .topbar { padding: 12px 24px; }
 .brand { font-size: .95rem; }
-.brand-mark { background: #2563c0; color: #fff; }
+.brand-mark { background: transparent; flex-shrink: 0; }
+.brand-mark img { display: block; width: 40px; height: 40px; object-fit: contain; }
 .brand-subtitle { font-size: .75rem; letter-spacing: .12em; }
 .sidebar { padding: 24px 16px; }
 .sidebar .home-link { border: 1px solid var(--shell-border); }

@@ -169,3 +169,11 @@ Use the complete [copyable six-colour implementation prompt](student-build-promp
 ## Home portal presentation revision - 21 October 2026
 
 Replace the old Home text introduction with the instructor-style portal banner titled **Claude Managed Agents Learning Portal**. Follow the complete [student implementation and artwork prompt](student-build-prompts/13-home-portal-banner.md), also included in P01 and WORKBOOK.md. Use the local instructor asset, preserve accessible and phone-readable HTML text, keep an honest fallback for partial catalogs or missing artwork, retain Start navigation, and include the image in course source packages.
+
+## Professional learning style refinements - 21 October 2026
+
+Use the [copyable professional learning style prompt](student-build-prompts/14-professional-learning-style.md), also embedded in P01 and WORKBOOK.md, to unify typography, constrain explanatory line lengths, distinguish primary and secondary actions, and standardize card spacing. Preserve the black shell, six-colour identities and all learning behavior. See [implementation and verification notes](professional-learning-style.md).
+
+## Main TypeScript code narration - 21 October 2026
+
+Use [P20](student-build-prompts/steps/P20.md) or the [standalone implementation prompt](student-build-prompts/15-typescript-code-narration.md) for one narrated main concept file per lab, 75 Inworld MP3s, exact code-line rectangles, source/media integrity checks and transcripts. Supporting files remain readable without narration. See [workflow and measured verification](typescript-code-narration.md). Reference JSON and complete instructions are included in the regenerated student prompt ZIP; matching MP3s are supplied in the updated course source package.

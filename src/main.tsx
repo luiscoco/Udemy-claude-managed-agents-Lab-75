@@ -5,6 +5,7 @@ import './styles.css';
 import './visual-style.css';
 import './learning-guide.css';
 import './colour-system.css';
+import './learning-polish.css';
 
 const root = document.getElementById('root');
 if (!root) throw new Error('Missing application root');

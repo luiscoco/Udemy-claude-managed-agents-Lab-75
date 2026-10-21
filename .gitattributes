@@ -2,3 +2,5 @@
 public/audio/guides/*.mp3 binary
 public/audio/infographics/*.mp3 binary
 public/infographics/*.png binary
+public/audio/code/*.mp3 binary
+public/images/*.png binary

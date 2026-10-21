@@ -82,13 +82,13 @@ export function LessonWorkspace({ lesson, loadGuide, sources, mainSources, loadE
       <div className="guided-workspace">
         <aside className="learning-card exercise-guide" aria-label="Exercise guidance">
           <p className="phase-label">01 / Understand</p><h2>Understand the lesson</h2>
-          <button type="button" className="guidance-toggle" aria-expanded={guidanceOpen} aria-controls={`${id}-guidance`} onClick={() => setGuidanceOpen(!guidanceOpen)}>{guidanceOpen ? 'Hide guidance' : 'Show guidance'}</button>
+          <button type="button" className="guidance-toggle button-secondary" aria-expanded={guidanceOpen} aria-controls={`${id}-guidance`} onClick={() => setGuidanceOpen(!guidanceOpen)}>{guidanceOpen ? 'Hide guidance' : 'Show guidance'}</button>
           <div id={`${id}-guidance`} hidden={!guidanceOpen}>
           <p>{lesson.objective}</p>
           <details open><summary>Your steps</summary><ol className="learning-steps">{lesson.steps.map((step) => <li key={step}>{step}</li>)}</ol></details>
           <p><strong>Your turn:</strong> Start with the exercise’s offline path. Compare its evidence with the steps above.</p>
           <details><summary>Recovery tips</summary><p>If the backend cannot be reached, check that the local development server is running. Live execution requires the server setup described in the exercise.</p><p>Use the Learn tab for the detailed guide. Changing tabs keeps your current experiment; leaving the lesson cancels its local request.</p></details>
-          <button type="button" onClick={() => activate(0, true)}>Open detailed guide</button>
+          <button className="button-secondary" type="button" onClick={() => activate(0, true)}>Open detailed guide</button>
           </div>
         </aside>
         <div className="exercise-content">
@@ -100,7 +100,7 @@ export function LessonWorkspace({ lesson, loadGuide, sources, mainSources, loadE
         </div>
       </div>
     </div>
-    <div role="tabpanel" id={`${id}-panel-2`} aria-labelledby={`${id}-tab-2`} hidden={active !== 2} tabIndex={0}><GuideExplanation step={tour[5]!} /><div data-guide-source><SourceViewer sources={sources} mainSources={mainSources} requestedSource={requestedSource} /></div></div>
+    <div role="tabpanel" id={`${id}-panel-2`} aria-labelledby={`${id}-tab-2`} hidden={active !== 2} tabIndex={0}><GuideExplanation step={tour[5]!} /><div data-guide-source><SourceViewer sources={sources} mainSources={mainSources} requestedSource={requestedSource} lessonId={lesson.id} active={active === 2} /></div></div>
     {visuals.map((visual, index) => <div key={visual.kind} role="tabpanel" id={`${id}-panel-${index + 3}`} aria-labelledby={tabId(index + 3)} hidden={active !== index + 3} tabIndex={0}>
       {active === index + 3 && <LessonInfographic visual={visual} onSource={path => { setRequestedSource(previous => ({ path, serial: previous.serial + 1 })); activate(2, true); }}
         onExplanation={target => { const step = tour.find(item => item.id === target); if (step) { activate(step.view, true); setExplanation(target); } }} />}

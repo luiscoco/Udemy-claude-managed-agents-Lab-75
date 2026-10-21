@@ -10,7 +10,8 @@
 .guide-active h3 { font-size: 1.1rem; margin: 10px 0; }
 .guide-scroll-body { padding: 0 6px 0 0; }
 .guide-active .guide-toolbar { gap: 8px; margin: 10px 0; }
-.guide-active .guide-controls { position: sticky; top: 0; z-index: 2; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); background: var(--blue-tint); padding: 8px 0; margin-block: 0 10px; border-bottom: 1px solid var(--border); box-shadow: 0 -24px 0 var(--blue-tint); }
+.guide-active .guide-sticky-header { position: sticky; top: calc(-1 * var(--card-padding, 22px)); z-index: 2; background: var(--blue-tint); margin-top: calc(-1 * var(--card-padding, 22px)); padding: var(--card-padding, 22px) 0 8px; border-bottom: 1px solid var(--border); }
+.guide-active .guide-controls { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); padding: 8px 0 0; margin-block: 0; }
 .guide-controls > span { grid-column: 1 / -1; }
 .guide-controls > button { min-width: 0; }
 .guide-controls > button:last-child { grid-column: 3; grid-row: 2; }
@@ -57,6 +58,7 @@
 .lesson-notebook label:not(.guide-checkpoint), .learning-backup > label { display: block; margin: 16px 0 8px; font-weight: 650; }
 .lesson-notebook textarea { display: block; width: 100%; min-height: 160px; box-sizing: border-box; font: inherit; line-height: 1.65; padding: 12px; }
 .learning-backup input[type='file'] { display: block; width: 100%; min-width: 0; box-sizing: border-box; font: inherit; margin: 12px 0; }
+.learning-backup > summary, .lesson-notebook > summary, [id^='lesson-checklist-'] > summary { font-size: 1.12rem; font-weight: 750; line-height: 1.35; min-height: 44px; padding-block: 8px; }
 .backup-preview { border: 2px solid var(--blue); padding: 16px; border-radius: 8px; margin: 18px 0; }
 .backup-preview button { margin: 6px 12px 6px 0; }
 .lesson-knowledge-check { background: var(--purple-tint); color: var(--ink); border: 2px solid var(--purple); border-radius: 12px; padding: 20px; margin-bottom: 24px; scroll-margin-top: 110px; }
@@ -87,7 +89,7 @@
 .validation-record ul { padding-left: 22px; }
 .validation-record a { overflow-wrap: anywhere; }
 .validation-result { font-weight: 700; color: var(--green); }
-#course-progress, #course-learning-backup, .lesson-notebook, [id^="lesson-checklist-"], [id^="lesson-exercise-"] { scroll-margin-top: 110px; }
+#course-start-here, #course-progress, #course-learning-backup, .lesson-notebook, [id^="lesson-checklist-"], [id^="lesson-exercise-"] { scroll-margin-top: 110px; }
 .learning-path-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); gap: 16px; margin: 20px 0; }
 .learning-path-card { border: 1px solid var(--border); border-radius: 10px; background: var(--surface); padding: 18px; min-width: 0; }
 .learning-path-card h4 { margin: 0 0 12px; font-size: 1.15rem; }

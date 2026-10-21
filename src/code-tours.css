@@ -1,0 +1,12 @@
+.code-tour-controls { padding: 16px; border: 1px solid var(--purple); border-radius: 12px; margin-block: 16px; background: var(--surface); }
+.code-tour-controls audio { display: block; width: min(100%, 640px); margin-block: 12px; }
+.code-tour-controls select { max-width: 100%; }
+.code-tour-quick-controls { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; padding: 12px; background: var(--purple-tint); border: 1px solid var(--purple); border-radius: 8px; }
+.code-tour-quick-controls strong { flex: 1 1 100%; }
+.code-tour-viewport { max-height: min(65dvh, 720px, var(--code-available-height, 720px)); overflow: auto; overscroll-behavior: contain; border: 1px solid var(--purple); border-radius: 8px; background: #000; padding: 12px; scroll-padding: 20px; }
+.code-tour-viewport .code-toolbar { color: #f1f5f9; }
+.code-tour-viewport .code-toolbar .button-secondary { color: #d6b2ff; }
+.code-tour-viewport .code-block pre { margin-bottom: 0; }
+.code-line.code-narration-highlight { background: #401a1a; }
+.code-tour-canvas { position: relative; min-width: 0; }
+.code-tour-rectangle { position: absolute; border: 3px solid #ff4545; pointer-events: none; z-index: 1; box-shadow: 0 0 0 1px #000; }

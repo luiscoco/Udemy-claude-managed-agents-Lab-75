@@ -166,22 +166,24 @@ export function LearningGuide({ lessonId, view, onView, workspace }: {
     try { await audio.current.play(); } catch { setNotice('Use the audio player Play control to start the recording.'); }
   }
   return <aside ref={player} id={`learning-guide-${lessonId}`} tabIndex={index === null ? -1 : 0} className={`learning-voice-guide${index !== null ? ' guide-active' : ''}${compact ? ' guide-compact' : ''}`} aria-label="Learning Guide">
+    <div className="guide-sticky-header">
     <div className="guide-heading"><div><p className="phase-label">Listen / Read / Practice</p><h2>Learning Guide</h2></div>
       <button ref={start} type="button" onClick={() => { narratedTour.current = false; setAutoContinue(false); setCompact(false); select(0, false); }}>{index === null ? 'Start guided tour' : 'Restart tour'}</button></div>
+      {index !== null && <div className="guide-toolbar guide-controls"><span>Step {index + 1} of {steps.length}</span><button className="button-secondary" onClick={() => setCompact(value => !value)} aria-expanded={!compact}>{compact ? 'Expand guide' : 'Minimize guide'}</button>{!compact && <button className="button-secondary" onClick={stop}>Pause</button>}<button className="button-secondary" onClick={() => close()}>Close guide</button></div>}
+    </div>
     {index === null ? <><p>Follow this lab section by section with explanations, voice narration and a red highlight. You control every exercise action.</p>
       <button type="button" disabled={!setup?.ready} onClick={() => {
         narratedTour.current = true; setAutoContinue(true); setCompact(true); select(0, true);
       }}>Start narrated tour</button>
       <p className="muted">{setup?.ready ? 'Included Inworld recordings follow each explanation with timed red rectangles. No API key is needed; the tour pauses for your exercise actions.' : 'Written explanations are available while the included recordings load.'}</p>
       {resumeId && <button type="button" onClick={() => select(steps.findIndex(item => item.id === resumeId))}>Resume saved tour</button>}</> : step && <>
-      <div className="guide-toolbar guide-controls"><span>Step {index + 1} of {steps.length}</span><button onClick={() => setCompact(value => !value)} aria-expanded={!compact}>{compact ? 'Expand guide' : 'Minimize guide'}</button>{!compact && <button onClick={stop}>Pause</button>}<button onClick={() => close()}>Close guide</button></div>
       <h3 aria-live="polite">{step.title}</h3>
-      <div className="guide-toolbar"><button disabled={index === 0} onClick={() => select(index - 1)}>Previous section</button><button onClick={() => select(index, false)}>Show section</button>{index < steps.length - 1 ? <button onClick={() => select(index + 1)}>Next section</button> : <button onClick={finish}>Finish tour</button>}</div>
+      <div className="guide-toolbar"><button className="button-secondary" disabled={index === 0} onClick={() => select(index - 1)}>Previous section</button><button className="button-secondary" onClick={() => select(index, false)}>Show section</button>{index < steps.length - 1 ? <button onClick={() => select(index + 1)}>Next section</button> : <button onClick={finish}>Finish tour</button>}</div>
       <div className="guide-audio-progress" aria-label="Narration progress">
         <progress max={clock.duration || 1} value={Math.min(clock.current, clock.duration || 1)} aria-label="Narration playback progress" />
         <span>{Math.floor(clock.current)} / {Math.floor(clock.duration)} seconds{clock.playing ? ' · Playing' : clock.ended ? ' · Finished' : clock.current > 0 ? ' · Paused' : ''}</span>
       </div>
-      {compact && <div className="guide-toolbar"><button disabled={loading || !setup?.ready} onClick={() => void play()}>Play narration</button><button onClick={stop}>Pause narration</button><button disabled={loading || !setup?.ready} onClick={() => void play(true)}>Replay narration</button></div>}
+      {compact && <div className="guide-toolbar"><button disabled={loading || !setup?.ready} onClick={() => void play()}>Play narration</button><button className="button-secondary" onClick={stop}>Pause narration</button><button disabled={loading || !setup?.ready} onClick={() => void play(true)}>Replay narration</button></div>}
       <div hidden={compact} className="guide-scroll-body">
         <label>Jump to section <select aria-label="Guide section" value={index} onChange={event => select(Number(event.target.value))}>{steps.map((item, i) => <option key={item.id} value={i}>{i + 1}. {item.title}</option>)}</select></label>
         <p className="guide-your-turn"><strong>Your turn:</strong> {step.action}</p>
@@ -192,7 +194,7 @@ export function LearningGuide({ lessonId, view, onView, workspace }: {
           else setNotice('No separate target is visible yet. Use the exercise controls yourself and inspect the output when it appears.');
         }}>Show exercise target</button>}
         <p className="guide-voice-status">{setup?.ready ? `Recorded Inworld voice: ${setup.voiceId}. MP3s are included with the course. Students need no Inworld API key.` : 'Written guidance is ready. Included recordings are currently unavailable.'}</p>
-        <div className="guide-toolbar"><button disabled={loading || !setup?.ready} onClick={() => void play()}>Play narration</button><button onClick={stop}>Pause narration</button><button disabled={loading || !setup?.ready} onClick={() => void play(true)}>Replay narration</button>
+        <div className="guide-toolbar"><button disabled={loading || !setup?.ready} onClick={() => void play()}>Play narration</button><button className="button-secondary" onClick={stop}>Pause narration</button><button disabled={loading || !setup?.ready} onClick={() => void play(true)}>Replay narration</button>
           <label>Playback speed <select value={speed} onChange={event => { setSpeed(event.target.value); if (audio.current) audio.current.playbackRate = Number(event.target.value); }}><option value="0.75">0.75x</option><option value="1">1x</option><option value="1.25">1.25x</option><option value="1.5">1.5x</option></select></label></div>
         <audio ref={audio} controls preload="none" aria-label="Learning Guide narration"
           onPlay={() => { document.querySelectorAll('audio').forEach(item => { if (item !== audio.current) item.pause(); }); syncClock(); }}

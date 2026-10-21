@@ -1,0 +1,38 @@
+{
+  "version": 1,
+  "lessonId": 59,
+  "stepId": "code",
+  "source": "inworld-word",
+  "cues": [
+    {
+      "id": "code-0",
+      "start": 0,
+      "end": 21.51
+    },
+    {
+      "id": "code-1",
+      "start": 22.06,
+      "end": 40.29
+    },
+    {
+      "id": "code-2",
+      "start": 40.72,
+      "end": 57.64
+    },
+    {
+      "id": "code-3",
+      "start": 58.01,
+      "end": 74.2
+    },
+    {
+      "id": "code-4",
+      "start": 74.61,
+      "end": 90.55
+    },
+    {
+      "id": "code-5",
+      "start": 91,
+      "end": 110.75
+    }
+  ]
+}

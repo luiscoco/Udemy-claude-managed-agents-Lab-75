@@ -56,6 +56,7 @@ export function Home({ invalid, lessonCount, startHref, onStart, progress }: { i
         alt="Portal introduction: learn with guided lessons and narration, build hands-on experiments, and understand source code and evidence. Instructor Luis Coco Enríquez with his two dogs and the course astronaut mascot."
         fetchPriority="high" onError={() => setBannerAvailable(false)} />}
     </section>
+    {illustratedIntro && <p className="portal-original-link"><a href={`${import.meta.env.BASE_URL}images/portal-welcome.png`} target="_blank" rel="noopener noreferrer">Open cover at original resolution (1672 x 941)</a></p>}
     <div className="hero-actions">{startHref ? <a className="button" href={startHref} onClick={onStart}>Start with Lab 01 <span aria-hidden="true">&rarr;</span></a> : <span className="muted">Lab 01 is coming next.</span>}<span className="muted">{lessonCount} implemented {lessonCount === 1 ? 'lesson' : 'lessons'}</span></div>
     <p className="home-guide-hint">Open a lab and choose <strong>Open notebook</strong>, <strong>Open checklist</strong> or <strong>Open exercise</strong> beside its title. These shortcuts are also in the lesson menu and Course progress. Choose <strong>Open Learning Guide</strong> for voice narration and highlighted steps.</p>
     <section id="course-start-here" className="learning-card" tabIndex={-1} aria-labelledby="start-here-heading">
@@ -88,7 +89,7 @@ export function Home({ invalid, lessonCount, startHref, onStart, progress }: { i
       <p>Check the local API. This request does not call Claude or inspect credentials.</p>
       <div className="actions">
         <button disabled={pending} onClick={() => void checkHealth()}>Check backend</button>
-        {pending && <button onClick={() => controller.current?.abort('cancelled')}>Cancel</button>}
+        {pending && <button className="button-secondary" onClick={() => controller.current?.abort('cancelled')}>Cancel</button>}
       </div>
       <p role="status" aria-live="polite">{status}</p>
       {health && <details open><summary>Raw API evidence</summary><pre>{JSON.stringify(health, null, 2)}</pre></details>}

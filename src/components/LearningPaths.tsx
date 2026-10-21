@@ -26,7 +26,7 @@ export function LearningPaths({ lessons, progress, selectedId, onSelect, status,
           <details><summary>Lessons in this path</summary><ol>{ids.map(id => <li key={id}><a href={routeHref(id)} onClick={event => onNavigate(event, id)}>Lab {String(id).padStart(2, '0')}: {lessons.find(lesson => lesson.id === id)?.title}</a></li>)}</ol></details>
         </article>;
       })}</div>
-      {selectedId && <button type="button" onClick={() => onSelect(null)}>Clear selected path</button>}
+      {selectedId && <button className="button-secondary" type="button" onClick={() => onSelect(null)}>Clear selected path</button>}
       <p role="status" aria-label="Learning path status">{status}</p>
     </section>
     <section id="course-review-queue" className="learning-review-queue" aria-labelledby="review-queue-heading" tabIndex={-1}><h3 id="review-queue-heading">Your review queue</h3>

@@ -131,3 +131,16 @@ Each lesson has **Open notebook**, **Open checklist** and **Open exercise** link
 You can bookmark, copy or open these links in a new tab. Refresh and browser Back return to the selected section. Notebook and checklist links expand their panels and move keyboard focus there; an exercise link selects the exercise tab and leaves execution to your explicit Run action. Existing saved notes and checklist choices are retained.
 
 The TypeScript source tab uses a black code background in both themes across all 75 lessons, with readable syntax colors and line numbers. File selection, copying and supporting import links remain available.
+
+
+## Backup, notebook and checklist title typography
+
+The **Back up or restore my learning**, **My lesson notebook** and **My learning checklist** disclosures use the same 1.12rem size as peer section headings (22.4px at the 20px root), weight 750 and a 44px minimum target. All three keep their native markers, counts, keyboard toggles and phone wrapping. The exact specification is included in student prompt P07, WORKBOOK.md and the regenerated prompt ZIP.
+
+Start here now shares the 110px section scroll margin so its heading clears the fixed header on navigation, reload and history traversal. Milestone projects use red and learning backup uses blue; the five Course progress controls each have a different colour. See student prompts P01, P07 and P12.
+
+### Visible guide heading and Restart control
+
+The floating guide now groups its heading, Restart tour button and step controls in one sticky header. The controls remain in normal flow within that header. Removing the independently sticky toolbar and its negative top shadow prevents it from covering the title and Restart button. Browser checks verify actual hit-testing and full visibility at the top, after scrolling to the bottom, and after minimize/expand at desktop, phone and short landscape sizes. This is recorded in student prompts P03/P01 and the professional style supplement.
+
+Verification: typecheck, production build and all 13 guide/playback/timing browser checks passed on 21 October 2026. The header visibility assertions cover 1280x900, 390x844, 320x568 and 844x390; manual Chrome checks also clicked Restart tour after scrolling at 320px and 1280px.

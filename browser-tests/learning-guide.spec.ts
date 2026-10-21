@@ -10,6 +10,24 @@ for (const viewport of [{ width: 1280, height: 900 }, { width: 390, height: 844 
     const guide = page.getByRole('complementary', { name: 'Learning Guide', exact: true });
     await guide.getByRole('button', { name: 'Start guided tour', exact: true }).click();
     await expect(page.locator('[data-guide-target="goal"]')).toHaveClass(/learning-guide-highlight/);
+    async function expectHeaderUncovered() {
+      const heading = guide.getByRole('heading', { name: 'Learning Guide', exact: true });
+      await expect(heading).toBeInViewport();
+      expect(await guide.locator('.guide-sticky-header').evaluate(header => {
+        const panel = header.closest('aside')!.getBoundingClientRect();
+        return header.getBoundingClientRect().top <= panel.top + 3;
+      })).toBe(true);
+      const restart = guide.getByRole('button', { name: 'Restart tour', exact: true });
+      await expect(restart).toBeInViewport();
+      for (const item of [heading, restart]) {
+        expect(await item.evaluate(element => {
+          const rect = element.getBoundingClientRect(), panel = element.closest('aside')!.getBoundingClientRect();
+          const hit = document.elementFromPoint(rect.left + rect.width / 2, rect.top + rect.height / 2);
+          return rect.top >= panel.top && rect.bottom <= panel.bottom && !!hit && element.contains(hit);
+        })).toBe(true);
+      }
+    }
+    await expectHeaderUncovered();
     await guide.getByText('Read narration transcript', { exact: true }).click();
     await expect(guide.locator('.guide-scroll-body')).toHaveCSS('overflow-y', 'visible');
     const bounds = await guide.boundingBox();
@@ -20,6 +38,7 @@ for (const viewport of [{ width: 1280, height: 900 }, { width: 390, height: 844 
     await guide.evaluate(element => { element.scrollTop = element.scrollHeight; });
     await page.mouse.wheel(0, 600);
     await expect.poll(() => page.evaluate(() => scrollY)).toBe(pageY);
+    await expectHeaderUncovered();
     for (const name of ['Close guide', 'Minimize guide']) {
       const button = guide.getByRole('button', { name, exact: true });
       await expect(button).toBeInViewport();
@@ -31,6 +50,7 @@ for (const viewport of [{ width: 1280, height: 900 }, { width: 390, height: 844 
     await expect(guide).toHaveClass(/guide-compact/);
     await guide.getByRole('button', { name: 'Expand guide', exact: true }).click();
     await expect(guide).not.toHaveClass(/guide-compact/);
+    await expectHeaderUncovered();
     await expect(guide.getByRole('button', { name: 'Close guide', exact: true })).toBeInViewport();
     await guide.focus();
     await page.keyboard.press('Home');

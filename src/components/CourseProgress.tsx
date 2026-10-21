@@ -29,7 +29,7 @@ export function CourseProgress({ progress, lessons, onNavigate, selectedPathId, 
     {next ? <div className="continue-learning"><a className="button" href={routeHref(next.id)} onClick={event => onNavigate(event, next.id)}>Continue learning: Lab {String(next.id).padStart(2, '0')}</a>
       <p>{next.title}. {progress.lessons.find(item => item.id === next.id)?.savedStep ? 'Open its Learning Guide and choose Resume saved tour to return to your section.' : 'Open its Learning Guide to choose your next step.'}</p></div>
       : lessons.length > 0 && <p>All learning checklists are complete. Revisit any lesson to practice or review its evidence.</p>}
-    {next && <nav className="guide-toolbar" aria-label="Continue lesson sections">{lessonSections.map(section => <a className="button" key={section.key} href={lessonSectionHref(next.id, section.key)} onClick={event => onNavigate(event, next.id)}>{section.label} for Lab {String(next.id).padStart(2, '0')}</a>)}</nav>}
+    {next && <nav className="guide-toolbar" aria-label="Continue lesson sections">{lessonSections.map(section => <a className="button button-secondary" key={section.key} href={lessonSectionHref(next.id, section.key)} onClick={event => onNavigate(event, next.id)}>{section.label} for Lab {String(next.id).padStart(2, '0')}</a>)}</nav>}
     <details><summary>Progress by topic</summary><ul className="topic-progress-list">{topicNames.map(topic => {
       const ids = lessons.filter(item => item.topic === topic).map(item => item.id);
       const count = progress.lessons.filter(item => ids.includes(item.id) && item.completed).length;

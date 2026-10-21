@@ -43,6 +43,7 @@ jobs:
       - run: npm run test:dev-server
       - run: npm run milestones:check
       - run: npm run audit:lesson-guides
+      - run: npm run code:audit
   browser:
     name: Browser shard ${{ matrix.shard }}/2
     runs-on: windows-latest

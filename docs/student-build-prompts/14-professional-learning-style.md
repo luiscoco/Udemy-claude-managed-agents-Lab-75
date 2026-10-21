@@ -1,0 +1,19 @@
+# Professional learning platform visual refinements - 21 October 2026
+
+Copy this prompt to refine an existing app, or apply it with P01.
+
+COPY PROMPT START
+
+````text
+Refine the existing learning portal using shared CSS and shared components. Preserve the pure black shell, six semantic colour families, official local Claude icon, supplied Home banner, saved learning data, routes, lesson content and provider gates. Inspect existing style order and components before editing. Do not rebuild all 75 lesson UIs individually.
+
+Create src/learning-polish.css and import it after colour-system.css in main.tsx and the framework browser harness. Retain the 20px root and system font. Define body 1rem, labels/buttons .9rem, section headings 1.4rem, subsection headings 1.12rem, heading weight 750 and button weight 650. Use heading line heights 1.3/1.35 and prose 1.7. Keep the active floating guide heading compact at 1.1rem and toolbar buttons .85rem. Keep the guide heading, Restart tour and controls in one sticky header wrapper, with no overlapping sticky toolbar or negative top shadow. Verify the heading and Restart button are fully visible and hit-testable before/after scrolling and minimize/expand. At phone widths use .75rem and 4px inline padding for the three sticky guide controls so Minimize/Close labels wrap at word boundaries; retain 44px targets. Keep the backup, notebook, checklist and knowledge-check disclosure titles at 1.12rem/750 with their native markers and 44px targets; do not enlarge nested technical summaries globally.
+
+Limit explanatory paragraphs and authored prose lists to 70ch, with no fixed minimum width. Keep code, tables, source viewers, infographics, input areas and the overall workspace wide; scroll wide technical content within its own panel. Preserve the full Home banner and accessible mobile copy. Use an 8px spacing unit, 12px card radius, clamp(16px,2vw,24px) main teaching-card padding, 16px inner-card padding, 24px section spacing and 12px action gaps. Retain semantic border colours and avoid adding borders/padding to every nested exercise section.
+
+Use solid fills for primary actions such as Start, Run, Save note, Download/Restore backup and Next section. Add an explicit button-secondary class for supporting actions: Copy, Cancel restore, Clear selected path, guidance visibility, Open detailed guide, guide minimize/pause/close/previous/show controls and lesson section shortcuts. Outlined secondary actions use transparent backgrounds, a visible currentColor border and the section ink. Use light destination colours for outlined shortcuts directly on the black shell: notebook #d6b2ff, checklist #a1dfb8 and exercise #ffc08c. Keep ordinary inline links underlined. Preserve the five distinct filled Course progress controls: purple paths, yellow review, red milestones, blue backup and green validation. Preserve selected tab styles, disabled states, focus outlines, keyboard interaction, labels and existing handlers. Never infer button priority from DOM position, translated text or nth-child.
+
+Verify the actual production UI at 320,390,768,1280 and 1920px in both themes, plus an enlarged-text/zoom equivalent. Inspect screenshots for Home, Learn, Exercise, Source and the expanded Learning Guide. Check heading hierarchy, line lengths, consistent cards, button contrast (4.5:1 for ordinary text), visible focus, 44px targets, no page overflow, readable black source panels, no clipped guide controls and no extra scroll surface. Run typecheck/build and relevant existing navigation, workspace, notebook/backup and guide regressions. Confirm automatic page/tab navigation creates zero exercise POSTs. Record actual results and limitations; update this prompt, workbook and prompt ZIP. This prompt alone does not authorize paid generation/provider runs, publication, deployment or Git push.
+````
+
+COPY PROMPT END
