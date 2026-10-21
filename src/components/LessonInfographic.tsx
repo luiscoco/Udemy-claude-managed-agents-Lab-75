@@ -76,7 +76,7 @@ export function LessonInfographic({ visual, onExplanation, onSource }: { visual:
     try { await audio.current.play(); requestAnimationFrame(() => requestAnimationFrame(() => section.current?.querySelector('.infographic-viewport')?.scrollIntoView({ block: 'start', behavior: 'instant' }))); }
     catch { setNotice('Use the audio player Play control to start the included recording.'); }
   }
-  return <section ref={section} className="lesson-infographic learning-card" aria-label={`${visual.kind === 'concepts' ? 'Concept map' : 'Lab walkthrough'} for Lab ${visual.lessonId}`}>
+  return <section ref={section} className="lesson-infographic learning-card" data-tone={visual.kind === 'concepts' ? 'purple' : 'yellow'} aria-label={`${visual.kind === 'concepts' ? 'Concept map' : 'Lab walkthrough'} for Lab ${visual.lessonId}`}>
     <p className="phase-label">Lab {String(visual.lessonId).padStart(2, '0')} / {visual.kind === 'concepts' ? 'Concept map' : 'Lab walkthrough'}</p>
     <h2>{visual.title}</h2><p>Six regions explain this lesson. These are illustrated teaching summaries; inspect the exercise for actual results.</p>
     <div className="infographic-playback">

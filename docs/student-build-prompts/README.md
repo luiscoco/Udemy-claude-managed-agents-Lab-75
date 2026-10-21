@@ -1,6 +1,6 @@
 # Build the Claude Managed Agents learning platform from zero
 
-A copyable prompt curriculum for Udemy students. Authored 20 October 2026 against source 963cbbf; interface revised 21 October 2026 to remove the duplicate numbered lesson button grid and use black TypeScript source backgrounds in both themes. Start with an empty folder and build the application incrementally; the finished instructor repository is an optional read-only reference, not a prerequisite application to clone. This replaces the earlier assumption that the first five labs or the app shell already exist.
+A copyable prompt curriculum for Udemy students. Authored 20 October 2026 against source 963cbbf; interface revised 21 October 2026 to remove the duplicate numbered lesson button grid use black TypeScript source backgrounds in both themes, and add six semantic colour families. Start with an empty folder and build the application incrementally; the finished instructor repository is an optional read-only reference, not a prerequisite application to clone. This replaces the earlier assumption that the first five labs or the app shell already exist.
 
 ## What you will build
 
@@ -9,6 +9,8 @@ All 75 Managed Agents lessons and 11 detailed extensions; the responsive shell, 
 ## Choose how to read
 
 Use [WORKBOOK.md](WORKBOOK.md) for one complete document, or open the smaller step files from the sequence below. Each COPY PROMPT block is a complete request to your coding assistant. Copy only one at a time, let it implement and verify the step, inspect the result and save a working checkpoint before continuing. Recovery prompts are at the end.
+
+The [six-colour visual style prompt](12-six-colour-visual-style.md) is included in P01 and can also be copied independently to improve an existing app.
 
 ## Prerequisites
 

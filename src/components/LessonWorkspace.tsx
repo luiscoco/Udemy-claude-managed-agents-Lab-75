@@ -62,7 +62,7 @@ export function LessonWorkspace({ lesson, loadGuide, sources, mainSources, loadE
     <LearningGuide lessonId={lesson.id} view={active} onView={activate} workspace={workspace} />
     <LessonKnowledgeCheck lessonId={lesson.id} onReviewSource={() => activate(2, true)} />
     <div role="tablist" aria-label={`${lesson.title} views`} className="workspace-tabs">
-      {tabs.map((name, index) => <button type="button" key={name} id={tabId(index)} role="tab" data-lesson-shortcut={index === 1 ? 'exercise' : undefined}
+      {tabs.map((name, index) => <button type="button" key={name} id={tabId(index)} role="tab" data-tone={name === 'Learn' ? 'blue' : name === 'Run the exercise' ? 'orange' : name === 'Lab walkthrough' ? 'yellow' : 'purple'} data-lesson-shortcut={index === 1 ? 'exercise' : undefined}
         ref={(element) => { buttons.current[index] = element; }} aria-selected={active === index}
         aria-controls={`${id}-panel-${index}`} tabIndex={active === index ? 0 : -1}
         onClick={() => activate(index)} onKeyDown={(event) => {

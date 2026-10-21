@@ -5,6 +5,7 @@ import { sources } from '../../src/lessons/resources';
 import { testLesson } from '../../tests/support/lesson';
 import '../../src/styles.css';
 import '../../src/visual-style.css';
+import '../../src/colour-system.css';
 const id = new URLSearchParams(location.search).has('gap') ? 2 : 1;
 const lesson = { ...testLesson, id, title: 'Framework test lesson', serverPrefix: `/api/c${id}` };
 const loadGuide = () => import('./guide.md?raw').then(module => module.default);

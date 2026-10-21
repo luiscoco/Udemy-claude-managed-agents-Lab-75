@@ -1,0 +1,95 @@
+/* Six shared colour families. Labels and selection borders also carry meaning. */
+:root {
+  --red: #b42335; --red-tint: #fff0f1; --red-fill: #b42335;
+  --orange: #9a4209; --orange-tint: #fff2e5; --orange-fill: #a6470b;
+  --yellow: #785600; --yellow-tint: #fff9db; --yellow-fill: #f2c94c;
+  --green: #17623e; --green-tint: #eef9ef; --green-fill: #17623e;
+  --blue: #185abc; --blue-tint: #edf5ff; --blue-fill: #185abc;
+  --purple: #7139a6; --purple-tint: #f7f0ff; --purple-fill: #7139a6;
+}
+:root[data-theme='dark'] {
+  --red: #ffb0bb; --red-tint: #3d202b;
+  --orange: #ffc08c; --orange-tint: #3b291f;
+  --yellow: #f6d76c; --yellow-tint: #342f1a;
+  --green: #a1dfb8; --green-tint: #173329;
+  --blue: #a6caff; --blue-tint: #192d48;
+  --purple: #d6b2ff; --purple-tint: #30243e;
+}
+/* Stable section identities, independent of lesson numbers and DOM order. */
+[data-tone='red'], :where(.lesson-experiment, .notice, [role='alert']) {
+  --tone-ink: var(--red); --tone-tint: var(--red-tint); --tone-fill: var(--red-fill); --tone-text: #fff;
+}
+[data-tone='orange'], :where(.exercise-frame, .setup-panel, .learning-backup, .learning-milestones) {
+  --tone-ink: var(--orange); --tone-tint: var(--orange-tint); --tone-fill: var(--orange-fill); --tone-text: #fff;
+}
+[data-tone='yellow'], :where(.lesson-knowledge-check, .learning-review-queue) {
+  --tone-ink: var(--yellow); --tone-tint: var(--yellow-tint); --tone-fill: var(--yellow-fill); --tone-text: #352500;
+}
+[data-tone='green'], :where(.course-progress, .review-card, .course-validation, [id^='lesson-checklist-']) {
+  --tone-ink: var(--green); --tone-tint: var(--green-tint); --tone-fill: var(--green-fill); --tone-text: #fff;
+}
+[data-tone='blue'], :where(#course-start-here, .exercise-guide, .learning-voice-guide, .agent-response, .report-turn) {
+  --tone-ink: var(--blue); --tone-tint: var(--blue-tint); --tone-fill: var(--blue-fill); --tone-text: #fff;
+}
+[data-tone='purple'], :where(.source-card, .learning-paths, .lesson-notebook) {
+  --tone-ink: var(--purple); --tone-tint: var(--purple-tint); --tone-fill: var(--purple-fill); --tone-text: #fff;
+}
+.learning-card, .exercise-frame, .setup-panel, .review-card, .source-card, .lesson-experiment,
+.lesson-knowledge-check, .learning-voice-guide, .learning-paths, .learning-review-queue,
+.learning-milestones, .learning-backup, .lesson-notebook, [id^='lesson-checklist-'] {
+  --accent: var(--tone-ink, var(--blue));
+  background-color: var(--tone-tint, var(--blue-tint));
+  border-color: var(--tone-ink, var(--blue));
+  border-inline-start: 5px solid var(--tone-ink, var(--blue));
+  color: var(--ink);
+}
+.phase-label, .step-number { color: var(--tone-ink, var(--accent)); }
+main :where(button, .button), .learning-card button, .learning-card .button {
+  background: var(--tone-fill, var(--blue-fill));
+  color: var(--tone-text, #fff); border-color: var(--tone-fill, var(--blue-fill));
+}
+/* Selected views have a contrasting underline, inset border and bold text. */
+.workspace-tabs button[data-tone] {
+  color: var(--tone-ink); background: var(--tone-tint);
+  border: 1px solid transparent; border-bottom: 4px solid var(--tone-ink);
+}
+.workspace-tabs button[data-tone][aria-selected='true'] {
+  color: var(--tone-text); background: var(--tone-fill);
+  border-color: var(--tone-fill); border-bottom-color: currentColor; font-weight: 800;
+  box-shadow: inset 0 0 0 1px currentColor;
+}
+.workspace-tabs button[data-tone]:hover { filter: brightness(.97); }
+.workspace-tabs button[data-tone]:focus-visible { outline: 3px solid #f2c94c; outline-offset: 4px; }
+.guidance-toggle { color: var(--blue); background: var(--blue-tint); border-color: var(--blue); }
+.lesson-experiment, .lesson-knowledge-check { padding: 18px; border-radius: 10px; }
+.lesson-experiment h3 { color: var(--red); }
+.exercise-frame textarea { border-inline-start: 4px solid var(--red); background: var(--red-tint); color: var(--ink); }
+[id^='lesson-checklist-'] { padding: 16px; border-radius: 8px; }
+input[type='checkbox'], input[type='radio'], progress { accent-color: var(--tone-ink, var(--green)); }
+.system-grid article[data-tone] {
+  background: var(--tone-tint); border-color: var(--tone-ink); border-top: 4px solid var(--tone-ink);
+}
+.system-grid article[data-tone] h3 { color: var(--tone-ink); }
+.validation-record { border-top: 4px solid var(--green); }
+.progress-summary strong { color: var(--green); }
+.learning-path-card.path-selected { border-color: var(--tone-ink, var(--purple)); }
+[aria-controls='course-learning-paths'], a.button[href*='notebook'] { --tone-fill: var(--purple-fill); --tone-text: #fff; }
+[aria-controls='course-review-queue'] { --tone-fill: var(--yellow-fill); --tone-text: #352500; }
+[aria-controls='course-learning-milestones'], [aria-controls='course-learning-backup'], a.button[href*='exercise'] { --tone-fill: var(--orange-fill); --tone-text: #fff; }
+[aria-controls='course-validation'], a.button[href*='checklist'] { --tone-fill: var(--green-fill); --tone-text: #fff; }
+/* Quick links carry the same accents as their destinations. */
+.learning-quick-links a { border-inline-start: 4px solid #a6caff; padding-inline-start: 12px; }
+.learning-quick-links a[data-tone='green'], .learning-quick-links a[href*='checklist'] { border-inline-start-color: #a1dfb8; }
+.learning-quick-links a[data-tone='orange'], .learning-quick-links a[href*='exercise'] { border-inline-start-color: #ffc08c; }
+.learning-quick-links a[href*='notebook'] { border-inline-start-color: #d6b2ff; }
+.lesson-guide-shortcut :is(a, button)[aria-controls^='knowledge-check'] { background: var(--yellow-fill); color: #352500; border-color: var(--yellow-fill); }
+.lesson-guide-shortcut a[href*='notebook'] { background: var(--purple-fill); border-color: var(--purple-fill); }
+.lesson-guide-shortcut a[href*='checklist'] { background: var(--green-fill); border-color: var(--green-fill); }
+.lesson-guide-shortcut a[href*='exercise'] { background: var(--orange-fill); border-color: var(--orange-fill); }
+/* Prompt identity red is not an error state. Actual failures stay labelled. */
+[role='alert'] { color: var(--red); }
+@media (max-width: 600px) {
+  .workspace-tabs { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+  .workspace-tabs button { min-height: 52px; padding: 12px 8px; }
+  .workspace-tabs button:last-child:nth-child(odd) { grid-column: 1 / -1; }
+}

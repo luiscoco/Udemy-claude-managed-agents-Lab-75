@@ -69,3 +69,8 @@ COPY PROMPT END
 ## TypeScript source appearance revision - 21 October 2026
 
 Across Labs 01-75, render the TypeScript source code on a pure black (#000000) background in both light and dark themes, with light default text, readable syntax colors and muted but legible line numbers. Scope this styling to the source viewer; retain file selection, copy, supporting imports and existing code wrapping/scrolling. Verify computed background and text colors in both themes and check desktop and phone layouts.
+
+
+## Six-colour visual style revision - 21 October 2026
+
+Use the complete [copyable six-colour implementation prompt](student-build-prompts/12-six-colour-visual-style.md), also embedded in curriculum step P01 and WORKBOOK.md. It supersedes the earlier blue-primary-only styling guidance with consistent red, orange, yellow, green, blue and purple families, theme-specific contrast tokens and stable section/view identities. Preserve the black TypeScript source panels, navigation, accessible states and all lesson behavior. The generated student prompt ZIP includes this prompt so learners can reproduce the change later.

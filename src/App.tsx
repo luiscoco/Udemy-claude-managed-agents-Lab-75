@@ -95,9 +95,9 @@ export function App({ lessons = implementedLessons }: { lessons?: readonly Lesso
       <a className="home-link" href={routeHref()} aria-current={!selected ? 'page' : undefined} onClick={(event) => navigate(event)}>Home <span aria-hidden="true">↗</span></a>
       <div className="learning-quick-links" aria-label="Learning shortcuts">
         <a href={`${routeHref()}#course-start-here`} onClick={event => navigate(event, undefined, 'course-start-here')}>Start here</a>
-        <a href={routeHref()} onClick={event => navigate(event, undefined, 'course-progress')}>Course progress</a>
-        <a href={routeHref()} onClick={event => navigate(event, undefined, 'course-learning-backup')}>Back up or restore</a>
-        <a href={`${routeHref()}#course-validation`} onClick={event => navigate(event, undefined, 'course-validation')}>Validation results</a>
+        <a data-tone="green" href={routeHref()} onClick={event => navigate(event, undefined, 'course-progress')}>Course progress</a>
+        <a data-tone="orange" href={routeHref()} onClick={event => navigate(event, undefined, 'course-learning-backup')}>Back up or restore</a>
+        <a data-tone="green" href={`${routeHref()}#course-validation`} onClick={event => navigate(event, undefined, 'course-validation')}>Validation results</a>
         {selected && lessonSections.map(section => <a key={section.key} href={lessonSectionHref(selected.id, section.key)} onClick={event => navigate(event, selected.id)}>{section.label} / Lab {String(selected.id).padStart(2, '0')}</a>)}
       </div>
       <label htmlFor={`${prefix}-search`}>Find a lesson</label>
