@@ -125,3 +125,5 @@ API references: [Inworld synthesis](https://docs.inworld.ai/api-reference/ttsAPI
 Each lesson has **Open notebook**, **Open checklist** and **Open exercise** links beside its title. The same destinations are available in the sidebar and mobile Menu. Course progress offers these links for the next lesson and for all lessons under **Review lesson checklists**.
 
 You can bookmark, copy or open these links in a new tab. Refresh and browser Back return to the selected section. Notebook and checklist links expand their panels and move keyboard focus there; an exercise link selects the exercise tab and leaves execution to your explicit Run action. Existing saved notes and checklist choices are retained.
+
+The TypeScript source tab uses a black code background in both themes across all 75 lessons, with readable syntax colors and line numbers. File selection, copying and supporting import links remain available.

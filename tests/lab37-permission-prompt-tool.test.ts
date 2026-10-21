@@ -22,6 +22,7 @@ test('denial, malformed gate, timeout and stricter host path check prevent effec
       const done = await gate.decide('alice', { runId: opened.runId, eventId: opened.eventId! });
       assert.equal(done.fileEffects, 0); assert.equal(done.fixtureText, 'Fictional notes.\n');
       assert.equal(done.confirmationCount, scenario === 'deny' || scenario === 'host-refusal' ? 1 : 0);
+      if (scenario === 'timeout') assert.equal(done.status, 'timed-out');
       if (scenario === 'host-refusal') { assert.equal(done.gateDecision, 'allow'); assert.equal(done.hostDecision, 'deny'); }
     }
   } finally { gate.close(); }

@@ -23,7 +23,8 @@ async function workerDecision(entry: Entry): Promise<unknown> {
   child.stdout.on('data', (chunk: Buffer) => { output += chunk.toString('utf8'); if (output.length > 2048) child.kill(); });
   child.stdin.end(`${JSON.stringify({ scenario: entry.scenario, ...entry.action })}\n`);
   const code = await new Promise<number | null>((resolve, reject) => {
-    const timer = setTimeout(() => { child.kill(); reject(new Lab37Error(504, 'Policy worker timed out.')); }, 800);
+    // Include Node startup on shared Windows runners; remain below the UI's 7s request limit.
+    const timer = setTimeout(() => { child.kill(); reject(new Lab37Error(504, 'Policy worker timed out.')); }, 3000);
     child.once('exit', exit => { clearTimeout(timer); resolve(exit); });
     child.once('error', error => { clearTimeout(timer); reject(error); });
   });

@@ -18,6 +18,13 @@ test('source copies actual TypeScript without line numbers and reports copy fail
   await context.grantPermissions(['clipboard-read', 'clipboard-write']);
   await page.goto('/browser-tests/harness.html?lesson=1'); await page.getByRole('tab', { name: 'TypeScript source' }).click();
   await page.getByRole('combobox', { name: 'Source file' }).selectOption('shared/contracts.ts');
+  const source = page.locator('.source-card .code-block pre');
+  for (const theme of ['light', 'dark']) {
+    await page.evaluate(value => document.documentElement.dataset.theme = value, theme);
+    await expect(source).toHaveCSS('background-color', 'rgb(0, 0, 0)');
+    await expect(source).toHaveCSS('color', 'rgb(241, 245, 249)');
+    await expect(source.locator('.syntax-keyword').first()).toHaveCSS('color', 'rgb(221, 186, 255)');
+  }
   await page.getByRole('button', { name: 'Copy shared/contracts.ts' }).click();
   await expect(page.getByText('Copied.', { exact: true })).toBeVisible();
   const copied = await page.evaluate(() => navigator.clipboard.readText());

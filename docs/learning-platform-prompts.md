@@ -151,3 +151,11 @@ COPY PROMPT START
 Use the searchable desktop sidebar or mobile menu and previous/next links below the lesson to change lessons. Do not render a duplicate Lab 01-75 button grid or numbered lesson strip above the main workspace. Keep the lesson heading, guide shortcuts and all lesson workspace tabs, including infographic views. Remove unused grid styles. Preserve numeric lesson URLs and browser history. Verify desktop and phone navigation without starting an exercise or audio. This revision supersedes earlier visual references that show a numbered grid in the main content.
 
 COPY PROMPT END
+
+## Black TypeScript source viewer - 21 October 2026
+
+COPY PROMPT START
+
+Across Labs 01-75, render the TypeScript source code on a pure black (#000000) background in both light and dark themes, with light default text, readable syntax colors and muted but legible line numbers. Scope this styling to the source viewer; retain file selection, copy, supporting imports and existing code wrapping/scrolling. Verify desktop and phone layouts in both themes without executing the source.
+
+COPY PROMPT END

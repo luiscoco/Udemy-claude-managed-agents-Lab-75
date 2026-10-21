@@ -65,3 +65,7 @@ Run typecheck, the lesson guide audit, relevant offline regressions, existing na
 Deliver the working redesign and a concise record of the shared components changed, actual checks run, screenshots reviewed and any remaining limits. Commit and push the validated visual-style branch to the current private repository, preserving historical lesson checkpoints and the updated prompt workbook. Verify the published commit matches the local one. Do not deploy, merge the branch or publish a hosted site unless separately requested. Leave the requested local application running and report the actual localhost URL. Do not claim live provider verification or new learner completion from fixture results.
 
 COPY PROMPT END
+
+## TypeScript source appearance revision - 21 October 2026
+
+Across Labs 01-75, render the TypeScript source code on a pure black (#000000) background in both light and dark themes, with light default text, readable syntax colors and muted but legible line numbers. Scope this styling to the source viewer; retain file selection, copy, supporting imports and existing code wrapping/scrolling. Verify computed background and text colors in both themes and check desktop and phone layouts.

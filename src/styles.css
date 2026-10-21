@@ -120,6 +120,12 @@ th { background: var(--soft); }
 :root[data-theme='dark'] .syntax-string { color: #a9d9b5; }
 :root[data-theme='dark'] .syntax-number { color: #ffcf8b; }
 :root[data-theme='dark'] .syntax-comment { color: #b1c2b5; }
+.source-card .code-block pre { background: #000; color: #f1f5f9; color-scheme: dark; }
+.source-card .code-block .line-number { color: #9ca3af; }
+.source-card .code-block .syntax-keyword { color: #ddbaff; }
+.source-card .code-block .syntax-string { color: #a9d9b5; }
+.source-card .code-block .syntax-number { color: #ffcf8b; }
+.source-card .code-block .syntax-comment { color: #b1c2b5; }
 select { display: block; max-width: 100%; width: 100%; padding: 10px; margin: 8px 0; background: var(--surface); color: var(--ink); }
 nav[aria-label='Supporting imports'] button { margin: 4px; max-width: 100%; overflow-wrap: anywhere; text-align: left; }
 @media (max-width: 480px) { .workspace-tabs button { font-size: .85rem; padding: 10px 5px; } .code-block pre { padding: 10px; } }

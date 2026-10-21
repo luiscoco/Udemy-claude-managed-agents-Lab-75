@@ -1,6 +1,6 @@
 # Build the Claude Managed Agents learning platform from zero
 
-A copyable prompt curriculum for Udemy students. Authored 20 October 2026 against source 963cbbf; navigation revised 21 October 2026 to remove the duplicate numbered lesson button grid. Start with an empty folder and build the application incrementally; the finished instructor repository is an optional read-only reference, not a prerequisite application to clone. This replaces the earlier assumption that the first five labs or the app shell already exist.
+A copyable prompt curriculum for Udemy students. Authored 20 October 2026 against source 963cbbf; interface revised 21 October 2026 to remove the duplicate numbered lesson button grid and use black TypeScript source backgrounds in both themes. Start with an empty folder and build the application incrementally; the finished instructor repository is an optional read-only reference, not a prerequisite application to clone. This replaces the earlier assumption that the first five labs or the app shell already exist.
 
 ## What you will build
 
