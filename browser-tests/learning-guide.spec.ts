@@ -1,5 +1,48 @@
 import { test, expect } from '@playwright/test';
 
+for (const viewport of [{ width: 1280, height: 900 }, { width: 390, height: 844 }, { width: 320, height: 568 }, { width: 844, height: 390 }]) {
+  test(`guide scroll stays in one panel with reachable controls at ${viewport.width}x${viewport.height}`, async ({ page }) => {
+    await page.setViewportSize(viewport);
+    await page.emulateMedia({ reducedMotion: 'reduce' });
+    let posts = 0;
+    page.on('request', request => { if (request.method() === 'POST') posts++; });
+    await page.goto('/?lesson=1');
+    const guide = page.getByRole('complementary', { name: 'Learning Guide', exact: true });
+    await guide.getByRole('button', { name: 'Start guided tour', exact: true }).click();
+    await expect(page.locator('[data-guide-target="goal"]')).toHaveClass(/learning-guide-highlight/);
+    await guide.getByText('Read narration transcript', { exact: true }).click();
+    await expect(guide.locator('.guide-scroll-body')).toHaveCSS('overflow-y', 'visible');
+    const bounds = await guide.boundingBox();
+    const pageY = await page.evaluate(() => scrollY);
+    await page.mouse.move(bounds!.x + bounds!.width / 2, bounds!.y + bounds!.height - 30);
+    await page.mouse.wheel(0, 600);
+    await expect.poll(() => guide.evaluate(element => element.scrollTop)).toBeGreaterThan(0);
+    await guide.evaluate(element => { element.scrollTop = element.scrollHeight; });
+    await page.mouse.wheel(0, 600);
+    await expect.poll(() => page.evaluate(() => scrollY)).toBe(pageY);
+    for (const name of ['Close guide', 'Minimize guide']) {
+      const button = guide.getByRole('button', { name, exact: true });
+      await expect(button).toBeInViewport();
+      const control = await button.boundingBox(), panel = await guide.boundingBox();
+      expect(control!.y).toBeGreaterThanOrEqual(panel!.y);
+      expect(control!.y + control!.height).toBeLessThanOrEqual(panel!.y + panel!.height);
+    }
+    await guide.getByRole('button', { name: 'Minimize guide', exact: true }).click();
+    await expect(guide).toHaveClass(/guide-compact/);
+    await guide.getByRole('button', { name: 'Expand guide', exact: true }).click();
+    await expect(guide).not.toHaveClass(/guide-compact/);
+    await expect(guide.getByRole('button', { name: 'Close guide', exact: true })).toBeInViewport();
+    await guide.focus();
+    await page.keyboard.press('Home');
+    await expect.poll(() => guide.evaluate(element => element.scrollTop)).toBe(0);
+    await page.keyboard.press('PageDown');
+    await expect.poll(() => guide.evaluate(element => element.scrollTop)).toBeGreaterThan(0);
+    await guide.getByRole('button', { name: 'Close guide', exact: true }).click();
+    await expect(guide).not.toHaveClass(/guide-active/);
+    expect(posts).toBe(0);
+  });
+}
+
 test('Learning Guide highlights explanations across views without running an exercise', async ({ page }) => {
   let runs = 0, narration = 0;
   page.on('request', request => {

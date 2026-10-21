@@ -4,12 +4,16 @@
 .lesson-guide-shortcut .button { box-sizing: border-box; max-width: 100%; }
 .lesson-guide-shortcut p { margin: 0; max-width: 58ch; color: var(--shell-ink); }
 .home-guide-hint { color: var(--shell-ink); max-width: 76ch; }
-.learning-voice-guide.guide-active { position: fixed; z-index: 40; right: 20px; bottom: 16px; width: min(440px, calc(100vw - 40px)); max-height: calc(100dvh - 100px); overflow: auto; margin: 0; box-shadow: 0 8px 40px rgb(0 0 0 / 25%); box-sizing: border-box; }
+.learning-voice-guide.guide-active { position: fixed; z-index: 40; right: 20px; bottom: 16px; width: min(440px, calc(100vw - 40px)); max-height: calc(100dvh - 100px); overflow-y: auto; overflow-x: hidden; overscroll-behavior-y: contain; scrollbar-gutter: stable; scroll-padding-block: 140px 18px; margin: 0; box-shadow: 0 8px 40px rgb(0 0 0 / 25%); box-sizing: border-box; }
 .guide-active .guide-heading .phase-label { display: none; }
 .guide-active .guide-heading h2 { font-size: 1.1rem; }
 .guide-active h3 { font-size: 1.1rem; margin: 10px 0; }
-.guide-scroll-body { max-height: 26dvh; overflow: auto; padding: 0 6px 0 0; }
+.guide-scroll-body { padding: 0 6px 0 0; }
 .guide-active .guide-toolbar { gap: 8px; margin: 10px 0; }
+.guide-active .guide-controls { position: sticky; top: 0; z-index: 2; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); background: var(--blue-tint); padding: 8px 0; margin-block: 0 10px; border-bottom: 1px solid var(--border); box-shadow: 0 -24px 0 var(--blue-tint); }
+.guide-controls > span { grid-column: 1 / -1; }
+.guide-controls > button { min-width: 0; }
+.guide-controls > button:last-child { grid-column: 3; grid-row: 2; }
 .guide-active .guide-toolbar button { font-size: .85rem; padding: 8px 10px; }
 .guide-heading, .guide-toolbar { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
 .guide-heading { justify-content: space-between; }
@@ -95,7 +99,6 @@
 @media (max-width: 600px) {
   .learning-voice-guide.guide-active { right: 12px; bottom: 12px; width: calc(100vw - 24px); max-height: 68dvh; }
   .guide-active .guide-toolbar button { flex: 1 1 auto; }
-  .guide-scroll-body { max-height: 20dvh; }
   .learning-voice-guide { padding: 18px; }
   .guide-toolbar { gap: 8px; }
   .guide-toolbar button { flex: 1 1 130px; }

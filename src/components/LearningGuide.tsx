@@ -6,6 +6,7 @@ import { LessonNotebook } from './LessonNotebook';
 import { narrationCueAt, narrationSegments, narrationTimelineSchema, sectionTimeline, type NarrationTimeline } from '../../shared/learning-narration';
 
 import { includedRecording, narrationManifestSchema, type NarrationManifest } from '../../shared/learning-recordings';
+import { revealGuideTarget } from '../lib/guide-scroll';
 
 const checkpoints = ['I can explain the objective.', 'I ran an example and inspected its evidence.', 'I connected the result to the source.', 'I tried the challenge.'];
 export function LearningGuide({ lessonId, view, onView, workspace }: {
@@ -16,9 +17,12 @@ export function LearningGuide({ lessonId, view, onView, workspace }: {
   const [manifest, setManifest] = useState<NarrationManifest>();
   const setup = { ready: steps.every(item => includedRecording(manifest, lessonId, item)), voiceId: manifest?.voiceId ?? '' };
   const [autoContinue, setAutoContinue] = useState(false), [compact, setCompact] = useState(false), [speed, setSpeed] = useState('1');
+  const [followHighlights, setFollowHighlights] = useState(true);
+  const player = useRef<HTMLElement>(null);
   const [readyKey, setReadyKey] = useState(''), [timeline, setTimeline] = useState<NarrationTimeline>();
   const [clock, setClock] = useState({ current: 0, duration: 0, playing: false, ended: false });
   const narratedTour = useRef(false), queuedPlay = useRef(false);
+  const revealSelection = useRef(true);
   const storageKey = checklistKey(lessonId);
   const positionKey = savedPositionKey(lessonId);
   const [resumeId, setResumeId] = useState<string | null>(() => { try {
@@ -45,7 +49,8 @@ export function LearningGuide({ lessonId, view, onView, workspace }: {
   function release() { if (clip.current) URL.revokeObjectURL(clip.current.url); clip.current = null;
     if (audio.current) { audio.current.removeAttribute('src'); audio.current.load(); }
     setTimeline(undefined); setClock({ current: 0, duration: 0, playing: false, ended: false }); }
-  function select(next: number, speak = narratedTour.current) {
+  function select(next: number, speak = narratedTour.current, reveal = true) {
+    revealSelection.current = reveal;
     stop(); release(); setNotice(''); setIndex(next); onView(steps[next]!.view); setRevision(value => value + 1);
     queuedPlay.current = speak;
     const selectedId = steps[next]!.id; setResumeId(selectedId);
@@ -84,7 +89,7 @@ export function LearningGuide({ lessonId, view, onView, workspace }: {
       if (found instanceof HTMLDetailsElement) found.open = true;
       target = found; found.classList.add('learning-guide-highlight');
       setReadyKey(`${lessonId}:${step.id}:${revision}`);
-      found.scrollIntoView({ block: 'start', behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth' });
+      if (revealSelection.current) revealGuideTarget(found, player.current, matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth');
       return true;
     };
     const observer = new MutationObserver(locateControl);
@@ -113,9 +118,9 @@ export function LearningGuide({ lessonId, view, onView, workspace }: {
     const target = root.querySelector<HTMLElement>(`[data-guide-cue="${spokenCue}"]`);
     if (!target) return;
     root.classList.add('guide-timed-highlight'); target.classList.add('learning-guide-cue-highlight');
-    target.scrollIntoView({ block: 'start', behavior: 'instant' });
+    if (followHighlights) revealGuideTarget(target, player.current);
     return () => { root.classList.remove('guide-timed-highlight'); target.classList.remove('learning-guide-cue-highlight'); };
-  }, [spokenCue, view, index]);
+  }, [spokenCue, view, index, followHighlights]);
   useEffect(() => { if (view > 2 && index !== null) close(false); else if (step && view !== step.view) { stop(); setNotice('You changed views. Choose Show section to return to this guide step.'); } }, [view]);
   useEffect(() => { if (index === null) return; const escape = (event: KeyboardEvent) => { if (event.key === 'Escape') close(); };
     window.addEventListener('keydown', escape); return () => window.removeEventListener('keydown', escape);
@@ -160,7 +165,7 @@ export function LearningGuide({ lessonId, view, onView, workspace }: {
     document.querySelectorAll('audio').forEach(item => { if (item !== audio.current) item.pause(); });
     try { await audio.current.play(); } catch { setNotice('Use the audio player Play control to start the recording.'); }
   }
-  return <aside id={`learning-guide-${lessonId}`} tabIndex={-1} className={`learning-voice-guide${index !== null ? ' guide-active' : ''}${compact ? ' guide-compact' : ''}`} aria-label="Learning Guide">
+  return <aside ref={player} id={`learning-guide-${lessonId}`} tabIndex={index === null ? -1 : 0} className={`learning-voice-guide${index !== null ? ' guide-active' : ''}${compact ? ' guide-compact' : ''}`} aria-label="Learning Guide">
     <div className="guide-heading"><div><p className="phase-label">Listen / Read / Practice</p><h2>Learning Guide</h2></div>
       <button ref={start} type="button" onClick={() => { narratedTour.current = false; setAutoContinue(false); setCompact(false); select(0, false); }}>{index === null ? 'Start guided tour' : 'Restart tour'}</button></div>
     {index === null ? <><p>Follow this lab section by section with explanations, voice narration and a red highlight. You control every exercise action.</p>
@@ -169,7 +174,7 @@ export function LearningGuide({ lessonId, view, onView, workspace }: {
       }}>Start narrated tour</button>
       <p className="muted">{setup?.ready ? 'Included Inworld recordings follow each explanation with timed red rectangles. No API key is needed; the tour pauses for your exercise actions.' : 'Written explanations are available while the included recordings load.'}</p>
       {resumeId && <button type="button" onClick={() => select(steps.findIndex(item => item.id === resumeId))}>Resume saved tour</button>}</> : step && <>
-      <div className="guide-toolbar"><span>Step {index + 1} of {steps.length}</span><button onClick={() => setCompact(value => !value)} aria-expanded={!compact}>{compact ? 'Expand guide' : 'Minimize guide'}</button>{!compact && <button onClick={stop}>Pause</button>}<button onClick={() => close()}>Close guide</button></div>
+      <div className="guide-toolbar guide-controls"><span>Step {index + 1} of {steps.length}</span><button onClick={() => setCompact(value => !value)} aria-expanded={!compact}>{compact ? 'Expand guide' : 'Minimize guide'}</button>{!compact && <button onClick={stop}>Pause</button>}<button onClick={() => close()}>Close guide</button></div>
       <h3 aria-live="polite">{step.title}</h3>
       <div className="guide-toolbar"><button disabled={index === 0} onClick={() => select(index - 1)}>Previous section</button><button onClick={() => select(index, false)}>Show section</button>{index < steps.length - 1 ? <button onClick={() => select(index + 1)}>Next section</button> : <button onClick={finish}>Finish tour</button>}</div>
       <div className="guide-audio-progress" aria-label="Narration progress">
@@ -183,7 +188,7 @@ export function LearningGuide({ lessonId, view, onView, workspace }: {
         {targetHint && <p>{targetHint}</p>}
         {['example', 'controls', 'evidence', 'source'].includes(step.id) && <button type="button" onClick={() => {
           const target = workspace.current && guideControlTarget(workspace.current, step.id);
-          if (target) target.scrollIntoView({ block: 'start', behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth' });
+          if (target) revealGuideTarget(target, player.current, matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth');
           else setNotice('No separate target is visible yet. Use the exercise controls yourself and inspect the output when it appears.');
         }}>Show exercise target</button>}
         <p className="guide-voice-status">{setup?.ready ? `Recorded Inworld voice: ${setup.voiceId}. MP3s are included with the course. Students need no Inworld API key.` : 'Written guidance is ready. Included recordings are currently unavailable.'}</p>
@@ -194,13 +199,14 @@ export function LearningGuide({ lessonId, view, onView, workspace }: {
           onPlaying={syncClock} onPause={syncClock} onTimeUpdate={syncClock} onSeeking={syncClock} onSeeked={syncClock} onLoadedMetadata={syncClock} onDurationChange={syncClock}
           onEnded={() => {
           syncClock();
-          if (autoContinue && !step.waitForStudent && index < steps.length - 1) select(index + 1, true);
+          if (autoContinue && !step.waitForStudent && index < steps.length - 1) select(index + 1, true, followHighlights);
           else setNotice(step.waitForStudent ? 'Your turn. Complete the action, then choose Next section.' : 'Narration finished. Continue when ready.');
         }} onError={() => setNotice('Audio playback failed. The transcript remains available.')} />
         {timeline && <p className="guide-timing-source">{timeline.source === 'inworld-word' ? 'Red rectangles follow Inworld word timestamps and the actual audio position. Pause freezes the cue; seek and replay move it.' : 'This recording has no matching word timestamps. The whole section remains outlined; sentence timing is unavailable.'}</p>}
         {spokenText && <p className="guide-current-speech"><strong>Now explaining:</strong> {spokenText}</p>}
         <details className="guide-transcript"><summary>Read narration transcript</summary><p>{step.text}</p><p><strong>Your turn:</strong> {step.action}</p></details>
         <label><input type="checkbox" checked={autoContinue} onChange={event => setAutoContinue(event.target.checked)} /> Continue narration after audio; always wait for my actions.</label>
+        <label className="guide-checkpoint"><input type="checkbox" checked={followHighlights} onChange={event => setFollowHighlights(event.target.checked)} /> Follow highlighted text</label>
         <p className="muted">A narrated tour plays the section you choose. Automatic continuation requests the next recording only when enabled and never runs an exercise.</p>
       </div>
     </>}

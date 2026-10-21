@@ -34,6 +34,41 @@ async function fixture(page: Page) {
   return { counts: () => ({ recordings, exercises }), timeline: () => current! };
 }
 
+test('narration leaves visible text still and lets students disable page following', async ({ page }) => {
+  const state = await fixture(page);
+  await page.setViewportSize({ width: 1920, height: 1200 });
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.goto('/?lesson=1');
+  const guide = page.getByRole('complementary', { name: 'Learning Guide', exact: true });
+  await guide.getByRole('button', { name: 'Start guided tour', exact: true }).click();
+  await guide.getByRole('button', { name: 'Play narration', exact: true }).click();
+  const audio = guide.locator('audio');
+  await expect.poll(() => audio.evaluate((element: HTMLAudioElement) => element.currentTime)).toBeGreaterThan(0.1);
+  await guide.getByRole('button', { name: 'Pause narration', exact: true }).click();
+  const cue = state.timeline().cues[1]!;
+  const target = page.locator(`[data-guide-cue="${cue.id}"]`);
+  await target.evaluate(element => element.scrollIntoView({ block: 'center', behavior: 'instant' }));
+  const before = await page.evaluate(() => scrollY);
+  await audio.evaluate((element: HTMLAudioElement, time) => { element.currentTime = time; }, cue.start + 0.01);
+  await expect(target).toHaveClass(/learning-guide-cue-highlight/);
+  expect(await page.evaluate(() => scrollY)).toBe(before);
+  await guide.getByRole('checkbox', { name: 'Follow highlighted text', exact: true }).uncheck();
+  await page.evaluate(() => scrollTo(0, 0));
+  const next = state.timeline().cues.at(-1)!;
+  await audio.evaluate((element: HTMLAudioElement, time) => { element.currentTime = time; }, next.start + 0.01);
+  await expect(page.locator(`[data-guide-cue="${next.id}"]`)).toHaveClass(/learning-guide-cue-highlight/);
+  expect(await page.evaluate(() => scrollY)).toBe(0);
+  expect(state.counts().recordings).toBe(1);
+  await guide.getByRole('checkbox', { name: 'Continue narration after audio; always wait for my actions.', exact: true }).check();
+  await page.evaluate(() => scrollTo(0, 0));
+  await audio.evaluate(async (element: HTMLAudioElement) => { element.currentTime = element.duration - 0.05; await element.play(); });
+  await expect(guide.getByRole('heading', { name: 'Prepare your experiment', exact: true })).toBeVisible();
+  await expect.poll(() => state.counts().recordings).toBe(2);
+  expect(await page.evaluate(() => scrollY)).toBe(0);
+  await guide.getByRole('button', { name: 'Close guide', exact: true }).click();
+  expect(state.counts().exercises).toBe(0);
+});
+
 test('media-clock rectangles follow pause, seek and replay without refetching recordings', async ({ page }) => {
   const state = await fixture(page);
   await page.emulateMedia({ reducedMotion: 'reduce' });

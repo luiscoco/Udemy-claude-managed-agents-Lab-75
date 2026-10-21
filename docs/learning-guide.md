@@ -6,6 +6,10 @@ To find it, open any lesson and select **Open Learning Guide** beside the lesson
 
 Use **Next section**, **Previous section**, **Show section**, **Minimize guide** or **Close guide**. Escape closes the tour and removes the highlight. Switching tabs preserves exercise state and pauses narration; Show section returns to the current guide step. The tour never clicks an exercise control, runs an agent, sends email or approves an effect.
 
+The floating guide has one vertical scroll area for its transcript, player, checklist and notebook. Its step, Minimize/Expand, Pause and Close controls stay visible while you scroll, including on phones and short landscape screens. Scrolling at the panel's end stays within the guide instead of moving the page behind it. Focus the active guide and use Home or Page Up/Page Down for keyboard scrolling.
+
+Narration reveals highlighted text only when it needs to move into view; an already visible paragraph stays in place. Turn off **Follow highlighted text** in the expanded guide to keep the page still while narration and automatic continuation proceed. Highlights still track the recording. Explicit **Show section**, section navigation and **Show exercise target** remain available when you want to move to the relevant explanation or control. Expand the guide to change this option during a compact narrated tour.
+
 Your last visited section is saved per lab in this browser. Returning to a lab offers **Resume saved tour**; it does not resume automatically or start audio. **Finish tour** clears that saved position. Use **Jump to section** to move directly to any explanation.
 
 When a relevant exercise input, control group, result panel or source block is visible, a second red rectangle marks it. **Show exercise target** scrolls to that element without focusing, clicking or changing it. If a lesson has no separate result panel yet, the guide explains that you must run the example yourself and inspect its output. Dynamically loaded targets are detected as the exercise renders.
