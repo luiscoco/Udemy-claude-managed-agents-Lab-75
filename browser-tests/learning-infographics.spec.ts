@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from './fixtures/diagnostic-test';
 import { readFile, mkdir } from 'node:fs/promises';
 import { lessonInfographics, infographicKey } from '../shared/learning-infographics';
 import { infographicManifestSchema } from '../shared/infographic-assets';
@@ -8,6 +8,8 @@ for (const visual of lessonInfographics) test(`Lab ${visual.lessonId} ${visual.k
   let posts = 0, providers = 0;
   page.on('request', request => { if (request.method() === 'POST') posts++; if (/api\.inworld\.ai|\/api\/learning-guide\//.test(request.url())) providers++; });
   await page.goto(`/?lesson=${visual.lessonId}`);
+  // Give the real workspace its loading budget before making fast UI assertions.
+  await expect(page.getByRole('tab', { name: 'Learn', exact: true })).toBeVisible({ timeout: 30000 });
   await expect(page.getByRole('tab')).toHaveCount(5);
   const name = visual.kind === 'concepts' ? 'Concept map' : 'Lab walkthrough';
   await page.getByRole('tab', { name, exact: true }).click();

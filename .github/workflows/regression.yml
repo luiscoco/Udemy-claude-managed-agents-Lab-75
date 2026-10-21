@@ -77,7 +77,10 @@ jobs:
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: offline-browser-failure-${{ github.run_id }}-shard-${{ matrix.shard }}
-          path: test-results/**/error-context.md
+          path: |
+            test-results/**/error-context.md
+            test-results/**/browser-bootstrap.json
+            artifacts/ci/browser-startup.json
           retention-days: 7
           if-no-files-found: ignore
   # Preserve the existing final "offline" check and publish only after every
