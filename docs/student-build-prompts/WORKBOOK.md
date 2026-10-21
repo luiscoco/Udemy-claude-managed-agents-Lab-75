@@ -18,6 +18,8 @@ The [professional learning style prompt](14-professional-learning-style.md) spec
 
 The [TypeScript code narration prompt](15-typescript-code-narration.md) covers one main concept file per lab, code transcripts, Inworld recordings and timed source rectangles. It is included in P20.
 
+The [code reading controls prompt](16-code-reading-controls.md) adds font size, wrapping and accessible full-screen reading. It is included in P21.
+
 ## Prerequisites
 
 Use an AI coding assistant with local file/terminal access, Node 24 or newer, Git and VS Code or another editor. Chrome is used by browser checks. Windows examples use PowerShell and npm.cmd; use npm on other systems. The reference folder is claude-managed-agents, but it can live anywhere. Dependency installation and obtaining instructor materials need internet access. Local fixtures and included audio playback need no model or Inworld key.
@@ -54,10 +56,10 @@ The student prompt ZIP contains Markdown and authored reference JSON, not the la
 
 1. Extract this prompt ZIP into a reference folder outside the empty app folder. Give your coding assistant read access to that reference folder, especially its reference-data files.
 2. Create a separate empty application folder and open it in your editor/assistant. Do not run these build prompts over the instructor application or an unrelated project. Replace C:/claude-managed-agents in an older lesson brief with your own application path.
-3. Open steps/F01.md, copy the text between COPY PROMPT START and COPY PROMPT END, and send it to the assistant. Do not paste the entire 121-prompt workbook into one request.
+3. Open steps/F01.md, copy the text between COPY PROMPT START and COPY PROMPT END, and send it to the assistant. Do not paste the entire 122-prompt workbook into one request.
 4. Run the checkpoint commands and inspect the result. Continue to F02 only after F01 works. Keep a checkpoint after each successful step so a later failure can be repaired locally.
 
-There are 118 ordered implementation/delivery prompts and three recovery/parity prompts, for 121 total. The 150 image-tool prompts are additional separate assets. If the assistant cannot read the reference folder, attach the specific JSON or prompt file needed by that step. Local build steps do not authorize optional paid recording, live sessions or publication.
+There are 119 ordered implementation/delivery prompts and three recovery/parity prompts, for 122 total. The 150 image-tool prompts are additional separate assets. If the assistant cannot read the reference folder, attach the specific JSON or prompt file needed by that step. Local build steps do not authorize optional paid recording, live sessions or publication.
 
 
 ---
@@ -9137,7 +9139,7 @@ COPY PROMPT END
 
 ## P20 Narrate the main TypeScript concept in every lab
 
-Synchronize included Inworld MP3 explanations with precise source line rectangles.
+Synchronize source-specific Inworld MP3 explanations with precise source line rectangles.
 
 COPY PROMPT START
 
@@ -9146,7 +9148,7 @@ Work in the project created by F01 and preserve completed checkpoints. Read the 
 
 Add spoken TypeScript walkthroughs to all 75 labs, covering ONLY one main concept file per lab. The instructor implementation chooses the server/concepts/NN-topic.ts module. Supporting imports, shared schemas and other source files remain readable but have no automatic narration. Preserve existing source selection, syntax highlighting, line numbers, copy and supporting-import navigation.
 
-Create an authored catalog with each lesson ID, explicit main source path, normalized-LF source SHA-256 and section IDs, explanatory text and exact start/end line ranges. Reference-data/code-tours.json contains the instructor catalog for its matching source version. Review explanations against actual code: describe dependencies, factory setup, relevant request handlers and returned module contract without pretending imported code is also explained. The current catalog has 75 files and 393 anchored sections. Student implementations with different source must author their own ranges/text and recordings; do not attach the instructor MP3 to different code. Keep all tours readable as transcripts.
+Create an authored catalog with each lesson ID, explicit main source path, normalized-LF source SHA-256 and section IDs, explanatory text and exact start/end line ranges. Reference-data/code-tours.json contains the instructor catalog for its matching source version. Review explanations against actual code: explain concrete input fields and validation, local variables, meaningful rejection conditions and HTTP statuses, delegated operations, observable output, cancellation and cleanup. Avoid generic router summaries that could describe any lab. Mention the real local symbol names and distinguish accepted work from completed work. For Lab 01 cover origin and capacity checks, fixture/live port selection, deadlines, streamed result and shutdown. For Lab 66 cover socket readiness, backpressure, sequence/replay limits, authorization and shutdown. Do not pretend imported implementations are also explained. The current catalog has 75 files and 498 anchored sections. Student implementations with different source must author their own ranges/text and recordings; do not attach the instructor MP3 to different code. Keep all tours readable as transcripts.
 
 Add a reusable code player within the TypeScript source view. Use Play/Pause/Replay, native audio seek controls, .75/1/1.25/1.5 speed, a section selector with line ranges, compact Pause/Resume/Previous/Next controls beside the code and a Follow narrated code checkbox. Draw a red rectangle around the precise contiguous source lines for the current explanation; follow the actual audio currentTime, pause, seek, replay and end state. When Play starts with Follow enabled, first reveal the code reading area in the page below the fixed app header and focus its source viewport without an extra focus scroll, even when section zero was already selected. Size the viewport to fit beside its compact controls. On each actual audio cue, scroll to the anchored code range inside that viewport, and reveal the reading area if it has moved off screen. Drive cue selection from the real playing media clock, including pause/seek/replay. Draw one complete pointer-transparent red overlay around the visible intersection of that code range and viewport; recalculate after source scrolling, wrapping and resize. Do not rely only on CSS classes or borders whose top/bottom fall outside a long clipped block. With Follow disabled, update cue identity without moving the source panel or page. Keep code black with readable syntax and support phone wrapping and keyboard focus. Selecting a different file/lab/view must pause obsolete audio, abort pending media requests, invalidate stale responses and release object URLs. Only one course audio element may play at a time.
 
@@ -9155,6 +9157,31 @@ Author MP3s using the configured Inworld voice/model (the instructor uses Yash a
 For all 75 clips verify MP3 decode/duration, audio/timing hashes, cue order/count, source/text hashes and positive valid line ranges. Pin timing-file hashes as well as audio. Include source catalog, MP3s, timings and manifest through explicit source-package allowlists. Students need no Inworld key to play supplied recordings. Obtain the updated instructor archive for code assets; the frozen old release and text-only prompt ZIP do not contain these MP3s. Reference-data/code-recordings.json describes the instructor recording identities.
 
 The browser must load audio only after an explicit Play action, verify bounded local catalog/manifest/audio/timing data and exact source/text/media identities, and fail safely to readable source/transcript for stale code, missing files, malformed timings or damaged MP3s. No lab POST, model request or author API call may happen from opening source or listening. Test all 75 source/timing identities and representative early/middle/final lab views, real MP3 play/pause/seek/speed/replay, Play revealing a previously off-screen source panel, actual playing audio crossing cue boundaries, fully visible red overlay bounds below the fixed header, switching active files/views, Follow off preserving both page and source scroll, stale source, corrupt media, both themes and 320px phones. Run typecheck, production build, relevant existing source/guide regressions and a complete code-media audit. Update the student workbook, copyable prompt and ZIP. Record measured results and limits; do not claim live lab acceptance from narration playback.
+````
+
+COPY PROMPT END
+
+**Checkpoint:** Explain the implemented behavior, run the named checks that exist at this stage, inspect the result and preserve a working checkpoint before the next prompt. If a requirement is missing, repair it with R01 instead of declaring completion.
+
+
+---
+
+## P21 Add accessible code reading controls
+
+Adjust font size, wrapping and full-screen reading while preserving timed source highlights.
+
+COPY PROMPT START
+
+````text
+Work in the project created by F01 and preserve completed checkpoints. Read the current workspace before editing. Implement this step; do not merely propose a plan. Use strict input schemas, explicit fixture/live labels and owner/role boundaries. Inspect installed official Managed SDK types for provider operations. Do not substitute Agent SDK query/options/hooks or invent provider capabilities. Keep keys server-only. No provisioning, paid synthesis, model session, external notification, cloud deployment, commit/push or release publication is authorized merely by this build prompt. Such operations need the student's separate explicit authorization. Never print keys or ask for them in chat. Do not use generated model prose as verification. Report files changed, exact checks run and unresolved limits.
+
+Improve the existing narrated TypeScript source reader shared by all 75 labs. Build on P20 and preserve one narrated main concept file per lab, the black source background, source selection/copy, readable transcripts, exact source/media identity checks and no-key local MP3 playback. Do not alter lesson execution or introduce provider requests.
+
+Add a labeled Code font size selector offering 14, 16, 18, 20 and 24px, default 18px. Add a Wrap code toggle with aria-pressed, enabled by default. Wrapped code fits the source panel; unwrapped code scrolls horizontally inside that panel without widening the page. Line numbers, syntax and copying retain their meaning. Recalculate the timed red rectangle from actual rendered source-line geometry after font changes, wrapping, scrolling and resizing; do not approximate line height from the font size.
+
+Add Enter full-screen code and Exit full-screen code controls. The expanded reader fills the app viewport as an accessible named modal dialog, retains code font/wrapping controls and provides Play or Pause/Resume plus Previous/Next explanation and Follow controls. Lock background scrolling while open, keep keyboard focus inside the reader, support Escape to exit and restore focus to the opener. Restore background scroll behavior on exit, view change and unmount. Keep controls and source reachable on 320px phones and short landscape windows. Full-screen reading must not restart or duplicate audio. Keep red rectangles aligned while playing or paused and after seeking. When Follow is enabled, reveal the current code in the active reader, accounting for its controls; when disabled, cue changes preserve manual page and code scroll positions. Fit available height even with Follow disabled.
+
+Test actual local MP3 playback through a cue boundary after changing font and wrap, red overlay bounds, horizontal scrolling with wrap disabled, no page overflow, full-screen focus containment, Escape/focus restoration, source-view switching and short/mobile layouts. Verify both themes, typecheck, production build and relevant code/guide regressions. Record only observed results. Update this copyable prompt, P21, workbook, parity checklist and prompt ZIP; keep matching media reference JSON current. This prompt does not authorize billed generation, live lab execution, external messages or publication.
 ````
 
 COPY PROMPT END
@@ -9174,7 +9201,7 @@ COPY PROMPT START
 Work in the project created by F01 and preserve completed checkpoints. Read the current workspace before editing. Implement this step; do not merely propose a plan. Use strict input schemas, explicit fixture/live labels and owner/role boundaries. Inspect installed official Managed SDK types for provider operations. Do not substitute Agent SDK query/options/hooks or invent provider capabilities. Keep keys server-only. No provisioning, paid synthesis, model session, external notification, cloud deployment, commit/push or release publication is authorized merely by this build prompt. Such operations need the student's separate explicit authorization. Never print keys or ask for them in chat. Do not use generated model prose as verification. Report files changed, exact checks run and unresolved limits.
 
 Complete the Node offline suites, lesson/source audits, guide/recording/infographic integrity checks, milestone references and Playwright interaction/UI checks for all 75 lessons. Ordinary tests use authored fixtures or injected ports and disable all billed/provider/external-notification paths. Test failures as behaviors: denial, paused/incomplete outcomes, ownership, cancellation, cleanup uncertainty, malformed input, unknown cost and test-gaming rejection must remain explicit.
-Run typecheck, applicable tests, audit:lesson-guides, narration:check, infographics:check, code:audit and build. Check every real image view and committed media playback; a synthetic time event alone does not prove an MP3 loads. Freeze expected feature counts at 75 lessons, 525 guide MP3s, 150 PNGs, 150 visual MP3s, 75 code MP3s, 393 code sections and 900 image regions. Counts of tests are observations, not values to fabricate or hard-code to obtain a pass. Fix regressions without deleting assertions, adding broad retries or treating timeout as success. Report exactly what ran and remaining prerequisites.
+Run typecheck, applicable tests, audit:lesson-guides, narration:check, infographics:check, code:audit and build. Check every real image view and committed media playback; a synthetic time event alone does not prove an MP3 loads. Freeze expected feature counts at 75 lessons, 525 guide MP3s, 150 PNGs, 150 visual MP3s, 75 code MP3s, 498 code sections and 900 image regions. Counts of tests are observations, not values to fabricate or hard-code to obtain a pass. Fix regressions without deleting assertions, adding broad retries or treating timeout as success. Report exactly what ran and remaining prerequisites.
 ````
 
 COPY PROMPT END
@@ -9379,7 +9406,8 @@ Assess behavior and evidence, not placeholder counts or visual resemblance. Mark
 | Start here and recorded validation | P12 | Direct offline baseline links and evidence scoped to actual tested commits. |
 | Two illustrated tabs for each lesson | P14 to P19 | 150 PNGs, distinct poses, 150 visual MP3s, 900 measured regions; actual source links and transcripts. |
 | Zoom pan and follow spoken region | P19 | Keyboard/touch/manual navigation, following opt-in, tab switch stops audio and keeps experiment inputs. |
-| Main TypeScript concept code tours | P20 | 75 main files, 75 Inworld MP3s, 393 source-line sections; media-clock rectangles, source hashes, transcripts, safe switching and no automatic execution. |
+| Main TypeScript concept code tours | P20 | 75 main files, 75 Inworld MP3s, 498 source-line sections; source-specific validation, operations, output and cleanup; media-clock rectangles, source hashes, transcripts and safe switching. |
+| Accessible code reading | P21 | 14-24px font selector, wrap toggle, full-screen reader, keyboard focus/Escape and synchronized geometry. |
 | Media integrity and student no-key playback | P05 P17 P18 P20 Q01 | 750 total MP3s with verified identities/timings; paid author generation separate from playback. |
 | Host/provider execution boundaries | All lessons and Q05 Q06 | Fixture/live distinction, owner/role checks, bounded calls/deadlines/costs and independently verified cleanup. |
 | All lesson regression and sharded CI | Q01 Q02 Q04 | Original test set partitions exactly once; no weakened assertions; every prerequisite gates packaging. |

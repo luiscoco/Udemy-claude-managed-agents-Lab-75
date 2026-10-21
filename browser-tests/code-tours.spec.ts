@@ -117,3 +117,48 @@ test('phone source tour fits and cover preserves its original aspect ratio', asy
   await page.locator('.code-tour-viewport').scrollIntoViewIfNeeded();
   await page.screenshot({ path: 'artifacts/learning-guide/code-tour-phone.png' });
 });
+
+for (const width of [320, 1280]) test(`code reader font, wrap and full-screen controls preserve real highlights at ${width}px`, async ({ page }) => {
+  await page.setViewportSize({ width, height: 844 });
+  await page.goto('/?lesson=1');
+  await page.getByRole('tab', { name: 'TypeScript source', exact: true }).click();
+  const viewport = page.getByRole('region', { name: 'Narrated TypeScript source', exact: true });
+  await page.getByRole('combobox', { name: 'Code font size', exact: true }).selectOption('24');
+  await expect(viewport.locator('pre')).toHaveCSS('font-size', '24px');
+  await page.getByRole('button', { name: 'Wrap code', exact: true }).click();
+  await expect.poll(() => viewport.evaluate(el => el.scrollWidth > el.clientWidth)).toBe(true);
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+  await page.getByRole('button', { name: 'Enter full-screen code', exact: true }).click();
+  const dialog = page.getByRole('dialog', { name: 'Full-screen code reader' });
+  await expect(dialog).toBeVisible();
+  expect(await page.evaluate(() => document.body.style.overflow)).toBe('hidden');
+  await expect(viewport).toBeFocused();
+  await page.keyboard.press('Tab');
+  expect(await dialog.evaluate(el => el.contains(document.activeElement))).toBe(true);
+  await page.getByRole('button', { name: 'Play code tour in full screen', exact: true }).click();
+  const media = page.locator('audio[aria-label="TypeScript code narration"]');
+  await expect.poll(() => media.evaluate(el => !(el as HTMLAudioElement).paused && (el as HTMLAudioElement).currentTime > 0)).toBe(true);
+  const manifest = await page.request.get('/audio/code/manifest.json').then(response => response.json());
+  const timing = await page.request.get(`/${manifest.recordings['1'].timingFile}`).then(response => response.json());
+  await media.evaluate((el, seconds) => { (el as HTMLAudioElement).currentTime = seconds; }, timing.cues[2].start - .4);
+  await expect(page.locator('.code-tour-rectangle')).toHaveAttribute('data-code-cue', 'code-2');
+  async function frameFits() {
+    await expect.poll(() => page.locator('.code-tour-rectangle').evaluate(el => {
+      const r = el.getBoundingClientRect(), v = el.parentElement!.querySelector('.code-tour-viewport')!.getBoundingClientRect();
+      return r.width > 20 && r.height > 10 && r.top >= Math.max(0, v.top) && r.bottom <= Math.min(innerHeight, v.bottom) && r.left >= 0 && r.right <= innerWidth;
+    })).toBe(true);
+  }
+  await frameFits();
+  await page.getByRole('button', { name: 'Wrap code', exact: true }).click();
+  await page.getByRole('combobox', { name: 'Code font size', exact: true }).selectOption('16');
+  await frameFits();
+  await page.getByRole('button', { name: 'Pause code narration', exact: true }).click();
+  await page.getByRole('button', { name: 'Follow code narration', exact: true }).click();
+  await page.setViewportSize({ width: 844, height: 390 });
+  await expect.poll(() => viewport.evaluate(el => el.getBoundingClientRect().height <= innerHeight)).toBe(true);
+  await page.keyboard.press('Escape');
+  await expect(dialog).toHaveCount(0);
+  await expect(page.getByRole('button', { name: 'Enter full-screen code', exact: true })).toBeFocused();
+  expect(await page.evaluate(() => document.body.style.overflow)).not.toBe('hidden');
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+});

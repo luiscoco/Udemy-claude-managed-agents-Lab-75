@@ -14,7 +14,8 @@ Assess behavior and evidence, not placeholder counts or visual resemblance. Mark
 | Start here and recorded validation | P12 | Direct offline baseline links and evidence scoped to actual tested commits. |
 | Two illustrated tabs for each lesson | P14 to P19 | 150 PNGs, distinct poses, 150 visual MP3s, 900 measured regions; actual source links and transcripts. |
 | Zoom pan and follow spoken region | P19 | Keyboard/touch/manual navigation, following opt-in, tab switch stops audio and keeps experiment inputs. |
-| Main TypeScript concept code tours | P20 | 75 main files, 75 Inworld MP3s, 393 source-line sections; media-clock rectangles, source hashes, transcripts, safe switching and no automatic execution. |
+| Main TypeScript concept code tours | P20 | 75 main files, 75 Inworld MP3s, 498 source-line sections; source-specific validation, operations, output and cleanup; media-clock rectangles, source hashes, transcripts and safe switching. |
+| Accessible code reading | P21 | 14-24px font selector, wrap toggle, full-screen reader, keyboard focus/Escape and synchronized geometry. |
 | Media integrity and student no-key playback | P05 P17 P18 P20 Q01 | 750 total MP3s with verified identities/timings; paid author generation separate from playback. |
 | Host/provider execution boundaries | All lessons and Q05 Q06 | Fixture/live distinction, owner/role checks, bounded calls/deadlines/costs and independently verified cleanup. |
 | All lesson regression and sharded CI | Q01 Q02 Q04 | Original test set partitions exactly once; no weakened assertions; every prerequisite gates packaging. |

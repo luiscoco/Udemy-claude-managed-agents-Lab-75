@@ -177,3 +177,10 @@ Use the [copyable professional learning style prompt](student-build-prompts/14-p
 ## Main TypeScript code narration - 21 October 2026
 
 Use [P20](student-build-prompts/steps/P20.md) or the [standalone implementation prompt](student-build-prompts/15-typescript-code-narration.md) for one narrated main concept file per lab, 75 Inworld MP3s, exact code-line rectangles, source/media integrity checks and transcripts. Supporting files remain readable without narration. See [workflow and measured verification](typescript-code-narration.md). Reference JSON and complete instructions are included in the regenerated student prompt ZIP; matching MP3s are supplied in the updated course source package.
+
+
+## Deeper code explanations and reading controls
+
+P20 and [the standalone narration prompt](student-build-prompts/15-typescript-code-narration.md) now require source-specific explanations of validation, decision branches, delegated operations, observable results and cleanup. The current catalog contains 498 sections across 75 main concept modules; revised text requires matching new recordings and real word timings.
+
+[P21](student-build-prompts/steps/P21.md) and [the standalone reading controls prompt](student-build-prompts/16-code-reading-controls.md) specify 14-24px font sizes, wrapping, an accessible full-screen code reader and red-frame recalculation after layout changes. They include mobile, keyboard, actual MP3 and Follow-off checks. Both prompts are included in the complete workbook, parity checklist and prompt ZIP. The [student pilot checklist](student-pilot.md) is ready for the instructor to use after technical checks; no student testing is claimed yet.

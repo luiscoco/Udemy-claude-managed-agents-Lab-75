@@ -1,4 +1,4 @@
-import { readFile } from 'node:fs/promises';
+import { readFile, readdir } from 'node:fs/promises';
 import { createHash } from 'node:crypto';
 import { codeCatalogSchema, codeManifestSchema, normalizedCode, codeTourText } from '../shared/code-tours.js';
 import { narrationTimelineSchema } from '../shared/learning-narration.js';
@@ -8,6 +8,9 @@ const hash = (value: string | Buffer) => createHash('sha256').update(value).dige
 const catalog = codeCatalogSchema.parse(JSON.parse(await readFile('public/code-tours/catalog.json', 'utf8')));
 const manifest = codeManifestSchema.parse(JSON.parse(await readFile('public/audio/code/manifest.json', 'utf8')));
 if (catalog.tours.length !== 75 || new Set(catalog.tours.map(item => item.lessonId)).size !== 75 || Object.keys(manifest.recordings).length !== 75) throw new Error('All 75 labs must have one main-file recording.');
+const expectedFiles = new Set(['manifest.json', ...Object.values(manifest.recordings).flatMap(recording => [recording.file, recording.timingFile].map(path => path.replace(/^audio\/code\//, '')))]);
+const actualFiles = await readdir('public/audio/code');
+if (actualFiles.length !== expectedFiles.size || actualFiles.some(path => !expectedFiles.has(path))) throw new Error('Code media inventory has missing or obsolete files.');
 let cues = 0, seconds = 0;
 for (const tour of catalog.tours) {
   const recording = manifest.recordings[String(tour.lessonId)]!, source = normalizedCode(await readFile(tour.path, 'utf8'));

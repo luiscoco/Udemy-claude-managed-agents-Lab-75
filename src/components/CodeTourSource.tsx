@@ -23,14 +23,23 @@ export function CodeTourSource({ lessonId, path, code, active }: { lessonId: num
   const [timeline, setTimeline] = useState<NarrationTimeline>(), [clock, setClock] = useState({ current: 0, duration: 0, playing: false });
   const [revealRequest, setRevealRequest] = useState(0);
   const [layoutVersion, setLayoutVersion] = useState(0);
+  const [fontSize, setFontSize] = useState(18), [wrap, setWrap] = useState(true), [fullScreen, setFullScreen] = useState(false);
   const [frame, setFrame] = useState<{ left: number; top: number; width: number; height: number }>();
   const audio = useRef<HTMLAudioElement>(null), viewport = useRef<HTMLDivElement>(null), blobUrl = useRef<string | undefined>(undefined);
   const readingArea = useRef<HTMLDivElement>(null), canvas = useRef<HTMLDivElement>(null), focusRequest = useRef(0);
+  const fullScreenButton = useRef<HTMLButtonElement>(null);
   const pending = useRef<AbortController | undefined>(undefined), generation = useRef(0), seek = useRef<number | undefined>(undefined);
   function sync() { const el = audio.current; if (el) setClock({ current: el.currentTime, duration: Number.isFinite(el.duration) ? el.duration : 0, playing: !el.paused && !el.ended }); }
   function pause() { generation.current++; pending.current?.abort(); pending.current = undefined; audio.current?.pause(); setLoading(false); sync(); }
+  function exitFullScreen() { setFullScreen(false); requestAnimationFrame(() => fullScreenButton.current?.focus({ preventScroll: true })); }
   useEffect(() => {
-    if (!active) { pause(); return; }
+    if (!fullScreen || !active) return;
+    const previous = document.body.style.overflow;
+    document.body.style.overflow = 'hidden'; viewport.current?.focus({ preventScroll: true });
+    return () => { document.body.style.overflow = previous; };
+  }, [fullScreen, active]);
+  useEffect(() => {
+    if (!active) { pause(); setFullScreen(false); return; }
     const controller = new AbortController();
     void (async () => {
       try {
@@ -62,24 +71,30 @@ export function CodeTourSource({ lessonId, path, code, active }: { lessonId: num
   }
   useLayoutEffect(() => {
     const el = viewport.current, section = tour?.sections[selected];
-    if (!el || !section || !follow || !active) return;
+    if (!el || !section || !active) return;
     const header = document.querySelector('.topbar');
     const fixed = header && ['sticky', 'fixed'].includes(getComputedStyle(header).position);
-    const safeTop = (fixed ? Math.max(0, header.getBoundingClientRect().bottom) : 0) + 12;
-    const controls = readingArea.current?.querySelector('.code-tour-quick-controls')?.getBoundingClientRect().height ?? 0;
-    el.style.setProperty('--code-available-height', `${Math.max(80, innerHeight - safeTop - controls - 24)}px`);
+    const safeTop = fullScreen ? 28 : (fixed ? Math.max(0, header.getBoundingClientRect().bottom) : 0) + 12;
+    const controls = [...(readingArea.current?.querySelectorAll('.code-tour-quick-controls, .code-reader-toolbar') ?? [])].reduce((total, item) => total + item.getBoundingClientRect().height, 0);
+    el.style.setProperty('--code-available-height', `${Math.max(80, innerHeight - safeTop - controls - (fullScreen ? 48 : 32))}px`);
+    if (!follow) { measureFrame(); return; }
     const line = el.querySelector<HTMLElement>(`[data-code-line="${section.startLine}"]`);
     if (line) el.scrollTo({ top: el.scrollTop + line.getBoundingClientRect().top - el.getBoundingClientRect().top - 20, behavior: 'instant' });
     // An explicit Play must reveal the panel even when section zero was already selected.
-    if (revealRequest && readingArea.current) {
+    if (revealRequest && readingArea.current && !fullScreen) {
       const bounds = readingArea.current.getBoundingClientRect();
       const forced = focusRequest.current !== revealRequest;
       if (forced || bounds.top < safeTop || el.getBoundingClientRect().bottom > innerHeight - 12)
         window.scrollBy({ top: bounds.top - safeTop, behavior: 'instant' });
       if (forced) { el.focus({ preventScroll: true }); focusRequest.current = revealRequest; }
     }
+    if (revealRequest && fullScreen && readingArea.current) {
+      const reader = readingArea.current, bounds = el.getBoundingClientRect(), area = reader.getBoundingClientRect();
+      if (bounds.bottom > area.bottom - 16) reader.scrollTop += bounds.bottom - area.bottom + 16;
+      if (focusRequest.current !== revealRequest) { el.focus({ preventScroll: true }); focusRequest.current = revealRequest; }
+    }
     measureFrame();
-  }, [selected, tour, follow, active, revealRequest, layoutVersion]);
+  }, [selected, tour, follow, active, revealRequest, layoutVersion, fontSize, wrap, fullScreen]);
   useLayoutEffect(() => {
     measureFrame();
     const observer = new ResizeObserver(measureFrame);
@@ -88,7 +103,7 @@ export function CodeTourSource({ lessonId, path, code, active }: { lessonId: num
     const resized = () => { measureFrame(); setLayoutVersion(value => value + 1); };
     window.addEventListener('resize', resized);
     return () => { observer.disconnect(); window.removeEventListener('resize', resized); };
-  }, [selected, tour, active, timeline]);
+  }, [selected, tour, active, timeline, fontSize, wrap, fullScreen]);
   useEffect(() => {
     if (!active || !clock.playing || !timeline || !tour) return;
     let request = 0;
@@ -155,7 +170,23 @@ export function CodeTourSource({ lessonId, path, code, active }: { lessonId: num
       <details><summary>Read code tour transcript</summary><ol>{tour.sections.map(item => <li key={item.id}><strong>{item.title} · lines {item.startLine}–{item.endLine}</strong><p>{item.text}</p></li>)}</ol></details>
     </div>}
     {notice && <p role="status">{notice}</p>}
-    <div ref={readingArea} className="code-tour-reading-area">
+    <div ref={readingArea} className={`code-tour-reading-area${fullScreen ? ' code-reader-full-screen' : ''}`} role={fullScreen ? 'dialog' : undefined} aria-modal={fullScreen ? true : undefined} aria-label={fullScreen ? 'Full-screen code reader' : undefined}
+      onKeyDown={event => {
+        if (!fullScreen) return;
+        if (event.key === 'Escape') { event.preventDefault(); event.stopPropagation(); exitFullScreen(); }
+        if (event.key === 'Tab') {
+          const controls = [...event.currentTarget.querySelectorAll<HTMLElement>('button:not(:disabled), select, input, [tabindex="0"]')].filter(el => el.getClientRects().length > 0);
+          const first = controls[0], last = controls.at(-1);
+          if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last?.focus(); }
+          else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first?.focus(); }
+        }
+      }}>
+    {tour && <div className="code-reader-toolbar" role="group" aria-label="Code reading controls">
+      <label>Code font size<select value={fontSize} onChange={event => setFontSize(Number(event.target.value))}>{[14, 16, 18, 20, 24].map(size => <option key={size} value={size}>{size}px</option>)}</select></label>
+      <button className="button-secondary" type="button" aria-pressed={wrap} onClick={() => setWrap(value => !value)}>Wrap code</button>
+      <button className="button-secondary" type="button" ref={fullScreenButton} aria-expanded={fullScreen} onClick={() => fullScreen ? exitFullScreen() : setFullScreen(true)}>{fullScreen ? 'Exit full-screen code' : 'Enter full-screen code'}</button>
+      {fullScreen && <><button className="button-secondary" type="button" aria-pressed={follow} onClick={() => setFollow(value => !value)}>Follow code narration</button>{!timeline && <button type="button" disabled={loading} onClick={() => void play()}>Play code tour in full screen</button>}</>}
+    </div>}
     {timeline && tour && <div className="code-tour-quick-controls" role="group" aria-label="Code tour quick controls">
       <strong>Section {selected + 1}: {section?.title}</strong>
       <button className="button-secondary" type="button" aria-label={clock.playing ? 'Pause code narration' : 'Resume code narration'} onClick={() => clock.playing ? pause() : void play()}>{clock.playing ? 'Pause' : 'Resume'}</button>
@@ -163,7 +194,7 @@ export function CodeTourSource({ lessonId, path, code, active }: { lessonId: num
       <button className="button-secondary" type="button" aria-label="Next code explanation" disabled={selected === tour.sections.length - 1} onClick={() => choose(selected + 1)}>Next</button>
     </div>}
     <div className="code-tour-canvas" ref={canvas}>
-    <div className={tour ? 'code-tour-viewport' : undefined} ref={viewport} onScroll={measureFrame} tabIndex={tour ? 0 : undefined} role={tour ? 'region' : undefined} aria-label={tour ? 'Narrated TypeScript source' : undefined}>
+    <div className={tour ? `code-tour-viewport${wrap ? '' : ' code-no-wrap'}` : undefined} style={{ '--code-font-size': `${fontSize}px` } as React.CSSProperties} ref={viewport} onScroll={measureFrame} tabIndex={tour ? 0 : undefined} role={tour ? 'region' : undefined} aria-label={tour ? 'Narrated TypeScript source' : undefined}>
       <CodeBlock label={path} code={code} syntax {...(section ? { highlight: { start: section.startLine, end: section.endLine } } : {})} />
     </div>
     {frame && tour && active && <div className="code-tour-rectangle" data-code-cue={section?.id} aria-hidden="true" style={frame} />}

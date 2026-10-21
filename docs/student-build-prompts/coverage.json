@@ -1,7 +1,7 @@
 {
   "referenceCommit": "963cbbf8a30b2341d0a932baab53d79766c32337",
   "date": "2026-10-20",
-  "promptCount": 121,
+  "promptCount": 122,
   "implementedLessons": [
     1,
     2,
@@ -757,6 +757,12 @@
       "id": "P20",
       "title": "Narrate the main TypeScript concept in every lab",
       "path": "steps/P20.md",
+      "group": "Learning experience"
+    },
+    {
+      "id": "P21",
+      "title": "Add accessible code reading controls",
+      "path": "steps/P21.md",
       "group": "Learning experience"
     },
     {
@@ -1580,7 +1586,7 @@
     "infographicRegions": 900,
     "codeMP3": 75,
     "codeFiles": 75,
-    "codeSections": 393
+    "codeSections": 498
   },
   "note": "Coverage of authored specifications and reference data; not evidence that a new AI implementation has passed."
 }

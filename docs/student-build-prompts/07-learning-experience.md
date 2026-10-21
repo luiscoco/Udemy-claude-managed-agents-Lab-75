@@ -21,4 +21,5 @@ Open one prompt at a time in this order. A lettered lesson extension belongs imm
 - [P17 Measure regions and bind image identities](steps/P17.md) — Make red rectangles fit the actual reviewed panels.
 - [P18 Record or reuse the visual narrations](steps/P18.md) — Supply 150 prerecorded tours with real six-region timings.
 - [P19 Build the illustrated player zoom and pan](steps/P19.md) — Make the two visual tabs usable with synchronized region navigation.
-- [P20 Narrate the main TypeScript concept in every lab](steps/P20.md) — Synchronize included Inworld MP3 explanations with precise source line rectangles.
+- [P20 Narrate the main TypeScript concept in every lab](steps/P20.md) — Synchronize source-specific Inworld MP3 explanations with precise source line rectangles.
+- [P21 Add accessible code reading controls](steps/P21.md) — Adjust font size, wrapping and full-screen reading while preserving timed source highlights.

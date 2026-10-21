@@ -10,3 +10,12 @@
 .code-line.code-narration-highlight { background: #401a1a; }
 .code-tour-canvas { position: relative; min-width: 0; }
 .code-tour-rectangle { position: absolute; border: 3px solid #ff4545; pointer-events: none; z-index: 1; box-shadow: 0 0 0 1px #000; }
+.code-reader-toolbar { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; padding: 12px; border: 1px solid var(--purple); border-radius: 8px; background: var(--surface); margin-bottom: 8px; }
+.code-reader-toolbar label { display: flex; align-items: center; gap: 8px; }
+.code-reader-toolbar select { width: auto; margin: 0; }
+.code-tour-viewport .code-block pre { font-size: var(--code-font-size, 18px); }
+.code-tour-viewport pre code { font-size: 1em; }
+.code-no-wrap .code-block pre { width: max-content; min-width: 100%; max-width: none; overflow: visible; }
+.code-no-wrap .code-line, .code-no-wrap .code-line > span { white-space: pre; overflow-wrap: normal; }
+.code-reader-full-screen { position: fixed; inset: 12px; z-index: 60; overflow: auto; padding: 16px; border: 2px solid var(--purple); border-radius: 12px; background: var(--purple-tint); color: var(--ink); }
+.code-reader-full-screen .code-tour-viewport { height: var(--code-available-height, 55dvh); max-height: var(--code-available-height, 55dvh); }

@@ -18,6 +18,8 @@ The [professional learning style prompt](14-professional-learning-style.md) spec
 
 The [TypeScript code narration prompt](15-typescript-code-narration.md) covers one main concept file per lab, code transcripts, Inworld recordings and timed source rectangles. It is included in P20.
 
+The [code reading controls prompt](16-code-reading-controls.md) adds font size, wrapping and accessible full-screen reading. It is included in P21.
+
 ## Prerequisites
 
 Use an AI coding assistant with local file/terminal access, Node 24 or newer, Git and VS Code or another editor. Chrome is used by browser checks. Windows examples use PowerShell and npm.cmd; use npm on other systems. The reference folder is claude-managed-agents, but it can live anywhere. Dependency installation and obtaining instructor materials need internet access. Local fixtures and included audio playback need no model or Inworld key.
@@ -54,7 +56,7 @@ The student prompt ZIP contains Markdown and authored reference JSON, not the la
 
 1. Extract this prompt ZIP into a reference folder outside the empty app folder. Give your coding assistant read access to that reference folder, especially its reference-data files.
 2. Create a separate empty application folder and open it in your editor/assistant. Do not run these build prompts over the instructor application or an unrelated project. Replace C:/claude-managed-agents in an older lesson brief with your own application path.
-3. Open steps/F01.md, copy the text between COPY PROMPT START and COPY PROMPT END, and send it to the assistant. Do not paste the entire 121-prompt workbook into one request.
+3. Open steps/F01.md, copy the text between COPY PROMPT START and COPY PROMPT END, and send it to the assistant. Do not paste the entire 122-prompt workbook into one request.
 4. Run the checkpoint commands and inspect the result. Continue to F02 only after F01 works. Keep a checkpoint after each successful step so a later failure can be repaired locally.
 
-There are 118 ordered implementation/delivery prompts and three recovery/parity prompts, for 121 total. The 150 image-tool prompts are additional separate assets. If the assistant cannot read the reference folder, attach the specific JSON or prompt file needed by that step. Local build steps do not authorize optional paid recording, live sessions or publication.
+There are 119 ordered implementation/delivery prompts and three recovery/parity prompts, for 122 total. The 150 image-tool prompts are additional separate assets. If the assistant cannot read the reference folder, attach the specific JSON or prompt file needed by that step. Local build steps do not authorize optional paid recording, live sessions or publication.
