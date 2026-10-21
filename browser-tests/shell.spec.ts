@@ -1,5 +1,17 @@
 import { expect, test } from '@playwright/test';
 const harness = '/browser-tests/harness.html';
+
+for (const width of [390, 1280]) test(`lesson navigation has no duplicate numbered grid at ${width}px`, async ({ page }) => {
+  await page.setViewportSize({ width, height: 850 });
+  await page.goto('/?lesson=1');
+  await expect(page.getByRole('tab', { name: 'Run the exercise', exact: true })).toBeVisible();
+  await expect(page.getByRole('navigation', { name: 'Implemented lessons', exact: true })).toHaveCount(0);
+  const pagination = page.getByRole('navigation', { name: 'Previous and next lessons' });
+  await pagination.getByRole('link').last().click();
+  await expect(page).toHaveURL(/\?lesson=2$/);
+  await page.goBack();
+  await expect(page).toHaveURL(/\?lesson=1$/);
+});
 test('runtime has Labs 01 to 75: Start link works and Lab 00 has no route', async ({ page, request }) => {
   await page.goto('/');
   await expect(page.locator('.sidebar')).toContainText('75 implemented lessons');

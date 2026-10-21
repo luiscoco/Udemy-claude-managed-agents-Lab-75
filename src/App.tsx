@@ -157,7 +157,6 @@ export function App({ lessons = implementedLessons }: { lessons?: readonly Lesso
           check?.scrollIntoView({ block: 'start', behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth' });
           check?.focus({ preventScroll: true });
         }}>Open knowledge check</button>{lessonSections.map(section => <a className="button" key={section.key} href={lessonSectionHref(selected.id, section.key)} onClick={event => navigate(event, selected.id)}>Open {section.label.toLowerCase()}</a>)}<p>Optional voice narration, highlighted steps, checklist and personal notes. Explore any lab at your own pace.</p></div>
-        <nav className="lab-strip" aria-label="Implemented lessons">{ordered.map((lesson) => <a key={lesson.id} href={routeHref(lesson.id)} aria-current={lesson.id === selected.id ? 'page' : undefined} onClick={(event) => navigate(event, lesson.id)}>Lab {String(lesson.id).padStart(2, '0')}</a>)}</nav>
         <Component key={selected.id} />
         <nav className="lesson-pagination" aria-label="Previous and next lessons">
           {ordered[position - 1] ? <a href={routeHref(ordered[position - 1]!.id)} onClick={(event) => navigate(event, ordered[position - 1]!.id)}>← {ordered[position - 1]!.title}</a> : <span>First implemented lesson</span>}

@@ -143,3 +143,11 @@ Preserve previously configured server credentials. Do not rotate keys or send no
 Commit and push the reviewed changes to the combined platform repository. Keep the user's independent cumulative lesson checkpoint repositories intact; do not rewrite all historical checkpoints to publish a shared platform enhancement. Explain changes, actual validation and material limits briefly. Developer-led verification should not require the learner to navigate every lesson or complete personal checklists.
 
 COPY PROMPT END
+
+## Lesson navigation revision - 21 October 2026
+
+COPY PROMPT START
+
+Use the searchable desktop sidebar or mobile menu and previous/next links below the lesson to change lessons. Do not render a duplicate Lab 01-75 button grid or numbered lesson strip above the main workspace. Keep the lesson heading, guide shortcuts and all lesson workspace tabs, including infographic views. Remove unused grid styles. Preserve numeric lesson URLs and browser history. Verify desktop and phone navigation without starting an exercise or audio. This revision supersedes earlier visual references that show a numbered grid in the main content.
+
+COPY PROMPT END

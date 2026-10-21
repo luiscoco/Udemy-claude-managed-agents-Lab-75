@@ -10,7 +10,7 @@ Improve the visual style of the existing application in `C:\claude-managed-agent
 
 ## Reference direction
 
-The reference shows a near-black application canvas, a dark persistent sidebar, a compact breadcrumb bar, a lesson title and numbered lab navigation. Its main workspace has a narrow pale-blue learning column beside a wider exercise column. The exercise is framed in orange, with a red prompt panel, a blue response panel and a row of numbered colored learning steps. Small badges indicate readiness and activity. Additional explanation and code cards sit below the exercise.
+The reference shows a near-black application canvas, a dark persistent sidebar, a compact breadcrumb bar, a lesson title and numbered lab navigation. That numbered grid is superseded by the 21 October 2026 navigation revision below. Its main workspace has a narrow pale-blue learning column beside a wider exercise column. The exercise is framed in orange, with a red prompt panel, a blue response panel and a row of numbered colored learning steps. Small badges indicate readiness and activity. Additional explanation and code cards sit below the exercise.
 
 Recreate this hierarchy, panel structure and accent language with a contemporary finish. Keep the product name Claude Managed Agents Learning and the existing Anthropic execution stack. The reference's OpenAI branding, provider examples, lesson count and URL are examples from another application; use this application's real data and routes. Adapt the screenshot's spacing and proportions for readable text. Avoid reproducing its tiny fonts or large unused black margins.
 
@@ -24,7 +24,7 @@ Define shared CSS tokens for background, sidebar, surfaces, text, muted text, bo
 
 Create a persistent desktop sidebar around 300-340px wide, with product identity, Home or Start here, lesson search, accessible topic groups, numbered lesson links and a clear selected state. Preserve the existing topic and lesson-order navigation, keyboard behavior and search. On small screens, use the existing accessible drawer pattern with focus return and Escape handling.
 
-Use a compact top bar for breadcrumbs, theme controls and an accurately labeled lab status. Display a title, objective and horizontally scrollable lesson navigator from the real registry. Keep horizontal scrolling inside that navigator, with usable buttons and an obvious current lesson; the page itself must not overflow. Preserve routes such as `/?lesson=11` and browser Back/Forward navigation. Do not copy the reference's `#lab1` routing or hardcoded course categories.
+Use a compact top bar for breadcrumbs, theme controls and an accurately labeled lab status. Use the searchable desktop sidebar or mobile menu and previous/next links below the lesson to change lessons. Do not render a duplicate Lab 01-75 button grid or numbered lesson strip above the main workspace. Keep the lesson heading, guide shortcuts and all lesson workspace tabs, including infographic views. The page itself must not overflow. Preserve routes such as `/?lesson=11` and browser Back/Forward navigation. Do not copy the reference's `#lab1` routing or hardcoded course categories.
 
 ## Guided lesson workspace
 

@@ -46,9 +46,6 @@ main :is(h2, h3, input, textarea, select, button, summary) { scroll-margin-top: 
 .workspace-tabs button { color: var(--shell-muted); }
 .workspace-tabs [aria-selected='true'] { background: #e4efff; color: #164b94; border-color: #a7c8f4; }
 .workspace-tabs button:last-child[aria-selected='true'] { color: #673099; background: #f4eaff; border-color: #c9a5e8; }
-.lab-strip { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 24px; }
-.lab-strip a { display: inline-flex; align-items: center; min-height: 44px; border: 1px solid var(--shell-border); border-radius: 7px; background: var(--shell-panel); color: var(--shell-ink); padding: 6px 12px; text-decoration: none; font-size: .8rem; }
-.lab-strip a[aria-current='page'] { background: #dfecff; color: #164b94; border-color: #7aa8ee; font-weight: 750; }
 .guided-workspace { display: grid; grid-template-columns: minmax(280px, 340px) minmax(0, 1fr); gap: 20px; align-items: start; }
 .learning-card { --accent: var(--blue); background: var(--blue-tint); border: 1px solid var(--blue); }
 .exercise-guide { color: var(--ink); border-radius: 12px; padding: 22px; font-size: .9rem; min-width: 0; }
