@@ -79,3 +79,8 @@ Use the complete [copyable six-colour implementation prompt](student-build-promp
 ## Home portal presentation revision - 21 October 2026
 
 Replace the old Home text introduction with the instructor-style portal banner titled **Claude Managed Agents Learning Portal**. Follow the complete [student implementation and artwork prompt](student-build-prompts/13-home-portal-banner.md), also included in P01 and WORKBOOK.md. Use the local instructor asset, preserve accessible and phone-readable HTML text, keep an honest fallback for partial catalogs or missing artwork, retain Start navigation, and include the image in course source packages.
+
+
+## Black background revision - 21 October 2026
+
+Use pure black (#000000) for the app canvas, header, sidebar, mobile drawer and workspace tab strip in both themes, replacing navy shell backgrounds. Dark mode uses neutral charcoal (#171717) teaching surfaces, black input backgrounds and neutral grey borders rather than navy surfaces. Keep the six semantic accent families, readable text/focus, the white presentation artwork and existing black source panels. This preference is included in the copyable six-colour prompt and P01.
