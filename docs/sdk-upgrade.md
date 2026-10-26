@@ -42,3 +42,11 @@ The SDK package license is now Apache-2.0 (the old direct version was MIT); pres
 ## Live acceptance preflight (26 October 2026)
 
 The user requested all live scenarios after the migration. Read-only `GET /v1/organizations/me` returned **Software Developer** for the shared and dedicated team API keys. The available billing screenshot shows credits in **LUIS COCO's Individual Org**, while earlier session-create requests from the configured workspace were rejected for insufficient credits. No paid session was started or retried in this preflight. The course, learning, host and team live suites remain pending until the configured keys point to a funded organization; then run the bounded suites with `npm run test:live:authorized -- --suite=all` and inspect their private cleanup evidence before marking live acceptance complete.
+
+## Funded-organization continuation (26 October 2026)
+
+The configured keys were replaced locally with keys for the funded Individual Org. The old agent, environment, skill and team IDs belonged to the previous organization and returned 404 under the new keys. Preserve those original IDs and journals privately; provision dedicated replacements in the funded organization and update only the local `.env` pins. Verify each new resource with authenticated read-only GET calls before a paid run. A credit balance screenshot alone does not validate resource ownership.
+
+After that migration, the bounded **course (4), learning (6), host (3) and team (5)** instructor suites all passed with 18 newly created sessions archived. Private evidence is under ignored `artifacts/ci/live-*`; the team suite reported 44 US cents of list cost. The earlier failed organization/billing attempts remain historical, and their receipt status is unchanged. This result applies to the migrated author workspace, not automatically to a student's account. No key, private resource ID or raw provider response belongs in student prompts or commits.
+
+The separate student rebuild completed 21 funded-organization paid sessions for Labs 01–09. Its copyable student replay prompt is [funded-org-live-revalidation.md](../sandbox/student-rebuild/claude-managed-agents/docs/prompts/funded-org-live-revalidation.md). It requires read-only organization/resource checks, bounded explicit paid scope, per-session archival verification and preserved historical evidence.
