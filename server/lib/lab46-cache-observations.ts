@@ -20,7 +20,7 @@ function usage(input: number, output: number, read: number, create: number): Bet
 }
 export class Lab46CacheObservations {
   private active = 0; private closed = false;
-  facts() { return { source: 'installed-sdk-0.133.0', supported: ['span.model_request_end.model_usage.cache_read_input_tokens',
+  facts() { return { source: 'installed-sdk-1.3.0', supported: ['span.model_request_end.model_usage.cache_read_input_tokens',
     'span.model_request_end.model_usage.cache_creation_input_tokens', 'session.usage.usage.cache_read_input_tokens',
     'session.usage.usage.cache_creation'], unsupportedSessionControls: ['cache_control', 'SYSTEM_PROMPT_DYNAMIC_BOUNDARY',
     'cache TTL switches', 'PreModelSwitch veto'], providerCalls: 0,

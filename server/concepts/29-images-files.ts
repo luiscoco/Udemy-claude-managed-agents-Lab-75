@@ -19,7 +19,7 @@ export function createLab29Router(run = runLab29) {
     try { const fixture = await readLab29Fixture(name as typeof lab29Names[number]);
       response.type(fixture.mime).set('Content-Disposition', `inline; filename="${name}"`).send(fixture.bytes); }
     catch { response.status(404).json(apiError('NOT_FOUND', 'Fixture unavailable.')); } });
-  router.get('/code', (_request, response) => response.json({ source: 'installed-sdk-0.133.0',
+  router.get('/code', (_request, response) => response.json({ source: 'installed-sdk-1.3.0',
     files: ['shared/lab29-images-files.ts', 'server/lib/lab29-files.ts', 'server/concepts/29-images-files.ts'],
     blockUnion: ['text', 'image', 'document'], fileResource: 'BetaManagedAgentsFileResourceParams',
     note: 'Host file paths are not sandbox mount paths. Fixture previews never upload files.' }));

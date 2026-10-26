@@ -8,7 +8,7 @@ A person approves or denies tool calls before they run. In the Agent SDK that is
 
 ## Prerequisites
 
-Use Node 24 or newer and the installed Anthropic TypeScript SDK 0.133.0. Lab 03 should already work, because this lab reuses its sandbox, path guards and fixture simulator. Offline mode needs no credentials, provisioning or account access. Run from this workspace in PowerShell:
+Use Node 24 or newer and the installed Anthropic TypeScript SDK 1.3.0. Lab 03 should already work, because this lab reuses its sandbox, path guards and fixture simulator. Offline mode needs no credentials, provisioning or account access. Run from this workspace in PowerShell:
 
 ```powershell
 npm run dev

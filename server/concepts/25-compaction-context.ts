@@ -20,7 +20,7 @@ export function createLab25Router(run = runLab25) {
       note: 'The pinned thread type exposes cumulative usage and timing statistics, not exact free window capacity or the compaction threshold.' }); }
     catch { response.status(500).json(apiError('INVALID_REQUEST', 'Reviewed report inventory is unavailable.')); }
   });
-  router.get('/code', (_request, response) => response.json({ source: 'installed-sdk-0.133.0',
+  router.get('/code', (_request, response) => response.json({ source: 'installed-sdk-1.3.0',
     event: 'agent.thread_context_compacted has id and processed_at; it does not contain a token threshold.',
     thread: 'Session thread usage is cumulative and may be null until first idle; stats may be null.',
     hostHandoff: 'The application writes an explicit summary into a new session input. This is separate from platform compaction.',

@@ -26,7 +26,7 @@ test('phone fits, page load and readiness do not create a billed session', async
   let liveRuns = 0;
   page.on('request', request => { if (request.url().endsWith('/api/c18/run') && request.postDataJSON()?.mode === 'live') liveRuns++; });
   await page.setViewportSize({ width: 390, height: 900 }); await open(page);
-  await expect(page.getByLabel('Configured platform')).toContainText('Environment version: not exposed by SDK 0.133.0');
+  await expect(page.getByLabel('Configured platform')).toContainText('Environment version: not exposed by SDK 1.3.0');
   await page.getByRole('button', { name: 'Run live', exact: true }).click();
   await expect(page.getByRole('region', { name: 'Live setup instructions' })).toContainText('MANAGED_LIVE_ENABLED');
   expect(liveRuns).toBe(0);

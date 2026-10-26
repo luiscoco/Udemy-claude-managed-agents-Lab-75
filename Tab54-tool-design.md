@@ -2,7 +2,7 @@
 
 ## Prerequisites
 
-Complete the Acme Support Desk custom-tool and approval labs. This workshop calls the actual `propose_refund` host handler with fictional data. No API key, Managed session, billing or external write is needed. The installed `@anthropic-ai/sdk` 0.133.0 custom-tool type has a name, description and input schema; risk/effect annotations shown here are host metadata, not unsupported fields sent to the API.
+Complete the Acme Support Desk custom-tool and approval labs. This workshop calls the actual `propose_refund` host handler with fictional data. No API key, Managed session, billing or external write is needed. The installed `@anthropic-ai/sdk` 1.3.0 custom-tool type has a name, description and input schema; risk/effect annotations shown here are host metadata, not unsupported fields sent to the API.
 
 ## Controls
 

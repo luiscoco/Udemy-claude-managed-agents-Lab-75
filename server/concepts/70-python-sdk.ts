@@ -15,7 +15,7 @@ export class Lab70Workshop {
   private capability: Extract<Lab70Frame, { type: 'readiness' }> | null = null; private probing = false; private closing = false;
   constructor(private readonly env: NodeJS.ProcessEnv = process.env) {}
   facts() { const interpreter = selectLab70Python(this.env); const configured = managedSettings(this.env).liveReady;
-    return { pythonPin, typescriptPin: '0.133.0', interpreterAvailable: Boolean(interpreter), isolated: true,
+    return { pythonPin, typescriptPin: '1.3.0', interpreterAvailable: Boolean(interpreter), isolated: true,
       capability: this.capability, liveReady: configured && Boolean(this.capability?.capable), toolDefinition: lab70ToolDefinition,
       note: 'Facts do not install packages or contact Anthropic. Check the selected isolated interpreter explicitly.' }; }
   async probe() { if (this.probing) throw new Error('Readiness probe already active.'); this.probing = true;

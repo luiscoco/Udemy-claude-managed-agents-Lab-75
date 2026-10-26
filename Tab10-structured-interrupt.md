@@ -59,4 +59,4 @@ npm.cmd run build
 node scripts/run-browser-tests.mjs browser-tests/lab10.spec.ts --reporter=list
 ```
 
-Provider references: [Interrupt event semantics](https://platform.claude.com/docs/en/managed-agents/events-and-streaming) and [Session operations](https://platform.claude.com/docs/en/managed-agents/session-operations). Implementation is checked against installed SDK 0.133.0 types.
+Provider references: [Interrupt event semantics](https://platform.claude.com/docs/en/managed-agents/events-and-streaming) and [Session operations](https://platform.claude.com/docs/en/managed-agents/session-operations). Implementation is checked against installed SDK 1.3.0 types.

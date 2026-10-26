@@ -4,7 +4,7 @@ Read returned usage and enforce spending boundaries. Session retrieval, usage ev
 
 ## Prerequisites
 
-Use the existing React, Vite, strict TypeScript, Express and Zod platform with official Anthropic SDK 0.133.0. Offline accounting scenarios require no credentials. Live requires the isolated server API key, single-agent base agent/environment and explicit live opt-in. No provisioning or paid test starts during setup.
+Use the existing React, Vite, strict TypeScript, Express and Zod platform with official Anthropic SDK 1.3.0. Offline accounting scenarios require no credentials. Live requires the isolated server API key, single-agent base agent/environment and explicit live opt-in. No provisioning or paid test starts during setup.
 
 ```powershell
 npm.cmd install

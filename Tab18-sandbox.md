@@ -15,7 +15,7 @@ The offline path needs no credentials and makes no Anthropic or network request.
 
 ## Controls
 
-On page load, `GET /api/c18/platform` reads **local configuration only**: environment ID, optional agent version pin, the authored policy and the single approved offline host fixture path. SDK 0.133.0 exposes no environment version field. A separately requested live availability check retrieves the environment's `updated_at` as a revision marker; it starts no session.
+On page load, `GET /api/c18/platform` reads **local configuration only**: environment ID, optional agent version pin, the authored policy and the single approved offline host fixture path. SDK 1.3.0 exposes no environment version field. A separately requested live availability check retrieves the environment's `updated_at` as a revision marker; it starts no session.
 
 Use **Run offline host test** for Allowed mount, Outside mount, Blocked network and Missing environment. Each available case creates a disposable host tree. Allowed mount reads an exact allowlisted text file and hashes actual bytes. Outside mount is denied before a read. Blocked network is an authored host policy decision with zero socket calls; it is not a cloud egress test. Missing environment fails closed before creating a fixture tree. The tree is deleted after evidence is captured.
 

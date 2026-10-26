@@ -13,7 +13,7 @@ const labels: Record<Scenario, string> = {
 export default function Concept55UpgradingSdk() {
   const owner = useRef(crypto.randomUUID()); const [scenario, setScenario] = useState<Scenario>('compatible-change');
   const [result, setResult] = useState<Result>(); const [busy, setBusy] = useState(false);
-  const [status, setStatus] = useState('Ready. Baseline SDK 0.133.0 remains locked; candidates are authored fixtures.');
+  const [status, setStatus] = useState('Ready. Baseline SDK 1.3.0 remains locked; candidates are authored fixtures.');
   async function post(path: 'run' | 'transition', body: object) { const response = await fetch(`/api/c55/${path}`, {
     method: 'POST', headers: { 'Content-Type': 'application/json', 'X-Lab-Owner': owner.current },
     body: JSON.stringify(body), signal: AbortSignal.timeout(10000) }); const data = await response.json();

@@ -50,4 +50,4 @@ npm.cmd run build
 node node_modules/playwright/cli.js test browser-tests/lab09.spec.ts
 ```
 
-Provider references: [Session overrides](https://platform.claude.com/docs/en/managed-agents/sessions) and [Agent configuration](https://platform.claude.com/docs/en/managed-agents/agent-setup). The installed SDK 0.133.0 types are the implementation contract.
+Provider references: [Session overrides](https://platform.claude.com/docs/en/managed-agents/sessions) and [Agent configuration](https://platform.claude.com/docs/en/managed-agents/agent-setup). The installed SDK 1.3.0 types are the implementation contract.

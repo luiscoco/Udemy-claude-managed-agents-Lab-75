@@ -39,7 +39,7 @@ export const lab14ResultSchema = z.strictObject({ runId: z.uuid(), prompt: z.str
 });
 export type Lab14Result = z.infer<typeof lab14ResultSchema>;
 export type Lab14Snapshot = z.infer<typeof lab14SnapshotSchema>;
-export const lab14CatalogSchema = z.strictObject({ sdkVersion: z.literal('0.133.0'), checkedOn: z.string(), liveReady: z.boolean(),
+export const lab14CatalogSchema = z.strictObject({ sdkVersion: z.literal('1.3.0'), checkedOn: z.string(), liveReady: z.boolean(),
   providerVerified: z.literal(false), deadlineSeconds: z.number(),
   models: z.array(z.strictObject({ id: z.enum(lab14Models), efforts: z.array(z.enum(lab14Efforts)), accountReady: z.boolean(), readiness: z.string() })),
   unsupported: z.array(z.strictObject({ setting: z.string(), reason: z.string() })), sources: z.array(z.string()),

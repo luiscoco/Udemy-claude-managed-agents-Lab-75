@@ -20,6 +20,10 @@ The [TypeScript code narration prompt](15-typescript-code-narration.md) covers o
 
 The [code reading controls prompt](16-code-reading-controls.md) adds font size, wrapping and accessible full-screen reading. It is included in P21.
 
+## Current SDK migration
+
+Before replaying the frozen dependency references, follow [SDK 1.3.0 and its implementation prompt](17-sdk-upgrade.md). This supersedes older npm pins; historical media/transcripts retain their original wording.
+
 ## Prerequisites
 
 Use an AI coding assistant with local file/terminal access, Node 24 or newer, Git and VS Code or another editor. Chrome is used by browser checks. Windows examples use PowerShell and npm.cmd; use npm on other systems. The reference folder is claude-managed-agents, but it can live anywhere. Dependency installation and obtaining instructor materials need internet access. Local fixtures and included audio playback need no model or Inworld key.

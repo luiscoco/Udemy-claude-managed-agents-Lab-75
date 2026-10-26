@@ -30,20 +30,20 @@ export class Lab18Service {
     const settings = managedSettings(this.env);
     let pinValid = true; try { agentVersion(this.env); } catch { pinValid = false; }
     return lab18PlatformSchema.parse({ source: 'server-configuration', environmentId: (this.env.CLAUDE_MANAGED_ENVIRONMENT_ID ?? this.env.MANAGED_ENVIRONMENT_ID) || null,
-      environmentVersion: 'not exposed by SDK 0.133.0', agentVersionPin: (this.env.MANAGED_AGENT_VERSION ?? '').slice(0, 30) || null,
+      environmentVersion: 'not exposed by SDK 1.3.0', agentVersionPin: (this.env.MANAGED_AGENT_VERSION ?? '').slice(0, 30) || null,
       liveReady: settings.liveReady && pinValid, approvedMounts: [hostFixtureMount], authoredNetwork: networkPolicy,
       note: 'The mount is an offline host fixture only. Live pwd requests no file resources. Environment updated_at is a revision marker, not a version.' });
   }
   async availability(mode: 'scripted' | 'live', scenario: Lab18Input['scenario']): Promise<Lab18Availability> {
     if (mode === 'scripted') return lab18AvailabilityResultSchema.parse({ source: 'authored-host-policy', ready: scenario !== 'missing-environment',
       environmentId: scenario === 'missing-environment' ? null : 'env_authored_lab18', environmentUpdatedAt: null,
-      environmentVersion: 'not exposed by SDK 0.133.0', cloud: false, archived: false,
+      environmentVersion: 'not exposed by SDK 1.3.0', cloud: false, archived: false,
       networking: scenario === 'missing-environment' ? 'unavailable' : 'limited', allowedHosts: [],
       approvedMounts: scenario === 'missing-environment' ? [] : [hostFixtureMount], sessionStarted: false,
       reason: scenario === 'missing-environment' ? 'No configured environment: fail closed before a host read or remote request.'
         : 'Authored host policy only; no cloud environment was queried.' });
     if (!this.platform().liveReady) return lab18AvailabilityResultSchema.parse({ source: 'managed-api', ready: false,
-      environmentId: this.platform().environmentId, environmentUpdatedAt: null, environmentVersion: 'not exposed by SDK 0.133.0',
+      environmentId: this.platform().environmentId, environmentUpdatedAt: null, environmentVersion: 'not exposed by SDK 1.3.0',
       cloud: false, archived: false, networking: 'unavailable', allowedHosts: [], approvedMounts: [], sessionStarted: false,
       reason: 'Live opt-in or isolated server configuration is unavailable. No provider request was made.' });
     const ids = managedResourceIds(this.env);
@@ -55,14 +55,14 @@ export class Lab18Service {
       const ready = environment.id === ids.environmentId && !environment.archived_at && cloud && network?.type === 'limited' &&
         !network.allowed_hosts.length && !network.allow_mcp_servers && !network.allow_package_managers && packageCount === 0;
       return lab18AvailabilityResultSchema.parse({ source: 'managed-api', ready: Boolean(ready), environmentId: environment.id,
-        environmentUpdatedAt: environment.updated_at, environmentVersion: 'not exposed by SDK 0.133.0', cloud,
+        environmentUpdatedAt: environment.updated_at, environmentVersion: 'not exposed by SDK 1.3.0', cloud,
         archived: Boolean(environment.archived_at), networking: cloud ? network!.type : 'not-applicable',
         allowedHosts: cloud && network?.type === 'limited' ? network.allowed_hosts.slice(0, 20) : [], approvedMounts: [], sessionStarted: false,
         reason: ready ? 'Observed active restricted cloud environment. No session was started; live run will recheck before creation.'
           : 'Configured environment differs from the exact restricted policy. Live run fails closed.' });
     } catch {
       return lab18AvailabilityResultSchema.parse({ source: 'managed-api', ready: false, environmentId: ids.environmentId,
-        environmentUpdatedAt: null, environmentVersion: 'not exposed by SDK 0.133.0', cloud: false, archived: false,
+        environmentUpdatedAt: null, environmentVersion: 'not exposed by SDK 1.3.0', cloud: false, archived: false,
         networking: 'unavailable', allowedHosts: [], approvedMounts: [], sessionStarted: false,
         reason: 'Environment could not be retrieved. No session was started.' });
     }

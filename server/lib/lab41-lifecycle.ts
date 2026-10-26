@@ -10,7 +10,7 @@ type Entry = { owner: string; runId: string; scenario: Lab41Scenario; sessionId:
 export class Lab41Lifecycle {
   private entries = new Map<string, Entry>(); private port = new FixtureLab06Port(); private closed = false;
   constructor(private now = () => Date.now()) {}
-  facts() { return { source: 'host-only', sdk: '@anthropic-ai/sdk@0.133.0', currentApi: ['sessions.create', 'events.stream', 'events.send', 'events.list', 'sessions.retrieve', 'sessions.archive'],
+  facts() { return { source: 'host-only', sdk: '@anthropic-ai/sdk@1.3.0', currentApi: ['sessions.create', 'events.stream', 'events.send', 'events.list', 'sessions.retrieve', 'sessions.archive'],
     historical: 'A prior local-process model is described only; no legacy runtime is loaded.', processCountClaim: false, jsonlCompatibilityClaim: false, providerCalls: 0 }; }
   private get(owner: string, runId: string) { const entry = this.entries.get(runId);
     if (!entry || entry.owner !== owner) throw new Lab41Error(404, 'Unknown or unowned lifecycle run.');

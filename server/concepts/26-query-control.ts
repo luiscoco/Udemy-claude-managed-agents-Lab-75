@@ -16,13 +16,13 @@ export function createLab26Router(controls = new Lab26Controls()) {
     try { response.json(operation()); } catch (error) { const status = error instanceof Lab26Error ? error.statusCode : 500;
       response.status(status).json(apiError(status === 404 ? 'NOT_FOUND' : 'INVALID_REQUEST', error instanceof Lab26Error ? error.message : 'Session control failed.')); }
   };
-  router.get('/catalog', (_request, response) => response.json({ source: 'installed-sdk-0.133.0', operations: lab26Operations,
+  router.get('/catalog', (_request, response) => response.json({ source: 'installed-sdk-1.3.0', operations: lab26Operations,
     updateFields: ['title', 'metadata', 'agent.tools', 'agent.mcp_servers', 'budget'],
     idleAgentUpdate: 'Full replacement; only on a confirmed-idle session with no open workflow run.',
     disabled: ['model', 'system', 'skills', 'dynamic-workflow-controls'],
     budgetNote: 'Raising a budget can resume work and requires an explicit opt-in.' }));
   router.get('/code', (_request, response) => response.json({ files: ['shared/lab26-query-control.ts', 'server/lib/lab26-controls.ts', 'server/concepts/26-query-control.ts'],
-    sdkType: 'SessionUpdateParams', source: 'installed-sdk-0.133.0',
+    sdkType: 'SessionUpdateParams', source: 'installed-sdk-1.3.0',
     connection: 'Closing a browser request only closes that request; interrupt and idle confirmation are separate operations.' }));
   router.post('/open', (request, response) => { const parsed = lab26OpenSchema.safeParse(request.body);
     if (!parsed.success) { response.status(400).json(apiError('INVALID_REQUEST', 'Invalid open request.')); return; }

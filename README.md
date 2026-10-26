@@ -1,6 +1,6 @@
 # Claude Managed Agents Learning
 
-The platform contains 75 numbered lessons with React exercises, Express routes, authored guides and source inspection. It uses the official `@anthropic-ai/sdk` 0.133.0 for supported Managed API operations. Host implementations and Agent SDK replacements are labeled in each lesson; offline fixtures are distinguished from provider observations.
+The platform contains 75 numbered lessons with React exercises, Express routes, authored guides and source inspection. It uses the official `@anthropic-ai/sdk` 1.3.0 for supported Managed API operations. Host implementations and Agent SDK replacements are labeled in each lesson; offline fixtures are distinguished from provider observations.
 
 Use the sidebar by topic or lesson number, search by title or objective, and switch between Learn, Run the exercise and TypeScript source. See the [repository index](docs/github-repositories.md) for the independent private lesson checkpoints and the [final validation report](docs/course-validation.md) for executed checks and remaining live prerequisites.
 
@@ -92,7 +92,7 @@ The foundation checks message execution, not sandbox tools or generated files.
 
 ## Configure live execution
 
-Managed Agents is a beta API; this app pins the official TypeScript SDK to 0.133.0.
+Managed Agents is a beta API; this app pins the official TypeScript SDK to 1.3.0.
 Use a Claude Console account with API access and credits.
 Install the `ant` CLI using the official quickstart. Review the model in
 managed/agent.md for your account before applying the configuration:
@@ -159,7 +159,7 @@ Every lab followed the same loop:
    the three-tab lesson workspace (Learn, Run the exercise, TypeScript source)
    and the source inspector came from the Claude Agent SDK Learning foundation.
    Agent execution was switched to the official `@anthropic-ai/sdk` Managed
-   Agents APIs, pinned to 0.133.0.
+   Agents APIs, pinned to 1.3.0.
 2. **Fixed the host boundaries every lab reuses.** `server/sse.ts` streams one
    POST per run with heartbeats, idle and whole-run deadlines and a bounded queue.
    `src/lib/sse.ts` reads it in the browser and never retries a POST.
@@ -729,7 +729,7 @@ Official references:
 
 ### Lab 14: How it was built, step by step
 
-1. Inspected SDK 0.133.0 model, effort, session-creation/update and usage-span types, then checked current official effort and Managed session documentation.
+1. Inspected SDK 1.3.0 model, effort, session-creation/update and usage-span types, then checked current official effort and Managed session documentation.
 2. Authored a closed teaching capability catalog with explicit operator-declared account readiness. Strict schemas reject incompatible combinations and Agent SDK fields before sending.
 3. Adapted the shared text-session runner through injected ports. Each attempt pins the base version, sets a model/effort object, clears tools/skills/MCP and verifies returned configuration before sending. Only events after the acknowledged user message are attributed to the attempt.
 4. Added owned experiment preparation, fresh runs, replacement configurations and cleanup. Uncertain work reserves capacity; fallback is bounded to one separately budgeted session after reconciliation.
@@ -752,7 +752,7 @@ Lab 14 is published independently at [Udemy-claude-managed-agents-Lab-14](https:
 
 ### Lab 15: How it was built, step by step
 
-1. Inspected SDK 0.133.0 session/usage-event/span/thread and budget-update types, then checked current official usage and budget documentation.
+1. Inspected SDK 1.3.0 session/usage-event/span/thread and budget-update types, then checked current official usage and budget documentation.
 2. Added safe integer-cent parsing, nullable usage metrics, deduplicated span accounting and cumulative snapshot replacement. Deltas compare only matching scopes, identities and sources.
 3. Built an owned retained-session adapter around the shared event consumer and SSE transport. Budgeted text-only sessions enforce three-turn/message ceilings, one context message and zero tool calls, with independent cancellation and cleanup.
 4. Added a separate acknowledged budget-raise action that can resume paused work. It permits one bounded increase on an originally capped session, checks known consumed cost and reserves a host turn before sending. Reads never raise budgets.
@@ -774,7 +774,7 @@ Independent private checkpoint: [Udemy-claude-managed-agents-Lab-15](https://git
 
 ### Lab 16: How it was built, step by step
 
-1. Inspected SDK 0.133.0 Managed environment, session resource and session creation types alongside official environment and file documentation.
+1. Inspected SDK 1.3.0 Managed environment, session resource and session creation types alongside official environment and file documentation.
 2. Added synthetic host configuration layers with explicit application precedence, a single approved remote file manifest and redacted credential readiness. No personal settings are read.
 3. Added offline scenarios for a winning host layer, missing credential, absent mount and restricted path. Each displays host provenance separately from remote context and records policy decisions without opening files.
 4. Added an explicit live port that retrieves the configured cloud environment and pinned base agent, creates one budgeted session with an allowlisted file resource, verifies the returned resource listing, and reuses the shared SSE/event consumer/session cleanup boundary.
@@ -1488,7 +1488,7 @@ Independent private checkpoint: [Udemy-claude-managed-agents-Lab-54](https://git
 ### Lab 55: How it was built, step by step
 
 1. Registered an offline SDK/API upgrade rehearsal with owner-scoped routes, source viewer and [learner guide](Tab55-upgrading-sdk.md).
-2. Read the installed 0.133.0 package manifest as the locked baseline and compared authored candidate contract fixtures across beta header, event unions, stream ordering, configuration, permissions, usage, evals and evidence. Npm version and agent/environment/skill pins remain separate fields.
+2. Read the installed 1.3.0 package manifest as the locked baseline and compared authored candidate contract fixtures across beta header, event unions, stream ordering, configuration, permissions, usage, evals and evidence. Npm version and agent/environment/skill pins remain separate fields.
 3. Added a server-computed candidate, authored-canary, simulated-promotion and rollback state machine. A client eligibility hint never overrides failed checks; rollback does not claim to rewind remote sessions.
 4. Added focused and browser tests. The [checkpoint](docs/lab55-checkpoint.md) records validation and the fact that no real candidate SDK or release was tested.
 
@@ -1840,3 +1840,7 @@ After explicitly authorizing billed tests, run `node --env-file-if-exists=.env -
 ## Automated regression workflows
 
 [Course regression](.github/workflows/regression.yml) checks offline tests, all browser cases, guides, build and distribution on pushes and pull requests. [Bounded live acceptance](.github/workflows/live-acceptance.yml) runs actual API scenarios only by manual dispatch with explicit billing confirmation. It validates outcomes and remote archival, and uploads authored summaries only. See [setup and suite limits](docs/continuous-validation.md) for the GitHub environment settings and equivalent local command. Automatic checks do not copy credentials. The explicit setup helper can configure the live-tests environment using existing local settings; see the setup guide.
+
+## SDK upgrade priority
+
+The current exact TypeScript SDK is **1.3.0** (verified 26 October 2026). Before replaying older prompts, follow [the SDK migration and student prompt](docs/sdk-upgrade.md). Historical reports retain their original version; no paid provider acceptance is implied by this upgrade.

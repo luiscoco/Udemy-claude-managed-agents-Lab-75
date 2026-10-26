@@ -13,7 +13,7 @@ export function createLab42Router(manager = new Lab42Research()) {
   const reply = (response: import('express').Response, action: () => unknown) => { try { response.json(action()); }
     catch (error) { const status = error instanceof Lab42Error ? error.statusCode : 500;
       response.status(status).json(apiError(status === 404 ? 'NOT_FOUND' : 'INVALID_REQUEST', error instanceof Lab42Error ? error.message : 'Research exercise failed.')); } };
-  router.get('/code', (_request, response) => response.json({ source: 'installed-sdk-0.133.0-and-host-fixture', files: [
+  router.get('/code', (_request, response) => response.json({ source: 'installed-sdk-1.3.0-and-host-fixture', files: [
     'shared/lab42-web-tools.ts', 'server/lib/lab42-research.ts', 'server/concepts/42-web-tools.ts'], liveNetworkFetch: false }));
   router.get('/facts', (_request, response) => response.json(manager.facts()));
   router.get('/state', (request, response) => { const parsed = lab42IdSchema.safeParse(request.query);

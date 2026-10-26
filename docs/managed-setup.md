@@ -1,6 +1,6 @@
 # Managed Agents lab setup
 
-Requires Node 24+, this project's pinned Anthropic TypeScript SDK 0.133.0,
+Requires Node 24+, this project's pinned Anthropic TypeScript SDK 1.3.0,
 a Claude Console account with API access and available credits, and access to
 Managed Agents. Cloud sessions run remotely: Docker, Claude Code login and a
 local Agent SDK process are unnecessary. A Claude web subscription does not

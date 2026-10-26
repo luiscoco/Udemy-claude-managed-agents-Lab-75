@@ -1,14 +1,21 @@
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
 import Anthropic from '@anthropic-ai/sdk';
+import { createManagedClient } from '../server/lib/managed-config.js';
 import { createManagedPort } from '../server/lib/managed-port.js';
 import { runFoundation, fixtureOutput } from '../server/lib/managed-run.js';
 
 test('official SDK sends beta headers, budget and prompt, decodes streamed events and maps usage', async () => {
+  const production = createManagedClient({ ANTHROPIC_API_KEY: 'test-only' });
+  assert.equal(production.maxRetries, 0);
+  assert.equal(production.openTelemetry.traces.enabled, false);
+  assert.equal(production.openTelemetry.propagation, false);
   const requests: { method: string; path: string; body: unknown }[] = [];
   const client = new Anthropic({ apiKey: 'test-only', maxRetries: 0,
     fetch: async (input, init) => {
       const request = new Request(input, init); const url = new URL(request.url);
+      assert.equal(request.headers.get('anthropic-version'), '2026-10-21');
+      assert.equal(url.searchParams.has('beta'), false);
       assert.equal(request.headers.get('anthropic-beta'), 'managed-agents-2026-04-01');
       const text = await request.text();
       requests.push({ method: request.method, path: url.pathname, body: text ? JSON.parse(text) : null });

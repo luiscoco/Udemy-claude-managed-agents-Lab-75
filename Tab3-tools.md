@@ -6,7 +6,7 @@ The agent works inside the session container. Its working directory is `/workspa
 
 ## Prerequisites
 
-Use Node 24 or newer and the installed Anthropic TypeScript SDK 0.133.0. Labs 01 and 02 should already work. Offline mode needs no credentials, provisioning or account access. Run from this workspace in PowerShell:
+Use Node 24 or newer and the installed Anthropic TypeScript SDK 1.3.0. Labs 01 and 02 should already work. Offline mode needs no credentials, provisioning or account access. Run from this workspace in PowerShell:
 
 ```powershell
 npm run dev

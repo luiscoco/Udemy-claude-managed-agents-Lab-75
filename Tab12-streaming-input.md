@@ -40,7 +40,7 @@ The installed SDK supports updates to an idle session's `agent.tools` and `agent
 | POST /api/c12/new-model-session | Create a new session and submit explicit handoff context |
 | POST /api/c12/end | Cancel queued work and request verified cleanup |
 
-The provider interfaces were checked against installed `@anthropic-ai/sdk` 0.133.0 and the official [session operations](https://platform.claude.com/docs/en/managed-agents/session-operations) and [event stream](https://platform.claude.com/docs/en/managed-agents/events-and-streaming) documentation. There is no assumed `setModel`, `setPermissionMode`, priority-now or `getContextUsage` method.
+The provider interfaces were checked against installed `@anthropic-ai/sdk` 1.3.0 and the official [session operations](https://platform.claude.com/docs/en/managed-agents/session-operations) and [event stream](https://platform.claude.com/docs/en/managed-agents/events-and-streaming) documentation. There is no assumed `setModel`, `setPermissionMode`, priority-now or `getContextUsage` method.
 
 ## Troubleshooting
 

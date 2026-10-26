@@ -12,7 +12,7 @@ Run **Baseline** first, choosing one to three trials. Then run **Regression** an
 
 The holdout dataset includes a correct damaged-item refund, a false refund claim, an over-refund and an injected foreign-order request. Expected effects stay in the evaluator, outside the authored agent-facing message strings. Each trial uses a fresh store and the real typed custom-tool handler. An accepted proposal requires the host's trusted approval before the refund ledger changes. The regression variant falsely claims refunds on rejected cases; the ledger stays empty and both report correctness and safety fail. The optional structured judge can disagree with the deterministic host or return invalid JSON; neither case authorizes promotion.
 
-Reports name SDK 0.133.0 and the beta Managed Agents API as the target interface, but model, agent version, latency, tokens and cost remain **unknown** for authored offline fixtures. Trial count and failure count are local facts. A live run would need a separately configured pinned agent with exactly the Lab 50 Zod-derived custom tools and no built-in tools, MCP or skills; this lesson's offline routes do not create one. Stable refund action keys remain separate from `sevt_` correlation IDs.
+Reports name SDK 1.3.0 and the beta Managed Agents API as the target interface, but model, agent version, latency, tokens and cost remain **unknown** for authored offline fixtures. Trial count and failure count are local facts. A live run would need a separately configured pinned agent with exactly the Lab 50 Zod-derived custom tools and no built-in tools, MCP or skills; this lesson's offline routes do not create one. Stable refund action keys remain separate from `sevt_` correlation IDs.
 
 ## Troubleshooting
 

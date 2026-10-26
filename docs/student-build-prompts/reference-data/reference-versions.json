@@ -1,6 +1,8 @@
 {
   "referenceCommit": "963cbbf8a30b2341d0a932baab53d79766c32337",
-  "date": "2026-10-20",
+  "referenceDate": "2026-10-20",
+  "date": "2026-10-26",
+  "sdkMigration": "Current 1.3.0 dependency inventory supersedes original 0.133.0; see 17-sdk-upgrade.md.",
   "node": ">=24",
   "dependencies": {
     "@anthropic-ai/aws-sdk": {
@@ -8,8 +10,8 @@
       "resolved": "0.8.0"
     },
     "@anthropic-ai/sdk": {
-      "declared": "0.133.0",
-      "resolved": "0.133.0"
+      "declared": "1.3.0",
+      "resolved": "1.3.0"
     },
     "@azure/monitor-opentelemetry-exporter": {
       "declared": "1.0.0-beta.46",

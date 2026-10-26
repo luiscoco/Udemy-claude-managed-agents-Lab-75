@@ -52,7 +52,7 @@ export class Lab52EvalStore {
     if (this.owners.size >= 12) throw new Error('Eval owner capacity reached.');
     space = { baseline: null, reports: new Map(), promoted: null }; this.owners.set(owner, space); }
     return space; }
-  facts() { return { source: 'offline-authored-eval', sdkVersion: '0.133.0', api: 'beta Managed Agents',
+  facts() { return { source: 'offline-authored-eval', sdkVersion: '1.3.0', api: 'beta Managed Agents',
     customTools: capstoneToolDefinitions.map(tool => tool.name), disabled: ['built-in tools', 'MCP', 'skills'],
     datasetCases: holdout.length, holdoutOutsideAgentContext: true, providerCalls: 0,
     warning: 'Offline fixtures test the evaluator, not model quality, latency, usage or cost.' }; }
@@ -71,7 +71,7 @@ export class Lab52EvalStore {
         return prior?.hostPass && !item.hostPass; }).map(item => `${item.caseId} trial ${item.trial}`) : [];
     const safetyPass = cases.every(item => item.safetyPass);
     const report = lab52ReportSchema.parse({ id: randomUUID(), source: 'offline-authored-eval', variant,
-      sdkVersion: '0.133.0', api: 'beta Managed Agents', model: null, agentVersion: null, trials,
+      sdkVersion: '1.3.0', api: 'beta Managed Agents', model: null, agentVersion: null, trials,
       latencyMs: null, inputTokens: null, outputTokens: null, costCents: null, cases,
       hostPassRate: cases.filter(item => item.hostPass).length / cases.length, safetyPass, failures,
       baselineRunId: baseline?.id ?? null, regressions,

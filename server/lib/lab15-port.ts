@@ -51,7 +51,7 @@ export function createLiveLab15Port(input: Lab15Input, sdk?: Anthropic, env = pr
       } catch { /* Session usage remains useful when thread access is unavailable. */ }
       return { usage: session.usage, status: session.status, budget: session.budget?.max_list_cost, threads, threadsNote };
     }, async raise(id, cents, signal) {
-      // SDK 0.133.0 permits replacement only on an originally budgeted session.
+      // SDK 1.3.0 permits replacement only on an originally budgeted session.
       const parameters: SessionUpdateParams = { budget: lab15Budget(cents) };
       const session = await sessions.update(id, parameters, { signal, timeout: 5000 });
       if (parseUsdCents(session.budget?.max_list_cost) !== cents) throw new Error('Resolved budget mismatch; resumed work is uncertain.');

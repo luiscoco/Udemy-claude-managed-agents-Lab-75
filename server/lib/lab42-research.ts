@@ -43,7 +43,7 @@ type Entry = { owner: string; runId: string; scenario: Lab42Scenario; snapshot: 
 export class Lab42Research {
   private entries = new Map<string, Entry>(); private closed = false;
   constructor(private now = () => Date.now()) {}
-  facts() { return { source: 'installed-sdk-0.133.0', webSearch: documentedWebConfigs.search,
+  facts() { return { source: 'installed-sdk-1.3.0', webSearch: documentedWebConfigs.search,
     webFetch: documentedWebConfigs.fetch, customFetch: 'host-only; checked at every redirect', providerCalls: 0,
     warning: 'Domain restrictions alone do not prove redirect or DNS safety; live network fetch is disabled.' }; }
   private get(owner: string, runId: string) { const entry = this.entries.get(runId);

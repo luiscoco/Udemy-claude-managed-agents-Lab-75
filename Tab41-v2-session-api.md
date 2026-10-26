@@ -2,7 +2,7 @@
 
 ## Prerequisites
 
-Run the local development server. The offline fixture needs no Anthropic key. The project pins official `@anthropic-ai/sdk` 0.133.0.
+Run the local development server. The offline fixture needs no Anthropic key. The project pins official `@anthropic-ai/sdk` 1.3.0.
 
 ## Controls
 

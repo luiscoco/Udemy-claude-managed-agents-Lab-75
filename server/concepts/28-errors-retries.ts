@@ -10,7 +10,7 @@ export function createLab28Router(run = runLab28) {
       request.headers.origin && request.headers.origin !== `http://${host}` || typeof owner !== 'string' || !/^[A-Za-z0-9_-]{1,80}$/.test(owner)) {
       response.status(403).json(apiError('INVALID_REQUEST', 'Use the local origin and experiment owner.')); return; } next(); });
   router.use(json({ strict: true, limit: '4kb' }));
-  router.get('/code', (_request, response) => response.json({ source: 'installed-sdk-0.133.0-and-authored-loopback',
+  router.get('/code', (_request, response) => response.json({ source: 'installed-sdk-1.3.0-and-authored-loopback',
     files: ['shared/lab28-errors-retries.ts', 'server/lib/lab28-faults.ts', 'server/concepts/28-errors-retries.ts'],
     sideEffectRequestOptions, note: 'SDK defaults can retry 408, 409, 429, >=500 and connection errors. Side-effecting calls set maxRetries:0.' }));
   const handler = (request: import('express').Request, response: import('express').Response) => {

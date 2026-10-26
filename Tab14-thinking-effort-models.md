@@ -4,7 +4,7 @@ Compare supported model and effort configurations in fresh Managed Agents sessio
 
 ## Prerequisites
 
-Use Node, React, Vite, strict TypeScript, Express, Zod and the pinned official Anthropic SDK 0.133.0. Offline experiments need no credentials. Live runs require the isolated server API key, a single-agent base agent, environment, live opt-in and operator-declared model readiness. Nothing is provisioned by this lesson.
+Use Node, React, Vite, strict TypeScript, Express, Zod and the pinned official Anthropic SDK 1.3.0. Offline experiments need no credentials. Live runs require the isolated server API key, a single-agent base agent, environment, live opt-in and operator-declared model readiness. Nothing is provisioned by this lesson.
 
 ```powershell
 npm.cmd install

@@ -47,7 +47,7 @@ test('live metadata inspection starts no session and rejects unexpected cloud ne
   let created = 0;
   const fake = { beta: { environments: { retrieve: async () => restricted }, sessions: { create: async () => { created++; } } } } as unknown as Anthropic;
   const service = new Lab18Service(fake, env);
-  assert.equal(service.platform().environmentVersion, 'not exposed by SDK 0.133.0');
+  assert.equal(service.platform().environmentVersion, 'not exposed by SDK 1.3.0');
   const availability = await service.availability('live', 'allowed-mount');
   assert.equal(availability.ready, true); assert.equal(availability.environmentUpdatedAt, restricted.updated_at);
   assert.equal(availability.sessionStarted, false); assert.equal(created, 0);
@@ -88,7 +88,7 @@ test('live port fails closed before session creation when the environment change
     sessions: { create: async () => { created++; } } } } as unknown as Anthropic;
   const service = new Lab18Service(fake, env);
   await assert.rejects(service.livePort({ ...input, mode: 'live' }, { source: 'managed-api', ready: true, environmentId: 'env_fixture',
-    environmentUpdatedAt: restricted.updated_at, environmentVersion: 'not exposed by SDK 0.133.0', cloud: true, archived: false,
+    environmentUpdatedAt: restricted.updated_at, environmentVersion: 'not exposed by SDK 1.3.0', cloud: true, archived: false,
     networking: 'limited', allowedHosts: [], approvedMounts: [], sessionStarted: false, reason: 'Previously checked.' }).create(), /changed/);
   assert.equal(created, 0);
 });
@@ -114,7 +114,7 @@ test('concurrent live requests reserve the owner before the environment read fin
   const held = new Promise<void>(resolve => { release = resolve; });
   const service = new Lab18Service(undefined, {});
   service.availability = async () => { entered(); await held; return lab18AvailabilityResultSchema.parse({ source: 'managed-api', ready: false,
-    environmentId: null, environmentUpdatedAt: null, environmentVersion: 'not exposed by SDK 0.133.0', cloud: false,
+    environmentId: null, environmentUpdatedAt: null, environmentVersion: 'not exposed by SDK 1.3.0', cloud: false,
     archived: false, networking: 'unavailable', allowedHosts: [], approvedMounts: [], sessionStarted: false, reason: 'Unavailable fixture.' }); };
   const concept = createLab18Router(service), app = express(); app.use('/api/c18', concept.router);
   const server = app.listen(0); await once(server, 'listening'); const address = server.address(); assert(address && typeof address !== 'string');

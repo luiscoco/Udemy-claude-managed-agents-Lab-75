@@ -2,7 +2,7 @@
 
 ## Prerequisites
 
-Use Node.js 24 and the installed official TypeScript SDK 0.133.0. Offline mode requires no credentials. The authored bundles live in `skills/lab11/`, with a `format-observation/SKILL.md` and a reference file in v1 and v2. The missing-reference bundle deliberately omits that file.
+Use Node.js 24 and the installed official TypeScript SDK 1.3.0. Offline mode requires no credentials. The authored bundles live in `skills/lab11/`, with a `format-observation/SKILL.md` and a reference file in v1 and v2. The missing-reference bundle deliberately omits that file.
 
 For live mode, reuse the configured base agent and environment, with server-only API credentials and explicit live opt-in. No upload, agent provisioning or model execution occurs at startup, during an offline exercise, or during a local setup check.
 

@@ -12,7 +12,7 @@ export function createLab54Router() {
   router.use(json({ strict: true, limit: '2kb' }));
   router.get('/facts', (_request, response) => response.json({ source: 'offline-authored-workshop', providerCalls: 0,
     vague: lintToolContract('vague'), explicit: lintToolContract('explicit'),
-    installedSdk: '@anthropic-ai/sdk 0.133.0 custom tools expose name, description and input_schema; host metadata is separate.',
+    installedSdk: '@anthropic-ai/sdk 1.3.0 custom tools expose name, description and input_schema; host metadata is separate.',
     maxConcurrentRuns: 2 }));
   router.get('/code', (_request, response) => response.json({ files: ['shared/lab54-tool-design.ts',
     'server/tool-design/lab54.ts', 'server/concepts/54-tool-design.ts',

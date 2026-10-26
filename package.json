@@ -68,7 +68,7 @@
   },
   "dependencies": {
     "@anthropic-ai/aws-sdk": "0.8.0",
-    "@anthropic-ai/sdk": "0.133.0",
+    "@anthropic-ai/sdk": "1.3.0",
     "@azure/monitor-opentelemetry-exporter": "1.0.0-beta.46",
     "@azure/msal-node": "7.1.0",
     "@opentelemetry/resources": "2.12.0",

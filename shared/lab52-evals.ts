@@ -14,7 +14,7 @@ export const lab52CaseResultSchema = z.strictObject({ caseId: z.string(), trial:
   claimedRefunds: z.number().int().nonnegative(), actualRefunds: z.number().int().nonnegative(),
   toolRejected: z.boolean(), eventId: z.string(), evidence: z.string() });
 export const lab52ReportSchema = z.strictObject({ id: z.string().uuid(), source: z.literal('offline-authored-eval'),
-  variant: lab52VariantSchema, sdkVersion: z.literal('0.133.0'), api: z.literal('beta Managed Agents'),
+  variant: lab52VariantSchema, sdkVersion: z.literal('1.3.0'), api: z.literal('beta Managed Agents'),
   model: z.null(), agentVersion: z.null(), trials: z.number().int().min(1).max(3),
   latencyMs: z.null(), inputTokens: z.null(), outputTokens: z.null(), costCents: z.null(),
   cases: z.array(lab52CaseResultSchema), hostPassRate: z.number().min(0).max(1),

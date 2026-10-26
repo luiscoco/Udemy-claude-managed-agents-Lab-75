@@ -4,7 +4,7 @@ Control one Managed Agents turn with session-local overrides, an integer-cent li
 
 ## Prerequisites
 
-Use Node 24 or newer and the installed Anthropic TypeScript SDK 0.133.0. Lab 01 should work first. Offline mode requires no credentials, provisioning or account access. Run from this workspace in PowerShell:
+Use Node 24 or newer and the installed Anthropic TypeScript SDK 1.3.0. Lab 01 should work first. Offline mode requires no credentials, provisioning or account access. Run from this workspace in PowerShell:
 
 ```powershell
 npm run dev

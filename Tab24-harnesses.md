@@ -4,7 +4,7 @@ This lab compares a manual Messages loop, the installed Messages SDK tool runner
 
 ## Prerequisites
 
-Run `npm.cmd ci` and `npm.cmd run dev`, then open `?lesson=24`. Offline experiments need no API key. The installed `@anthropic-ai/sdk` version is pinned at `0.133.0`; its `beta.messages.toolRunner` method is present in the local type declarations. Live paths need independent reviewed setup and opt-in, and are unavailable in this checkpoint.
+Run `npm.cmd ci` and `npm.cmd run dev`, then open `?lesson=24`. Offline experiments need no API key. The installed `@anthropic-ai/sdk` version is pinned at `1.3.0`; its `beta.messages.toolRunner` method is present in the local type declarations. Live paths need independent reviewed setup and opt-in, and are unavailable in this checkpoint.
 
 ## Controls
 

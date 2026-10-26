@@ -7,7 +7,7 @@ import { createLab41Router } from '../server/concepts/41-v2-session-api.js';
 
 test('pinned official SDK and no legacy Agent SDK imports in production sources', () => {
   const packageJson = JSON.parse(readFileSync('package.json', 'utf8')) as { dependencies: Record<string, string> };
-  assert.equal(packageJson.dependencies['@anthropic-ai/sdk'], '0.133.0');
+  assert.equal(packageJson.dependencies['@anthropic-ai/sdk'], '1.3.0');
   for (const path of ['server/lib/lab06-port.ts', 'server/lib/lab41-lifecycle.ts', 'server/concepts/41-v2-session-api.ts']) {
     const source = readFileSync(path, 'utf8');
     assert.doesNotMatch(source, /(?:unstable_v2|from ['"]@anthropic-ai\/claude-agent-sdk['"]|claude-agent-sdk-v2)/);

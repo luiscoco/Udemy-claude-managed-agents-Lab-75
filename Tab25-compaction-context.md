@@ -4,7 +4,7 @@ This lab separates three observations: a persisted `agent.thread_context_compact
 
 ## Prerequisites
 
-Run `npm.cmd ci` and `npm.cmd run dev`, then open `?lesson=25`. Offline scenarios use three small reviewed report files and require no credentials. The installed `@anthropic-ai/sdk` version is `0.133.0`. Its compaction event has an ID and timestamp; thread usage and stats can be unavailable.
+Run `npm.cmd ci` and `npm.cmd run dev`, then open `?lesson=25`. Offline scenarios use three small reviewed report files and require no credentials. The installed `@anthropic-ai/sdk` version is `1.3.0`. Its compaction event has an ID and timestamp; thread usage and stats can be unavailable.
 
 ## Controls
 

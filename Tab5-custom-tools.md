@@ -10,7 +10,7 @@ Custom tools have **no permission policy**. There is nothing to confirm: the hos
 
 ## Prerequisites
 
-Use Node 24 or newer and the installed Anthropic TypeScript SDK 0.133.0. Labs 01–04 should already work, because this lab reuses the event consumer and the tool-session runner. Offline mode needs no credentials, provisioning or account access. Run from this workspace in PowerShell:
+Use Node 24 or newer and the installed Anthropic TypeScript SDK 1.3.0. Labs 01–04 should already work, because this lab reuses the event consumer and the tool-session runner. Offline mode needs no credentials, provisioning or account access. Run from this workspace in PowerShell:
 
 ```powershell
 npm run dev
