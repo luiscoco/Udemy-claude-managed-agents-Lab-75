@@ -193,7 +193,7 @@ test('live adapter through the real SDK: stream is established before user.messa
   assert.deepEqual((log[0]!.body as { budget: unknown }).budget, { type: 'limit', max_list_cost: { amount: '50', currency: 'USD' } });
   assert.deepEqual(result.messages, [{ eventId: 'm1', text: 'Hello' }]);
   assert.equal(result.outcome.kind, 'completed'); assert.equal(result.source, 'managed-api');
-  assert.equal(result.session?.agentVersion, 3); assert.equal(result.session?.budget, '50 USD');
+  assert.equal(result.session?.agentVersion, 3); assert.equal(result.session?.budget, '50 US cents ($0.50)');
   assert.equal(result.cleanup, 'archived'); assert.equal(result.interruption, 'not-needed');
   assert.equal(frames.filter((frame) => frame.kind === 'message').length, 1);
 });

@@ -1,8 +1,10 @@
 import { randomUUID } from 'node:crypto';
+import { setTimeout as delay } from 'node:timers/promises';
 import Anthropic, { toFile } from '@anthropic-ai/sdk';
 import type { SessionCreateParams } from '@anthropic-ai/sdk/resources/beta/sessions/sessions';
 import type { Confirmation, Lab03Toolset } from '../../shared/lab03-tools.js';
 import type { Lab01Session } from '../../shared/lab01-events.js';
+import { formatCents } from '../../shared/lab02-options.js';
 import { createManagedClient, managedResourceIds, managedSettings } from './managed-config.js';
 import { LabError } from './lab01-run.js';
 import type { PlanFixture } from './lab03-fixtures.js';
@@ -102,6 +104,7 @@ export function liveSessionMethods(sessions: Anthropic['beta']['sessions']):
 }
 
 const safeOutputName = /^[A-Za-z0-9][A-Za-z0-9._-]{0,63}$/;
+const outputListRetries = 2, outputListDelayMs = 1500;
 export function createLiveToolSessionPort(spec: ToolSessionSpec, sandbox: Sandbox, sdk?: Anthropic, env = process.env): ToolSessionPort {
   const settings = managedSettings(env);
   if (!settings.liveReady) throw new Error('Managed Agents live mode is disabled or configuration is incomplete.');
@@ -129,15 +132,21 @@ export function createLiveToolSessionPort(spec: ToolSessionSpec, sandbox: Sandbo
       const cost = session.budget?.max_list_cost;
       return { effectiveTools: effectiveToolsFrom(agent.tools),
         session: { source: 'managed-api', id: session.id, status: session.status, agentId: agent.id, agentVersion: agent.version,
-          environmentId: session.environment_id, budget: cost ? `${cost.amount} ${cost.currency}` : null,
+          environmentId: session.environment_id, budget: cost ? formatCents(cost.amount) : null,
           toolCount: agent.tools.length, mcpServerCount: agent.mcp_servers.length } };
     },
     ...liveSessionMethods(sessions),
     async collectOutputs(id) {
-      // scope_id limits the listing to files this session wrote to /mnt/session/outputs/.
-      const page = await client.beta.files.list({ scope_id: id, limit: 20 }, { timeout: 5000 });
+      // scope_id lists this session's files. Filtering by scope_id requires the managed-agents beta header, which
+      // files.list (unlike sessions.*) does not add automatically. The listing also contains the session copies of the
+      // mounted uploads (downloadable: false, possibly with the same name as an output); only downloadable files are
+      // outputs written to /mnt/session/outputs/. They can appear a few seconds after the session goes idle.
+      const listOutputs = async () => (await client.beta.files.list({ scope_id: id, limit: 20, betas: ['managed-agents-2026-04-01'] },
+        { timeout: 5000 })).data.filter((file) => file.downloadable !== false);
+      let outputs = await listOutputs();
+      for (let retry = 0; !outputs.length && retry < outputListRetries; retry++) { await delay(outputListDelayMs); outputs = await listOutputs(); }
       const written: string[] = [], skipped: string[] = [];
-      for (const file of page.data.slice(0, 10)) {
+      for (const file of outputs.slice(0, 10)) {
         if (!safeOutputName.test(file.filename) || file.size_bytes > 65536) { skipped.push(file.filename.slice(0, 40)); continue; }
         try {
           await sandbox.hostPath(`outputs/${file.filename}`); // validate before any download or write

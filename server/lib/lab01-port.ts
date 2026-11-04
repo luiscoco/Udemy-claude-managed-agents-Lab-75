@@ -1,6 +1,7 @@
 import { setTimeout as delay } from 'node:timers/promises';
 import Anthropic from '@anthropic-ai/sdk';
 import type { Lab01Request, Lab01Session } from '../../shared/lab01-events.js';
+import { formatCents } from '../../shared/lab02-options.js';
 import { createManagedClient, managedResourceIds, managedSettings } from './managed-config.js';
 import { fixtureFor } from './lab01-fixtures.js';
 import type { StreamEvent } from './session-events.js';
@@ -35,7 +36,7 @@ export function createLiveLab01Port(sdk?: Anthropic, env = process.env): Lab01Po
       const cost = session.budget?.max_list_cost;
       return { source: 'managed-api', id: session.id, status: session.status, agentId: session.agent.id,
         agentVersion: session.agent.version, environmentId: session.environment_id,
-        budget: cost ? `${cost.amount} ${cost.currency}` : null,
+        budget: cost ? formatCents(cost.amount) : null,
         toolCount: session.agent.tools.length, mcpServerCount: session.agent.mcp_servers.length };
     },
     async open(id, signal) {
@@ -56,7 +57,7 @@ export function createLiveLab01Port(sdk?: Anthropic, env = process.env): Lab01Po
 }
 
 export const fixtureSession: Lab01Session = { source: 'authored-fixture', id: 'sesn_fixture_lab01', status: 'idle',
-  agentId: 'agent_fixture', agentVersion: 1, environmentId: 'env_fixture', budget: '0 USD (no billing)', toolCount: 0, mcpServerCount: 0 };
+  agentId: 'agent_fixture', agentVersion: 1, environmentId: 'env_fixture', budget: '0 US cents (no billing)', toolCount: 0, mcpServerCount: 0 };
 
 /** Offline port: no network, no credentials, no charges. `calls` records call order for tests. */
 export function createFixturePort(scenario: Lab01Request['scenario'], stepMs = 80): Lab01Port & { calls: string[] } {

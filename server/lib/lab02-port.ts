@@ -1,7 +1,7 @@
 import { randomUUID } from 'node:crypto';
 import Anthropic from '@anthropic-ai/sdk';
 import type { SessionCreateParams } from '@anthropic-ai/sdk/resources/beta/sessions/sessions';
-import { effectiveOptionsSchema, lab02RequestSchema } from '../../shared/lab02-options.js';
+import { effectiveOptionsSchema, formatCents, lab02RequestSchema } from '../../shared/lab02-options.js';
 import type { EffectiveOptions, Lab02Request } from '../../shared/lab02-options.js';
 import { createLiveLab01Port, fixtureSession } from './lab01-port.js';
 import type { Lab01Port } from './lab01-port.js';
@@ -46,7 +46,7 @@ export function createLiveLab02Port(input: Lab02Request, sdk?: Anthropic, env = 
       // Reuse runner's pre-send safety guard for skills and orchestration too.
       return { source: 'managed-api', id: session.id, status: session.status, agentId: agent.id,
         agentVersion: agent.version, environmentId: session.environment_id,
-        budget: `${session.budget!.max_list_cost.amount} USD`,
+        budget: formatCents(session.budget!.max_list_cost.amount),
         toolCount: agent.tools.length + agent.skills.length + (agent.multiagent ? 1 : 0), mcpServerCount: agent.mcp_servers.length };
     },
     async open(id, signal) {

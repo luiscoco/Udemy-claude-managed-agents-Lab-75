@@ -12,8 +12,10 @@ export default function Concept08Subagents() {
   const [liveReady, setLiveReady] = useState(false); const [agentReady, setAgentReady] = useState(false); const controller = useRef<AbortController | null>(null);
   useEffect(() => { void Promise.all([fetch('/api/managed/setup').then((r) => r.json()), request('/api/c8/agents', lab08AgentsResponseSchema)]).then(([setup, roster]) => { setLiveReady((setup as {liveReady?:boolean}).liveReady === true); setAgentReady(roster.liveAgent.configured); }).catch(() => {}); return () => controller.current?.abort(); }, []);
   async function run(mode: 'scripted'|'live') { if (pending) return; const abort = new AbortController(); controller.current = abort; setPending(true); setFrames([]); setResult(undefined);
-    try { const value = await streamPost('/api/c8/query', { mode, prompt, scenario: mode === 'live' ? 'normal' : scenario, deadlineSeconds: 30, ...(mode === 'live' ? { budgetCents: 50 } : {}) },
-      { signal: abort.signal, idleMs: 25_000, deadlineMs: 45_000, resultSchema: lab08ResultSchema, onEvent: (type, data) => { if (type === 'progress') setFrames((all) => [...all, lab08FrameSchema.parse(data)]); } });
+    // Live delegation to three workers can stream nothing for a long time, so live uses the server's 120 s maximum.
+    const live = mode === 'live';
+    try { const value = await streamPost('/api/c8/query', { mode, prompt, scenario: live ? 'normal' : scenario, deadlineSeconds: live ? 120 : 30, ...(live ? { budgetCents: 50 } : {}) },
+      { signal: abort.signal, idleMs: live ? 130_000 : 25_000, deadlineMs: live ? 135_000 : 45_000, resultSchema: lab08ResultSchema, onEvent: (type, data) => { if (type === 'progress') setFrames((all) => [...all, lab08FrameSchema.parse(data)]); } });
       if (value.kind === 'success') { setResult(value.result); setStatus(value.result.message); } else setStatus('Cancelled locally; the server stopped child activity through its interrupt boundary.');
     } catch (error) { setStatus(error instanceof Error ? error.message : 'Run failed.'); } finally { controller.current = null; setPending(false); } }
   const threads = result?.threads ?? frames.flatMap((frame) => frame.kind === 'thread' ? [frame.thread] : []); const effects = result?.effects ?? frames.flatMap((frame) => frame.kind === 'effect' ? [frame.effect] : []);

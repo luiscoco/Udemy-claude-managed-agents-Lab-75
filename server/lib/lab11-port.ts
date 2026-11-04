@@ -4,6 +4,7 @@ import type Anthropic from '@anthropic-ai/sdk';
 import type { SessionCreateParams } from '@anthropic-ai/sdk/resources/beta/sessions/sessions';
 import type { BetaManagedAgentsAgentToolset20260401Params } from '@anthropic-ai/sdk/resources/beta/agents';
 import { lab11RequestSchema, pinSchema } from '../../shared/lab11-skills.js';
+import { formatCents } from '../../shared/lab02-options.js';
 import type { Lab11Request, Lab11Result, SkillBundle, SkillPin } from '../../shared/lab11-skills.js';
 import { createManagedClient, managedResourceIds, managedSettings } from './managed-config.js';
 import { agentVersion, effectiveToolsFrom, liveSessionMethods } from './tool-session-port.js';
@@ -75,7 +76,7 @@ export async function createLiveLab11Port(input: Lab11Request, sdk?: Anthropic, 
       else if (!skillVerified) mismatch = 'Resolved skill identity or version could not be verified against the immutable pin. No prompt sent.';
       // Return the created ID even on a mismatch, so the shared runner can archive it.
       return { effectiveTools: tools, session: { source: 'managed-api', id: session.id, status: session.status, agentId: a.id,
-        agentVersion: a.version, environmentId: session.environment_id, budget: session.budget ? `${session.budget.max_list_cost.amount} USD cents` : null,
+        agentVersion: a.version, environmentId: session.environment_id, budget: session.budget ? formatCents(session.budget.max_list_cost.amount) : null,
         toolCount: a.tools.length, mcpServerCount: a.mcp_servers.length } };
     },
     async open(id, signal) { if (mismatch) throw new LabError(mismatch); return liveSessionMethods(client.beta.sessions).open(id, signal); },

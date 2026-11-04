@@ -1,6 +1,7 @@
 import Anthropic from '@anthropic-ai/sdk';
 import type { SessionCreateParams } from '@anthropic-ai/sdk/resources/beta/sessions/sessions';
 import { lab09RequestSchema } from '../../shared/lab09-system-prompts.js';
+import { formatCents } from '../../shared/lab02-options.js';
 import type { Lab09Request, Lab09Composition, Lab09Effective } from '../../shared/lab09-system-prompts.js';
 import { composeLab09 } from './lab09-composer.js';
 import { createLiveLab01Port } from './lab01-port.js';
@@ -36,7 +37,7 @@ export function createLiveLab09Port(input: Lab09Request, sdk?: Anthropic, env = 
       throw new LabError(`Resolved session differs from the requested base reference, model or system; no prompt was sent. Session ${session.id}: cleanup ${archived ? 'archived' : 'pending; inspect the owned session before retrying'}.`);
     }
     return { source: 'managed-api', id: session.id, status: session.status, agentId: resolved.id, agentVersion: resolved.version,
-      environmentId: session.environment_id, budget: session.budget ? `${session.budget.max_list_cost.amount} USD` : null,
+      environmentId: session.environment_id, budget: session.budget ? formatCents(session.budget.max_list_cost.amount) : null,
       toolCount: resolved.tools.length + resolved.skills.length + (resolved.multiagent ? 1 : 0), mcpServerCount: resolved.mcp_servers.length };
   } };
   return port;

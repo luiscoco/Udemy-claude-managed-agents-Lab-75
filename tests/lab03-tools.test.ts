@@ -182,7 +182,13 @@ function mockSdk(log: Call[]) {
     if (location.pathname.startsWith('/v1/agents/')) return Response.json({ ...agent, tools: [] });
     if (location.pathname === '/v1/files' && init?.method === 'POST')
       return Response.json({ id: `file_up_${++uploads}`, type: 'file', filename: 'x.md', mime_type: 'text/markdown', size_bytes: 10, created_at: at });
+    // Like the real API: filtering by scope_id is rejected without the managed-agents beta header.
+    if (location.pathname === '/v1/files' && location.searchParams.has('scope_id')
+      && !new Headers(init?.headers).get('anthropic-beta')?.split(',').includes('managed-agents-2026-04-01'))
+      return Response.json({ type: 'error', error: { type: 'invalid_request_error', message: 'scope_id requires the managed-agents beta' } }, { status: 400 });
     if (location.pathname === '/v1/files') return Response.json({ data: [
+      // Like the real API: the session copy of a mounted upload is listed too, with the same name, and is not downloadable.
+      { id: 'file_in_copy', type: 'file', filename: 'draft.md', mime_type: 'text/markdown', size_bytes: 18, created_at: at, downloadable: false },
       { id: 'file_out', type: 'file', filename: 'draft.md', mime_type: 'text/markdown', size_bytes: 20, created_at: at, downloadable: true },
       { id: 'file_bad', type: 'file', filename: '../escape.md', mime_type: 'text/markdown', size_bytes: 5, created_at: at, downloadable: true }],
       has_more: false, first_id: 'file_out', last_id: 'file_bad' });
@@ -222,6 +228,7 @@ test('real installed SDK: uploads, overrides, sevt_ tool_confirmation round-trip
     assert.deepEqual(result.denials.map((d) => [d.toolUseId, d.kind, d.by]), [['sevt_abc', 'denied', 'host'], ['sevt_edit', 'unavailable', 'session-toolset']]);
     assert.ok(log.some((c) => c.path === '/v1/files' && c.method === 'GET' && c.search.includes('scope_id=sesn_test')));
     assert.equal(log.some((c) => c.path.includes('file_bad')), false, 'unsafe output names are never downloaded');
+    assert.equal(log.some((c) => c.path.includes('file_in_copy')), false, 'session copies of uploads are never downloaded');
     assert.equal(result.outputs.status, 'downloaded'); assert.match(result.outputs.detail, /Skipped: \.\.\/escape\.md/);
     assert.equal(await disk(sandbox, 'outputs/draft.md'), '# Draft\n\nStatus: reviewed\n');
     assert.deepEqual(log.filter((c) => c.method === 'DELETE').map((c) => c.path), ['/v1/files/file_up_1', '/v1/files/file_up_2']);

@@ -2,6 +2,7 @@ import { randomUUID } from 'node:crypto';
 import type Anthropic from '@anthropic-ai/sdk';
 import type { SessionCreateParams } from '@anthropic-ai/sdk/resources/beta/sessions/sessions';
 import { lab05RequestSchema, lab05Tools } from '../../shared/lab05-custom-tools.js';
+import { formatCents } from '../../shared/lab02-options.js';
 import type { Lab05Request } from '../../shared/lab05-custom-tools.js';
 import { createManagedClient, managedResourceIds, managedSettings } from './managed-config.js';
 import { LabError } from './lab01-run.js';
@@ -71,7 +72,7 @@ export function createLiveLab05Port(input: Lab05Request, sdk?: Anthropic, env = 
       const cost = session.budget?.max_list_cost;
       return { effectiveTools: created.tools.map((tool) => ({ name: 'name' in tool ? tool.name : tool.type, enabled: true, policy: null })),
         session: { source: 'managed-api', id: session.id, status: session.status, agentId: created.id, agentVersion: created.version,
-          environmentId: session.environment_id, budget: cost ? `${cost.amount} ${cost.currency}` : null,
+          environmentId: session.environment_id, budget: cost ? formatCents(cost.amount) : null,
           toolCount: created.tools.length, mcpServerCount: created.mcp_servers.length } };
     },
     async confirm() { throw new LabError('The Lab 05 agent has no built-in tools, so there is nothing to confirm.'); },
