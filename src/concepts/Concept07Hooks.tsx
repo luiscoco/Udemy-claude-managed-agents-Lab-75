@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { lab07FileResponseSchema, lab07FrameSchema, lab07Policies, lab07Prompt, lab07ResultSchema, lab07Scenarios, lab07Tools } from '../../shared/lab07-hooks';
+import { lab07FileResponseSchema, lab07FrameSchema, lab07Policies, lab07Prompt, lab07Prompts, lab07ResultSchema, lab07Scenarios, lab07Tools } from '../../shared/lab07-hooks';
 import type { Lab07Frame, Lab07Policy, Lab07Result, Lab07Scenario } from '../../shared/lab07-hooks';
 import { LiveActionButton } from '../components/LiveActionButton';
 import { CodeBlock } from '../components/CodeBlock';
@@ -26,7 +26,7 @@ export default function Concept07Hooks() {
   return <section aria-labelledby="c7-heading"><h2 id="c7-heading">Host policy before execution, audit after execution</h2>
     <p>Managed Agents does not emit Agent SDK <code>PreToolUse</code> or <code>PostToolUse</code> hooks. This dedicated agent declares three custom tools. The host validates original input, decides, optionally rewrites, revalidates, executes, records the actual effect and returns <code>user.custom_tool_result</code>.</p>
     <details><summary>Dedicated custom tools ({lab07Tools.length})</summary><CodeBlock label="Lab 07 tools" lineNumbers={false} code={JSON.stringify(lab07Tools, null, 2)} /></details>
-    <fieldset disabled={pending}><legend>Policy experiment</legend><label htmlFor="c7-policy">Host policy</label><select id="c7-policy" value={policy} onChange={(e) => setPolicy(e.target.value as Lab07Policy)}>{lab07Policies.map((p) => <option key={p} value={p}>{labels[p]}</option>)}</select>
+    <fieldset disabled={pending}><legend>Policy experiment</legend><label htmlFor="c7-policy">Host policy</label><select id="c7-policy" value={policy} onChange={(e) => { const next = e.target.value as Lab07Policy; setPolicy(next); setPrompt((current) => Object.values(lab07Prompts).includes(current) ? lab07Prompts[next] : current); }}>{lab07Policies.map((p) => <option key={p} value={p}>{labels[p]}</option>)}</select>
       <label htmlFor="c7-scenario">Offline scenario</label><select id="c7-scenario" value={scenario} onChange={(e) => setScenario(e.target.value as Lab07Scenario)}>{lab07Scenarios.map((s) => <option key={s}>{s}</option>)}</select>
       <label htmlFor="c7-prompt">Prompt</label><textarea id="c7-prompt" rows={3} value={prompt} maxLength={1000} onChange={(e) => setPrompt(e.target.value)} /></fieldset>
     <div className="lab-controls"><button disabled={pending} onClick={() => void run('scripted')}>Run offline fixture</button>{pending && <button onClick={() => controller.current?.abort()}>Cancel query</button>}</div>

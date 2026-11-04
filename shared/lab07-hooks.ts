@@ -7,7 +7,13 @@ export const lab07Policies = ['audit-only', 'deny-write', 'rewrite-input'] as co
 export type Lab07Policy = (typeof lab07Policies)[number];
 export const lab07Scenarios = ['normal', 'handler-exception', 'repeated-call', 'hang'] as const;
 export type Lab07Scenario = (typeof lab07Scenarios)[number];
-export const lab07Prompt = 'Use the file tools once, then report whether the requested effect happened.';
+/** One explicit default prompt per policy: a prompt that names no file can lead a live model to make no tool call. */
+export const lab07Prompts: Record<Lab07Policy, string> = {
+  'audit-only': 'Use edit_file once to change "Status: draft" to "Status: reviewed" in /workspace/draft.md, then report whether the change happened.',
+  'deny-write': 'Use edit_file once to change "locked" to "changed" in /workspace/protected.md, then report whether the change happened.',
+  'rewrite-input': 'Use write_file once to create /workspace/proposed.md containing "Status: rewritten through policy", then report which file was written.',
+};
+export const lab07Prompt = lab07Prompts['audit-only'];
 export const lab07SdkOnlyFields = ['hooks', 'PreToolUse', 'PostToolUse', 'updatedInput'] as const;
 
 const path = z.string().min(1).max(200).describe('Absolute exercise path under /workspace.');
