@@ -1,11 +1,23 @@
 import Anthropic from '@anthropic-ai/sdk';
 import type { SessionCreateParams } from '@anthropic-ai/sdk/resources/beta/sessions/sessions';
+import type { BetaManagedAgentsAgentToolset20260401Params } from '@anthropic-ai/sdk/resources/beta/agents';
 import type { Lab16Run } from '../../shared/lab16-settings-env.js';
 import { createLiveLab01Port } from './lab01-port.js';
 import type { Lab01Port } from './lab01-port.js';
 import { LabError } from './lab01-run.js';
 import { createManagedClient, managedResourceIds, managedSettings } from './managed-config.js';
 import { fixtureMount, lab16Manifest } from './lab16-provenance.js';
+import { effectiveToolsFrom } from './tool-session-port.js';
+
+/** File resources require the built-in read tool on the session; every other built-in tool stays disabled. */
+export const lab16ReadToolset: BetaManagedAgentsAgentToolset20260401Params = { type: 'agent_toolset_20260401',
+  default_config: { enabled: false, permission_policy: { type: 'always_allow' } },
+  configs: [{ name: 'read', enabled: true, permission_policy: { type: 'always_allow' } }] };
+/** True only for exactly one built-in toolset whose single enabled tool is read. */
+export function lab16ReadOnly(tools: readonly { type: string; configs?: readonly { name: string; enabled: boolean; permission_policy?: { type: string } }[] }[]) {
+  const enabled = effectiveToolsFrom(tools).filter(tool => tool.enabled);
+  return tools.length === 1 && tools[0]?.type === 'agent_toolset_20260401' && enabled.length === 1 && enabled[0]?.name === 'read';
+}
 
 export type Lab16Port = Lab01Port & { evidence: {
   requestedMount: string | null; observedMount: Lab16Run['observedMount']; resolvedEnvironment: Lab16Run['resolvedEnvironment'];
@@ -17,7 +29,7 @@ export function createLiveLab16Port(sdk?: Anthropic, env: NodeJS.ProcessEnv = pr
   const fileId = env.CLAUDE_MANAGED_LAB16_FILE_ID!;
   const evidence: Lab16Port['evidence'] = { requestedMount: null, observedMount: 'absent', resolvedEnvironment: null,
     creation: 'not-started', verified: false };
-  return { ...base, evidence,
+  return { ...base, evidence, verifiesReadOnlyTools: true,
     async create() {
       const environment = await client.beta.environments.retrieve(ids.environmentId, {}, { timeout: 3000 });
       evidence.resolvedEnvironment = { kind: environment.config.type, archived: environment.archived_at !== null,
@@ -30,7 +42,7 @@ export function createLiveLab16Port(sdk?: Anthropic, env: NodeJS.ProcessEnv = pr
       const agent = await client.beta.agents.retrieve(ids.agentId, {}, { timeout: 3000 });
       if (agent.multiagent) throw new LabError('Select a single-agent base. No session was created.');
       const params: SessionCreateParams = { agent: { type: 'agent_with_overrides', id: ids.agentId, version: agent.version,
-        tools: [], mcp_servers: [], skills: [], system: 'Answer briefly. The mounted file is a configured resource; do not claim you read its contents without an observed read.' },
+        tools: [lab16ReadToolset], mcp_servers: [], skills: [], system: 'Answer briefly. The mounted file is a configured resource; do not claim you read its contents without an observed read.' },
         environment_id: ids.environmentId, title: 'Lab 16 configuration provenance',
         budget: { type: 'limit', max_list_cost: { amount: managedSettings(env).budgetCents, currency: 'USD' } },
         resources: [{ type: 'file', file_id: fileId, mount_path: fixtureMount }] };
@@ -45,7 +57,7 @@ export function createLiveLab16Port(sdk?: Anthropic, env: NodeJS.ProcessEnv = pr
         evidence.observedMount = page.data.some(resource => resource.type === 'file' && resource.mount_path === fixtureMount) ? 'listed' : 'unconfirmed';
       } catch { evidence.observedMount = 'unconfirmed'; }
       evidence.verified = session.environment_id === ids.environmentId && session.agent.id === ids.agentId && session.agent.version === agent.version &&
-        session.agent.tools.length === 0 && session.agent.mcp_servers.length === 0 && session.agent.skills.length === 0 &&
+        lab16ReadOnly(session.agent.tools) && session.agent.mcp_servers.length === 0 && session.agent.skills.length === 0 &&
         session.budget?.max_list_cost.amount === managedSettings(env).budgetCents && session.budget?.max_list_cost.currency === 'USD' && evidence.observedMount === 'listed';
       return { source: 'managed-api', id: session.id, status: session.status, agentId: session.agent.id,
         agentVersion: session.agent.version, environmentId: session.environment_id,

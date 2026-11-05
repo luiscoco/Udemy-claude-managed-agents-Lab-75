@@ -9,6 +9,8 @@ import type { StreamEvent } from './session-events.js';
 /** Provider boundary for Lab 01. Each method is one provider call (or one authored fixture step). */
 export interface Lab01Port {
   readonly source: 'authored-fixture' | 'managed-api';
+  /** True only for a port whose open() refuses unless it verified an exact read-only toolset (Lab 16 file resources need read). */
+  readonly verifiesReadOnlyTools?: boolean;
   /** Creates a dedicated session and returns its metadata from the creation response. */
   create(): Promise<Lab01Session>;
   /** Resolves only once the event stream is established, so a later send cannot be missed. */

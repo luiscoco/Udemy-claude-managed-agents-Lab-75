@@ -5,7 +5,7 @@ import express from 'express';
 import type Anthropic from '@anthropic-ai/sdk';
 import { lab16AccessSchema, lab16RequestSchema } from '../shared/lab16-settings-env.js';
 import { createLab16Router } from '../server/concepts/16-settings-env.js';
-import { createLiveLab16Port } from '../server/lib/lab16-port.js';
+import { createLiveLab16Port, lab16ReadToolset } from '../server/lib/lab16-port.js';
 import { authoredEnvironment, checkLab16Access, fixtureMount, lab16Manifest, resolveLab16 } from '../server/lib/lab16-provenance.js';
 
 const input = lab16RequestSchema.parse({ mode: 'scripted', scenario: 'winning-host-layer', userRegion: 'south', sessionRegion: null,
@@ -52,14 +52,17 @@ test('injected Managed SDK pins approved file and verifies listed mount before a
         packages: { apt: [], cargo: [], gem: [], go: [], npm: [], pip: [] } } }; } },
     agents: { retrieve: async () => { calls.push('agent.retrieve'); return { id: 'agent_fixture', version: 9, multiagent: null }; } },
     sessions: { create: async (params: unknown) => { calls.push('session.create'); creation = params; return { id: 'sesn_fixture', status: 'idle', environment_id: 'env_fixture',
-      agent: { id: 'agent_fixture', version: 9, tools: [], mcp_servers: [], skills: [] }, budget: { max_list_cost: { amount: '50', currency: 'USD' } } }; },
+      agent: { id: 'agent_fixture', version: 9, tools: (params as { agent: { tools: unknown[] } }).agent.tools, mcp_servers: [], skills: [] }, budget: { max_list_cost: { amount: '50', currency: 'USD' } } }; },
       resources: { list: async () => { calls.push('resources.list'); return { data: [{ type: 'file', mount_path: fixtureMount, file_id: 'file_scoped' }] }; } },
       events: { stream: async () => { calls.push('events.stream'); return { controller: new AbortController(), async *[Symbol.asyncIterator]() {} }; } } } } } as unknown as Anthropic;
   const port = createLiveLab16Port(fake, fakeEnv); assert.deepEqual(calls, []);
   const session = await port.create(); assert.equal(session.id, 'sesn_fixture'); assert.equal(port.evidence.observedMount, 'listed');
   assert.equal(port.evidence.verified, true); assert.deepEqual(calls, ['environment.retrieve', 'agent.retrieve', 'session.create', 'resources.list']);
+  assert.equal(port.verifiesReadOnlyTools, true);
   assert.deepEqual((creation as { resources: unknown }).resources, [{ type: 'file', file_id: 'file_fixture', mount_path: fixtureMount }]);
   assert.equal(JSON.stringify(creation).includes('settings.env'), false);
+  // File resources require the read tool; nothing else is enabled.
+  assert.deepEqual((creation as { agent: { tools: unknown } }).agent.tools, [lab16ReadToolset]);
   await port.open(session.id, new AbortController().signal); assert.equal(calls.at(-1), 'events.stream');
 });
 
@@ -89,4 +92,20 @@ test('router rejects unsupported fields and live setup before effects; offline r
     const stream = await (await post('env-run', input)).text(); assert.match(stream, /event: result/);
     assert.match(stream, /"source":"authored-fixture"/); assert.match(stream, /"cleanup":"simulated"/);
   } finally { await concept.close(); server.closeAllConnections(); await new Promise<void>(resolve => server.close(() => resolve())); }
+});
+
+test('a resolved session with extra enabled tools is not verified', async () => {
+  const fake = { beta: {
+    environments: { retrieve: async () => ({ archived_at: null,
+      config: { type: 'cloud', networking: { type: 'limited', allowed_hosts: [], allow_mcp_servers: false, allow_package_managers: false },
+        packages: { apt: [], cargo: [], gem: [], go: [], npm: [], pip: [] } } }) },
+    agents: { retrieve: async () => ({ id: 'agent_fixture', version: 9, multiagent: null }) },
+    sessions: { create: async () => ({ id: 'sesn_fixture', status: 'idle', environment_id: 'env_fixture',
+      agent: { id: 'agent_fixture', version: 9, mcp_servers: [], skills: [], tools: [{ type: 'agent_toolset_20260401',
+        configs: [{ name: 'read', enabled: true, permission_policy: { type: 'always_allow' } }, { name: 'bash', enabled: true, permission_policy: { type: 'always_allow' } }] }] },
+      budget: { max_list_cost: { amount: '50', currency: 'USD' } } }),
+      resources: { list: async () => ({ data: [{ type: 'file', mount_path: fixtureMount, file_id: 'file_scoped' }] }) } } } } as unknown as Anthropic;
+  const port = createLiveLab16Port(fake, fakeEnv); await port.create();
+  assert.equal(port.evidence.verified, false);
+  await assert.rejects(port.open('sesn_fixture', new AbortController().signal), /not confirmed/);
 });

@@ -1,13 +1,14 @@
 import { useEffect, useRef, useState } from 'react';
 import { lab20FileSchema, lab20FilesSchema, lab20ResultSchema, lab20Scenarios } from '../../shared/lab20-hooks-in-depth';
 import type { Lab20Result } from '../../shared/lab20-hooks-in-depth';
+import { lab07Prompts } from '../../shared/lab07-hooks';
 import { LiveActionButton } from '../components/LiveActionButton';
 import { streamPost } from '../lib/sse';
 
 export default function Concept20HooksInDepth() {
   const owner = useRef(crypto.randomUUID()), controller = useRef<AbortController | null>(null);
   const [scenario, setScenario] = useState<(typeof lab20Scenarios)[number]>('passing-policy');
-  const [prompt, setPrompt] = useState('Review the draft fixture and report whether the edit succeeded.');
+  const [prompt, setPrompt] = useState(lab07Prompts['audit-only']);
   const [result, setResult] = useState<Lab20Result>();
   const [status, setStatus] = useState('Ready. Offline fixtures start no Anthropic session.');
   const [busy, setBusy] = useState(false), [liveReady, setLiveReady] = useState(false);

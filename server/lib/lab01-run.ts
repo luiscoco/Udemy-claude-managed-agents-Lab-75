@@ -44,7 +44,7 @@ export async function runLab01(options: Lab01RunOptions): Promise<Lab01Result> {
     // create() is deliberately not abortable: the returned ID is needed to interrupt and clean up.
     session = await port.create(); sessionId = session.id;
     emit({ kind: 'session', session });
-    if (session.toolCount > 0 || session.mcpServerCount > 0)
+    if ((session.toolCount > 0 && !port.verifiesReadOnlyTools) || session.mcpServerCount > 0)
       throw new LabError('The configured agent has tools or MCP servers, skills or orchestration. This lesson needs a text-only agent; no prompt was sent.');
     local.signal.throwIfAborted();
     const events = await raceAbort(port.open(sessionId, upstream.signal), local.signal);
