@@ -34,7 +34,7 @@ export default function Concept33McpElicitation() {
         <button disabled={busy || snapshot.status !== 'pending'} onClick={() => who('abort')}>Abort waiting</button>
         <button disabled={busy} onClick={() => who('inspect')}>Inspect state</button></div></section>
       <p>Validated form: {snapshot.form ? `${snapshot.form.date}, quantity ${snapshot.form.quantity}` : 'none'}.</p>
-      <p>MCP tool result: {snapshot.result ?? 'pending'}.</p>
+      <p>MCP tool result: {(snapshot.result ?? 'pending').replace(/\.$/, '')}.</p>
       {snapshot.bridgeResult && <pre style={{ overflowX: 'auto' }}>{JSON.stringify(snapshot.bridgeResult, null, 2)}</pre>}
       <h3>Protocol evidence</h3><ul>{snapshot.evidence.map((item, index) => <li key={index}>{item}</li>)}</ul>
       <p>{snapshot.note} Provider calls: {snapshot.providerCalls}.</p></>}
