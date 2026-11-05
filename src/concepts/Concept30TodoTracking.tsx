@@ -34,7 +34,7 @@ export default function Concept30TodoTracking() {
         {board.tasks.map(item => <tr key={item.id}><td>{item.id}: {item.title}</td><td>{item.dependsOn.join(', ') || 'none'}</td>
           <td>{item.status}</td><td>{item.version}</td><td>{item.evidence ?? 'none'}</td></tr>)}</tbody></table></div>
       <h3>Correlated host results</h3><ol>{board.results.map(result => <li key={result.eventId}>
-        <code>{result.eventId}</code> {result.name}: {result.isError ? 'is_error' : 'ok'}; effect {result.effectApplied ? 'applied' : 'blocked'}.
+        <code>{result.eventId}</code> {result.name}: {result.isError ? 'is_error' : 'ok'}; effect {result.effectApplied ? 'applied' : result.isError ? 'blocked' : 'none'}.
         <details><summary>Inspect result text</summary><pre style={{ whiteSpace: 'pre-wrap', overflowWrap: 'anywhere' }}>{result.text}</pre></details></li>)}</ol>
       <p>Provider calls: {board.providerCalls}. {board.note}</p></>}
     <p role="status" aria-label="Lab 30 status">{status}</p>
