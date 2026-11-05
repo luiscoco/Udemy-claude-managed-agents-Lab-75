@@ -29,7 +29,7 @@ export default function Concept27BackgroundTasks() {
       <p>Task: {task.taskState}. Remote: {task.remoteStatus}. Browser: {task.browserConnection}. Child activity: {task.childActivity}.</p>
       <p>Provider creates: {task.createCount}. Duplicate cards: {task.duplicateCards}. Stop evidence: {task.stopEvidence}.</p>
       <p>Observed event IDs: {task.eventIds.join(', ') || 'none'}. Snapshot applied: {task.snapshotApplied ? 'yes' : 'no'}.</p>
-      <p>Report: {task.report ?? 'pending'}. Independently verified: {task.reportVerified ? 'yes' : 'no'}.</p>
+      <p>Report: {(task.report ?? 'pending').replace(/\.$/, '')}. Independently verified: {task.reportVerified ? 'yes' : 'no'}.</p>
       <p>{task.note}</p></>}
     <p role="status" aria-label="Lab 27 status">{status}</p>
     <p>Native workflow runs require separate run-aware stopping; an interrupt alone does not end them. Live mode is unavailable until a configured Managed adapter is reviewed.</p>

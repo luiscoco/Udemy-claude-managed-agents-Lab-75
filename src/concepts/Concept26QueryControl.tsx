@@ -44,7 +44,7 @@ export default function Concept26QueryControl() {
         <button disabled={busy} onClick={() => call({ operation: 'fresh-model-handoff', model, summary: 'Fictional field notebook: Aurora Finch observed offline.' })}>New session with summary</button>
         <button disabled={busy || session.status !== 'idle'} onClick={() => call({ operation: 'archive' })}>Archive idle session</button></div>
       <p>Tools: {session.tools.join(', ') || 'none'}. MCP: {session.mcpServers.join(', ') || 'none'}. Budget: {session.budgetCents} cents.</p>
-      <p>Parent: {session.parentSessionId ?? 'none'}. Summary handoff: {session.summaryHandoff ?? 'none'}.</p>
+      <p>Parent: {session.parentSessionId ?? 'none'}. Summary handoff: {(session.summaryHandoff ?? 'none').replace(/\.$/, '')}.</p>
       <h3>Authored history</h3><ol>{session.history.map((event, index) => <li key={index}>{event}</li>)}</ol></>}
     <p role="status" aria-label="Lab 26 status">{status}</p><p>Live mode is unavailable in this lab. Closing this browser request cannot prove a remote stop; use interrupt and confirmed idle for remote work. {catalog?.budgetNote}</p>
   </section>;
