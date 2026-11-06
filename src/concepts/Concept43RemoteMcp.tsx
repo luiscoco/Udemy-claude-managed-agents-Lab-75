@@ -24,7 +24,7 @@ export default function Concept43RemoteMcp() {
       {scenarios.map(value => <option key={value} value={value}>{value}</option>)}</select></label>
       <button disabled={busy} onClick={() => void post('host-read', { scenario })}>Read through host bridge</button></div>
     {snapshot && <><p>Transport: {snapshot.transport}. Consent: {String(snapshot.consent)}. Token: {snapshot.tokenPreview ?? 'none'} ({snapshot.tokenStatus}).</p>
-      <p>Method: {snapshot.method}; URI: {snapshot.uri ?? 'prompt name'}; status: {snapshot.status}; reason: {snapshot.reason}.</p>
+      <p>Method: {snapshot.method}; URI: {snapshot.uri ?? 'prompt name'}; status: {snapshot.status}; reason: {String(snapshot.reason ?? '').replace(/\.$/, '')}.</p>
       <p>Resource version: {snapshot.resourceVersion ?? 'none'}. Result bytes: {snapshot.resultBytes}.</p>
       {snapshot.result && <pre>{snapshot.result}</pre>}
       <p>Custom tool result: {snapshot.customToolResult ? `${snapshot.customToolResult.type}, ${snapshot.customToolResult.tool_use_id}, is_error ${snapshot.customToolResult.is_error}` : 'none'}.</p>
