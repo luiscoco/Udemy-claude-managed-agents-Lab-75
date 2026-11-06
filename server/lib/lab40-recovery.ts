@@ -49,7 +49,7 @@ export class Lab40Recovery {
       base.commandLedger = [cmd('1', 'processed', 'First user turn')];
       base.effectLedger = [effect('1', 'pending', 'Write call awaiting host confirmation')];
     }
-    base.evidence.push(`Scenario ${input.scenario}: ${base.commandLedger.length} commands, ${base.effectLedger.length} effects.`);
+    base.evidence.push(`Scenario ${input.scenario}: ${base.commandLedger.length} command${base.commandLedger.length === 1 ? '' : 's'}, ${base.effectLedger.length} effect${base.effectLedger.length === 1 ? '' : 's'}.`);
     this.entries.set(base.runId, base); return this.view(base);
   }
   state(owner: string, runId: string) { return this.view(this.get(owner, runId)); }
