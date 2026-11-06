@@ -35,7 +35,7 @@ export default function Concept44OtelObservability() {
       <p>Host collector: {snapshot.collector.spanCount}/{snapshot.collector.maxSpans} spans; rejected batches {snapshot.collector.rejectedBatches}. Effect count: {snapshot.effectCount}. Provider calls: {snapshot.providerCalls}.</p>
       <h3>Host OpenTelemetry spans</h3><ul>{snapshot.hostSpans.map(item => <li key={item.spanId}>
         <strong>{item.name}</strong> ({item.status}) trace <code>{item.traceId}</code>, span <code>{item.spanId}</code>, parent <code>{item.parentSpanId ?? 'none'}</code>.
-        Attributes: {Object.entries(item.attributes).map(([key, value]) => `${key}=${value}`).join('; ')}.</li>)}</ul>
+        Attributes: {Object.entries(item.attributes).map(([key, value]) => `${key}=${value}`).join('; ').replace(/\.$/, '')}.</li>)}</ul>
       <h3>Provider event evidence</h3>{snapshot.providerEvents.length ? <ul>{snapshot.providerEvents.map(item => <li key={item.id}>
         {item.type} <code>{item.id}</code>; start ID {item.modelRequestStartId ?? 'none'} ({item.source}).</li>)}</ul> : <p>No provider model-span signal observed.</p>}
       <p>Remote OTLP export observed: {String(snapshot.remoteOtlpExportObserved)}. Fictional content recorded: {String(snapshot.recordFictionalContent)}.</p>
