@@ -1,0 +1,13 @@
+.code-block{max-width:100%;margin:18px 0;overflow:hidden;border:1px solid #58749a;border-radius:10px;background:#09172c;color:#eaf2ff}
+.code-label{padding:8px 14px;background:#193452;border-bottom:1px solid #58749a;color:#d3eaff;font:700 13px/1.3 system-ui,sans-serif;text-transform:uppercase;letter-spacing:.05em}
+.code-block pre,.answer-body .code-block pre{margin:0;padding:17px 19px;background:#09172c;color:#eaf2ff;font:16px/1.6 Consolas,'Courier New',monospace;white-space:pre;overflow:auto;overflow-wrap:normal;max-height:540px;tab-size:4}
+.code-block code{font:inherit;white-space:pre}
+.code-block .hljs-keyword,.code-block .hljs-literal{color:#d2adff}
+.code-block .hljs-string,.code-block .hljs-regexp{color:#a9e3a0}
+.code-block .hljs-number,.code-block .hljs-symbol,.code-block .hljs-meta{color:#ffc18b}
+.code-block .hljs-title{color:#8ed8ff}
+.code-block .hljs-type,.code-block .hljs-built_in{color:#8ce4db}
+.code-block .hljs-comment{color:#b8c7de;font-style:italic}
+.code-block .hljs-attr,.code-block .hljs-property,.code-block .hljs-variable,.code-block .hljs-attribute{color:#ffc2df}
+.code-block .hljs-subst{color:#eaf2ff}
+@media(max-width:780px){.code-block pre,.answer-body .code-block pre{font-size:15px;padding:14px}}

@@ -1,0 +1,34 @@
+:root{background:#000}
+.milestone-topbar{position:relative;display:flex;align-items:center;gap:20px;min-height:82px;padding:14px max(24px,calc((100vw - 1160px)/2));background:#090b10;border-bottom:1px solid #334155;color:#f3f4f6}
+.milestone-brand{display:flex;align-items:center;gap:13px;min-width:0}
+.milestone-brand img{flex:none;width:42px;height:42px}
+.milestone-brand strong,.milestone-brand small{display:block}
+.milestone-brand strong{font-size:1.1rem;line-height:1.3}
+.milestone-brand small{color:#b9c9dd;font-size:.72rem}
+:root[data-theme=light]{background:#f5f6f8;color:#17233b}
+:root[data-theme=light] .milestone-topbar{background:#fff;border-color:#cbd5e1;color:#17233b}
+:root[data-theme=light] .milestone-brand small{color:#526179}
+:root[data-theme=light] .eyebrow{color:#a14419}
+:root[data-theme=light] .intro,:root[data-theme=light] .muted,:root[data-theme=light] footer{color:#526179}
+:root[data-theme=light] .card{background:#fff;border-color:#cbd5e1;box-shadow:0 12px 28px #20314a12}
+:root[data-theme=light] .concept-panel,:root[data-theme=light] .turn{background:#f7faff;border-color:#b6c8dc}
+:root[data-theme=light] select,:root[data-theme=light] textarea{background:#fff;color:#17233b;border-color:#9aabc0}
+:root[data-theme=light] .secondary-button,:root[data-theme=light] .topic-category,:root[data-theme=light] .guide-level{background:#eef4fc;color:#17233b;border-color:#b5c8df}
+:root[data-theme=light] .secondary-button:hover:not(:disabled){background:#dce9fa}
+:root[data-theme=light] .topic-category.active,:root[data-theme=light] .guide-level.active{background:#dceaff;border-color:#3775c2;color:#102846}
+:root[data-theme=light] .topic-category small,:root[data-theme=light] .topic-category span,:root[data-theme=light] .guide-level small{color:#455a75}
+:root[data-theme=light] .guide-progress,:root[data-theme=light] .concept-meta span{background:#e5f0ff;border-color:#a6bfdc;color:#28496e}
+:root[data-theme=light] .concept-meta,:root[data-theme=light] .code-intro,:root[data-theme=light] .guide-prompts p{color:#455a75}
+:root[data-theme=light] .mode-note{background:#eaf3ff;color:#173451}
+:root[data-theme=light] .concept-challenge,:root[data-theme=light] .check-result.correct{background:#e3f6ee;color:#174531}
+:root[data-theme=light] .check-result{background:#fff0dc;color:#5b3b17}
+:root[data-theme=light] .question-heading,:root[data-theme=light] .guide-prompts,:root[data-theme=light] .concept-check,:root[data-theme=light] .answer-meta{border-color:#c5d4e5}
+:root[data-theme=light] .answer-content h1,:root[data-theme=light] .answer-content h2,:root[data-theme=light] .answer-content h3,:root[data-theme=light] .answer-content h4{color:#17233b}
+:root[data-theme=light] .answer-content a,:root[data-theme=light] .course-link,:root[data-theme=light] summary{color:#1554a5}
+:root[data-theme=light] .answer-content li::marker{color:#1554a5}
+:root[data-theme=light] .answer-content :not(pre)>code{background:#e3ecf8;color:#173451;border-color:#bed0e6}
+:root[data-theme=light] .answer-content blockquote{background:#eaf3ff;color:#173451}
+:root[data-theme=light] .answer-content th{background:#e3edf9}
+:root[data-theme=light] .answer-content th,:root[data-theme=light] .answer-content td{border-color:#9fb5cc}
+:root[data-theme=light] [role=alert]{color:#a52626}
+@media(max-width:760px){.milestone-topbar{padding:14px;flex-wrap:wrap}.milestone-brand{width:100%}}

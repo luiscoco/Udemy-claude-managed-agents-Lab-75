@@ -1,0 +1,3049 @@
+{
+  "cases": [
+    {
+      "id": "first-query",
+      "lesson": 1,
+      "section": "foundations",
+      "title": "Session event streaming",
+      "question": "Explain Session event streaming using Claude Managed Agents.",
+      "context": "Consume a Managed Agents event stream and tell agent response text apart from session lifecycle events and turn completion.",
+      "explanation": "Consume a Managed Agents event stream and tell agent response text apart from session lifecycle events and turn completion.",
+      "check": "Run the Normal turn fixture offline and watch the four panels fill separately: session, agent text, raw events, outcome.",
+      "resource": "docs",
+      "number": 1,
+      "category": "Beginner",
+      "criteria": [
+        "Answer the specific question without claiming unobserved execution",
+        "Run the Normal turn fixture offline and watch the four panels fill separately: session, agent text, raw events, outcome."
+      ]
+    },
+    {
+      "id": "lab-1-failure",
+      "lesson": 1,
+      "section": "foundations",
+      "title": "Verify: Session event streaming",
+      "question": "Ask for three bullet points. Identify the authoritative agent.message containing them and the lifecycle event confirming that the turn finished.",
+      "context": "Consume a Managed Agents event stream and tell agent response text apart from session lifecycle events and turn completion.",
+      "explanation": "Compare the authored baseline and failure evidence: Run the Normal turn fixture offline and watch the four panels fill separately: session, agent text, raw events, outcome. Find where the preview text is replaced by the authoritative agent.message instead of being appended to it. Run Repeated events, Stream ended and Session error and compare the outcomes. Run Requires action and Budget reached to see paused turns that are not successes. Start Cancel, press Cancel query, and read the guide section on what a local abort does and does not stop.",
+      "check": "Ask for three bullet points. Identify the authoritative agent.message containing them and the lifecycle event confirming that the turn finished.",
+      "resource": "none",
+      "number": 2,
+      "category": "Beginner",
+      "criteria": [
+        "Answer the specific question without claiming unobserved execution",
+        "Ask for three bullet points. Identify the authoritative agent.message containing them and the lifecycle event confirming that the turn finished."
+      ]
+    },
+    {
+      "id": "lab-1-boundary",
+      "lesson": 1,
+      "section": "foundations",
+      "title": "Boundary: Session event streaming",
+      "question": "Which parts of Lab 1 run in the host, and which use Managed Agents?",
+      "context": "Consume a Managed Agents event stream and tell agent response text apart from session lifecycle events and turn completion.",
+      "explanation": "Inspect server/lib/session-events.ts, server/lib/lab01-run.ts, server/lib/lab01-port.ts, server/lib/lab01-fixtures.ts, shared/lab01-events.ts. Distinguish host validation and prepared evidence from actual Managed session events.",
+      "check": "Name one host-enforced rule and one observed Managed event; do not invent an equivalent SDK callback.",
+      "resource": "none",
+      "number": 3,
+      "category": "Beginner",
+      "criteria": [
+        "Answer the specific question without claiming unobserved execution",
+        "Name one host-enforced rule and one observed Managed event; do not invent an equivalent SDK callback."
+      ]
+    },
+    {
+      "id": "lab-2-baseline",
+      "lesson": 2,
+      "section": "foundations",
+      "title": "Session options",
+      "question": "Explain Session options using Claude Managed Agents.",
+      "context": "Control a dedicated Managed Agents session with model and system overrides, a list-cost budget, connection previews and a local deadline.",
+      "explanation": "Control a dedicated Managed Agents session with model and system overrides, a list-cost budget, connection previews and a local deadline.",
+      "check": "Run normal completion offline, then disable previews while keeping prompt and model fixed.",
+      "resource": "docs",
+      "number": 4,
+      "category": "Beginner",
+      "criteria": [
+        "Answer the specific question without claiming unobserved execution",
+        "Run normal completion offline, then disable previews while keeping prompt and model fixed."
+      ]
+    },
+    {
+      "id": "lab-2-failure",
+      "lesson": 2,
+      "section": "foundations",
+      "title": "Verify: Session options",
+      "question": "Reduce the session budget or local deadline. Explain the outcome, which limit produced it, and whether remote execution was confirmed stopped.",
+      "context": "Control a dedicated Managed Agents session with model and system overrides, a list-cost budget, connection previews and a local deadline.",
+      "explanation": "Compare the authored baseline and failure evidence: Run normal completion offline, then disable previews while keeping prompt and model fixed. Compare requested options with the effective session creation snapshot. Run Budget reached and Deadline expires; distinguish paused work from local timeout. Inspect interruption, cleanup and reported usage; offline fixtures are not measurements of Claude.",
+      "check": "Reduce the session budget or local deadline. Explain the outcome, which limit produced it, and whether remote execution was confirmed stopped.",
+      "resource": "none",
+      "number": 5,
+      "category": "Beginner",
+      "criteria": [
+        "Answer the specific question without claiming unobserved execution",
+        "Reduce the session budget or local deadline. Explain the outcome, which limit produced it, and whether remote execution was confirmed stopped."
+      ]
+    },
+    {
+      "id": "lab-2-boundary",
+      "lesson": 2,
+      "section": "foundations",
+      "title": "Boundary: Session options",
+      "question": "Which parts of Lab 2 run in the host, and which use Managed Agents?",
+      "context": "Control a dedicated Managed Agents session with model and system overrides, a list-cost budget, connection previews and a local deadline.",
+      "explanation": "Inspect shared/lab02-options.ts, server/lib/lab02-port.ts, server/lib/lab02-run.ts, server/lib/lab02-fixtures.ts, server/lib/lab01-run.ts, server/lib/session-events.ts. Distinguish host validation and prepared evidence from actual Managed session events.",
+      "check": "Name one host-enforced rule and one observed Managed event; do not invent an equivalent SDK callback.",
+      "resource": "none",
+      "number": 6,
+      "category": "Beginner",
+      "criteria": [
+        "Answer the specific question without claiming unobserved execution",
+        "Name one host-enforced rule and one observed Managed event; do not invent an equivalent SDK callback."
+      ]
+    },
+    {
+      "id": "lab-3-baseline",
+      "lesson": 3,
+      "section": "foundations",
+      "title": "Built-in tools",
+      "question": "Explain Built-in tools using Claude Managed Agents.",
+      "context": "Distinguish a tool being enabled in the session toolset from a call being permitted by its permission_policy and the host, and verify the effects in files rather than in agent claims.",
+      "explanation": "Distinguish a tool being enabled in the session toolset from a call being permitted by its permission_policy and the host, and verify the effects in files rather than in agent claims.",
+      "check": "Run Read-only offline and confirm that every file on disk is unchanged.",
+      "resource": "docs",
+      "number": 7,
+      "category": "Beginner",
+      "criteria": [
+        "Answer the specific question without claiming unobserved execution",
+        "Run Read-only offline and confirm that every file on disk is unchanged."
+      ]
+    },
+    {
+      "id": "lab-3-failure",
+      "lesson": 3,
+      "section": "foundations",
+      "title": "Verify: Built-in tools",
+      "question": "Take the Permitted edit preset and remove edit from the enabled tools. Before you run it, predict whether the edit attempt is unavailable (deny with no evaluation) or denied, and what outputs/draft.md contains on disk afterwards.",
+      "context": "Distinguish a tool being enabled in the session toolset from a call being permitted by its permission_policy and the host, and verify the effects in files rather than in agent claims.",
+      "explanation": "Compare the authored baseline and failure evidence: Run Read-only offline and confirm that every file on disk is unchanged. Run Unavailable Write and Denied Write; compare the evaluated_permission, the evaluation object and the permission denials list. Run Permitted edit: the host allows the allowlisted cp and the in-fixture edit, and denies the traversal attempts. Inspect outputs/draft.md on disk, then reset the sandbox and run Auto to see server-evaluated outcomes.",
+      "check": "Take the Permitted edit preset and remove edit from the enabled tools. Before you run it, predict whether the edit attempt is unavailable (deny with no evaluation) or denied, and what outputs/draft.md contains on disk afterwards.",
+      "resource": "none",
+      "number": 8,
+      "category": "Beginner",
+      "criteria": [
+        "Answer the specific question without claiming unobserved execution",
+        "Take the Permitted edit preset and remove edit from the enabled tools. Before you run it, predict whether the edit attempt is unavailable (deny with no evaluation) or denied, and what outputs/draft.md contains on disk afterwards."
+      ]
+    },
+    {
+      "id": "lab-3-boundary",
+      "lesson": 3,
+      "section": "foundations",
+      "title": "Boundary: Built-in tools",
+      "question": "Which parts of Lab 3 run in the host, and which use Managed Agents?",
+      "context": "Distinguish a tool being enabled in the session toolset from a call being permitted by its permission_policy and the host, and verify the effects in files rather than in agent claims.",
+      "explanation": "Inspect shared/lab03-tools.ts, server/lib/lab03-sandbox.ts, server/lib/lab03-run.ts, server/lib/lab03-port.ts, server/lib/lab03-fixtures.ts. Distinguish host validation and prepared evidence from actual Managed session events.",
+      "check": "Name one host-enforced rule and one observed Managed event; do not invent an equivalent SDK callback.",
+      "resource": "none",
+      "number": 9,
+      "category": "Beginner",
+      "criteria": [
+        "Answer the specific question without claiming unobserved execution",
+        "Name one host-enforced rule and one observed Managed event; do not invent an equivalent SDK callback."
+      ]
+    },
+    {
+      "id": "lab-4-baseline",
+      "lesson": 4,
+      "section": "tools",
+      "title": "Permissions",
+      "question": "Explain Permissions using Claude Managed Agents.",
+      "context": "Approve or deny paused tool calls through a host review dialog: the Managed Agents equivalent of canUseTool is a requires_action pause answered once with user.tool_confirmation.",
+      "explanation": "Approve or deny paused tool calls through a host review dialog: the Managed Agents equivalent of canUseTool is a requires_action pause answered once with user.tool_confirmation.",
+      "check": "Run the Review scenario offline. Approve the write and the first edit, deny the second edit, and deny the summary write.",
+      "resource": "docs",
+      "number": 10,
+      "category": "Beginner",
+      "criteria": [
+        "Answer the specific question without claiming unobserved execution",
+        "Run the Review scenario offline. Approve the write and the first edit, deny the second edit, and deny the summary write."
+      ]
+    },
+    {
+      "id": "lab-4-failure",
+      "lesson": 4,
+      "section": "tools",
+      "title": "Verify: Permissions",
+      "question": "Deny one write with your own deny_message and explain how the agent responds: the message comes back as an error agent.tool_result and the session keeps running. Why is the offline reaction authored, while a live agent may try another approach?",
+      "context": "Approve or deny paused tool calls through a host review dialog: the Managed Agents equivalent of canUseTool is a requires_action pause answered once with user.tool_confirmation.",
+      "explanation": "Compare the authored baseline and failure evidence: Run the Review scenario offline. Approve the write and the first edit, deny the second edit, and deny the summary write. Confirm on disk that only the first edit landed, and read how the authored agent acknowledges each deny_message. Run again with a 5-second approval window and let one review expire; then cancel a run while a review is pending. Use the decision tester to replay a decision and send one with a wrong token; compare the 409 and 404 answers. Run Preallowed only and notice that no review appears: always_allow calls never reach the reviewer.",
+      "check": "Deny one write with your own deny_message and explain how the agent responds: the message comes back as an error agent.tool_result and the session keeps running. Why is the offline reaction authored, while a live agent may try another approach?",
+      "resource": "none",
+      "number": 11,
+      "category": "Beginner",
+      "criteria": [
+        "Answer the specific question without claiming unobserved execution",
+        "Deny one write with your own deny_message and explain how the agent responds: the message comes back as an error agent.tool_result and the session keeps running. Why is the offline reaction authored, while a live agent may try another approach?"
+      ]
+    },
+    {
+      "id": "lab-4-boundary",
+      "lesson": 4,
+      "section": "tools",
+      "title": "Boundary: Permissions",
+      "question": "Which parts of Lab 4 run in the host, and which use Managed Agents?",
+      "context": "Approve or deny paused tool calls through a host review dialog: the Managed Agents equivalent of canUseTool is a requires_action pause answered once with user.tool_confirmation.",
+      "explanation": "Inspect shared/lab04-permissions.ts, server/lib/lab04-approvals.ts, server/lib/lab04-run.ts, server/concepts/04-permissions.ts, server/lib/tool-session-run.ts, server/lib/lab03-sandbox.ts. Distinguish host validation and prepared evidence from actual Managed session events.",
+      "check": "Name one host-enforced rule and one observed Managed event; do not invent an equivalent SDK callback.",
+      "resource": "none",
+      "number": 12,
+      "category": "Beginner",
+      "criteria": [
+        "Answer the specific question without claiming unobserved execution",
+        "Name one host-enforced rule and one observed Managed event; do not invent an equivalent SDK callback."
+      ]
+    },
+    {
+      "id": "lab-5-baseline",
+      "lesson": 5,
+      "section": "tools",
+      "title": "Custom tools",
+      "question": "Explain Custom tools using Claude Managed Agents.",
+      "context": "Expose typed application functions as Managed Agents custom tools: the agent declares them, the session pauses on agent.custom_tool_use, and the host validates the input, runs the handler and answers once with user.custom_tool_result.",
+      "explanation": "Expose typed application functions as Managed Agents custom tools: the agent declares them, the session pauses on agent.custom_tool_use, and the host validates the input, runs the handler and answers once with user.custom_tool_result.",
+      "check": "Read the three tool definitions and confirm each input_schema is generated from its Zod shape.",
+      "resource": "docs",
+      "number": 13,
+      "category": "Beginner",
+      "criteria": [
+        "Answer the specific question without claiming unobserved execution",
+        "Read the three tool definitions and confirm each input_schema is generated from its Zod shape."
+      ]
+    },
+    {
+      "id": "lab-5-failure",
+      "lesson": 5,
+      "section": "tools",
+      "title": "Verify: Custom tools",
+      "question": "Send add_task with a missing or wrong-typed title. Confirm that the result is is_error, that the handler call count is unchanged and that the task list is identical before and after.",
+      "context": "Expose typed application functions as Managed Agents custom tools: the agent declares them, the session pauses on agent.custom_tool_use, and the host validates the input, runs the handler and answers once with user.custom_tool_result.",
+      "explanation": "Compare the authored baseline and failure evidence: Read the three tool definitions and confirm each input_schema is generated from its Zod shape. Run the Tour offline: list, add and complete a task, then watch the malformed add_task and the unknown ID come back as is_error results. Compare the before and after task state for each call, and the handler call counts against the number of calls. Run Slow handler and see a handler pass its deadline: the session gets an is_error result and no task is saved. Run Hang, cancel it, and read how user.interrupt and cleanup are reported. Then load the run's task state through GET /api/c5/tasks.",
+      "check": "Send add_task with a missing or wrong-typed title. Confirm that the result is is_error, that the handler call count is unchanged and that the task list is identical before and after.",
+      "resource": "none",
+      "number": 14,
+      "category": "Beginner",
+      "criteria": [
+        "Answer the specific question without claiming unobserved execution",
+        "Send add_task with a missing or wrong-typed title. Confirm that the result is is_error, that the handler call count is unchanged and that the task list is identical before and after."
+      ]
+    },
+    {
+      "id": "lab-5-boundary",
+      "lesson": 5,
+      "section": "tools",
+      "title": "Boundary: Custom tools",
+      "question": "Which parts of Lab 5 run in the host, and which use Managed Agents?",
+      "context": "Expose typed application functions as Managed Agents custom tools: the agent declares them, the session pauses on agent.custom_tool_use, and the host validates the input, runs the handler and answers once with user.custom_tool_result.",
+      "explanation": "Inspect shared/lab05-custom-tools.ts, server/lib/lab05-tasks.ts, server/lib/lab05-run.ts, server/lib/lab05-port.ts, server/lib/lab05-fixtures.ts, server/lib/tool-session-run.ts. Distinguish host validation and prepared evidence from actual Managed session events.",
+      "check": "Name one host-enforced rule and one observed Managed event; do not invent an equivalent SDK callback.",
+      "resource": "none",
+      "number": 15,
+      "category": "Beginner",
+      "criteria": [
+        "Answer the specific question without claiming unobserved execution",
+        "Name one host-enforced rule and one observed Managed event; do not invent an equivalent SDK callback."
+      ]
+    },
+    {
+      "id": "lab-6-baseline",
+      "lesson": 6,
+      "section": "sessions-agents",
+      "title": "Sessions and retained context",
+      "question": "Explain Sessions and retained context using Claude Managed Agents.",
+      "context": "Continue a conversation in the same server-owned Managed session, compare it with fresh context, and reconnect without duplicating persisted events.",
+      "explanation": "Continue a conversation in the same server-owned Managed session, compare it with fresh context, and reconnect without duplicating persisted events.",
+      "check": "Start a new offline session with the fictional project introduction.",
+      "resource": "docs",
+      "number": 16,
+      "category": "Beginner",
+      "criteria": [
+        "Answer the specific question without claiming unobserved execution",
+        "Start a new offline session with the fictional project introduction."
+      ]
+    },
+    {
+      "id": "lab-6-failure",
+      "lesson": 6,
+      "section": "sessions-agents",
+      "title": "Verify: Sessions and retained context",
+      "question": "Ask a follow-up that depends on the first answer. Explain which ID proves session reuse and why fixture recall is evidence only of fixture behavior.",
+      "context": "Continue a conversation in the same server-owned Managed session, compare it with fresh context, and reconnect without duplicating persisted events.",
+      "explanation": "Compare the authored baseline and failure evidence: Start a new offline session with the fictional project introduction. Select the follow-up and Continue; confirm the session ID stays the same and the name is recalled. Start a fresh session with only the follow-up and compare the answer. Reconnect and inspect stream-before-history ordering plus duplicate counts. Inspect the server conversation index, then close the idle session and confirm later access is rejected.",
+      "check": "Ask a follow-up that depends on the first answer. Explain which ID proves session reuse and why fixture recall is evidence only of fixture behavior.",
+      "resource": "none",
+      "number": 17,
+      "category": "Beginner",
+      "criteria": [
+        "Answer the specific question without claiming unobserved execution",
+        "Ask a follow-up that depends on the first answer. Explain which ID proves session reuse and why fixture recall is evidence only of fixture behavior."
+      ]
+    },
+    {
+      "id": "lab-6-boundary",
+      "lesson": 6,
+      "section": "sessions-agents",
+      "title": "Boundary: Sessions and retained context",
+      "question": "Which parts of Lab 6 run in the host, and which use Managed Agents?",
+      "context": "Continue a conversation in the same server-owned Managed session, compare it with fresh context, and reconnect without duplicating persisted events.",
+      "explanation": "Inspect shared/lab06-sessions.ts, server/lib/lab06-store.ts, server/lib/lab06-port.ts, server/concepts/06-sessions.ts. Distinguish host validation and prepared evidence from actual Managed session events.",
+      "check": "Name one host-enforced rule and one observed Managed event; do not invent an equivalent SDK callback.",
+      "resource": "none",
+      "number": 18,
+      "category": "Beginner",
+      "criteria": [
+        "Answer the specific question without claiming unobserved execution",
+        "Name one host-enforced rule and one observed Managed event; do not invent an equivalent SDK callback."
+      ]
+    },
+    {
+      "id": "lab-7-baseline",
+      "lesson": 7,
+      "section": "sessions-agents",
+      "title": "Tool policy and execution audit",
+      "question": "Explain Tool policy and execution audit using Claude Managed Agents.",
+      "context": "Replace Agent SDK tool hooks with a host policy pipeline that validates before execution and records the actual effect afterward.",
+      "explanation": "Replace Agent SDK tool hooks with a host policy pipeline that validates before execution and records the actual effect afterward.",
+      "check": "Run Audit only and confirm the safe draft edit executes.",
+      "resource": "docs",
+      "number": 19,
+      "category": "Beginner",
+      "criteria": [
+        "Answer the specific question without claiming unobserved execution",
+        "Run Audit only and confirm the safe draft edit executes."
+      ]
+    },
+    {
+      "id": "lab-7-failure",
+      "lesson": 7,
+      "section": "sessions-agents",
+      "title": "Verify: Tool policy and execution audit",
+      "question": "Block a protected-file call and identify the host decision that prevented the effect before any handler ran.",
+      "context": "Replace Agent SDK tool hooks with a host policy pipeline that validates before execution and records the actual effect afterward.",
+      "explanation": "Compare the authored baseline and failure evidence: Run Audit only and confirm the safe draft edit executes. Run Deny write and verify the protected file is unchanged and the handler did not run. Run Rewrite input and compare original proposed.md with effective draft.md after revalidation. Run the handler-exception and repeated-call fixtures. Load file evidence from GET /api/c7/file and distinguish executed, denied and failed audit outcomes.",
+      "check": "Block a protected-file call and identify the host decision that prevented the effect before any handler ran.",
+      "resource": "none",
+      "number": 20,
+      "category": "Beginner",
+      "criteria": [
+        "Answer the specific question without claiming unobserved execution",
+        "Block a protected-file call and identify the host decision that prevented the effect before any handler ran."
+      ]
+    },
+    {
+      "id": "lab-7-boundary",
+      "lesson": 7,
+      "section": "sessions-agents",
+      "title": "Boundary: Tool policy and execution audit",
+      "question": "Which parts of Lab 7 run in the host, and which use Managed Agents?",
+      "context": "Replace Agent SDK tool hooks with a host policy pipeline that validates before execution and records the actual effect afterward.",
+      "explanation": "Inspect shared/lab07-hooks.ts, server/lib/lab07-policy.ts, server/lib/lab07-run.ts, server/lib/lab07-port.ts, server/concepts/07-hooks.ts. Distinguish host validation and prepared evidence from actual Managed session events.",
+      "check": "Name one host-enforced rule and one observed Managed event; do not invent an equivalent SDK callback.",
+      "resource": "none",
+      "number": 21,
+      "category": "Beginner",
+      "criteria": [
+        "Answer the specific question without claiming unobserved execution",
+        "Name one host-enforced rule and one observed Managed event; do not invent an equivalent SDK callback."
+      ]
+    },
+    {
+      "id": "lab-8-baseline",
+      "lesson": 8,
+      "section": "sessions-agents",
+      "title": "Delegation and session threads",
+      "question": "Explain Delegation and session threads using Claude Managed Agents.",
+      "context": "Delegate bounded work to predefined Managed Agents, inspect separate session-thread histories, and verify role capabilities and effects in the host.",
+      "explanation": "Delegate bounded work to predefined Managed Agents, inspect separate session-thread histories, and verify role capabilities and effects in the host.",
+      "check": "Run the normal fixture and identify the researcher, reviewer and calculator thread IDs.",
+      "resource": "docs",
+      "number": 22,
+      "category": "Beginner",
+      "criteria": [
+        "Answer the specific question without claiming unobserved execution",
+        "Run the normal fixture and identify the researcher, reviewer and calculator thread IDs."
+      ]
+    },
+    {
+      "id": "lab-8-failure",
+      "lesson": 8,
+      "section": "sessions-agents",
+      "title": "Verify: Delegation and session threads",
+      "question": "Restrict one worker capability and compare its report with the host effect ledger.",
+      "context": "Delegate bounded work to predefined Managed Agents, inspect separate session-thread histories, and verify role capabilities and effects in the host.",
+      "explanation": "Compare the authored baseline and failure evidence: Run the normal fixture and identify the researcher, reviewer and calculator thread IDs. Separate delegation, report receipt and independent verification states. Confirm the reviewer write is denied and the calculator sum is recomputed by the host. Run cross-posted, duplicate and wrong-role scenarios. Cancel the hanging child activity and inspect the interrupt outcome.",
+      "check": "Restrict one worker capability and compare its report with the host effect ledger.",
+      "resource": "none",
+      "number": 23,
+      "category": "Beginner",
+      "criteria": [
+        "Answer the specific question without claiming unobserved execution",
+        "Restrict one worker capability and compare its report with the host effect ledger."
+      ]
+    },
+    {
+      "id": "lab-8-boundary",
+      "lesson": 8,
+      "section": "sessions-agents",
+      "title": "Boundary: Delegation and session threads",
+      "question": "Which parts of Lab 8 run in the host, and which use Managed Agents?",
+      "context": "Delegate bounded work to predefined Managed Agents, inspect separate session-thread histories, and verify role capabilities and effects in the host.",
+      "explanation": "Inspect shared/lab08-subagents.ts, server/lib/lab08-port.ts, server/lib/lab08-run.ts, server/concepts/08-subagents.ts. Distinguish host validation and prepared evidence from actual Managed session events.",
+      "check": "Name one host-enforced rule and one observed Managed event; do not invent an equivalent SDK callback.",
+      "resource": "none",
+      "number": 24,
+      "category": "Beginner",
+      "criteria": [
+        "Answer the specific question without claiming unobserved execution",
+        "Name one host-enforced rule and one observed Managed event; do not invent an equivalent SDK callback."
+      ]
+    },
+    {
+      "id": "lab-9-baseline",
+      "lesson": 9,
+      "section": "prompts-output",
+      "title": "System instructions and explicit context",
+      "question": "Explain System instructions and explicit context using Claude Managed Agents.",
+      "context": "Compare inherited and explicitly composed system instructions in fresh sessions while keeping the question and base model fixed.",
+      "explanation": "Compare inherited and explicitly composed system instructions in fresh sessions while keeping the question and base model fixed.",
+      "check": "Compare all four offline variants with the same question.",
+      "resource": "docs",
+      "number": 25,
+      "category": "Beginner",
+      "criteria": [
+        "Answer the specific question without claiming unobserved execution",
+        "Compare all four offline variants with the same question."
+      ]
+    },
+    {
+      "id": "lab-9-failure",
+      "lesson": 9,
+      "section": "prompts-output",
+      "title": "Verify: System instructions and explicit context",
+      "question": "Keep the question fixed and change only the system instructions. Explain what is inherited and what is replaced.",
+      "context": "Compare inherited and explicitly composed system instructions in fresh sessions while keeping the question and base model fixed.",
+      "explanation": "Compare the authored baseline and failure evidence: Compare all four offline variants with the same question. Find the omitted system override in Base and the replacement in Custom. Inspect base plus append and the authored project context selection. Compare requested composition with the resolved session snapshot. Use one live variant explicitly and inspect actual usage and cleanup evidence.",
+      "check": "Keep the question fixed and change only the system instructions. Explain what is inherited and what is replaced.",
+      "resource": "none",
+      "number": 26,
+      "category": "Beginner",
+      "criteria": [
+        "Answer the specific question without claiming unobserved execution",
+        "Keep the question fixed and change only the system instructions. Explain what is inherited and what is replaced."
+      ]
+    },
+    {
+      "id": "lab-9-boundary",
+      "lesson": 9,
+      "section": "prompts-output",
+      "title": "Boundary: System instructions and explicit context",
+      "question": "Which parts of Lab 9 run in the host, and which use Managed Agents?",
+      "context": "Compare inherited and explicitly composed system instructions in fresh sessions while keeping the question and base model fixed.",
+      "explanation": "Inspect shared/lab09-system-prompts.ts, server/lib/lab09-composer.ts, server/lib/lab09-port.ts, server/lib/lab09-run.ts. Distinguish host validation and prepared evidence from actual Managed session events.",
+      "check": "Name one host-enforced rule and one observed Managed event; do not invent an equivalent SDK callback.",
+      "resource": "none",
+      "number": 27,
+      "category": "Beginner",
+      "criteria": [
+        "Answer the specific question without claiming unobserved execution",
+        "Name one host-enforced rule and one observed Managed event; do not invent an equivalent SDK callback."
+      ]
+    },
+    {
+      "id": "lab-10-baseline",
+      "lesson": 10,
+      "section": "prompts-output",
+      "title": "Validated reports and interruption",
+      "question": "Explain Validated reports and interruption using Claude Managed Agents.",
+      "context": "Validate final JSON reports with a closed application schema and distinguish interrupt, local abort and idle-session close.",
+      "explanation": "Validate final JSON reports with a closed application schema and distinguish interrupt, local abort and idle-session close.",
+      "check": "Run valid and invalid report fixtures and inspect host verification.",
+      "resource": "docs",
+      "number": 28,
+      "category": "Beginner",
+      "criteria": [
+        "Answer the specific question without claiming unobserved execution",
+        "Run valid and invalid report fixtures and inspect host verification."
+      ]
+    },
+    {
+      "id": "lab-10-failure",
+      "lesson": 10,
+      "section": "prompts-output",
+      "title": "Verify: Validated reports and interruption",
+      "question": "Identify the stop action that keeps the same session available for another turn and the evidence required before reuse.",
+      "context": "Validate final JSON reports with a closed application schema and distinguish interrupt, local abort and idle-session close.",
+      "explanation": "Compare the authored baseline and failure evidence: Run valid and invalid report fixtures and inspect host verification. Run Corrected and Exhausted to see the single corrective-round limit. Run Hang, interrupt it and confirm idle before sending another turn. Disconnect locally or abort and inspect remote cleanup separately. Close an idle session and verify future sends are rejected.",
+      "check": "Identify the stop action that keeps the same session available for another turn and the evidence required before reuse.",
+      "resource": "none",
+      "number": 29,
+      "category": "Beginner",
+      "criteria": [
+        "Answer the specific question without claiming unobserved execution",
+        "Identify the stop action that keeps the same session available for another turn and the evidence required before reuse."
+      ]
+    },
+    {
+      "id": "lab-10-boundary",
+      "lesson": 10,
+      "section": "prompts-output",
+      "title": "Boundary: Validated reports and interruption",
+      "question": "Which parts of Lab 10 run in the host, and which use Managed Agents?",
+      "context": "Validate final JSON reports with a closed application schema and distinguish interrupt, local abort and idle-session close.",
+      "explanation": "Inspect shared/lab10-structured-interrupt.ts, server/lib/lab10-port.ts, server/lib/lab10-run.ts, server/concepts/10-structured-interrupt.ts. Distinguish host validation and prepared evidence from actual Managed session events.",
+      "check": "Name one host-enforced rule and one observed Managed event; do not invent an equivalent SDK callback.",
+      "resource": "none",
+      "number": 30,
+      "category": "Beginner",
+      "criteria": [
+        "Answer the specific question without claiming unobserved execution",
+        "Name one host-enforced rule and one observed Managed event; do not invent an equivalent SDK callback."
+      ]
+    },
+    {
+      "id": "lab-11-baseline",
+      "lesson": 11,
+      "section": "skills-mcp",
+      "title": "Managed skills and progressive loading",
+      "question": "Explain Managed skills and progressive loading using Claude Managed Agents.",
+      "context": "Inspect pinned skill metadata separately from observed instruction and reference file reads in fresh sessions.",
+      "explanation": "Inspect pinned skill metadata separately from observed instruction and reference file reads in fresh sessions.",
+      "check": "Compare all five offline variants and identify distinct session IDs.",
+      "resource": "docs",
+      "number": 31,
+      "category": "Beginner",
+      "criteria": [
+        "Answer the specific question without claiming unobserved execution",
+        "Compare all five offline variants and identify distinct session IDs."
+      ]
+    },
+    {
+      "id": "lab-11-failure",
+      "lesson": 11,
+      "section": "skills-mcp",
+      "title": "Verify: Managed skills and progressive loading",
+      "question": "Compare attached metadata with event evidence that SKILL.md was read. Explain why no observed read does not prove the skill was unavailable.",
+      "context": "Inspect pinned skill metadata separately from observed instruction and reference file reads in fresh sessions.",
+      "explanation": "Compare the authored baseline and failure evidence: Compare all five offline variants and identify distinct session IDs. Preview the authored instructions and reference; confirm a host preview is not an agent read. Run Metadata only and Failed read to distinguish attachment, attempted loading and successful loading. Compare revision v1 with v2 and inspect their different pinned versions. Check the bundle locally, upload only through the explicit CLI, and opt into a live fresh session separately.",
+      "check": "Compare attached metadata with event evidence that SKILL.md was read. Explain why no observed read does not prove the skill was unavailable.",
+      "resource": "none",
+      "number": 32,
+      "category": "Beginner",
+      "criteria": [
+        "Answer the specific question without claiming unobserved execution",
+        "Compare attached metadata with event evidence that SKILL.md was read. Explain why no observed read does not prove the skill was unavailable."
+      ]
+    },
+    {
+      "id": "lab-11-boundary",
+      "lesson": 11,
+      "section": "skills-mcp",
+      "title": "Boundary: Managed skills and progressive loading",
+      "question": "Which parts of Lab 11 run in the host, and which use Managed Agents?",
+      "context": "Inspect pinned skill metadata separately from observed instruction and reference file reads in fresh sessions.",
+      "explanation": "Inspect shared/lab11-skills.ts, server/lib/lab11-bundle.ts, server/lib/lab11-port.ts, server/lib/lab11-run.ts. Distinguish host validation and prepared evidence from actual Managed session events.",
+      "check": "Name one host-enforced rule and one observed Managed event; do not invent an equivalent SDK callback.",
+      "resource": "none",
+      "number": 33,
+      "category": "Beginner",
+      "criteria": [
+        "Answer the specific question without claiming unobserved execution",
+        "Name one host-enforced rule and one observed Managed event; do not invent an equivalent SDK callback."
+      ]
+    },
+    {
+      "id": "lab-12-baseline",
+      "lesson": 12,
+      "section": "skills-mcp",
+      "title": "Multiple messages in one session",
+      "question": "Explain Multiple messages in one session using Claude Managed Agents.",
+      "context": "Queue multiple messages in one retained session, separating local admission, provider acceptance and correlated turn outcomes.",
+      "explanation": "Queue multiple messages in one retained session, separating local admission, provider acceptance and correlated turn outcomes.",
+      "check": "Create an offline session and queue one Normal message. Inspect its local command and returned user event IDs.",
+      "resource": "docs",
+      "number": 34,
+      "category": "Beginner",
+      "criteria": [
+        "Answer the specific question without claiming unobserved execution",
+        "Create an offline session and queue one Normal message. Inspect its local command and returned user event IDs."
+      ]
+    },
+    {
+      "id": "lab-12-failure",
+      "lesson": 12,
+      "section": "skills-mcp",
+      "title": "Verify: Multiple messages in one session",
+      "question": "Queue a follow-up while busy. Identify admission, processing, provider acceptance and completion evidence, then prove that closing the queue prevented waiting commands from being sent.",
+      "context": "Queue multiple messages in one retained session, separating local admission, provider acceptance and correlated turn outcomes.",
+      "explanation": "Compare the authored baseline and failure evidence: Create an offline session and queue one Normal message. Inspect its local command and returned user event IDs. Choose Slow, queue a message, then queue a follow-up while the first is running. Confirm that the second waits for completed idle evidence. Compare one message with the two-message script; the script is a bounded host queue, not an Agent SDK async generator. Try an oversized message, then close a Hang run with waiting work. Confirm rejection before submission and cancellation of waiting commands. Open idle configuration. Apply read-only tools, append explicit system context, then create a new model session with a context handoff.",
+      "check": "Queue a follow-up while busy. Identify admission, processing, provider acceptance and completion evidence, then prove that closing the queue prevented waiting commands from being sent.",
+      "resource": "none",
+      "number": 35,
+      "category": "Beginner",
+      "criteria": [
+        "Answer the specific question without claiming unobserved execution",
+        "Queue a follow-up while busy. Identify admission, processing, provider acceptance and completion evidence, then prove that closing the queue prevented waiting commands from being sent."
+      ]
+    },
+    {
+      "id": "lab-12-boundary",
+      "lesson": 12,
+      "section": "skills-mcp",
+      "title": "Boundary: Multiple messages in one session",
+      "question": "Which parts of Lab 12 run in the host, and which use Managed Agents?",
+      "context": "Queue multiple messages in one retained session, separating local admission, provider acceptance and correlated turn outcomes.",
+      "explanation": "Inspect shared/lab12-streaming-input.ts, server/lib/lab12-queue.ts, server/lib/lab12-port.ts, server/concepts/12-streaming-input.ts. Distinguish host validation and prepared evidence from actual Managed session events.",
+      "check": "Name one host-enforced rule and one observed Managed event; do not invent an equivalent SDK callback.",
+      "resource": "none",
+      "number": 36,
+      "category": "Beginner",
+      "criteria": [
+        "Answer the specific question without claiming unobserved execution",
+        "Name one host-enforced rule and one observed Managed event; do not invent an equivalent SDK callback."
+      ]
+    },
+    {
+      "id": "lab-13-baseline",
+      "lesson": 13,
+      "section": "skills-mcp",
+      "title": "MCP connections and reachability",
+      "question": "Explain MCP connections and reachability using Claude Managed Agents.",
+      "context": "Connect real local MCP transports, separate configuration from observed reachability, and compare host bridges with native Managed HTTPS MCP.",
+      "explanation": "Connect real local MCP transports, separate configuration from observed reachability, and compare host bridges with native Managed HTTPS MCP.",
+      "check": "Run Working offline and inspect the real notes stdio and authenticated inventory HTTP handshakes.",
+      "resource": "docs",
+      "number": 37,
+      "category": "Beginner",
+      "criteria": [
+        "Answer the specific question without claiming unobserved execution",
+        "Run Working offline and inspect the real notes stdio and authenticated inventory HTTP handshakes."
+      ]
+    },
+    {
+      "id": "lab-13-failure",
+      "lesson": 13,
+      "section": "skills-mcp",
+      "title": "Verify: MCP connections and reachability",
+      "question": "Disable a server and inspect which calls remain possible. Prove the disabled tool had no host MCP effect, and explain why local success does not prove cloud access.",
+      "context": "Connect real local MCP transports, separate configuration from observed reachability, and compare host bridges with native Managed HTTPS MCP.",
+      "explanation": "Compare the authored baseline and failure evidence: Run Working offline and inspect the real notes stdio and authenticated inventory HTTP handshakes. Compare advertised tools with effective tools. Enable fictional reservation, apply the idle configuration and attempt one reservation. Disable the inventory server or reservation tool, apply while idle, then attempt the same call. Confirm local stock stayed unchanged. Close the session and compare Missing and Unauthorized scenarios. Local HTTP 404/401 errors are not cloud reachability tests. Inspect the typed host bridge and native URL source. Live native MCP requires a reviewed reachable HTTPS endpoint and a matching pre-registered vault.",
+      "check": "Disable a server and inspect which calls remain possible. Prove the disabled tool had no host MCP effect, and explain why local success does not prove cloud access.",
+      "resource": "none",
+      "number": 38,
+      "category": "Beginner",
+      "criteria": [
+        "Answer the specific question without claiming unobserved execution",
+        "Disable a server and inspect which calls remain possible. Prove the disabled tool had no host MCP effect, and explain why local success does not prove cloud access."
+      ]
+    },
+    {
+      "id": "lab-13-boundary",
+      "lesson": 13,
+      "section": "skills-mcp",
+      "title": "Boundary: MCP connections and reachability",
+      "question": "Which parts of Lab 13 run in the host, and which use Managed Agents?",
+      "context": "Connect real local MCP transports, separate configuration from observed reachability, and compare host bridges with native Managed HTTPS MCP.",
+      "explanation": "Inspect shared/lab13-mcp.ts, server/lib/lab13-local-mcp.ts, server/lib/lab13-port.ts, server/lib/lab13-sessions.ts, mcp-servers/lab13-notes.mjs, mcp-servers/lab13-inventory.ts. Distinguish host validation and prepared evidence from actual Managed session events.",
+      "check": "Name one host-enforced rule and one observed Managed event; do not invent an equivalent SDK callback.",
+      "resource": "none",
+      "number": 39,
+      "category": "Beginner",
+      "criteria": [
+        "Answer the specific question without claiming unobserved execution",
+        "Name one host-enforced rule and one observed Managed event; do not invent an equivalent SDK callback."
+      ]
+    },
+    {
+      "id": "lab-14-baseline",
+      "lesson": 14,
+      "section": "skills-mcp",
+      "title": "Models and supported effort",
+      "question": "Explain Models and supported effort using Claude Managed Agents.",
+      "context": "Compare supported model and effort settings in fresh sessions with resolved metadata, public responses and explicit fallback budgets.",
+      "explanation": "Compare supported model and effort settings in fresh sessions with resolved metadata, public responses and explicit fallback budgets.",
+      "check": "Hold the prompt and model fixed; compare low, medium and high effort offline.",
+      "resource": "docs",
+      "number": 40,
+      "category": "Beginner",
+      "criteria": [
+        "Answer the specific question without claiming unobserved execution",
+        "Hold the prompt and model fixed; compare low, medium and high effort offline."
+      ]
+    },
+    {
+      "id": "lab-14-failure",
+      "lesson": 14,
+      "section": "skills-mcp",
+      "title": "Verify: Models and supported effort",
+      "question": "Change supported effort while keeping prompt and model fixed in fresh sessions. Explain why uncertain work blocks fallback.",
+      "context": "Compare supported model and effort settings in fresh sessions with resolved metadata, public responses and explicit fallback budgets.",
+      "explanation": "Compare the authored baseline and failure evidence: Hold the prompt and model fixed; compare low, medium and high effort offline. Reject incompatible values and inspect the resolved model snapshot. Simulate unavailable and uncertain primary models with one explicitly budgeted host fallback.",
+      "check": "Change supported effort while keeping prompt and model fixed in fresh sessions. Explain why uncertain work blocks fallback.",
+      "resource": "none",
+      "number": 41,
+      "category": "Beginner",
+      "criteria": [
+        "Answer the specific question without claiming unobserved execution",
+        "Change supported effort while keeping prompt and model fixed in fresh sessions. Explain why uncertain work blocks fallback."
+      ]
+    },
+    {
+      "id": "lab-14-boundary",
+      "lesson": 14,
+      "section": "skills-mcp",
+      "title": "Boundary: Models and supported effort",
+      "question": "Which parts of Lab 14 run in the host, and which use Managed Agents?",
+      "context": "Compare supported model and effort settings in fresh sessions with resolved metadata, public responses and explicit fallback budgets.",
+      "explanation": "Inspect shared/lab14-models.ts, server/lib/lab14-port.ts, server/lib/lab14-run.ts. Distinguish host validation and prepared evidence from actual Managed session events.",
+      "check": "Name one host-enforced rule and one observed Managed event; do not invent an equivalent SDK callback.",
+      "resource": "none",
+      "number": 42,
+      "category": "Beginner",
+      "criteria": [
+        "Answer the specific question without claiming unobserved execution",
+        "Name one host-enforced rule and one observed Managed event; do not invent an equivalent SDK callback."
+      ]
+    },
+    {
+      "id": "lab-15-baseline",
+      "lesson": 15,
+      "section": "skills-mcp",
+      "title": "Usage and session budgets",
+      "question": "Explain Usage and session budgets using Claude Managed Agents.",
+      "context": "Read cumulative session usage and separate overlapping scopes while enforcing platform budgets and bounded host turns.",
+      "explanation": "Read cumulative session usage and separate overlapping scopes while enforcing platform budgets and bounded host turns.",
+      "check": "Compare an intermediate usage event with the retrieved idle-session snapshot.",
+      "resource": "docs",
+      "number": 43,
+      "category": "Beginner",
+      "criteria": [
+        "Answer the specific question without claiming unobserved execution",
+        "Compare an intermediate usage event with the retrieved idle-session snapshot."
+      ]
+    },
+    {
+      "id": "lab-15-failure",
+      "lesson": 15,
+      "section": "skills-mcp",
+      "title": "Verify: Usage and session budgets",
+      "question": "Explain why intermediate usage differs from the final session snapshot, and why list cost is not a guaranteed invoice total.",
+      "context": "Read cumulative session usage and separate overlapping scopes while enforcing platform budgets and bounded host turns.",
+      "explanation": "Compare the authored baseline and failure evidence: Compare an intermediate usage event with the retrieved idle-session snapshot. Repeat usage events and inspect child attribution without double counting. Reach a local turn limit or platform budget, then explicitly decide whether to raise the cap.",
+      "check": "Explain why intermediate usage differs from the final session snapshot, and why list cost is not a guaranteed invoice total.",
+      "resource": "none",
+      "number": 44,
+      "category": "Beginner",
+      "criteria": [
+        "Answer the specific question without claiming unobserved execution",
+        "Explain why intermediate usage differs from the final session snapshot, and why list cost is not a guaranteed invoice total."
+      ]
+    },
+    {
+      "id": "lab-15-boundary",
+      "lesson": 15,
+      "section": "skills-mcp",
+      "title": "Boundary: Usage and session budgets",
+      "question": "Which parts of Lab 15 run in the host, and which use Managed Agents?",
+      "context": "Read cumulative session usage and separate overlapping scopes while enforcing platform budgets and bounded host turns.",
+      "explanation": "Inspect shared/lab15-usage.ts, server/lib/lab15-accounting.ts, server/lib/lab15-port.ts, server/lib/lab15-sessions.ts. Distinguish host validation and prepared evidence from actual Managed session events.",
+      "check": "Name one host-enforced rule and one observed Managed event; do not invent an equivalent SDK callback.",
+      "resource": "none",
+      "number": 45,
+      "category": "Beginner",
+      "criteria": [
+        "Answer the specific question without claiming unobserved execution",
+        "Name one host-enforced rule and one observed Managed event; do not invent an equivalent SDK callback."
+      ]
+    },
+    {
+      "id": "lab-16-baseline",
+      "lesson": 16,
+      "section": "skills-mcp",
+      "title": "Environment and configuration provenance",
+      "question": "Explain Environment and configuration provenance using Claude Managed Agents.",
+      "context": "Trace synthetic host configuration precedence, server credential readiness and explicit Managed environment resources without conflating their scopes.",
+      "explanation": "Trace synthetic host configuration precedence, server credential readiness and explicit Managed environment resources without conflating their scopes.",
+      "check": "Change user and session region overrides; compare which host layer wins.",
+      "resource": "docs",
+      "number": 46,
+      "category": "Intermediate",
+      "criteria": [
+        "Answer the specific question without claiming unobserved execution",
+        "Change user and session region overrides; compare which host layer wins."
+      ]
+    },
+    {
+      "id": "lab-16-failure",
+      "lesson": 16,
+      "section": "skills-mcp",
+      "title": "Verify: Environment and configuration provenance",
+      "question": "Change a host configuration layer. Identify its winning provenance and explain why the remote sandbox value does not change automatically.",
+      "context": "Trace synthetic host configuration precedence, server credential readiness and explicit Managed environment resources without conflating their scopes.",
+      "explanation": "Compare the authored baseline and failure evidence: Change user and session region overrides; compare which host layer wins. Run the missing-credential and absent-mount fixtures; keep unknown remote values separate. Inspect an allowed fixture path and an outside path with the host guard. Review the authored cloud environment definition and server-only manifest. Optionally start one bounded live session after independently configuring an approved uploaded file ID.",
+      "check": "Change a host configuration layer. Identify its winning provenance and explain why the remote sandbox value does not change automatically.",
+      "resource": "none",
+      "number": 47,
+      "category": "Intermediate",
+      "criteria": [
+        "Answer the specific question without claiming unobserved execution",
+        "Change a host configuration layer. Identify its winning provenance and explain why the remote sandbox value does not change automatically."
+      ]
+    },
+    {
+      "id": "lab-16-boundary",
+      "lesson": 16,
+      "section": "skills-mcp",
+      "title": "Boundary: Environment and configuration provenance",
+      "question": "Which parts of Lab 16 run in the host, and which use Managed Agents?",
+      "context": "Trace synthetic host configuration precedence, server credential readiness and explicit Managed environment resources without conflating their scopes.",
+      "explanation": "Inspect shared/lab16-settings-env.ts, server/lib/lab16-provenance.ts, server/lib/lab16-port.ts, server/concepts/16-settings-env.ts. Distinguish host validation and prepared evidence from actual Managed session events.",
+      "check": "Name one host-enforced rule and one observed Managed event; do not invent an equivalent SDK callback.",
+      "resource": "none",
+      "number": 48,
+      "category": "Intermediate",
+      "criteria": [
+        "Answer the specific question without claiming unobserved execution",
+        "Name one host-enforced rule and one observed Managed event; do not invent an equivalent SDK callback."
+      ]
+    },
+    {
+      "id": "lab-17-baseline",
+      "lesson": 17,
+      "section": "project-context",
+      "title": "Host snapshots and file restoration",
+      "question": "Explain Host snapshots and file restoration using Claude Managed Agents.",
+      "context": "Restore tracked host fixture files from an owned snapshot while the retained Managed conversation remains intact.",
+      "explanation": "Restore tracked host fixture files from an owned snapshot while the retained Managed conversation remains intact.",
+      "check": "Prepare an offline fixture session and take a snapshot of notes.md and absent draft.md.",
+      "resource": "docs",
+      "number": 49,
+      "category": "Intermediate",
+      "criteria": [
+        "Answer the specific question without claiming unobserved execution",
+        "Prepare an offline fixture session and take a snapshot of notes.md and absent draft.md."
+      ]
+    },
+    {
+      "id": "lab-17-failure",
+      "lesson": 17,
+      "section": "project-context",
+      "title": "Verify: Host snapshots and file restoration",
+      "question": "Explain why restoring notes.md and deleting draft.md leaves the conversation and untracked scratch.md intact.",
+      "context": "Restore tracked host fixture files from an owned snapshot while the retained Managed conversation remains intact.",
+      "explanation": "Compare the authored baseline and failure evidence: Prepare an offline fixture session and take a snapshot of notes.md and absent draft.md. Send turns that edit notes.md, create draft.md and create untracked scratch.md. Dry-run restoration to inspect exact tracked restores and deletes. Confirm only with the current host version and matching plan ID; inspect files and unchanged conversation history. Try an unknown snapshot, then inspect remote outputs separately and close the session.",
+      "check": "Explain why restoring notes.md and deleting draft.md leaves the conversation and untracked scratch.md intact.",
+      "resource": "none",
+      "number": 50,
+      "category": "Intermediate",
+      "criteria": [
+        "Answer the specific question without claiming unobserved execution",
+        "Explain why restoring notes.md and deleting draft.md leaves the conversation and untracked scratch.md intact."
+      ]
+    },
+    {
+      "id": "lab-17-boundary",
+      "lesson": 17,
+      "section": "project-context",
+      "title": "Boundary: Host snapshots and file restoration",
+      "question": "Which parts of Lab 17 run in the host, and which use Managed Agents?",
+      "context": "Restore tracked host fixture files from an owned snapshot while the retained Managed conversation remains intact.",
+      "explanation": "Inspect shared/lab17-checkpointing.ts, server/lib/lab17-files.ts, server/lib/lab17-run.ts, server/concepts/17-checkpointing.ts. Distinguish host validation and prepared evidence from actual Managed session events.",
+      "check": "Name one host-enforced rule and one observed Managed event; do not invent an equivalent SDK callback.",
+      "resource": "none",
+      "number": 51,
+      "category": "Intermediate",
+      "criteria": [
+        "Answer the specific question without claiming unobserved execution",
+        "Name one host-enforced rule and one observed Managed event; do not invent an equivalent SDK callback."
+      ]
+    },
+    {
+      "id": "lab-18-baseline",
+      "lesson": 18,
+      "section": "project-context",
+      "title": "Cloud sandbox and host boundaries",
+      "question": "Explain Cloud sandbox and host boundaries using Claude Managed Agents.",
+      "context": "Inspect configured cloud sandbox policy and independently test a disposable host file boundary without conflating either with agent permission flags.",
+      "explanation": "Inspect configured cloud sandbox policy and independently test a disposable host file boundary without conflating either with agent permission flags.",
+      "check": "Read the local platform manifest without starting a session.",
+      "resource": "docs",
+      "number": 52,
+      "category": "Intermediate",
+      "criteria": [
+        "Answer the specific question without claiming unobserved execution",
+        "Read the local platform manifest without starting a session."
+      ]
+    },
+    {
+      "id": "lab-18-failure",
+      "lesson": 18,
+      "section": "project-context",
+      "title": "Verify: Cloud sandbox and host boundaries",
+      "question": "Explain why an unavailable configured environment fails closed before a session and why an offline host path denial does not prove cloud OS containment.",
+      "context": "Inspect configured cloud sandbox policy and independently test a disposable host file boundary without conflating either with agent permission flags.",
+      "explanation": "Compare the authored baseline and failure evidence: Read the local platform manifest without starting a session. Run Allowed mount and Outside mount offline; compare actual host read counts and hashes. Run Blocked network and Missing environment; inspect the fail-closed results and zero socket calls. Explicitly inspect live cloud metadata, then optionally start a bounded billed pwd diagnostic with host confirmation. Check tool use and result evidence; explain why local path checks do not attest cloud containment.",
+      "check": "Explain why an unavailable configured environment fails closed before a session and why an offline host path denial does not prove cloud OS containment.",
+      "resource": "none",
+      "number": 53,
+      "category": "Intermediate",
+      "criteria": [
+        "Answer the specific question without claiming unobserved execution",
+        "Explain why an unavailable configured environment fails closed before a session and why an offline host path denial does not prove cloud OS containment."
+      ]
+    },
+    {
+      "id": "lab-18-boundary",
+      "lesson": 18,
+      "section": "project-context",
+      "title": "Boundary: Cloud sandbox and host boundaries",
+      "question": "Which parts of Lab 18 run in the host, and which use Managed Agents?",
+      "context": "Inspect configured cloud sandbox policy and independently test a disposable host file boundary without conflating either with agent permission flags.",
+      "explanation": "Inspect shared/lab18-sandbox.ts, server/lib/lab18-sandbox.ts, server/concepts/18-sandbox.ts. Distinguish host validation and prepared evidence from actual Managed session events.",
+      "check": "Name one host-enforced rule and one observed Managed event; do not invent an equivalent SDK callback.",
+      "resource": "none",
+      "number": 54,
+      "category": "Intermediate",
+      "criteria": [
+        "Answer the specific question without claiming unobserved execution",
+        "Name one host-enforced rule and one observed Managed event; do not invent an equivalent SDK callback."
+      ]
+    },
+    {
+      "id": "lab-19-baseline",
+      "lesson": 19,
+      "section": "project-context",
+      "title": "Session inventory and explicit branches",
+      "question": "Explain Session inventory and explicit branches using Claude Managed Agents.",
+      "context": "Inventory owned Managed sessions, inspect bounded history pages and derive a fresh conversation from an explicit host summary.",
+      "explanation": "Inventory owned Managed sessions, inspect bounded history pages and derive a fresh conversation from an explicit host summary.",
+      "check": "Start an offline session and send a second turn to the same session ID.",
+      "resource": "docs",
+      "number": 55,
+      "category": "Intermediate",
+      "criteria": [
+        "Answer the specific question without claiming unobserved execution",
+        "Start an offline session and send a second turn to the same session ID."
+      ]
+    },
+    {
+      "id": "lab-19-failure",
+      "lesson": 19,
+      "section": "project-context",
+      "title": "Verify: Session inventory and explicit branches",
+      "question": "Show why a derived conversation is a new session with explicit selected history, not a native fork carrying hidden state.",
+      "context": "Inventory owned Managed sessions, inspect bounded history pages and derive a fresh conversation from an explicit host summary.",
+      "explanation": "Compare the authored baseline and failure evidence: Start an offline session and send a second turn to the same session ID. Inspect the inventory and history pages, then branch from a selected host event boundary. Compare parent and derived session IDs and the exact summary handoff; the parent history remains intact. Rename and tag an idle session, then compare archive with explicit deletion on a separate fixture. Inspect provider metadata only when deliberately selected in a live run.",
+      "check": "Show why a derived conversation is a new session with explicit selected history, not a native fork carrying hidden state.",
+      "resource": "none",
+      "number": 56,
+      "category": "Intermediate",
+      "criteria": [
+        "Answer the specific question without claiming unobserved execution",
+        "Show why a derived conversation is a new session with explicit selected history, not a native fork carrying hidden state."
+      ]
+    },
+    {
+      "id": "lab-19-boundary",
+      "lesson": 19,
+      "section": "project-context",
+      "title": "Boundary: Session inventory and explicit branches",
+      "question": "Which parts of Lab 19 run in the host, and which use Managed Agents?",
+      "context": "Inventory owned Managed sessions, inspect bounded history pages and derive a fresh conversation from an explicit host summary.",
+      "explanation": "Inspect shared/lab19-session-management.ts, server/lib/lab19-sessions.ts, server/concepts/19-session-management.ts. Distinguish host validation and prepared evidence from actual Managed session events.",
+      "check": "Name one host-enforced rule and one observed Managed event; do not invent an equivalent SDK callback.",
+      "resource": "none",
+      "number": 57,
+      "category": "Intermediate",
+      "criteria": [
+        "Answer the specific question without claiming unobserved execution",
+        "Name one host-enforced rule and one observed Managed event; do not invent an equivalent SDK callback."
+      ]
+    },
+    {
+      "id": "lab-20-baseline",
+      "lesson": 20,
+      "section": "project-context",
+      "title": "Lifecycle events and host interceptors",
+      "question": "Explain Lifecycle events and host interceptors using Claude Managed Agents.",
+      "context": "Correlate Managed lifecycle events with host interceptor decisions and actual custom-tool effects without treating observations as SDK hook callbacks.",
+      "explanation": "Correlate Managed lifecycle events with host interceptor decisions and actual custom-tool effects without treating observations as SDK hook callbacks.",
+      "check": "Run the passing offline policy and compare provider events, host audit, and the draft file.",
+      "resource": "docs",
+      "number": 58,
+      "category": "Intermediate",
+      "criteria": [
+        "Answer the specific question without claiming unobserved execution",
+        "Run the passing offline policy and compare provider events, host audit, and the draft file."
+      ]
+    },
+    {
+      "id": "lab-20-failure",
+      "lesson": 20,
+      "section": "project-context",
+      "title": "Verify: Lifecycle events and host interceptors",
+      "question": "Compare a host interceptor exception with a failed tool execution. Which one reached the handler, and what did the fixture file prove?",
+      "context": "Correlate Managed lifecycle events with host interceptor decisions and actual custom-tool effects without treating observations as SDK hook callbacks.",
+      "explanation": "Compare the authored baseline and failure evidence: Run the passing offline policy and compare provider events, host audit, and the draft file. Run denied pre-execution, tool failure, and interceptor exception; identify which boundary prevented or attempted execution. Use the virtual-time deadline fixture and inspect cleanup without waiting for a real provider timeout. Run final validation failure and distinguish the completed provider turn from a rejected application report. Inspect source and, only with isolated setup, deliberately run a bounded live custom-tool session.",
+      "check": "Compare a host interceptor exception with a failed tool execution. Which one reached the handler, and what did the fixture file prove?",
+      "resource": "none",
+      "number": 59,
+      "category": "Intermediate",
+      "criteria": [
+        "Answer the specific question without claiming unobserved execution",
+        "Compare a host interceptor exception with a failed tool execution. Which one reached the handler, and what did the fixture file prove?"
+      ]
+    },
+    {
+      "id": "lab-20-boundary",
+      "lesson": 20,
+      "section": "project-context",
+      "title": "Boundary: Lifecycle events and host interceptors",
+      "question": "Which parts of Lab 20 run in the host, and which use Managed Agents?",
+      "context": "Correlate Managed lifecycle events with host interceptor decisions and actual custom-tool effects without treating observations as SDK hook callbacks.",
+      "explanation": "Inspect shared/lab20-hooks-in-depth.ts, server/lib/lab20-run.ts, server/concepts/20-hooks-in-depth.ts. Distinguish host validation and prepared evidence from actual Managed session events.",
+      "check": "Name one host-enforced rule and one observed Managed event; do not invent an equivalent SDK callback.",
+      "resource": "none",
+      "number": 60,
+      "category": "Intermediate",
+      "criteria": [
+        "Answer the specific question without claiming unobserved execution",
+        "Name one host-enforced rule and one observed Managed event; do not invent an equivalent SDK callback."
+      ]
+    },
+    {
+      "id": "lab-21-baseline",
+      "lesson": 21,
+      "section": "project-context",
+      "title": "Host commands and prompt expansion",
+      "question": "Explain Host commands and prompt expansion using Claude Managed Agents.",
+      "context": "Validate host commands, inspect exact fixed-template expansion, and distinguish local-only actions from messages sent on an owned session.",
+      "explanation": "Validate host commands, inspect exact fixed-template expansion, and distinguish local-only actions from messages sent on an owned session.",
+      "check": "Prepare one bounded offline command session and inspect the fixed command registry.",
+      "resource": "docs",
+      "number": 61,
+      "category": "Intermediate",
+      "criteria": [
+        "Answer the specific question without claiming unobserved execution",
+        "Prepare one bounded offline command session and inspect the fixed command registry."
+      ]
+    },
+    {
+      "id": "lab-21-failure",
+      "lesson": 21,
+      "section": "project-context",
+      "title": "Verify: Host commands and prompt expansion",
+      "question": "Why does a local inspect command not create a model turn, while a fixed prompt template does?",
+      "context": "Validate host commands, inspect exact fixed-template expansion, and distinguish local-only actions from messages sent on an owned session.",
+      "explanation": "Compare the authored baseline and failure evidence: Prepare one bounded offline command session and inspect the fixed command registry. Run a known model command and compare its exact expanded user message with the retained session result. Try an invalid argument and an unknown command; confirm both are rejected before a provider send. Inspect and reset the bounded local history; compare provider send counts before and after. Close the session and inspect the host command implementation and Managed session port.",
+      "check": "Why does a local inspect command not create a model turn, while a fixed prompt template does?",
+      "resource": "none",
+      "number": 62,
+      "category": "Intermediate",
+      "criteria": [
+        "Answer the specific question without claiming unobserved execution",
+        "Why does a local inspect command not create a model turn, while a fixed prompt template does?"
+      ]
+    },
+    {
+      "id": "lab-22-baseline",
+      "lesson": 22,
+      "section": "project-context",
+      "title": "Explicit project context and memory",
+      "question": "Explain Explicit project context and memory using Claude Managed Agents.",
+      "context": "Trace exactly which authored project and summary files the host selects for a fresh Managed session without assuming automatic CLAUDE.md discovery.",
+      "explanation": "Trace exactly which authored project and summary files the host selects for a fresh Managed session without assuming automatic CLAUDE.md discovery.",
+      "check": "Inspect the four allowlisted fixture files and their content hashes.",
+      "resource": "docs",
+      "number": 63,
+      "category": "Intermediate",
+      "criteria": [
+        "Answer the specific question without claiming unobserved execution",
+        "Inspect the four allowlisted fixture files and their content hashes."
+      ]
+    },
+    {
+      "id": "lab-22-failure",
+      "lesson": 22,
+      "section": "project-context",
+      "title": "Verify: Explicit project context and memory",
+      "question": "Disable nested context and select the summary instead. Which authored markers disappear, and which appear in the new session input?",
+      "context": "Trace exactly which authored project and summary files the host selects for a fresh Managed session without assuming automatic CLAUDE.md discovery.",
+      "explanation": "Compare the authored baseline and failure evidence: Inspect the four allowlisted fixture files and their content hashes. Run nested selection and compare actual host reads with the complete user message. Run the conflicting untrusted note and explain why its prose cannot change permissions. Run with context disabled, then start a fresh session with the explicit handoff summary. Compare local file reads, cloud memory attachment and remote file-read evidence separately.",
+      "check": "Disable nested context and select the summary instead. Which authored markers disappear, and which appear in the new session input?",
+      "resource": "none",
+      "number": 64,
+      "category": "Intermediate",
+      "criteria": [
+        "Answer the specific question without claiming unobserved execution",
+        "Disable nested context and select the summary instead. Which authored markers disappear, and which appear in the new session input?"
+      ]
+    },
+    {
+      "id": "lab-23-baseline",
+      "lesson": 23,
+      "section": "project-context",
+      "title": "Reusable capability bundles",
+      "question": "Explain Reusable capability bundles using Claude Managed Agents.",
+      "context": "Compose a reviewed, hash-pinned host bundle of commands, tools, skills, agent definitions and optional MCP declarations while enforcing worker least privilege.",
+      "explanation": "Compose a reviewed, hash-pinned host bundle of commands, tools, skills, agent definitions and optional MCP declarations while enforcing worker least privilege.",
+      "check": "Inspect the six contribution hashes and the active host bundle version.",
+      "resource": "docs",
+      "number": 65,
+      "category": "Intermediate",
+      "criteria": [
+        "Answer the specific question without claiming unobserved execution",
+        "Inspect the six contribution hashes and the active host bundle version."
+      ]
+    },
+    {
+      "id": "lab-23-failure",
+      "lesson": 23,
+      "section": "project-context",
+      "title": "Verify: Reusable capability bundles",
+      "question": "Reload a reviewed bundle and compare the requested capabilities with the fixture-resolved inventory. What remains unverified in Managed Agents?",
+      "context": "Compose a reviewed, hash-pinned host bundle of commands, tools, skills, agent definitions and optional MCP declarations while enforcing worker least privilege.",
+      "explanation": "Compare the authored baseline and failure evidence: Inspect the six contribution hashes and the active host bundle version. Compare bundle disabled and enabled inventories, then run the read-only host tool. Include the skill snapshot and optional MCP declaration without claiming an observed skill read or server contact. Try malformed, missing-directory, changed-hash and elevated-worker reloads; verify the accepted inventory stays pinned. Reload the reviewed bundle and distinguish host inventory refresh from a resolved Managed session change.",
+      "check": "Reload a reviewed bundle and compare the requested capabilities with the fixture-resolved inventory. What remains unverified in Managed Agents?",
+      "resource": "none",
+      "number": 66,
+      "category": "Intermediate",
+      "criteria": [
+        "Answer the specific question without claiming unobserved execution",
+        "Reload a reviewed bundle and compare the requested capabilities with the fixture-resolved inventory. What remains unverified in Managed Agents?"
+      ]
+    },
+    {
+      "id": "lab-24-baseline",
+      "lesson": 24,
+      "section": "harness",
+      "title": "Who owns the agent loop",
+      "question": "Explain Who owns the agent loop using Claude Managed Agents.",
+      "context": "Compare who iterates, executes host tools, holds state and cleans up in a manual Messages loop, the Messages SDK tool runner and Managed session custom tools.",
+      "explanation": "Compare who iterates, executes host tools, holds state and cleans up in a manual Messages loop, the Messages SDK tool runner and Managed session custom tools.",
+      "check": "Run Reserve 2 in all three offline harnesses and compare typed call adapters and identical host effects.",
+      "resource": "docs",
+      "number": 67,
+      "category": "Intermediate",
+      "criteria": [
+        "Answer the specific question without claiming unobserved execution",
+        "Run Reserve 2 in all three offline harnesses and compare typed call adapters and identical host effects."
+      ]
+    },
+    {
+      "id": "lab-24-failure",
+      "lesson": 24,
+      "section": "harness",
+      "title": "Verify: Who owns the agent loop",
+      "question": "Identify one responsibility the manual loop owns that the Managed session harness supplies.",
+      "context": "Compare who iterates, executes host tools, holds state and cleans up in a manual Messages loop, the Messages SDK tool runner and Managed session custom tools.",
+      "explanation": "Compare the authored baseline and failure evidence: Run Reserve 2 in all three offline harnesses and compare typed call adapters and identical host effects. Run Reject 5 and confirm the host policy leaves stock unchanged despite the fixture call. Run Read then limit with a one-call cap; inspect the read effect and the blocked reservation. Read the ownership notes and distinguish fixture answer text from the checked host stock. Inspect separate SDK contracts before configuring any billed Messages or Managed run.",
+      "check": "Identify one responsibility the manual loop owns that the Managed session harness supplies.",
+      "resource": "none",
+      "number": 68,
+      "category": "Intermediate",
+      "criteria": [
+        "Answer the specific question without claiming unobserved execution",
+        "Identify one responsibility the manual loop owns that the Managed session harness supplies."
+      ]
+    },
+    {
+      "id": "lab-25-baseline",
+      "lesson": 25,
+      "section": "harness",
+      "title": "Context growth and compaction evidence",
+      "question": "Explain Context growth and compaction evidence using Claude Managed Agents.",
+      "context": "Distinguish observed Managed compaction events, available cumulative thread usage and a separate host-authored summary handoff without inventing context capacity.",
+      "explanation": "Distinguish observed Managed compaction events, available cumulative thread usage and a separate host-authored summary handoff without inventing context capacity.",
+      "check": "Inspect the bounded report files and checked host reads.",
+      "resource": "docs",
+      "number": 69,
+      "category": "Intermediate",
+      "criteria": [
+        "Answer the specific question without claiming unobserved execution",
+        "Inspect the bounded report files and checked host reads."
+      ]
+    },
+    {
+      "id": "lab-25-failure",
+      "lesson": 25,
+      "section": "harness",
+      "title": "Verify: Context growth and compaction evidence",
+      "question": "Compare the authored compaction event with the host summary handoff. Which one could prove a platform action, and which retained facts can you verify from source reports?",
+      "context": "Distinguish observed Managed compaction events, available cumulative thread usage and a separate host-authored summary handoff without inventing context capacity.",
+      "explanation": "Compare the authored baseline and failure evidence: Inspect the bounded report files and checked host reads. Replay the authored compaction event and compare it with a stream where no such event appears. Run Missing metrics and keep unavailable values distinct from zero. Run Summary omits and inspect which original report fact the new-session summary lost. Explain why an offline event cannot establish a real platform compaction threshold.",
+      "check": "Compare the authored compaction event with the host summary handoff. Which one could prove a platform action, and which retained facts can you verify from source reports?",
+      "resource": "none",
+      "number": 70,
+      "category": "Intermediate",
+      "criteria": [
+        "Answer the specific question without claiming unobserved execution",
+        "Compare the authored compaction event with the host summary handoff. Which one could prove a platform action, and which retained facts can you verify from source reports?"
+      ]
+    },
+    {
+      "id": "lab-26-baseline",
+      "lesson": 26,
+      "section": "harness",
+      "title": "Session controls and supported updates",
+      "question": "Explain Session controls and supported updates using Claude Managed Agents.",
+      "context": "Operate an owned session through a strict catalog and compare updates that require idle with an explicit fresh-session model handoff.",
+      "explanation": "Operate an owned session through a strict catalog and compare updates that require idle with an explicit fresh-session model handoff.",
+      "check": "Open a slow offline session and send a turn.",
+      "resource": "docs",
+      "number": 71,
+      "category": "Intermediate",
+      "criteria": [
+        "Answer the specific question without claiming unobserved execution",
+        "Open a slow offline session and send a turn."
+      ]
+    },
+    {
+      "id": "lab-26-failure",
+      "lesson": 26,
+      "section": "harness",
+      "title": "Verify: Session controls and supported updates",
+      "question": "Change model through a fresh session and inspect its resolved configuration.",
+      "context": "Operate an owned session through a strict catalog and compare updates that require idle with an explicit fresh-session model handoff.",
+      "explanation": "Compare the authored baseline and failure evidence: Open a slow offline session and send a turn. Attempt the idle tool update while running, then interrupt and confirm idle. Remove a tool and MCP server by full replacement and inspect the result. Try a budget increase without opt-in, then opt in explicitly. Create a fresh model session with a short summary; inspect its parent ID and resolved fixture model. Archive an idle session and confirm further mutations fail.",
+      "check": "Change model through a fresh session and inspect its resolved configuration.",
+      "resource": "none",
+      "number": 72,
+      "category": "Intermediate",
+      "criteria": [
+        "Answer the specific question without claiming unobserved execution",
+        "Change model through a fresh session and inspect its resolved configuration."
+      ]
+    },
+    {
+      "id": "lab-27-baseline",
+      "lesson": 27,
+      "section": "harness",
+      "title": "Remote work beyond a browser connection",
+      "question": "Explain Remote work beyond a browser connection using Claude Managed Agents.",
+      "context": "Track authored remote work in a host ledger across browser detach and reconnect without creating duplicate sessions or task cards.",
+      "explanation": "Track authored remote work in a host ledger across browser detach and reconnect without creating duplicate sessions or task cards.",
+      "check": "Open a slow offline task and inspect separate task, session, thread and browser identities.",
+      "resource": "docs",
+      "number": 73,
+      "category": "Intermediate",
+      "criteria": [
+        "Answer the specific question without claiming unobserved execution",
+        "Open a slow offline task and inspect separate task, session, thread and browser identities."
+      ]
+    },
+    {
+      "id": "lab-27-failure",
+      "lesson": 27,
+      "section": "harness",
+      "title": "Verify: Remote work beyond a browser connection",
+      "question": "Reconnect and identify evidence that the original task stopped.",
+      "context": "Track authored remote work in a host ledger across browser detach and reconnect without creating duplicate sessions or task cards.",
+      "explanation": "Compare the authored baseline and failure evidence: Open a slow offline task and inspect separate task, session, thread and browser identities. Detach the browser and confirm the task still runs. Reconnect the same task and inspect deduplicated event IDs and unchanged create count. Wait for authored completion, then inspect the unverified report. Open another task and explicitly stop it; close only after confirmed idle. Disable host background policy and confirm creation is rejected.",
+      "check": "Reconnect and identify evidence that the original task stopped.",
+      "resource": "none",
+      "number": 74,
+      "category": "Intermediate",
+      "criteria": [
+        "Answer the specific question without claiming unobserved execution",
+        "Reconnect and identify evidence that the original task stopped."
+      ]
+    },
+    {
+      "id": "lab-28-baseline",
+      "lesson": 28,
+      "section": "harness",
+      "title": "Errors, retries and reconciliation",
+      "question": "Explain Errors, retries and reconciliation using Claude Managed Agents.",
+      "context": "Classify authored transport, event, handler and cleanup faults while bounding read retries and reconciling uncertain mutations without duplicate effects.",
+      "explanation": "Classify authored transport, event, handler and cleanup faults while bounding read retries and reconciling uncertain mutations without duplicate effects.",
+      "check": "Run Read rate limit and inspect three bounded GET attempts.",
+      "resource": "docs",
+      "number": 75,
+      "category": "Intermediate",
+      "criteria": [
+        "Answer the specific question without claiming unobserved execution",
+        "Run Read rate limit and inspect three bounded GET attempts."
+      ]
+    },
+    {
+      "id": "lab-28-failure",
+      "lesson": 28,
+      "section": "harness",
+      "title": "Verify: Errors, retries and reconciliation",
+      "question": "Explain when reconnecting a known session is safer than creating another one.",
+      "context": "Classify authored transport, event, handler and cleanup faults while bounding read retries and reconciling uncertain mutations without duplicate effects.",
+      "explanation": "Compare the authored baseline and failure evidence: Run Read rate limit and inspect three bounded GET attempts. Run Missing create response and explain why another create is unsafe without an ID. Run Tool result failure and compare one host effect with the uncertain result acknowledgment. Run Reconnect duplicates and inspect stable event ID deduplication. Compare validation, authorization, cancellation, EOF and browser disconnect classifications.",
+      "check": "Explain when reconnecting a known session is safer than creating another one.",
+      "resource": "none",
+      "number": 76,
+      "category": "Intermediate",
+      "criteria": [
+        "Answer the specific question without claiming unobserved execution",
+        "Explain when reconnecting a known session is safer than creating another one."
+      ]
+    },
+    {
+      "id": "lab-29-baseline",
+      "lesson": 29,
+      "section": "harness",
+      "title": "Images, documents and mounted files",
+      "question": "Explain Images, documents and mounted files using Claude Managed Agents.",
+      "context": "Compare checked inline image/document blocks, explicit file mounts and separate downloaded output evidence using small fictional fixtures.",
+      "explanation": "Compare checked inline image/document blocks, explicit file mounts and separate downloaded output evidence using small fictional fixtures.",
+      "check": "Inspect the checked PNG, PDF and text inventory without uploading anything.",
+      "resource": "docs",
+      "number": 77,
+      "category": "Intermediate",
+      "criteria": [
+        "Answer the specific question without claiming unobserved execution",
+        "Inspect the checked PNG, PDF and text inventory without uploading anything."
+      ]
+    },
+    {
+      "id": "lab-29-failure",
+      "lesson": 29,
+      "section": "harness",
+      "title": "Verify: Images, documents and mounted files",
+      "question": "Send the same fixture through two supported routes and compare observed usage.",
+      "context": "Compare checked inline image/document blocks, explicit file mounts and separate downloaded output evidence using small fictional fixtures.",
+      "explanation": "Compare the authored baseline and failure evidence: Inspect the checked PNG, PDF and text inventory without uploading anything. Run the same fixture through the inline and file-resource previews; compare redacted block and mount metadata. Inspect the downloaded output preview separately from agent answer text. Submit malformed base64 and an oversized text payload; confirm rejection. Explain why a host filesystem path is not a Managed sandbox path.",
+      "check": "Send the same fixture through two supported routes and compare observed usage.",
+      "resource": "none",
+      "number": 78,
+      "category": "Intermediate",
+      "criteria": [
+        "Answer the specific question without claiming unobserved execution",
+        "Send the same fixture through two supported routes and compare observed usage."
+      ]
+    },
+    {
+      "id": "lab-30-baseline",
+      "lesson": 30,
+      "section": "human-state",
+      "title": "Host task board and completion gates",
+      "question": "Explain Host task board and completion gates using Claude Managed Agents.",
+      "context": "Use a host-owned task board and typed custom-tool inputs to enforce dependencies, versions and checked completion evidence independently of agent claims.",
+      "explanation": "Use a host-owned task board and typed custom-tool inputs to enforce dependencies, versions and checked completion evidence independently of agent claims.",
+      "check": "Start the three-step offline board and compare agent claim with host task states.",
+      "resource": "docs",
+      "number": 79,
+      "category": "Intermediate",
+      "criteria": [
+        "Answer the specific question without claiming unobserved execution",
+        "Start the three-step offline board and compare agent claim with host task states."
+      ]
+    },
+    {
+      "id": "lab-30-failure",
+      "lesson": 30,
+      "section": "human-state",
+      "title": "Verify: Host task board and completion gates",
+      "question": "Try a plan change and locate the deterministic accepting or refusing gate.",
+      "context": "Use a host-owned task board and typed custom-tool inputs to enforce dependencies, versions and checked completion evidence independently of agent claims.",
+      "explanation": "Compare the authored baseline and failure evidence: Start the three-step offline board and compare agent claim with host task states. Attempt review or publish completion before dependencies are done; inspect the correlated is_error result. Complete draft, review and publish with exact checked evidence in order. Replay a tool event ID and confirm no second effect. Try invalid whole-plan replacement and a conflicting version; inspect the deterministic gate.",
+      "check": "Try a plan change and locate the deterministic accepting or refusing gate.",
+      "resource": "none",
+      "number": 80,
+      "category": "Intermediate",
+      "criteria": [
+        "Answer the specific question without claiming unobserved execution",
+        "Try a plan change and locate the deterministic accepting or refusing gate."
+      ]
+    },
+    {
+      "id": "lab-31-baseline",
+      "lesson": 31,
+      "section": "human-state",
+      "title": "Host questions and correlated answers",
+      "question": "Explain Host questions and correlated answers using Claude Managed Agents.",
+      "context": "Collect one human answer to a bounded host question and correlate a single Managed custom-tool result with the paused event ID.",
+      "explanation": "Collect one human answer to a bounded host question and correlate a single Managed custom-tool result with the paused event ID.",
+      "check": "Start the deployment-target or option-selection fixture and inspect the stored run, session and event IDs.",
+      "resource": "docs",
+      "number": 81,
+      "category": "Intermediate",
+      "criteria": [
+        "Answer the specific question without claiming unobserved execution",
+        "Start the deployment-target or option-selection fixture and inspect the stored run, session and event IDs."
+      ]
+    },
+    {
+      "id": "lab-31-failure",
+      "lesson": 31,
+      "section": "human-state",
+      "title": "Verify: Host questions and correlated answers",
+      "question": "Compare a partial answer with a complete validated response.",
+      "context": "Collect one human answer to a bounded host question and correlate a single Managed custom-tool result with the paused event ID.",
+      "explanation": "Compare the authored baseline and failure evidence: Start the deployment-target or option-selection fixture and inspect the stored run, session and event IDs. Submit a valid choice and inspect the one correlated result. Try an invalid choice or incomplete answer and confirm no result was sent. Run allowed custom text, expiry and cancellation while waiting. Repeat a decision or use a foreign run ID and compare the errors.",
+      "check": "Compare a partial answer with a complete validated response.",
+      "resource": "none",
+      "number": 82,
+      "category": "Intermediate",
+      "criteria": [
+        "Answer the specific question without claiming unobserved execution",
+        "Compare a partial answer with a complete validated response."
+      ]
+    },
+    {
+      "id": "lab-32-baseline",
+      "lesson": 32,
+      "section": "human-state",
+      "title": "Plan review and execution gate",
+      "question": "Explain Plan review and execution gate using Claude Managed Agents.",
+      "context": "Review an immutable host-validated plan before a separate restricted execution phase, with file effects checked independently of plan text.",
+      "explanation": "Review an immutable host-validated plan before a separate restricted execution phase, with file effects checked independently of plan text.",
+      "check": "Start the planning fixture and compare its initial and current file hashes; planning has zero write effects.",
+      "resource": "docs",
+      "number": 83,
+      "category": "Intermediate",
+      "criteria": [
+        "Answer the specific question without claiming unobserved execution",
+        "Start the planning fixture and compare its initial and current file hashes; planning has zero write effects."
+      ]
+    },
+    {
+      "id": "lab-32-failure",
+      "lesson": 32,
+      "section": "human-state",
+      "title": "Verify: Plan review and execution gate",
+      "question": "Request a revision and verify an older approval cannot authorize the new plan.",
+      "context": "Review an immutable host-validated plan before a separate restricted execution phase, with file effects checked independently of plan text.",
+      "explanation": "Compare the authored baseline and failure evidence: Start the planning fixture and compare its initial and current file hashes; planning has zero write effects. Try a planning write and an unselected execution tool; inspect the host denials. Request a revision and try the older approval; the version and hash must fail. Approve the current plan and inspect the fresh execution session and one checked file change. Reject or cancel another pending plan; confirm it cannot execute.",
+      "check": "Request a revision and verify an older approval cannot authorize the new plan.",
+      "resource": "none",
+      "number": 84,
+      "category": "Intermediate",
+      "criteria": [
+        "Answer the specific question without claiming unobserved execution",
+        "Request a revision and verify an older approval cannot authorize the new plan."
+      ]
+    },
+    {
+      "id": "lab-33-baseline",
+      "lesson": 33,
+      "section": "human-state",
+      "title": "Human forms during tool work",
+      "question": "Explain Human forms during tool work using Claude Managed Agents.",
+      "context": "Collect schema-validated human input during a real local MCP tool call, keeping MCP, custom-tool and consent correlation IDs separate.",
+      "explanation": "Collect schema-validated human input during a real local MCP tool call, keeping MCP, custom-tool and consent correlation IDs separate.",
+      "check": "Start the local MCP form and inspect the initialize, tools/list, tools/call and elicitation evidence.",
+      "resource": "docs",
+      "number": 85,
+      "category": "Intermediate",
+      "criteria": [
+        "Answer the specific question without claiming unobserved execution",
+        "Start the local MCP form and inspect the initialize, tools/list, tools/call and elicitation evidence."
+      ]
+    },
+    {
+      "id": "lab-33-failure",
+      "lesson": 33,
+      "section": "human-state",
+      "title": "Verify: Human forms during tool work",
+      "question": "Submit invalid values and identify the layer that rejects them.",
+      "context": "Collect schema-validated human input during a real local MCP tool call, keeping MCP, custom-tool and consent correlation IDs separate.",
+      "explanation": "Compare the authored baseline and failure evidence: Start the local MCP form and inspect the initialize, tools/list, tools/call and elicitation evidence. Submit a valid date and quantity; inspect the correlated MCP tool response and custom-tool result shape. Submit invalid values and identify the host schema rejection before an MCP reply. Try decline, timeout and abort; confirm there is no accepted form. Inspect the fixed local consent demonstration and distinguish it from OAuth.",
+      "check": "Submit invalid values and identify the layer that rejects them.",
+      "resource": "none",
+      "number": 86,
+      "category": "Intermediate",
+      "criteria": [
+        "Answer the specific question without claiming unobserved execution",
+        "Submit invalid values and identify the layer that rejects them."
+      ]
+    },
+    {
+      "id": "lab-34-baseline",
+      "lesson": 34,
+      "section": "human-state",
+      "title": "Output instruction variants",
+      "question": "Explain Output instruction variants using Claude Managed Agents.",
+      "context": "Compare trusted host output-instruction files in fresh session snapshots while validating JSON reports independently of style text.",
+      "explanation": "Compare trusted host output-instruction files in fresh session snapshots while validating JSON reports independently of style text.",
+      "check": "Inspect the trusted concise, explanatory and review style catalog and its hashes.",
+      "resource": "docs",
+      "number": 87,
+      "category": "Intermediate",
+      "criteria": [
+        "Answer the specific question without claiming unobserved execution",
+        "Inspect the trusted concise, explanatory and review style catalog and its hashes."
+      ]
+    },
+    {
+      "id": "lab-34-failure",
+      "lesson": 34,
+      "section": "human-state",
+      "title": "Verify: Output instruction variants",
+      "question": "Use an unknown style and inspect the preflight rejection.",
+      "context": "Compare trusted host output-instruction files in fresh session snapshots while validating JSON reports independently of style text.",
+      "explanation": "Compare the authored baseline and failure evidence: Inspect the trusted concise, explanatory and review style catalog and its hashes. Compare the same fixed question across styles; each run has a fresh session ID and identical empty capabilities. Inspect the exact composed system override and host-file provenance. Compare review-v1 with review-v2; older session snapshots stay unchanged. Try an unknown style and observe preflight rejection before any session is created.",
+      "check": "Use an unknown style and inspect the preflight rejection.",
+      "resource": "none",
+      "number": 88,
+      "category": "Intermediate",
+      "criteria": [
+        "Answer the specific question without claiming unobserved execution",
+        "Use an unknown style and inspect the preflight rejection."
+      ]
+    },
+    {
+      "id": "lab-35-baseline",
+      "lesson": 35,
+      "section": "human-state",
+      "title": "Event mirrors and conversation indexes",
+      "question": "Explain Event mirrors and conversation indexes using Claude Managed Agents.",
+      "context": "Persist a bounded local mirror of canonical session events by thread without claiming ownership of remote Managed session state.",
+      "explanation": "Persist a bounded local mirror of canonical session events by thread without claiming ownership of remote Managed session state.",
+      "check": "Start eager and batched mirrors and compare persisted versus pending canonical events.",
+      "resource": "docs",
+      "number": 89,
+      "category": "Intermediate",
+      "criteria": [
+        "Answer the specific question without claiming unobserved execution",
+        "Start eager and batched mirrors and compare persisted versus pending canonical events."
+      ]
+    },
+    {
+      "id": "lab-35-failure",
+      "lesson": 35,
+      "section": "human-state",
+      "title": "Verify: Event mirrors and conversation indexes",
+      "question": "Compare flush strategies and identify which records survive a simulated crash.",
+      "context": "Persist a bounded local mirror of canonical session events by thread without claiming ownership of remote Managed session state.",
+      "explanation": "Compare the authored baseline and failure evidence: Start eager and batched mirrors and compare persisted versus pending canonical events. Simulate a crash and restart before flushing a batch; identify the lost local pending records. Try an append failure, restore appends and reconcile canonical history without duplicates. Inspect missing-thread and archived-session cases; the mirror cannot invent history or restore a sandbox. Compare the conversation index, thread partitions and separate empty effect ledger.",
+      "check": "Compare flush strategies and identify which records survive a simulated crash.",
+      "resource": "none",
+      "number": 90,
+      "category": "Intermediate",
+      "criteria": [
+        "Answer the specific question without claiming unobserved execution",
+        "Compare flush strategies and identify which records survive a simulated crash."
+      ]
+    },
+    {
+      "id": "lab-36-baseline",
+      "lesson": 36,
+      "section": "stream-boundaries",
+      "title": "Remote transport and host runners",
+      "question": "Explain Remote transport and host runners using Claude Managed Agents.",
+      "context": "Inspect the host HTTP/event boundary, bounded event consumption, fixed host worker lifecycle and remote cleanup without spawning Claude Code.",
+      "explanation": "Inspect the host HTTP/event boundary, bounded event consumption, fixed host worker lifecycle and remote cleanup without spawning Claude Code.",
+      "check": "Run the successful loopback Managed-port fixture and inspect host request and remote lifecycle events.",
+      "resource": "docs",
+      "number": 91,
+      "category": "Intermediate",
+      "criteria": [
+        "Answer the specific question without claiming unobserved execution",
+        "Run the successful loopback Managed-port fixture and inspect host request and remote lifecycle events."
+      ]
+    },
+    {
+      "id": "lab-36-failure",
+      "lesson": 36,
+      "section": "stream-boundaries",
+      "title": "Verify: Remote transport and host runners",
+      "question": "Identify which work runs on the host and which belongs to the remote session.",
+      "context": "Inspect the host HTTP/event boundary, bounded event consumption, fixed host worker lifecycle and remote cleanup without spawning Claude Code.",
+      "explanation": "Compare the authored baseline and failure evidence: Run the successful loopback Managed-port fixture and inspect host request and remote lifecycle events. Compare connection failure with an early stream close; neither produces a verified completed turn. Run handler-worker failure and confirm one child exit with private stderr withheld. Cancel during a pending stream; inspect local abort and unconfirmed remote cleanup. Identify which code runs on the host and which lifecycle belongs to a remote session.",
+      "check": "Identify which work runs on the host and which belongs to the remote session.",
+      "resource": "none",
+      "number": 92,
+      "category": "Intermediate",
+      "criteria": [
+        "Answer the specific question without claiming unobserved execution",
+        "Identify which work runs on the host and which belongs to the remote session."
+      ]
+    },
+    {
+      "id": "lab-37-baseline",
+      "lesson": 37,
+      "section": "stream-boundaries",
+      "title": "External policy decision service",
+      "question": "Explain External policy decision service using Claude Managed Agents.",
+      "context": "Ask a host-only policy service about an exact paused action and send one correlated confirmation only after a valid gate decision and independent path check.",
+      "explanation": "Ask a host-only policy service about an exact paused action and send one correlated confirmation only after a valid gate decision and independent path check.",
+      "check": "Start a preallowed observation and see that no gate request or confirmation is needed.",
+      "resource": "docs",
+      "number": 93,
+      "category": "Intermediate",
+      "criteria": [
+        "Answer the specific question without claiming unobserved execution",
+        "Start a preallowed observation and see that no gate request or confirmation is needed."
+      ]
+    },
+    {
+      "id": "lab-37-failure",
+      "lesson": 37,
+      "section": "stream-boundaries",
+      "title": "Verify: External policy decision service",
+      "question": "Return an invalid gate response and inspect the prevented effect.",
+      "context": "Ask a host-only policy service about an exact paused action and send one correlated confirmation only after a valid gate decision and independent path check.",
+      "explanation": "Compare the authored baseline and failure evidence: Start a preallowed observation and see that no gate request or confirmation is needed. Run the worker deny and inspect the exact sevt_ ID, deny_message and unchanged fixture file. Try malformed output and timeout; neither can produce a confirmation or file effect. Run host-refusal: the worker allows but the fixed host path limit denies. Compare a local reviewer decision with the isolated policy worker and replay a decision.",
+      "check": "Return an invalid gate response and inspect the prevented effect.",
+      "resource": "none",
+      "number": 94,
+      "category": "Intermediate",
+      "criteria": [
+        "Answer the specific question without claiming unobserved execution",
+        "Return an invalid gate response and inspect the prevented effect."
+      ]
+    },
+    {
+      "id": "lab-38-baseline",
+      "lesson": 38,
+      "section": "stream-boundaries",
+      "title": "Application follow up suggestions",
+      "question": "Explain Application follow up suggestions using Claude Managed Agents.",
+      "context": "Offer optional application follow-up suggestions bound to a conversation, turn and response version without auto-sending or conflating usage with the answer.",
+      "explanation": "Offer optional application follow-up suggestions bound to a conversation, turn and response version without auto-sending or conflating usage with the answer.",
+      "check": "Start a normal offline conversation and inspect the answer before checking suggestions.",
+      "resource": "docs",
+      "number": 95,
+      "category": "Intermediate",
+      "criteria": [
+        "Answer the specific question without claiming unobserved execution",
+        "Start a normal offline conversation and inspect the answer before checking suggestions."
+      ]
+    },
+    {
+      "id": "lab-38-failure",
+      "lesson": 38,
+      "section": "stream-boundaries",
+      "title": "Verify: Application follow up suggestions",
+      "question": "Explain why a suggestion may be absent and why accepting one needs a separate send.",
+      "context": "Offer optional application follow-up suggestions bound to a conversation, turn and response version without auto-sending or conflating usage with the answer.",
+      "explanation": "Compare the authored baseline and failure evidence: Start a normal offline conversation and inspect the answer before checking suggestions. Copy a suggestion into the input and confirm the explicit send count does not change. Press Send message to submit it as a separate user turn. Try delayed, suppressed and disabled suggestions; absence is valid. Create a newer turn and confirm an older suggestion is stale and rejected.",
+      "check": "Explain why a suggestion may be absent and why accepting one needs a separate send.",
+      "resource": "none",
+      "number": 96,
+      "category": "Intermediate",
+      "criteria": [
+        "Answer the specific question without claiming unobserved execution",
+        "Explain why a suggestion may be absent and why accepting one needs a separate send."
+      ]
+    },
+    {
+      "id": "lab-39-baseline",
+      "lesson": 39,
+      "section": "stream-boundaries",
+      "title": "Trusted configuration and untrusted checkouts",
+      "question": "Explain Trusted configuration and untrusted checkouts using Claude Managed Agents.",
+      "context": "Verify a host-selected configuration manifest and hash before handling branch data through checked file tools.",
+      "explanation": "Verify a host-selected configuration manifest and hash before handling branch data through checked file tools.",
+      "check": "Create a disposable worktree and compare the trusted host marker with a conflicting CLAUDE.md branch marker.",
+      "resource": "docs",
+      "number": 97,
+      "category": "Intermediate",
+      "criteria": [
+        "Answer the specific question without claiming unobserved execution",
+        "Create a disposable worktree and compare the trusted host marker with a conflicting CLAUDE.md branch marker."
+      ]
+    },
+    {
+      "id": "lab-39-failure",
+      "lesson": 39,
+      "section": "stream-boundaries",
+      "title": "Verify: Trusted configuration and untrusted checkouts",
+      "question": "Identify a branch rule the trusted configuration refuses to execute.",
+      "context": "Verify a host-selected configuration manifest and hash before handling branch data through checked file tools.",
+      "explanation": "Compare the authored baseline and failure evidence: Create a disposable worktree and compare the trusted host marker with a conflicting CLAUDE.md branch marker. Inspect provenance and attempt the branch instruction takeover; confirm no hook ran. Read notes.txt as data, then edit only that allowlisted file. Try CLAUDE.md as an edit target, traversal and an absolute path; inspect each refusal. Repeat with a missing manifest and a changed hash; neither can start a trusted session.",
+      "check": "Identify a branch rule the trusted configuration refuses to execute.",
+      "resource": "none",
+      "number": 98,
+      "category": "Intermediate",
+      "criteria": [
+        "Answer the specific question without claiming unobserved execution",
+        "Identify a branch rule the trusted configuration refuses to execute."
+      ]
+    },
+    {
+      "id": "lab-40-baseline",
+      "lesson": 40,
+      "section": "stream-boundaries",
+      "title": "Safe recovery boundaries",
+      "question": "Explain Safe recovery boundaries using Claude Managed Agents.",
+      "context": "Choose recovery from a host command/effect ledger without erasing remote history or dropping accepted work.",
+      "explanation": "Choose recovery from a host command/effect ledger without erasing remote history or dropping accepted work.",
+      "check": "Build the kept-turn case and compare remote event, command and effect IDs before and after continuation.",
+      "resource": "docs",
+      "number": 99,
+      "category": "Intermediate",
+      "criteria": [
+        "Answer the specific question without claiming unobserved execution",
+        "Build the kept-turn case and compare remote event, command and effect IDs before and after continuation."
+      ]
+    },
+    {
+      "id": "lab-40-failure",
+      "lesson": 40,
+      "section": "stream-boundaries",
+      "title": "Verify: Safe recovery boundaries",
+      "question": "Explain how queued work changes the safe recovery boundary.",
+      "context": "Choose recovery from a host command/effect ledger without erasing remote history or dropping accepted work.",
+      "explanation": "Compare the authored baseline and failure evidence: Build the kept-turn case and compare remote event, command and effect IDs before and after continuation. Try host-only undo and confirm it refuses to erase accepted work. Compare uncertain send and pending effect; both require reconciliation before continuation or retry. Inspect a queued follow-up and explain why fresh derivation would lose accepted work. Use the clean snapshot case to restore only a versioned host draft.",
+      "check": "Explain how queued work changes the safe recovery boundary.",
+      "resource": "none",
+      "number": 100,
+      "category": "Intermediate",
+      "criteria": [
+        "Answer the specific question without claiming unobserved execution",
+        "Explain how queued work changes the safe recovery boundary."
+      ]
+    },
+    {
+      "id": "lab-41-baseline",
+      "lesson": 41,
+      "section": "stream-boundaries",
+      "title": "Managed session lifecycle comparison",
+      "question": "Explain Managed session lifecycle comparison using Claude Managed Agents.",
+      "context": "Compare one-shot, retained and reconnect workflows using current Managed session events, IDs and archive evidence.",
+      "explanation": "Compare one-shot, retained and reconnect workflows using current Managed session events, IDs and archive evidence.",
+      "check": "Start one-shot and inspect the sent user event, streamed agent event, idle confirmation and archive.",
+      "resource": "docs",
+      "number": 101,
+      "category": "Intermediate",
+      "criteria": [
+        "Answer the specific question without claiming unobserved execution",
+        "Start one-shot and inspect the sent user event, streamed agent event, idle confirmation and archive."
+      ]
+    },
+    {
+      "id": "lab-41-failure",
+      "lesson": 41,
+      "section": "stream-boundaries",
+      "title": "Verify: Managed session lifecycle comparison",
+      "question": "Describe the Managed event sequence for continuing an idle session.",
+      "context": "Compare one-shot, retained and reconnect workflows using current Managed session events, IDs and archive evidence.",
+      "explanation": "Compare the authored baseline and failure evidence: Start one-shot and inspect the sent user event, streamed agent event, idle confirmation and archive. Start retained mode and send a second turn using the same session ID. Reconnect by listing history and confirm no additional session is created. Interrupt an idle retained session and continue it after the fixture idle confirmation. Inspect archived-session refusal and the static historical model panel.",
+      "check": "Describe the Managed event sequence for continuing an idle session.",
+      "resource": "none",
+      "number": 102,
+      "category": "Intermediate",
+      "criteria": [
+        "Answer the specific question without claiming unobserved execution",
+        "Describe the Managed event sequence for continuing an idle session."
+      ]
+    },
+    {
+      "id": "lab-42-baseline",
+      "lesson": 42,
+      "section": "stream-boundaries",
+      "title": "Bounded web research and citations",
+      "question": "Explain Bounded web research and citations using Claude Managed Agents.",
+      "context": "Research with bounded, inspected source records and verify citations against returned evidence while refusing unsafe redirects.",
+      "explanation": "Research with bounded, inspected source records and verify citations against returned evidence while refusing unsafe redirects.",
+      "check": "Inspect exact installed Managed web_search and web_fetch config fields in the code view.",
+      "resource": "docs",
+      "number": 103,
+      "category": "Intermediate",
+      "criteria": [
+        "Answer the specific question without claiming unobserved execution",
+        "Inspect exact installed Managed web_search and web_fetch config fields in the code view."
+      ]
+    },
+    {
+      "id": "lab-42-failure",
+      "lesson": 42,
+      "section": "stream-boundaries",
+      "title": "Verify: Bounded web research and citations",
+      "question": "Test a hostile page and inspect the enforcing host decision.",
+      "context": "Research with bounded, inspected source records and verify citations against returned evidence while refusing unsafe redirects.",
+      "explanation": "Compare the authored baseline and failure evidence: Inspect exact installed Managed web_search and web_fetch config fields in the code view. Compare a search snippet with a complete authored page. Run the hostile page and confirm its instruction remains escaped source data. Run redirect and blocked-host cases; compare checked targets and request counts. Verify answer citation IDs against inspected source records.",
+      "check": "Test a hostile page and inspect the enforcing host decision.",
+      "resource": "none",
+      "number": 104,
+      "category": "Intermediate",
+      "criteria": [
+        "Answer the specific question without claiming unobserved execution",
+        "Test a hostile page and inspect the enforcing host decision."
+      ]
+    },
+    {
+      "id": "lab-43-baseline",
+      "lesson": 43,
+      "section": "stream-boundaries",
+      "title": "MCP resources through a host bridge",
+      "question": "Explain MCP resources through a host bridge using Claude Managed Agents.",
+      "context": "Read authenticated, bounded MCP resources through a host bridge without assuming Managed query-control methods.",
+      "explanation": "Read authenticated, bounded MCP resources through a host bridge without assuming Managed query-control methods.",
+      "check": "Grant local consent and inspect loopback tool, resource/template and prompt listings.",
+      "resource": "docs",
+      "number": 105,
+      "category": "Intermediate",
+      "criteria": [
+        "Answer the specific question without claiming unobserved execution",
+        "Grant local consent and inspect loopback tool, resource/template and prompt listings."
+      ]
+    },
+    {
+      "id": "lab-43-failure",
+      "lesson": 43,
+      "section": "stream-boundaries",
+      "title": "Verify: MCP resources through a host bridge",
+      "question": "Refresh the bridge token and inspect the next authorized call.",
+      "context": "Read authenticated, bounded MCP resources through a host bridge without assuming Managed query-control methods.",
+      "explanation": "Compare the authored baseline and failure evidence: Grant local consent and inspect loopback tool, resource/template and prompt listings. Read v1 and v2 server-owned resource URIs and compare versioned results. Get the known prompt and inspect the bounded host custom-tool result shape. Try bad token, expired token and unknown URI; confirm no result escapes. Refresh the bridge token and verify the next authorized read.",
+      "check": "Refresh the bridge token and inspect the next authorized call.",
+      "resource": "none",
+      "number": 106,
+      "category": "Intermediate",
+      "criteria": [
+        "Answer the specific question without claiming unobserved execution",
+        "Refresh the bridge token and inspect the next authorized call."
+      ]
+    },
+    {
+      "id": "lab-44-baseline",
+      "lesson": 44,
+      "section": "observability",
+      "title": "Host telemetry and provider event traces",
+      "question": "Explain Host telemetry and provider event traces using Claude Managed Agents.",
+      "context": "Correlate redacted host OTLP spans with separately labeled Managed model-span event evidence and effect counts.",
+      "explanation": "Correlate redacted host OTLP spans with separately labeled Managed model-span event evidence and effect counts.",
+      "check": "Run a successful tool fixture and follow trace/parent IDs across Express, port, approval, handler and cleanup spans.",
+      "resource": "docs",
+      "number": 107,
+      "category": "Intermediate",
+      "criteria": [
+        "Answer the specific question without claiming unobserved execution",
+        "Run a successful tool fixture and follow trace/parent IDs across Express, port, approval, handler and cleanup spans."
+      ]
+    },
+    {
+      "id": "lab-44-failure",
+      "lesson": 44,
+      "section": "observability",
+      "title": "Verify: Host telemetry and provider event traces",
+      "question": "Compare denied and executed actions in the host trace and effect ledger.",
+      "context": "Correlate redacted host OTLP spans with separately labeled Managed model-span event evidence and effect counts.",
+      "explanation": "Compare the authored baseline and failure evidence: Run a successful tool fixture and follow trace/parent IDs across Express, port, approval, handler and cleanup spans. Compare denied and failed-tool cases against effect count and host decisions. Inspect a missing provider model-span signal without inferring that no model activity occurred. Opt in to fictional content recording and compare attributes with the default redacted run. Inspect bounded collector storage and distinguish host export from provider event evidence.",
+      "check": "Compare denied and executed actions in the host trace and effect ledger.",
+      "resource": "none",
+      "number": 108,
+      "category": "Intermediate",
+      "criteria": [
+        "Answer the specific question without claiming unobserved execution",
+        "Compare denied and executed actions in the host trace and effect ledger."
+      ]
+    },
+    {
+      "id": "lab-45-baseline",
+      "lesson": 45,
+      "section": "observability",
+      "title": "Provider availability and configuration",
+      "question": "Explain Provider availability and configuration using Claude Managed Agents.",
+      "context": "Separate documented Managed Agents availability, installed client verification and Messages API support before choosing a provider path.",
+      "explanation": "Separate documented Managed Agents availability, installed client verification and Messages API support before choosing a provider path.",
+      "check": "Load the dated official capability catalog and compare direct Claude API with Claude Platform on AWS.",
+      "resource": "docs",
+      "number": 109,
+      "category": "Intermediate",
+      "criteria": [
+        "Answer the specific question without claiming unobserved execution",
+        "Load the dated official capability catalog and compare direct Claude API with Claude Platform on AWS."
+      ]
+    },
+    {
+      "id": "lab-45-failure",
+      "lesson": 45,
+      "section": "observability",
+      "title": "Verify: Provider availability and configuration",
+      "question": "Identify a preflight check that catches an unsupported provider path.",
+      "context": "Separate documented Managed Agents availability, installed client verification and Messages API support before choosing a provider path.",
+      "explanation": "Compare the authored baseline and failure evidence: Load the dated official capability catalog and compare direct Claude API with Claude Platform on AWS. Inspect Bedrock, Vertex and Foundry Messages paths without inferring Managed sessions. Run synthetic ready and auth/model/config mismatch cases against the loopback emulator. Compare a passed emulator wire check with a disabled AWS Managed route. Inspect first-party setup readiness without forwarding credentials or starting a billed run.",
+      "check": "Identify a preflight check that catches an unsupported provider path.",
+      "resource": "none",
+      "number": 110,
+      "category": "Intermediate",
+      "criteria": [
+        "Answer the specific question without claiming unobserved execution",
+        "Identify a preflight check that catches an unsupported provider path."
+      ]
+    },
+    {
+      "id": "lab-46-baseline",
+      "lesson": 46,
+      "section": "observability",
+      "title": "Observed cache usage and cost",
+      "question": "Explain Observed cache usage and cost using Claude Managed Agents.",
+      "context": "Compare supported Managed cache-read and creation counters across equal-scope observations without inventing prompt control or savings.",
+      "explanation": "Compare supported Managed cache-read and creation counters across equal-scope observations without inventing prompt control or savings.",
+      "check": "Read the stable authored handbook and dynamic suffixes in the anatomy view.",
+      "resource": "docs",
+      "number": 111,
+      "category": "Intermediate",
+      "criteria": [
+        "Answer the specific question without claiming unobserved execution",
+        "Read the stable authored handbook and dynamic suffixes in the anatomy view."
+      ]
+    },
+    {
+      "id": "lab-46-failure",
+      "lesson": 46,
+      "section": "observability",
+      "title": "Verify: Observed cache usage and cost",
+      "question": "Change a content prefix and compare measured cache counters when available.",
+      "context": "Compare supported Managed cache-read and creation counters across equal-scope observations without inventing prompt control or savings.",
+      "explanation": "Compare the authored baseline and failure evidence: Read the stable authored handbook and dynamic suffixes in the anatomy view. Compare two retained-session model-request usage records for reused content. Change the prefix and inspect the content hash and observed counter examples. Change model or tools in fresh sessions and see why no delta is calculated. Try short input and missing usage; zero and unknown are different outcomes.",
+      "check": "Change a content prefix and compare measured cache counters when available.",
+      "resource": "none",
+      "number": 112,
+      "category": "Intermediate",
+      "criteria": [
+        "Answer the specific question without claiming unobserved execution",
+        "Change a content prefix and compare measured cache counters when available."
+      ]
+    },
+    {
+      "id": "lab-47-baseline",
+      "lesson": 47,
+      "section": "teams",
+      "title": "Model driven and host driven orchestration",
+      "question": "Explain Model driven and host driven orchestration using Claude Managed Agents.",
+      "context": "Compare native Managed worker threads with a host pipeline of independent sessions using closed reports and verified sales fixtures.",
+      "explanation": "Compare native Managed worker threads with a host pipeline of independent sessions using closed reports and verified sales fixtures.",
+      "check": "Choose a native or host orchestration route and inspect session versus thread identity.",
+      "resource": "docs",
+      "number": 113,
+      "category": "Intermediate",
+      "criteria": [
+        "Answer the specific question without claiming unobserved execution",
+        "Choose a native or host orchestration route and inspect session versus thread identity."
+      ]
+    },
+    {
+      "id": "lab-47-failure",
+      "lesson": 47,
+      "section": "teams",
+      "title": "Verify: Model driven and host driven orchestration",
+      "question": "Stop one worker and inspect the effect on dependent tasks.",
+      "context": "Compare native Managed worker threads with a host pipeline of independent sessions using closed reports and verified sales fixtures.",
+      "explanation": "Compare the authored baseline and failure evidence: Choose a native or host orchestration route and inspect session versus thread identity. Run regional sales and compare raw worker text with verified reports. Run incorrect total and inspect the single corrective round before handoff. Run delayed worker and dependency failure to see why parent prose cannot pass the gate. Compare shared native session usage with the host aggregate of independent sessions.",
+      "check": "Stop one worker and inspect the effect on dependent tasks.",
+      "resource": "none",
+      "number": 114,
+      "category": "Intermediate",
+      "criteria": [
+        "Answer the specific question without claiming unobserved execution",
+        "Stop one worker and inspect the effect on dependent tasks."
+      ]
+    },
+    {
+      "id": "lab-48-baseline",
+      "lesson": 48,
+      "section": "teams",
+      "title": "Security hardening",
+      "question": "Explain Security hardening using Claude Managed Agents.",
+      "context": "Use host-enforced tool input, path and egress checks to distinguish hostile attempts from observed local effects.",
+      "explanation": "Use host-enforced tool input, path and egress checks to distinguish hostile attempts from observed local effects.",
+      "check": "Compare a naive prompt-only policy with layered host enforcement.",
+      "resource": "docs",
+      "number": 115,
+      "category": "Intermediate",
+      "criteria": [
+        "Answer the specific question without claiming unobserved execution",
+        "Compare a naive prompt-only policy with layered host enforcement."
+      ]
+    },
+    {
+      "id": "lab-48-failure",
+      "lesson": 48,
+      "section": "teams",
+      "title": "Verify: Security hardening",
+      "question": "Identify the host check that protects data when the model is misled.",
+      "context": "Use host-enforced tool input, path and egress checks to distinguish hostile attempts from observed local effects.",
+      "explanation": "Compare the authored baseline and failure evidence: Compare a naive prompt-only policy with layered host enforcement. Try a fake secret read and inspect whether the canary is exposed. Try an out-of-scope write and inspect the outside-file state. Try injected egress and inspect the loopback collector hit count. Compare the custom-tool event ID with the separate business idempotency key.",
+      "check": "Identify the host check that protects data when the model is misled.",
+      "resource": "none",
+      "number": 116,
+      "category": "Intermediate",
+      "criteria": [
+        "Answer the specific question without claiming unobserved execution",
+        "Identify the host check that protects data when the model is misled."
+      ]
+    },
+    {
+      "id": "lab-49-baseline",
+      "lesson": 49,
+      "section": "teams",
+      "title": "Headless host and CI outcomes",
+      "question": "Explain Headless host and CI outcomes using Claude Managed Agents.",
+      "context": "Classify bounded headless Managed session work into machine-readable CI outcomes with explicit cleanup evidence.",
+      "explanation": "Classify bounded headless Managed session work into machine-readable CI outcomes with explicit cleanup evidence.",
+      "check": "Run the pass fixture and inspect its validated report and zero exit code.",
+      "resource": "docs",
+      "number": 117,
+      "category": "Intermediate",
+      "criteria": [
+        "Answer the specific question without claiming unobserved execution",
+        "Run the pass fixture and inspect its validated report and zero exit code."
+      ]
+    },
+    {
+      "id": "lab-49-failure",
+      "lesson": 49,
+      "section": "teams",
+      "title": "Verify: Headless host and CI outcomes",
+      "question": "Explain which outcome should fail CI and what remote cleanup evidence is required.",
+      "context": "Classify bounded headless Managed session work into machine-readable CI outcomes with explicit cleanup evidence.",
+      "explanation": "Compare the authored baseline and failure evidence: Run the pass fixture and inspect its validated report and zero exit code. Run validation, limit and execution-error scenarios and compare failure exit codes. Try SIGTERM, capacity rejection and unconfirmed remote stop; inspect cleanup state. Read the authored runner, worker, Dockerfile and sample workflow before any live opt-in.",
+      "check": "Explain which outcome should fail CI and what remote cleanup evidence is required.",
+      "resource": "none",
+      "number": 118,
+      "category": "Intermediate",
+      "criteria": [
+        "Answer the specific question without claiming unobserved execution",
+        "Explain which outcome should fail CI and what remote cleanup evidence is required."
+      ]
+    },
+    {
+      "id": "lab-50-baseline",
+      "lesson": 50,
+      "section": "teams",
+      "title": "Full stack capstone",
+      "question": "Explain Full stack capstone using Claude Managed Agents.",
+      "context": "Resolve fictional support cases through customer-owned tools, retained sessions, trusted host review and a verified refund ledger.",
+      "explanation": "Resolve fictional support cases through customer-owned tools, retained sessions, trusted host review and a verified refund ledger.",
+      "check": "Select C-1 and inspect its orders, then ask for a partial damaged-item refund.",
+      "resource": "docs",
+      "number": 119,
+      "category": "Intermediate",
+      "criteria": [
+        "Answer the specific question without claiming unobserved execution",
+        "Select C-1 and inspect its orders, then ask for a partial damaged-item refund."
+      ]
+    },
+    {
+      "id": "lab-50-failure",
+      "lesson": 50,
+      "section": "teams",
+      "title": "Verify: Full stack capstone",
+      "question": "Deny a refund and verify that no refund is recorded.",
+      "context": "Resolve fictional support cases through customer-owned tools, retained sessions, trusted host review and a verified refund ledger.",
+      "explanation": "Compare the authored baseline and failure evidence: Select C-1 and inspect its orders, then ask for a partial damaged-item refund. Inspect the pending immutable approval and deny it; verify no ledger entry appears. Request another refund and approve it once; compare remaining cents and audit entries. Switch to C-2 and try a foreign order or malicious note; the host gate must reject the effect. Resume a conversation, inspect correlated event IDs, close it and run the four offline evals.",
+      "check": "Deny a refund and verify that no refund is recorded.",
+      "resource": "none",
+      "number": 120,
+      "category": "Intermediate",
+      "criteria": [
+        "Answer the specific question without claiming unobserved execution",
+        "Deny a refund and verify that no refund is recorded."
+      ]
+    },
+    {
+      "id": "lab-51-baseline",
+      "lesson": 51,
+      "section": "testing",
+      "title": "Testing the Managed host offline",
+      "question": "Explain Testing the Managed host offline using Claude Managed Agents.",
+      "context": "Verify the real Acme Support Desk host logic and event consumption without a provider request.",
+      "explanation": "Verify the real Acme Support Desk host logic and event consumption without a provider request.",
+      "check": "Run the full offline suite and inspect the handler and ledger assertions.",
+      "resource": "docs",
+      "number": 121,
+      "category": "Advanced",
+      "criteria": [
+        "Answer the specific question without claiming unobserved execution",
+        "Run the full offline suite and inspect the handler and ledger assertions."
+      ]
+    },
+    {
+      "id": "lab-51-failure",
+      "lesson": 51,
+      "section": "testing",
+      "title": "Verify: Testing the Managed host offline",
+      "question": "Enable the 60-day mutation and explain why the 30-day policy assertion fails for the same order and clock.",
+      "context": "Verify the real Acme Support Desk host logic and event consumption without a provider request.",
+      "explanation": "Compare the authored baseline and failure evidence: Run the full offline suite and inspect the handler and ledger assertions. Run malformed input, foreign-order, denial and cancellation cases individually. Replay child-thread, duplicate and missing-terminal events through the shared consumer. Run the virtual-time policy mutation and identify the expected failed assertion.",
+      "check": "Enable the 60-day mutation and explain why the 30-day policy assertion fails for the same order and clock.",
+      "resource": "none",
+      "number": 122,
+      "category": "Advanced",
+      "criteria": [
+        "Answer the specific question without claiming unobserved execution",
+        "Enable the 60-day mutation and explain why the 30-day policy assertion fails for the same order and clock."
+      ]
+    },
+    {
+      "id": "lab-52-baseline",
+      "lesson": 52,
+      "section": "testing",
+      "title": "Evals, judges and regression baselines",
+      "question": "Explain Evals, judges and regression baselines using Claude Managed Agents.",
+      "context": "Compare deterministic host safety checks with optional judge output and gate candidate promotion against a recorded baseline.",
+      "explanation": "Compare deterministic host safety checks with optional judge output and gate candidate promotion against a recorded baseline.",
+      "check": "Run the baseline for two trials and inspect ledger-backed holdout results.",
+      "resource": "docs",
+      "number": 123,
+      "category": "Advanced",
+      "criteria": [
+        "Answer the specific question without claiming unobserved execution",
+        "Run the baseline for two trials and inspect ledger-backed holdout results."
+      ]
+    },
+    {
+      "id": "lab-52-failure",
+      "lesson": 52,
+      "section": "testing",
+      "title": "Verify: Evals, judges and regression baselines",
+      "question": "Change a candidate claim and decide whether the regression and safety gates should permit local promotion.",
+      "context": "Compare deterministic host safety checks with optional judge output and gate candidate promotion against a recorded baseline.",
+      "explanation": "Compare the authored baseline and failure evidence: Run the baseline for two trials and inspect ledger-backed holdout results. Run the regression candidate; compare false refund claims against host effects and the baseline. Calibrate an agreeing, disagreeing and invalid JSON judge without overriding host safety. Run the recovered candidate, compare the pair, and promote its local result only if all gates pass.",
+      "check": "Change a candidate claim and decide whether the regression and safety gates should permit local promotion.",
+      "resource": "none",
+      "number": 124,
+      "category": "Advanced",
+      "criteria": [
+        "Answer the specific question without claiming unobserved execution",
+        "Change a candidate claim and decide whether the regression and safety gates should permit local promotion."
+      ]
+    },
+    {
+      "id": "lab-53-baseline",
+      "lesson": 53,
+      "section": "testing",
+      "title": "Debugging session and host traces",
+      "question": "Explain Debugging session and host traces using Claude Managed Agents.",
+      "context": "Reproduce a session or host failure and identify its first useful redacted event, decision or effect.",
+      "explanation": "Reproduce a session or host failure and identify its first useful redacted event, decision or effect.",
+      "check": "Run the valid control and compare the host refund ledger with replayed event outcome.",
+      "resource": "docs",
+      "number": 125,
+      "category": "Advanced",
+      "criteria": [
+        "Answer the specific question without claiming unobserved execution",
+        "Run the valid control and compare the host refund ledger with replayed event outcome."
+      ]
+    },
+    {
+      "id": "lab-53-failure",
+      "lesson": 53,
+      "section": "testing",
+      "title": "Verify: Debugging session and host traces",
+      "question": "Change one trace variable and explain whether it fixes the first evidenced cause without inventing a remote outcome.",
+      "context": "Reproduce a session or host failure and identify its first useful redacted event, decision or effect.",
+      "explanation": "Compare the authored baseline and failure evidence: Run the valid control and compare the host refund ledger with replayed event outcome. Inspect malformed report and denied tool traces; identify the first host gate that explains each. Run missing idle, stream EOF and local turn limit; separate incomplete local evidence from remote state. Run cleanup timeout and inspect why archival and remote stop remain unconfirmed.",
+      "check": "Change one trace variable and explain whether it fixes the first evidenced cause without inventing a remote outcome.",
+      "resource": "none",
+      "number": 126,
+      "category": "Advanced",
+      "criteria": [
+        "Answer the specific question without claiming unobserved execution",
+        "Change one trace variable and explain whether it fixes the first evidenced cause without inventing a remote outcome."
+      ]
+    },
+    {
+      "id": "lab-54-baseline",
+      "lesson": 54,
+      "section": "testing",
+      "title": "Designing tools the model uses well",
+      "question": "Explain Designing tools the model uses well using Claude Managed Agents.",
+      "context": "Compare vague and explicit Managed custom-tool contracts while keeping refund policy and idempotency in the host handler.",
+      "explanation": "Compare vague and explicit Managed custom-tool contracts while keeping refund policy and idempotency in the host handler.",
+      "check": "Inspect both tool names, descriptions, Zod-derived schemas and linter findings.",
+      "resource": "docs",
+      "number": 127,
+      "category": "Advanced",
+      "criteria": [
+        "Answer the specific question without claiming unobserved execution",
+        "Inspect both tool names, descriptions, Zod-derived schemas and linter findings."
+      ]
+    },
+    {
+      "id": "lab-54-failure",
+      "lesson": 54,
+      "section": "testing",
+      "title": "Verify: Designing tools the model uses well",
+      "question": "Improve one vague field name or error message and predict how the linter and host effects should differ.",
+      "context": "Compare vague and explicit Managed custom-tool contracts while keeping refund policy and idempotency in the host handler.",
+      "explanation": "Compare the authored baseline and failure evidence: Inspect both tool names, descriptions, Zod-derived schemas and linter findings. Run invalid input, domain rejection and missing prerequisite cases; check that no refund is issued. Run the idempotent action and distinguish sevt_ correlation from a stable business action key. Compare scripted choice and recovery traces without treating them as live model measurements.",
+      "check": "Improve one vague field name or error message and predict how the linter and host effects should differ.",
+      "resource": "none",
+      "number": 128,
+      "category": "Advanced",
+      "criteria": [
+        "Answer the specific question without claiming unobserved execution",
+        "Improve one vague field name or error message and predict how the linter and host effects should differ."
+      ]
+    },
+    {
+      "id": "lab-55-baseline",
+      "lesson": 55,
+      "section": "testing",
+      "title": "Official SDK and API upgrades",
+      "question": "Explain Official SDK and API upgrades using Claude Managed Agents.",
+      "context": "Rehearse SDK and Managed API compatibility gates, canary, promotion and rollback without changing the locked teaching app.",
+      "explanation": "Rehearse SDK and Managed API compatibility gates, canary, promotion and rollback without changing the locked teaching app.",
+      "check": "Inspect the installed 0.133.0 baseline and separate npm, API and pinned resource identities.",
+      "resource": "docs",
+      "number": 129,
+      "category": "Advanced",
+      "criteria": [
+        "Answer the specific question without claiming unobserved execution",
+        "Inspect the installed 0.133.0 baseline and separate npm, API and pinned resource identities."
+      ]
+    },
+    {
+      "id": "lab-55-failure",
+      "lesson": 55,
+      "section": "testing",
+      "title": "Verify: Official SDK and API upgrades",
+      "question": "Make one candidate fixture lose a required event type and explain why a version bump alone cannot authorize promotion.",
+      "context": "Rehearse SDK and Managed API compatibility gates, canary, promotion and rollback without changing the locked teaching app.",
+      "explanation": "Compare the authored baseline and failure evidence: Inspect the installed 0.133.0 baseline and separate npm, API and pinned resource identities. Analyze each candidate fixture and identify which server check blocks it. Run the compatible fixture through authored canary, promotion and host-code rollback. Observe that a client eligible hint grants nothing and rollback cannot rewind remote sessions.",
+      "check": "Make one candidate fixture lose a required event type and explain why a version bump alone cannot authorize promotion.",
+      "resource": "none",
+      "number": 130,
+      "category": "Advanced",
+      "criteria": [
+        "Answer the specific question without claiming unobserved execution",
+        "Make one candidate fixture lose a required event type and explain why a version bump alone cannot authorize promotion."
+      ]
+    },
+    {
+      "id": "lab-56-baseline",
+      "lesson": 56,
+      "section": "durable",
+      "title": "Teams and evidence messages",
+      "question": "Explain Teams and evidence messages using Claude Managed Agents.",
+      "context": "Coordinate two application roles with checked evidence, stable envelopes and explicit completion gates.",
+      "explanation": "Coordinate two application roles with checked evidence, stable envelopes and explicit completion gates.",
+      "check": "Replay blocked review and competing claim to see task ownership and dependencies enforced.",
+      "resource": "docs",
+      "number": 131,
+      "category": "Advanced",
+      "criteria": [
+        "Answer the specific question without claiming unobserved execution",
+        "Replay blocked review and competing claim to see task ownership and dependencies enforced."
+      ]
+    },
+    {
+      "id": "lab-56-failure",
+      "lesson": 56,
+      "section": "durable",
+      "title": "Verify: Teams and evidence messages",
+      "question": "Try to acknowledge evidence before delivery and explain which state transition must occur first.",
+      "context": "Coordinate two application roles with checked evidence, stable envelopes and explicit completion gates.",
+      "explanation": "Compare the authored baseline and failure evidence: Replay blocked review and competing claim to see task ownership and dependencies enforced. Compare a queued envelope, delivery and acknowledgment; none alone completes the review. Reject 30, verify 37 using host arithmetic, then perform a clean shutdown. Inspect the optional live route and identify why native delegation is unavailable without checked setup.",
+      "check": "Try to acknowledge evidence before delivery and explain which state transition must occur first.",
+      "resource": "none",
+      "number": 132,
+      "category": "Advanced",
+      "criteria": [
+        "Answer the specific question without claiming unobserved execution",
+        "Try to acknowledge evidence before delivery and explain which state transition must occur first."
+      ]
+    },
+    {
+      "id": "lab-57-baseline",
+      "lesson": 57,
+      "section": "durable",
+      "title": "Workers in host Git worktrees",
+      "question": "Explain Workers in host Git worktrees using Claude Managed Agents.",
+      "context": "Rehearse isolated Git worktrees and host-verified, serialized integration of two worker edits.",
+      "explanation": "Rehearse isolated Git worktrees and host-verified, serialized integration of two worker edits.",
+      "check": "Run the serial fixture and inspect base SHA, worker branches, allowed paths and behavioral tests.",
+      "resource": "docs",
+      "number": 133,
+      "category": "Advanced",
+      "criteria": [
+        "Answer the specific question without claiming unobserved execution",
+        "Run the serial fixture and inspect base SHA, worker branches, allowed paths and behavioral tests."
+      ]
+    },
+    {
+      "id": "lab-57-failure",
+      "lesson": 57,
+      "section": "durable",
+      "title": "Verify: Workers in host Git worktrees",
+      "question": "Explain why a worker claim cannot substitute for host path checks, tests or serialized cherry-pick.",
+      "context": "Rehearse isolated Git worktrees and host-verified, serialized integration of two worker edits.",
+      "explanation": "Compare the authored baseline and failure evidence: Run the serial fixture and inspect base SHA, worker branches, allowed paths and behavioral tests. Compare a competing greeting edit and confirm conflict abort preserves branch refs. Run failed-worker and cancelled-worker fixtures; neither may integrate. Distinguish local authored worker actions from Managed sessions and cloud /workspace.",
+      "check": "Explain why a worker claim cannot substitute for host path checks, tests or serialized cherry-pick.",
+      "resource": "none",
+      "number": 134,
+      "category": "Advanced",
+      "criteria": [
+        "Answer the specific question without claiming unobserved execution",
+        "Explain why a worker claim cannot substitute for host path checks, tests or serialized cherry-pick."
+      ]
+    },
+    {
+      "id": "lab-58-baseline",
+      "lesson": 58,
+      "section": "durable",
+      "title": "Tool catalogs and bounded discovery",
+      "question": "Explain Tool catalogs and bounded discovery using Claude Managed Agents.",
+      "context": "Search a 64-tool application catalog with a bounded host scorer and dispatch only through a checked schema and host context.",
+      "explanation": "Search a 64-tool application catalog with a bounded host scorer and dispatch only through a checked schema and host context.",
+      "check": "Inspect initial names and confirm no definitions are reported as loaded.",
+      "resource": "docs",
+      "number": 135,
+      "category": "Advanced",
+      "criteria": [
+        "Answer the specific question without claiming unobserved execution",
+        "Inspect initial names and confirm no definitions are reported as loaded."
+      ]
+    },
+    {
+      "id": "lab-58-failure",
+      "lesson": 58,
+      "section": "durable",
+      "title": "Verify: Tool catalogs and bounded discovery",
+      "question": "Rewrite a catalog description to promise authority and explain why the fixed dispatcher still rejects an unauthorized refund.",
+      "context": "Search a 64-tool application catalog with a bounded host scorer and dispatch only through a checked schema and host context.",
+      "explanation": "Compare the authored baseline and failure evidence: Inspect initial names and confirm no definitions are reported as loaded. Compare good and vague metadata for the INV-2042 refund query. Inspect the five-result bound and estimated returned context size. Try a wrong tool and unauthorized refund, then run the authorized offline fixture.",
+      "check": "Rewrite a catalog description to promise authority and explain why the fixed dispatcher still rejects an unauthorized refund.",
+      "resource": "none",
+      "number": 136,
+      "category": "Advanced",
+      "criteria": [
+        "Answer the specific question without claiming unobserved execution",
+        "Rewrite a catalog description to promise authority and explain why the fixed dispatcher still rejects an unauthorized refund."
+      ]
+    },
+    {
+      "id": "lab-59-baseline",
+      "lesson": 59,
+      "section": "durable",
+      "title": "Routing with verified outcomes",
+      "question": "Explain Routing with verified outcomes using Claude Managed Agents.",
+      "context": "Compare seven routing strategies on 13 tasks using independent answer keys and full attempt accounting.",
+      "explanation": "Compare seven routing strategies on 13 tasks using independent answer keys and full attempt accounting.",
+      "check": "Inspect the 13 tasks, illustrative model/effort configurations and independent key boundary.",
+      "resource": "docs",
+      "number": 137,
+      "category": "Advanced",
+      "criteria": [
+        "Answer the specific question without claiming unobserved execution",
+        "Inspect the 13 tasks, illustrative model/effort configurations and independent key boundary."
+      ]
+    },
+    {
+      "id": "lab-59-failure",
+      "lesson": 59,
+      "section": "durable",
+      "title": "Verify: Routing with verified outcomes",
+      "question": "Find a high-confidence wrong answer and explain why confidence cannot replace the independent host key.",
+      "context": "Compare seven routing strategies on 13 tasks using independent answer keys and full attempt accounting.",
+      "explanation": "Compare the authored baseline and failure evidence: Inspect the 13 tasks, illustrative model/effort configurations and independent key boundary. Run fixed tiers, rule routing, classifier, cascade and draft/review with the same budget. Compare verified correctness, assumed spend per correct, median time and all session attempts. Lower the budget and verify admission stops before another assumed session.",
+      "check": "Find a high-confidence wrong answer and explain why confidence cannot replace the independent host key.",
+      "resource": "none",
+      "number": 138,
+      "category": "Advanced",
+      "criteria": [
+        "Answer the specific question without claiming unobserved execution",
+        "Find a high-confidence wrong answer and explain why confidence cannot replace the independent host key."
+      ]
+    },
+    {
+      "id": "lab-60-baseline",
+      "lesson": 60,
+      "section": "durable",
+      "title": "Durable long running agents",
+      "question": "Explain Durable long running agents using Claude Managed Agents.",
+      "context": "Recover a fictional refund batch from atomic host journals and a stable idempotent ledger.",
+      "explanation": "Recover a fictional refund batch from atomic host journals and a stable idempotent ledger.",
+      "check": "Read the eight-item 30-day, 200 EUR, unused-item policy and Zod-derived host tool definitions.",
+      "resource": "docs",
+      "number": 139,
+      "category": "Advanced",
+      "criteria": [
+        "Answer the specific question without claiming unobserved execution",
+        "Read the eight-item 30-day, 200 EUR, unused-item policy and Zod-derived host tool definitions."
+      ]
+    },
+    {
+      "id": "lab-60-failure",
+      "lesson": 60,
+      "section": "durable",
+      "title": "Verify: Durable long running agents",
+      "question": "Explain why the third effect can exist in the ledger without a journal entry and which stable key suppresses it.",
+      "context": "Recover a fictional refund batch from atomic host journals and a stable idempotent ledger.",
+      "explanation": "Compare the authored baseline and failure evidence: Read the eight-item 30-day, 200 EUR, unused-item policy and Zod-derived host tool definitions. Crash after effect 3 and compare three ledger effects with only two journaled keys. Recover separate jobs with naive, journal-only and journal-plus-idempotency strategies; compare duplicates. Run lease-loss and no-progress cases and inspect bounded supervisor failure.",
+      "check": "Explain why the third effect can exist in the ledger without a journal entry and which stable key suppresses it.",
+      "resource": "none",
+      "number": 140,
+      "category": "Advanced",
+      "criteria": [
+        "Answer the specific question without claiming unobserved execution",
+        "Explain why the third effect can exist in the ledger without a journal entry and which stable key suppresses it."
+      ]
+    },
+    {
+      "id": "lab-61-baseline",
+      "lesson": 61,
+      "section": "retrieval-data",
+      "title": "Exposing an agent as an MCP server",
+      "question": "Explain Exposing an agent as an MCP server using Claude Managed Agents.",
+      "context": "Expose a typed fictional support/refund review through a bearer-protected local MCP transport.",
+      "explanation": "Expose a typed fictional support/refund review through a bearer-protected local MCP transport.",
+      "check": "Run the local client and compare transport request, MCP session and agent session IDs.",
+      "resource": "docs",
+      "number": 141,
+      "category": "Advanced",
+      "criteria": [
+        "Answer the specific question without claiming unobserved execution",
+        "Run the local client and compare transport request, MCP session and agent session IDs."
+      ]
+    },
+    {
+      "id": "lab-61-failure",
+      "lesson": 61,
+      "section": "retrieval-data",
+      "title": "Verify: Exposing an agent as an MCP server",
+      "question": "Send a valid MCP session ID with a different bearer identity and explain why authentication precedes lookup.",
+      "context": "Expose a typed fictional support/refund review through a bearer-protected local MCP transport.",
+      "explanation": "Compare the authored baseline and failure evidence: Run the local client and compare transport request, MCP session and agent session IDs. Inspect one listed closed-schema tool, progress events and validated structured output. Try timeout, cancellation and concurrent calls; then compare foreign-session and unauthorized tests. Confirm the bearer token and tenant/customer mapping stay on the host.",
+      "check": "Send a valid MCP session ID with a different bearer identity and explain why authentication precedes lookup.",
+      "resource": "none",
+      "number": 142,
+      "category": "Advanced",
+      "criteria": [
+        "Answer the specific question without claiming unobserved execution",
+        "Send a valid MCP session ID with a different bearer identity and explain why authentication precedes lookup."
+      ]
+    },
+    {
+      "id": "lab-62-baseline",
+      "lesson": 62,
+      "section": "retrieval-data",
+      "title": "Retrieval RAG through custom tools",
+      "question": "Explain Retrieval RAG through custom tools using Claude Managed Agents.",
+      "context": "Retrieve tenant-filtered current policy chunks and verify answer citations against the exact returned set.",
+      "explanation": "Retrieve tenant-filtered current policy chunks and verify answer citations against the exact returned set.",
+      "check": "Search current Acme policy and compare stable heading IDs with archived and foreign documents.",
+      "resource": "docs",
+      "number": 143,
+      "category": "Advanced",
+      "criteria": [
+        "Answer the specific question without claiming unobserved execution",
+        "Search current Acme policy and compare stable heading IDs with archived and foreign documents."
+      ]
+    },
+    {
+      "id": "lab-62-failure",
+      "lesson": 62,
+      "section": "retrieval-data",
+      "title": "Verify: Retrieval RAG through custom tools",
+      "question": "Cite an archived or foreign-tenant policy ID and explain why the run’s filtered result set rejects it.",
+      "context": "Retrieve tenant-filtered current policy chunks and verify answer citations against the exact returned set.",
+      "explanation": "Compare the authored baseline and failure evidence: Search current Acme policy and compare stable heading IDs with archived and foreign documents. Run a grounded 30-day answer and inspect quote and ID verification. Run fabricated citation, archived 60-day answer, no-match and hostile-note scenarios. Compare lexical scores with evidence validity; imported text cannot set host policy.",
+      "check": "Cite an archived or foreign-tenant policy ID and explain why the run’s filtered result set rejects it.",
+      "resource": "none",
+      "number": 144,
+      "category": "Advanced",
+      "criteria": [
+        "Answer the specific question without claiming unobserved execution",
+        "Cite an archived or foreign-tenant policy ID and explain why the run’s filtered result set rejects it."
+      ]
+    },
+    {
+      "id": "lab-63-baseline",
+      "lesson": 63,
+      "section": "retrieval-data",
+      "title": "A safe database agent",
+      "question": "Explain A safe database agent using Claude Managed Agents.",
+      "context": "Read tenant-scoped orders through fixed queries and let a separate human endpoint commit one checked cancellation.",
+      "explanation": "Read tenant-scoped orders through fixed queries and let a separate human endpoint commit one checked cancellation.",
+      "check": "Create a disposable SQLite session and inspect query-only state.",
+      "resource": "docs",
+      "number": 145,
+      "category": "Advanced",
+      "criteria": [
+        "Answer the specific question without claiming unobserved execution",
+        "Create a disposable SQLite session and inspect query-only state."
+      ]
+    },
+    {
+      "id": "lab-63-failure",
+      "lesson": 63,
+      "section": "retrieval-data",
+      "title": "Verify: A safe database agent",
+      "question": "Change the order version after proposal and show why the checked UPDATE rolls back rather than cancelling it.",
+      "context": "Read tenant-scoped orders through fixed queries and let a separate human endpoint commit one checked cancellation.",
+      "explanation": "Compare the authored baseline and failure evidence: Create a disposable SQLite session and inspect query-only state. Read the host tenant order, propose cancellation and confirm no order row changed. Approve or reject through the human endpoint and inspect changed-row and audit evidence. Repeat with changed row version, expired proposal, foreign tenant and arbitrary SQL fixtures.",
+      "check": "Change the order version after proposal and show why the checked UPDATE rolls back rather than cancelling it.",
+      "resource": "none",
+      "number": 146,
+      "category": "Advanced",
+      "criteria": [
+        "Answer the specific question without claiming unobserved execution",
+        "Change the order version after proposal and show why the checked UPDATE rolls back rather than cancelling it."
+      ]
+    },
+    {
+      "id": "lab-64-baseline",
+      "lesson": 64,
+      "section": "retrieval-data",
+      "title": "Browser tools across host and cloud",
+      "question": "Explain Browser tools across host and cloud using Claude Managed Agents.",
+      "context": "Automate a fixture page through host-side Playwright MCP and verify the actual DOM and screenshot.",
+      "explanation": "Automate a fixture page through host-side Playwright MCP and verify the actual DOM and screenshot.",
+      "check": "Inspect a fictional product through an isolated local browser and MCP snapshot.",
+      "resource": "docs",
+      "number": 147,
+      "category": "Advanced",
+      "criteria": [
+        "Answer the specific question without claiming unobserved execution",
+        "Inspect a fictional product through an isolated local browser and MCP snapshot."
+      ]
+    },
+    {
+      "id": "lab-64-failure",
+      "lesson": 64,
+      "section": "retrieval-data",
+      "title": "Verify: Browser tools across host and cloud",
+      "question": "Explain why successful MCP tool prose without DOM and screenshot checks is insufficient browser proof.",
+      "context": "Automate a fixture page through host-side Playwright MCP and verify the actual DOM and screenshot.",
+      "explanation": "Compare the authored baseline and failure evidence: Inspect a fictional product through an isolated local browser and MCP snapshot. Fill the fictional form using allowlisted MCP tools, then check its DOM confirmation. Try blocked external navigation and a missing-browser scenario. Compare tool events with independent browser proof and cloud reachability limits.",
+      "check": "Explain why successful MCP tool prose without DOM and screenshot checks is insufficient browser proof.",
+      "resource": "none",
+      "number": 148,
+      "category": "Advanced",
+      "criteria": [
+        "Answer the specific question without claiming unobserved execution",
+        "Explain why successful MCP tool prose without DOM and screenshot checks is insufficient browser proof."
+      ]
+    },
+    {
+      "id": "lab-65-baseline",
+      "lesson": 65,
+      "section": "retrieval-data",
+      "title": "Human approval over Slack, Teams or email",
+      "question": "Explain Human approval over Slack, Teams or email using Claude Managed Agents.",
+      "context": "Bind a fictional case archive to one trusted reviewer decision after an immutable proposal and local notification.",
+      "explanation": "Bind a fictional case archive to one trusted reviewer decision after an immutable proposal and local notification.",
+      "check": "Preview a closed-schema custom-tool proposal; inspect its event ID and separate business key.",
+      "resource": "docs",
+      "number": 149,
+      "category": "Advanced",
+      "criteria": [
+        "Answer the specific question without claiming unobserved execution",
+        "Preview a closed-schema custom-tool proposal; inspect its event ID and separate business key."
+      ]
+    },
+    {
+      "id": "lab-65-failure",
+      "lesson": 65,
+      "section": "retrieval-data",
+      "title": "Verify: Human approval over Slack, Teams or email",
+      "question": "Approve twice or approve a second proposal for the same case and explain why the effect ledger stays at one.",
+      "context": "Bind a fictional case archive to one trusted reviewer decision after an immutable proposal and local notification.",
+      "explanation": "Compare the authored baseline and failure evidence: Preview a closed-schema custom-tool proposal; inspect its event ID and separate business key. Notify locally, inspect the reviewer and immutable action, then approve or reject. Try duplicate clicks, changed action arguments, a wrong reviewer and an expired proposal. Compare the SQLite effect ledger and audit with agent text and optional notification channels.",
+      "check": "Approve twice or approve a second proposal for the same case and explain why the effect ledger stays at one.",
+      "resource": "none",
+      "number": 150,
+      "category": "Advanced",
+      "criteria": [
+        "Answer the specific question without claiming unobserved execution",
+        "Approve twice or approve a second proposal for the same case and explain why the effect ledger stays at one."
+      ]
+    },
+    {
+      "id": "lab-66-baseline",
+      "lesson": 66,
+      "section": "delivery",
+      "title": "Real-time frontends over WebSocket",
+      "question": "Explain Real-time frontends over WebSocket using Claude Managed Agents.",
+      "context": "Stream a bounded offline or explicitly started Managed turn over authenticated local WebSocket, with replay after reconnect.",
+      "explanation": "Stream a bounded offline or explicitly started Managed turn over authenticated local WebSocket, with replay after reconnect.",
+      "check": "Start a guided run, send one message and inspect ordered chunks and the terminal event.",
+      "resource": "docs",
+      "number": 151,
+      "category": "Advanced",
+      "criteria": [
+        "Answer the specific question without claiming unobserved execution",
+        "Start a guided run, send one message and inspect ordered chunks and the terminal event."
+      ]
+    },
+    {
+      "id": "lab-66-failure",
+      "lesson": 66,
+      "section": "delivery",
+      "title": "Verify: Real-time frontends over WebSocket",
+      "question": "Reconnect after a terminal frame and show the same run ID and sequence without another accepted message.",
+      "context": "Stream a bounded offline or explicitly started Managed turn over authenticated local WebSocket, with replay after reconnect.",
+      "explanation": "Compare the authored baseline and failure evidence: Start a guided run, send one message and inspect ordered chunks and the terminal event. Disconnect midstream, reconnect with the same start command and replay from the last sequence. Repeat a message command and confirm it does not start a second turn. Cancel a fresh run and compare transport close with host run cancellation.",
+      "check": "Reconnect after a terminal frame and show the same run ID and sequence without another accepted message.",
+      "resource": "none",
+      "number": 152,
+      "category": "Advanced",
+      "criteria": [
+        "Answer the specific question without claiming unobserved execution",
+        "Reconnect after a terminal frame and show the same run ID and sequence without another accepted message."
+      ]
+    },
+    {
+      "id": "lab-67-baseline",
+      "lesson": 67,
+      "section": "delivery",
+      "title": "A multi-tenant SaaS architecture",
+      "question": "Explain A multi-tenant SaaS architecture using Claude Managed Agents.",
+      "context": "Enforce tenant ownership across project sources, runs, sessions, transcripts, cancellation and quota reservations.",
+      "explanation": "Enforce tenant ownership across project sources, runs, sessions, transcripts, cancellation and quota reservations.",
+      "check": "Simulate Alice/Acme and Bob/Birch sign-ins; inspect host-selected tenant and project identities.",
+      "resource": "docs",
+      "number": 153,
+      "category": "Advanced",
+      "criteria": [
+        "Answer the specific question without claiming unobserved execution",
+        "Simulate Alice/Acme and Bob/Birch sign-ins; inspect host-selected tenant and project identities."
+      ]
+    },
+    {
+      "id": "lab-67-failure",
+      "lesson": 67,
+      "section": "delivery",
+      "title": "Verify: A multi-tenant SaaS architecture",
+      "question": "Add a tenant field to a model tool input or start body and explain why it cannot choose authority.",
+      "context": "Enforce tenant ownership across project sources, runs, sessions, transcripts, cancellation and quota reservations.",
+      "explanation": "Compare the authored baseline and failure evidence: Simulate Alice/Acme and Bob/Birch sign-ins; inspect host-selected tenant and project identities. Start both tenants concurrently and inspect separate reservation and usage ledgers. Probe Birch objects as Acme and compare five refusals with the still-running Birch run. Try another active run, a failed runner and exhausted quota; confirm reservations release once.",
+      "check": "Add a tenant field to a model tool input or start body and explain why it cannot choose authority.",
+      "resource": "none",
+      "number": 154,
+      "category": "Advanced",
+      "criteria": [
+        "Answer the specific question without claiming unobserved execution",
+        "Add a tenant field to a model tool input or start body and explain why it cannot choose authority."
+      ]
+    },
+    {
+      "id": "lab-68-baseline",
+      "lesson": 68,
+      "section": "delivery",
+      "title": "Scheduled and event-driven agents",
+      "question": "Explain Scheduled and event-driven agents using Claude Managed Agents.",
+      "context": "Admit scheduled and signed incident jobs into a bounded queue, then explicitly claim, retry or cancel them.",
+      "explanation": "Admit scheduled and signed incident jobs into a bounded queue, then explicitly claim, retry or cancel them.",
+      "check": "Create a five-second schedule, advance the scheduling clock and coalesce missed intervals with a tick.",
+      "resource": "docs",
+      "number": 155,
+      "category": "Advanced",
+      "criteria": [
+        "Answer the specific question without claiming unobserved execution",
+        "Create a five-second schedule, advance the scheduling clock and coalesce missed intervals with a tick."
+      ]
+    },
+    {
+      "id": "lab-68-failure",
+      "lesson": 68,
+      "section": "delivery",
+      "title": "Verify: Scheduled and event-driven agents",
+      "question": "Show why an HTTP 202 trigger and an advanced schedule clock cannot prove execution or signature freshness.",
+      "context": "Admit scheduled and signed incident jobs into a bounded queue, then explicitly claim, retry or cancel them.",
+      "explanation": "Compare the authored baseline and failure evidence: Create a five-second schedule, advance the scheduling clock and coalesce missed intervals with a tick. Admit a signed incident twice and compare the same job ID with duplicate admission. Run one worker per click; fail three attempts with one- and two-second retry delays. Try stale signatures after advancing the scheduling clock, then inspect cancellation and effect keys.",
+      "check": "Show why an HTTP 202 trigger and an advanced schedule clock cannot prove execution or signature freshness.",
+      "resource": "none",
+      "number": 156,
+      "category": "Advanced",
+      "criteria": [
+        "Answer the specific question without claiming unobserved execution",
+        "Show why an HTTP 202 trigger and an advanced schedule clock cannot prove execution or signature freshness."
+      ]
+    },
+    {
+      "id": "lab-69-baseline",
+      "lesson": 69,
+      "section": "delivery",
+      "title": "Desktop and IDE host integration",
+      "question": "Explain Desktop and IDE host integration using Claude Managed Agents.",
+      "context": "Supply explicit document context from a trusted host and apply a reviewed patch only when version and hash still match.",
+      "explanation": "Supply explicit document context from a trusted host and apply a reviewed patch only when version and hash still match.",
+      "check": "Start a guided review and inspect preview events and the proposed replacement before applying.",
+      "resource": "docs",
+      "number": 157,
+      "category": "Advanced",
+      "criteria": [
+        "Answer the specific question without claiming unobserved execution",
+        "Start a guided review and inspect preview events and the proposed replacement before applying."
+      ]
+    },
+    {
+      "id": "lab-69-failure",
+      "lesson": 69,
+      "section": "delivery",
+      "title": "Verify: Desktop and IDE host integration",
+      "question": "Change a document after its context snapshot and explain why a valid remote patch still cannot apply.",
+      "context": "Supply explicit document context from a trusted host and apply a reviewed patch only when version and hash still match.",
+      "explanation": "Compare the authored baseline and failure evidence: Start a guided review and inspect preview events and the proposed replacement before applying. Change the local document after proposal and confirm the older patch is rejected. Compare cancellation and transport failure with independent cleanup evidence. Build the VS Code extension and inspect host trust, file scope and typed webview messages separately.",
+      "check": "Change a document after its context snapshot and explain why a valid remote patch still cannot apply.",
+      "resource": "none",
+      "number": 158,
+      "category": "Advanced",
+      "criteria": [
+        "Answer the specific question without claiming unobserved execution",
+        "Change a document after its context snapshot and explain why a valid remote patch still cannot apply."
+      ]
+    },
+    {
+      "id": "lab-70-baseline",
+      "lesson": 70,
+      "section": "delivery",
+      "title": "Python client for Managed Agents",
+      "question": "Explain Python client for Managed Agents using Claude Managed Agents.",
+      "context": "Compare the Managed session protocol through an isolated Python worker and the TypeScript host bridge.",
+      "explanation": "Compare the Managed session protocol through an isolated Python worker and the TypeScript host bridge.",
+      "check": "Check selected interpreter readiness without installing packages or contacting Anthropic.",
+      "resource": "docs",
+      "number": 159,
+      "category": "Advanced",
+      "criteria": [
+        "Answer the specific question without claiming unobserved execution",
+        "Check selected interpreter readiness without installing packages or contacting Anthropic."
+      ]
+    },
+    {
+      "id": "lab-70-failure",
+      "lesson": 70,
+      "section": "delivery",
+      "title": "Verify: Python client for Managed Agents",
+      "question": "Terminate a worker and explain why process exit cannot prove a remote Managed session has stopped.",
+      "context": "Compare the Managed session protocol through an isolated Python worker and the TypeScript host bridge.",
+      "explanation": "Compare the authored baseline and failure evidence: Check selected interpreter readiness without installing packages or contacting Anthropic. Run one-shot and retained offline turns, then close the confirmed-idle handle. Run the host custom-tool round trip and inspect its sevt_ correlation. Compare malformed stdout, bounded stderr, missing Python and cancellation with cleanup evidence.",
+      "check": "Terminate a worker and explain why process exit cannot prove a remote Managed session has stopped.",
+      "resource": "none",
+      "number": 160,
+      "category": "Advanced",
+      "criteria": [
+        "Answer the specific question without claiming unobserved execution",
+        "Terminate a worker and explain why process exit cannot prove a remote Managed session has stopped."
+      ]
+    },
+    {
+      "id": "lab-71-baseline",
+      "lesson": 71,
+      "section": "publishing",
+      "title": "A data analysis agent",
+      "question": "Explain A data analysis agent using Claude Managed Agents.",
+      "context": "Build a sales analysis from scoped CSV data, executable calculations and ledger-cited reports and charts.",
+      "explanation": "Build a sales analysis from scoped CSV data, executable calculations and ledger-cited reports and charts.",
+      "check": "Create a session and compare raw/clean profiles, duplicate removal and per-product IQR fences.",
+      "resource": "docs",
+      "number": 161,
+      "category": "Advanced",
+      "criteria": [
+        "Answer the specific question without claiming unobserved execution",
+        "Create a session and compare raw/clean profiles, duplicate removal and per-product IQR fences."
+      ]
+    },
+    {
+      "id": "lab-71-failure",
+      "lesson": 71,
+      "section": "publishing",
+      "title": "Verify: A data analysis agent",
+      "question": "Explain why averaging row return rates differs from the host ratio of summed returns to summed units.",
+      "context": "Build a sales analysis from scoped CSV data, executable calculations and ledger-cited reports and charts.",
+      "explanation": "Compare the authored baseline and failure evidence: Create a session and compare raw/clean profiles, duplicate removal and per-product IQR fences. Aggregate numeric metrics or ratios of eligible sums; inspect n and skipped empty counts. Run the scripted analyst and inspect computation C IDs and ledger-derived chart G IDs. Tamper a report value or citation and verify rejection without changing its evidence ledger.",
+      "check": "Explain why averaging row return rates differs from the host ratio of summed returns to summed units.",
+      "resource": "none",
+      "number": 162,
+      "category": "Advanced",
+      "criteria": [
+        "Answer the specific question without claiming unobserved execution",
+        "Explain why averaging row return rates differs from the host ratio of summed returns to summed units."
+      ]
+    },
+    {
+      "id": "lab-72-baseline",
+      "lesson": 72,
+      "section": "publishing",
+      "title": "Document generation with Skills",
+      "question": "Explain Document generation with Skills using Claude Managed Agents.",
+      "context": "Generate a deterministic Word document from a closed specification and independently inspect the package and immutable skill bundle.",
+      "explanation": "Generate a deterministic Word document from a closed specification and independently inspect the package and immutable skill bundle.",
+      "check": "Build an incident report and inspect the two progressive reference reads.",
+      "resource": "docs",
+      "number": 163,
+      "category": "Advanced",
+      "criteria": [
+        "Answer the specific question without claiming unobserved execution",
+        "Build an incident report and inspect the two progressive reference reads."
+      ]
+    },
+    {
+      "id": "lab-72-failure",
+      "lesson": 72,
+      "section": "publishing",
+      "title": "Verify: Document generation with Skills",
+      "question": "Explain why a valid OOXML package does not prove factual correctness or good pagination in Word.",
+      "context": "Generate a deterministic Word document from a closed specification and independently inspect the package and immutable skill bundle.",
+      "explanation": "Compare the authored baseline and failure evidence: Build an incident report and inspect the two progressive reference reads. Compare an ordinary document with the incident contract. Run invalid spec, placeholder and skill tamper scenarios and inspect rejection. Probe command policy and download only verified documents for visual review.",
+      "check": "Explain why a valid OOXML package does not prove factual correctness or good pagination in Word.",
+      "resource": "none",
+      "number": 164,
+      "category": "Advanced",
+      "criteria": [
+        "Answer the specific question without claiming unobserved execution",
+        "Explain why a valid OOXML package does not prove factual correctness or good pagination in Word."
+      ]
+    },
+    {
+      "id": "lab-73-baseline",
+      "lesson": 73,
+      "section": "release",
+      "title": "An autonomous PR reviewer and fixer",
+      "question": "Explain An autonomous PR reviewer and fixer using Claude Managed Agents.",
+      "context": "Route changed-line review findings to a constrained fixer and commit only after independent host gates and real tests.",
+      "explanation": "Route changed-line review findings to a constrained fixer and commit only after independent host gates and real tests.",
+      "check": "Run the good fix and inspect numbered diff, gates and local commit hash.",
+      "resource": "docs",
+      "number": 165,
+      "category": "Advanced",
+      "criteria": [
+        "Answer the specific question without claiming unobserved execution",
+        "Run the good fix and inspect numbered diff, gates and local commit hash."
+      ]
+    },
+    {
+      "id": "lab-73-failure",
+      "lesson": 73,
+      "section": "release",
+      "title": "Verify: An autonomous PR reviewer and fixer",
+      "question": "Route a low-confidence finding and a question to a person without granting fixer authority.",
+      "context": "Route changed-line review findings to a constrained fixer and commit only after independent host gates and real tests.",
+      "explanation": "Compare the authored baseline and failure evidence: Run the good fix and inspect numbered diff, gates and local commit hash. Compare out-of-scope changes, skipped tests, unresolved findings and process timeout. Inspect the reviewable patch and draft handoff after a rejected fix. Explain why a high-confidence claim does not authorize Git or protected file changes.",
+      "check": "Route a low-confidence finding and a question to a person without granting fixer authority.",
+      "resource": "none",
+      "number": 166,
+      "category": "Advanced",
+      "criteria": [
+        "Answer the specific question without claiming unobserved execution",
+        "Route a low-confidence finding and a question to a person without granting fixer authority."
+      ]
+    },
+    {
+      "id": "lab-74-baseline",
+      "lesson": 74,
+      "section": "release",
+      "title": "Prompt injection red teaming",
+      "question": "Explain Prompt injection red teaming using Claude Managed Agents.",
+      "context": "Measure attempted and executed prompt-injection effects alongside safe support-desk utility.",
+      "explanation": "Measure attempted and executed prompt-injection effects alongside safe support-desk utility.",
+      "check": "Run an attack without defenses and inspect the fictional effect ledger and final output.",
+      "resource": "docs",
+      "number": 167,
+      "category": "Advanced",
+      "criteria": [
+        "Answer the specific question without claiming unobserved execution",
+        "Run an attack without defenses and inspect the fictional effect ledger and final output."
+      ]
+    },
+    {
+      "id": "lab-74-failure",
+      "lesson": 74,
+      "section": "release",
+      "title": "Verify: Prompt injection red teaming",
+      "question": "Show why a canary-free answer can still hide an executed refund or exfiltration effect.",
+      "context": "Measure attempted and executed prompt-injection effects alongside safe support-desk utility.",
+      "explanation": "Compare the authored baseline and failure evidence: Run an attack without defenses and inspect the fictional effect ledger and final output. Compare five cumulative defenses against all thirteen attacks. Inspect raw payloads, normalization rules, metadata pins and safe utility. Run bounded adaptive mutations and distinguish assumed costs from billed usage.",
+      "check": "Show why a canary-free answer can still hide an executed refund or exfiltration effect.",
+      "resource": "none",
+      "number": 168,
+      "category": "Advanced",
+      "criteria": [
+        "Answer the specific question without claiming unobserved execution",
+        "Show why a canary-free answer can still hide an executed refund or exfiltration effect."
+      ]
+    },
+    {
+      "id": "lab-75-baseline",
+      "lesson": 75,
+      "section": "release",
+      "title": "Capstone 2 an autonomous engineering team",
+      "question": "Explain Capstone 2 an autonomous engineering team using Claude Managed Agents.",
+      "context": "Coordinate real worker branches through a validated task graph, independent verification, bounded review rework and a durable release gate.",
+      "explanation": "Coordinate real worker branches through a validated task graph, independent verification, bounded review rework and a durable release gate.",
+      "check": "Validate good and rejected plan presets without creating workers.",
+      "resource": "docs",
+      "number": 169,
+      "category": "Advanced",
+      "criteria": [
+        "Answer the specific question without claiming unobserved execution",
+        "Validate good and rejected plan presets without creating workers."
+      ]
+    },
+    {
+      "id": "lab-75-failure",
+      "lesson": 75,
+      "section": "release",
+      "title": "Verify: Capstone 2 an autonomous engineering team",
+      "question": "Explain why a green worker suite and a done report cannot establish readiness without host acceptance, review, ownership and known costs.",
+      "context": "Coordinate real worker branches through a validated task graph, independent verification, bounded review rework and a durable release gate.",
+      "explanation": "Compare the authored baseline and failure evidence: Validate good and rejected plan presets without creating workers. Run the happy path and inspect dependency waves, test gates, authors and merge hashes. Compare test gaming, hidden-boundary failure, ownership correction and budget exhaustion. Interrupt after wave one, resume, and verify retained costs and no repeated completed calls.",
+      "check": "Explain why a green worker suite and a done report cannot establish readiness without host acceptance, review, ownership and known costs.",
+      "resource": "none",
+      "number": 170,
+      "category": "Advanced",
+      "criteria": [
+        "Answer the specific question without claiming unobserved execution",
+        "Explain why a green worker suite and a done report cannot establish readiness without host acceptance, review, ownership and known costs."
+      ]
+    }
+  ],
+  "sections": [
+    {
+      "id": "foundations",
+      "title": "01 - Models, agents, environments and sessions",
+      "firstLesson": 1,
+      "lastLesson": 3,
+      "guide": "https://platform.claude.com/docs/en/managed-agents/overview",
+      "level": "Beginner",
+      "description": "Separate Managed session behavior from host validation and inspect actual course evidence."
+    },
+    {
+      "id": "tools",
+      "title": "02 - Tools and effect boundaries",
+      "firstLesson": 4,
+      "lastLesson": 5,
+      "guide": "https://platform.claude.com/docs/en/managed-agents/overview",
+      "level": "Beginner",
+      "description": "Separate Managed session behavior from host validation and inspect actual course evidence."
+    },
+    {
+      "id": "sessions-agents",
+      "title": "03 - Sessions and host coordination",
+      "firstLesson": 6,
+      "lastLesson": 8,
+      "guide": "https://platform.claude.com/docs/en/managed-agents/overview",
+      "level": "Beginner",
+      "description": "Separate Managed session behavior from host validation and inspect actual course evidence."
+    },
+    {
+      "id": "prompts-output",
+      "title": "04 - Instructions and validated output",
+      "firstLesson": 9,
+      "lastLesson": 10,
+      "guide": "https://platform.claude.com/docs/en/managed-agents/overview",
+      "level": "Beginner",
+      "description": "Separate Managed session behavior from host validation and inspect actual course evidence."
+    },
+    {
+      "id": "skills-mcp",
+      "title": "05 - Skills, MCP, models and usage",
+      "firstLesson": 11,
+      "lastLesson": 16,
+      "guide": "https://platform.claude.com/docs/en/managed-agents/overview",
+      "level": "Beginner",
+      "description": "Separate Managed session behavior from host validation and inspect actual course evidence."
+    },
+    {
+      "id": "project-context",
+      "title": "06 - Recovery and project context",
+      "firstLesson": 17,
+      "lastLesson": 23,
+      "guide": "https://platform.claude.com/docs/en/managed-agents/overview",
+      "level": "Intermediate",
+      "description": "Separate Managed session behavior from host validation and inspect actual course evidence."
+    },
+    {
+      "id": "harness",
+      "title": "07 - Host harness and failure recovery",
+      "firstLesson": 24,
+      "lastLesson": 29,
+      "guide": "https://platform.claude.com/docs/en/managed-agents/overview",
+      "level": "Intermediate",
+      "description": "Separate Managed session behavior from host validation and inspect actual course evidence."
+    },
+    {
+      "id": "human-state",
+      "title": "08 - Human decisions and durable state",
+      "firstLesson": 30,
+      "lastLesson": 35,
+      "guide": "https://platform.claude.com/docs/en/managed-agents/overview",
+      "level": "Intermediate",
+      "description": "Separate Managed session behavior from host validation and inspect actual course evidence."
+    },
+    {
+      "id": "stream-boundaries",
+      "title": "09 - Streaming and trust boundaries",
+      "firstLesson": 36,
+      "lastLesson": 43,
+      "guide": "https://platform.claude.com/docs/en/managed-agents/overview",
+      "level": "Intermediate",
+      "description": "Separate Managed session behavior from host validation and inspect actual course evidence."
+    },
+    {
+      "id": "observability",
+      "title": "10 - Observability and budgets",
+      "firstLesson": 44,
+      "lastLesson": 46,
+      "guide": "https://platform.claude.com/docs/en/managed-agents/overview",
+      "level": "Intermediate",
+      "description": "Separate Managed session behavior from host validation and inspect actual course evidence."
+    },
+    {
+      "id": "teams",
+      "title": "11 - Coordination and support capstone",
+      "firstLesson": 47,
+      "lastLesson": 50,
+      "guide": "https://platform.claude.com/docs/en/managed-agents/overview",
+      "level": "Intermediate",
+      "description": "Separate Managed session behavior from host validation and inspect actual course evidence."
+    },
+    {
+      "id": "testing",
+      "title": "12 - Testing and evaluation",
+      "firstLesson": 51,
+      "lastLesson": 55,
+      "guide": "https://platform.claude.com/docs/en/managed-agents/overview",
+      "level": "Advanced",
+      "description": "Separate Managed session behavior from host validation and inspect actual course evidence."
+    },
+    {
+      "id": "durable",
+      "title": "13 - Routing and durable agents",
+      "firstLesson": 56,
+      "lastLesson": 60,
+      "guide": "https://platform.claude.com/docs/en/managed-agents/overview",
+      "level": "Advanced",
+      "description": "Separate Managed session behavior from host validation and inspect actual course evidence."
+    },
+    {
+      "id": "retrieval-data",
+      "title": "14 - Retrieval, data and approval",
+      "firstLesson": 61,
+      "lastLesson": 65,
+      "guide": "https://platform.claude.com/docs/en/managed-agents/overview",
+      "level": "Advanced",
+      "description": "Separate Managed session behavior from host validation and inspect actual course evidence."
+    },
+    {
+      "id": "delivery",
+      "title": "15 - Application delivery",
+      "firstLesson": 66,
+      "lastLesson": 70,
+      "guide": "https://platform.claude.com/docs/en/managed-agents/overview",
+      "level": "Advanced",
+      "description": "Separate Managed session behavior from host validation and inspect actual course evidence."
+    },
+    {
+      "id": "publishing",
+      "title": "16 - Analysis and publishing",
+      "firstLesson": 71,
+      "lastLesson": 72,
+      "guide": "https://platform.claude.com/docs/en/managed-agents/overview",
+      "level": "Advanced",
+      "description": "Separate Managed session behavior from host validation and inspect actual course evidence."
+    },
+    {
+      "id": "release",
+      "title": "17 - Review, red teams and release",
+      "firstLesson": 73,
+      "lastLesson": 75,
+      "guide": "https://platform.claude.com/docs/en/managed-agents/overview",
+      "level": "Advanced",
+      "description": "Separate Managed session behavior from host validation and inspect actual course evidence."
+    }
+  ]
+}

@@ -1,0 +1,36 @@
+:root{background:#000}
+body{min-width:0}
+.app{background:#000}
+.topbar{flex-wrap:wrap}
+.milestone-brand-icon{width:42px;height:42px;flex:none}
+.step{color:#fff}
+.topbar-actions{display:flex;align-items:center;justify-content:flex-end;gap:18px;flex-wrap:wrap;margin-left:auto}
+:root[data-theme=light]{background:#f5f6f8;color:#17233b}
+:root[data-theme=light] .app{background:#f5f6f8}
+:root[data-theme=light] .topbar{background:#fff;border-color:#cbd5e1}
+:root[data-theme=light] .brand small,:root[data-theme=light] .hero p,:root[data-theme=light] .hint{color:#526179}
+:root[data-theme=light] .eyebrow{color:#a14419}
+:root[data-theme=light] .top-badge,:root[data-theme=light] .hero-steps span{background:#e6f0ff;color:#24517f;border-color:#b8cde6}
+:root[data-theme=light] .card{border-color:#bdcde0;box-shadow:0 12px 28px #20314a12}
+:root[data-theme=light] .compose{background:#edf5ff}
+:root[data-theme=light] .response{background:#f4f0ff}
+:root[data-theme=light] .publish{background:#eaf8f2}
+:root[data-theme=light] .section-head p,:root[data-theme=light] .prompt-suggestions span,:root[data-theme=light] .prompt-suggestions>p{color:#455a75}
+:root[data-theme=light] .card select,:root[data-theme=light] .card textarea,:root[data-theme=light] .card input[type=file]{background:#fff;color:#17233b;border-color:#9fb4ca}
+:root[data-theme=light] .prompt-options button,:root[data-theme=light] .prompt-suggestions button{background:#fff;color:#17233b;border-color:#b7cadf}
+:root[data-theme=light] .prompt-options button:hover,:root[data-theme=light] .prompt-suggestions button:hover{background:#e8f1fd}
+:root[data-theme=light] .prompt-number{color:#165aa5!important}
+:root[data-theme=light] .prompt-library-heading strong,:root[data-theme=light] .section-summary strong{color:#17233b}
+:root[data-theme=light] .consent{background:#fff0dc;color:#503418;border-color:#dbab6b}
+:root[data-theme=light] .answer-meta span{background:#e3eaf7;color:#345078;border-color:#b9c8dd}
+:root[data-theme=light] .evidence,:root[data-theme=light] .empty p{color:#526179;border-color:#c0cfe0}
+:root[data-theme=light] .empty,:root[data-theme=light] .style-choice,:root[data-theme=light] .focus-controls{background:#fff;color:#17233b;border-color:#a9c8bc}
+:root[data-theme=light] .style-choice p,:root[data-theme=light] .palette-review p{color:#40596b}
+:root[data-theme=light] .publish fieldset label{background:#d9f2e9;color:#173f37;border-color:#8ec9b8}
+:root[data-theme=light] .downloads{border-color:#9fcbbe}
+:root[data-theme=light] .downloads li{background:#dff4ea;color:#173f37;border-color:#9acdbd}
+:root[data-theme=light] .downloads li small{color:#405f56}
+:root[data-theme=light] .palette-review span{border-color:#abc1d1}
+:root[data-theme=light] .alert{color:#fff}
+:root[data-theme=light] footer{background:#fff;color:#526179;border-color:#cbd5e1}
+@media(max-width:780px){.topbar{align-items:flex-start}.topbar-actions{width:100%;justify-content:flex-start;margin-left:0}.brand{min-width:0}.brand strong,.brand small{overflow-wrap:anywhere}.workbench{min-width:0}}

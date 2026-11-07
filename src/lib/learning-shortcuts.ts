@@ -16,7 +16,7 @@ export function lessonSectionHref(lessonId: number, section: LessonSection) {
 export function openLearningSection(id: string) {
   const section = document.getElementById(id);
   if (!section) return;
-  if (section instanceof HTMLButtonElement && section.dataset.lessonShortcut === 'exercise') section.click();
+  if (section instanceof HTMLButtonElement && ['exercise', 'tutor'].includes(section.dataset.lessonShortcut ?? '')) section.click();
   for (let parent: HTMLElement | null = section; parent; parent = parent.parentElement) {
     if (parent instanceof HTMLDetailsElement) parent.open = true;
   }

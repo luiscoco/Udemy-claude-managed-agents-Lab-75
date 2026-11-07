@@ -1,0 +1,24 @@
+.answer-content{font-size:18px;line-height:1.65;overflow-wrap:anywhere;color:#10213b}
+.answer-content>:first-child{margin-top:0}
+.answer-content>:last-child{margin-bottom:0}
+.answer-content h1,.answer-content h2,.answer-content h3,.answer-content h4{color:#122344;line-height:1.25;margin:1.25em 0 .5em;font-weight:800}
+.answer-content h1{font-size:1.6em}.answer-content h2{font-size:1.36em}.answer-content h3{font-size:1.18em}.answer-content h4{font-size:1.05em}
+.answer-content p{white-space:normal;margin:.8em 0;line-height:1.65}
+.answer-content ul,.answer-content ol{padding-left:1.6em;margin:.8em 0}.answer-content li{padding-left:.15em;margin:.32em 0}.answer-content li::marker{color:#ba561f}
+.answer-content a{color:#0756aa;text-decoration-thickness:2px;text-underline-offset:3px}
+.answer-content :not(pre)>code{padding:.1em .3em;background:#d8e6f7;border:1px solid #a9bed9;border-radius:5px;color:#183d6c;font:.9em/1.5 Consolas,monospace}
+.answer-content blockquote{border-left:4px solid #4781be;background:#dce9f8;padding:.3em 1em;margin:1em 0}
+.answer-content table{display:block;max-width:100%;overflow-x:auto;border-collapse:collapse;margin:1em 0}.answer-content th,.answer-content td{border:1px solid #a5bad4;padding:.4em .65em;text-align:left}.answer-content th{background:#d8e6f7}
+.answer-code-block{max-width:100%;margin:1em 0;overflow:hidden;border:1px solid #526b90;border-radius:10px;background:#071525}
+.answer-code-label{background:#142c48;color:#c6e4ff;font:700 13px/1.4 'Segoe UI',Arial,sans-serif;letter-spacing:.06em;text-transform:uppercase;padding:9px 15px;border-bottom:1px solid #526b90}
+.answer-content .answer-code-block pre{max-width:100%;max-height:580px;margin:0;padding:18px 20px;overflow:auto;background:#071525;color:#eef5ff;font:16px/1.6 Consolas,'Courier New',monospace;tab-size:2;overflow-wrap:normal;word-break:normal}
+.answer-content pre code{font:inherit;white-space:pre}
+.answer-content .hljs-keyword,.answer-content .hljs-selector-tag,.answer-content .hljs-literal{color:#d2adff}
+.answer-content .hljs-string,.answer-content .hljs-regexp,.answer-content .hljs-addition{color:#a9e3a0}
+.answer-content .hljs-number,.answer-content .hljs-symbol,.answer-content .hljs-meta{color:#ffc18b}
+.answer-content .hljs-title,.answer-content .hljs-function .hljs-title{color:#8ed8ff}
+.answer-content .hljs-type,.answer-content .hljs-built_in{color:#8ce4db}
+.answer-content .hljs-comment,.answer-content .hljs-quote{color:#b8c7de;font-style:italic}
+.answer-content .hljs-attr,.answer-content .hljs-property,.answer-content .hljs-variable,.answer-content .hljs-attribute{color:#ffc2df}
+.answer-content .hljs-subst{color:#eef5ff}
+@media(max-width:760px){.answer-content{font-size:17px}.answer-content .answer-code-block pre{padding:14px;font-size:15px}}

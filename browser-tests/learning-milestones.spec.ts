@@ -5,7 +5,7 @@ test('milestone shortcut shows offline requirements and downloads a starter with
   await page.goto('/');
   await page.getByRole('navigation', { name: 'Learning overview sections' }).getByRole('button', { name: 'Milestone projects', exact: true }).click();
   const milestones = page.getByRole('region', { name: 'Build a milestone project', exact: true });
-  await expect(milestones).toBeFocused(); await expect(milestones.locator('article')).toHaveCount(3);
+  await expect(milestones).toBeFocused(); await expect(milestones.locator('.learning-path-grid > article')).toHaveCount(3);
   const project = milestones.locator('article').filter({ has: page.getByRole('heading', { name: 'Event stream evidence viewer', exact: true }) });
   await project.getByText('Requirements and hints', { exact: true }).click();
   await expect(project).toContainText('Require an explicit terminal outcome');
@@ -32,7 +32,7 @@ test('optional walkthroughs explain all references and download a separate solut
   let posts = 0; page.on('request', request => { if (request.method() === 'POST') posts++; });
   await page.goto('/');
   await page.getByRole('button', { name: 'Milestone projects', exact: true }).click();
-  const projects = page.locator('.learning-milestones article');
+  const projects = page.locator('.learning-milestones > .learning-path-grid > article');
   for (const [index, count] of [4, 3, 5].entries()) {
     const project = projects.nth(index);
     await project.getByText('Solution walkthrough and reference download', { exact: true }).click();

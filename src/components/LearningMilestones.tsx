@@ -2,6 +2,7 @@ import type { MouseEvent } from 'react';
 import { learningMilestones } from '../../shared/learning-milestones';
 import { routeHref } from '../lessons/navigation';
 import { milestoneWalkthroughs } from '../../shared/milestone-walkthroughs';
+import { MiniProjects } from './MiniProjects';
 
 export function LearningMilestones({ selectedPathId, availableIds, onNavigate }: {
   selectedPathId: string | null; availableIds: readonly number[];
@@ -9,6 +10,8 @@ export function LearningMilestones({ selectedPathId, availableIds, onNavigate }:
 }) {
   return <section id="course-learning-milestones" className="learning-milestones" aria-labelledby="milestones-heading" tabIndex={-1}>
     <h3 id="milestones-heading">Build a milestone project</h3>
+    <MiniProjects />
+    <h3>Offline practice projects</h3>
     <p>Practise with three offline projects. Use Node 24 or newer; no dependency installation, API key or provider request is needed. Starters are intentionally incomplete, so their initial tests fail. Download, edit and test them in a separate study folder.</p>
     <div className="learning-path-grid">{learningMilestones.map(project => <article key={project.id} className={selectedPathId === project.pathId || selectedPathId === 'complete-course' ? 'learning-path-card path-selected' : 'learning-path-card'}>
       <h4>{project.title}</h4><p>{project.summary}</p>

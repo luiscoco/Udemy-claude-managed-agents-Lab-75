@@ -1,0 +1,20 @@
+.ai-tutor { color: var(--ink); }
+.ai-tutor-questions { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin: 24px 0; }
+.ai-tutor-questions button { text-align: left; min-height: 58px; }
+.ai-tutor-questions button[aria-pressed='true'], .ai-tutor-saved-list button[aria-pressed='true'] { background: var(--blue); border-color: var(--blue); color: var(--surface); }
+.ai-tutor label { margin: 18px 0 7px; }
+.ai-tutor textarea, .ai-tutor select { width: 100%; max-width: 100%; background: var(--surface); color: var(--ink); border: 1px solid var(--border); border-radius: 8px; padding: 12px; font: inherit; }
+.ai-tutor textarea { resize: vertical; }
+.ai-tutor-live-options { padding: 4px 18px 18px; margin-top: 20px; border: 1px solid var(--border); border-radius: 10px; background: var(--blue-tint); }
+.ai-tutor .ai-tutor-consent { display: flex; align-items: flex-start; gap: 12px; font-weight: 500; }
+.ai-tutor-consent input { margin-top: 7px; flex: none; }
+.ai-tutor-actions, .ai-tutor-result-heading { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-top: 22px; }
+.ai-tutor-result-heading { justify-content: space-between; margin: 0 0 20px; }
+.ai-tutor-result-heading h2 { margin: 0; }
+.ai-tutor-badge { padding: 4px 12px; font-size: .8rem; border-radius: 20px; background: var(--purple-tint); color: var(--purple); }
+.ai-tutor-result, .ai-tutor-saved-detail { overflow-wrap: anywhere; }
+.ai-tutor-saved-list { display: grid; gap: 10px; max-height: 340px; overflow: auto; }
+.ai-tutor-saved-list button { text-align: left; overflow-wrap: anywhere; }
+.ai-tutor-saved-list small { display: block; margin-top: 6px; font-weight: 400; }
+.ai-tutor-saved-detail { border-top: 1px solid var(--border); margin-top: 24px; padding-top: 20px; }
+@media (max-width: 600px) { .ai-tutor-questions { grid-template-columns: 1fr; } .ai-tutor-live-options { padding-inline: 12px; } }

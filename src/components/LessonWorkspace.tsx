@@ -12,14 +12,16 @@ import { LessonKnowledgeCheck } from './LessonKnowledgeCheck';
 import type { TextCatalog, TextLoader } from '../lessons/catalog';
 import { lessonInfographics } from '../../shared/learning-infographics';
 import { LessonInfographic } from './LessonInfographic';
+import { AiTutor } from './AiTutor';
 
 export type ExerciseLoader = () => Promise<{ default: ComponentType }>;
 export function LessonWorkspace({ lesson, loadGuide, sources, mainSources, loadExercise }: {
   lesson: LessonMetadata; loadGuide: TextLoader; sources: TextCatalog; mainSources: readonly string[]; loadExercise: ExerciseLoader;
 }) {
   const id = useId(), visuals = lessonInfographics.filter(item => item.lessonId === lesson.id);
-  const tabs = ['Learn', 'Run the exercise', 'TypeScript source', ...visuals.map(item => item.kind === 'concepts' ? 'Concept map' : 'Lab walkthrough')];
-  const tabId = (index: number) => index === 1 ? `lesson-exercise-${lesson.id}` : `${id}-tab-${index}`;
+  const tabs = ['Learn', 'Run the exercise', 'TypeScript source', ...visuals.map(item => item.kind === 'concepts' ? 'Concept map' : 'Lab walkthrough'), 'AI Tutor'];
+  const tutorIndex = tabs.length - 1;
+  const tabId = (index: number) => index === 1 ? `lesson-exercise-${lesson.id}` : index === tutorIndex ? `lesson-tutor-${lesson.id}` : `${id}-tab-${index}`;
   const workspace = useRef<HTMLDivElement>(null);
   const tour = learningGuide(lesson.id);
   const [active, setActive] = useState(() => {
@@ -30,6 +32,7 @@ export function LessonWorkspace({ lesson, loadGuide, sources, mainSources, loadE
     } catch { return 0; }
   });
   const [visited, setVisited] = useState(active === 1);
+  const [tutorVisited, setTutorVisited] = useState(false);
   const [guidanceOpen, setGuidanceOpen] = useState(true);
   const [Exercise, setExercise] = useState<ComponentType>(); const [error, setError] = useState(false);
   const [requestedSource, setRequestedSource] = useState({ path: '', serial: 0 });
@@ -50,6 +53,7 @@ export function LessonWorkspace({ lesson, loadGuide, sources, mainSources, loadE
     window.location.reload();
   }
   function activate(index: number, focus = false) {
+    if (index === tutorIndex) setTutorVisited(true);
     setActive(index); if (index === 1) setVisited(true); if (focus) buttons.current[index]?.focus();
   }
   useEffect(() => {
@@ -62,7 +66,7 @@ export function LessonWorkspace({ lesson, loadGuide, sources, mainSources, loadE
     <LearningGuide lessonId={lesson.id} view={active} onView={activate} workspace={workspace} />
     <LessonKnowledgeCheck lessonId={lesson.id} onReviewSource={() => activate(2, true)} />
     <div role="tablist" aria-label={`${lesson.title} views`} className="workspace-tabs">
-      {tabs.map((name, index) => <button type="button" key={name} id={tabId(index)} role="tab" data-tone={name === 'Learn' ? 'blue' : name === 'Run the exercise' ? 'orange' : name === 'Lab walkthrough' ? 'yellow' : 'purple'} data-lesson-shortcut={index === 1 ? 'exercise' : undefined}
+      {tabs.map((name, index) => <button type="button" key={name} id={tabId(index)} role="tab" data-tone={name === 'Learn' ? 'blue' : name === 'Run the exercise' ? 'orange' : name === 'Lab walkthrough' ? 'yellow' : 'purple'} data-lesson-shortcut={index === 1 ? 'exercise' : index === tutorIndex ? 'tutor' : undefined}
         ref={(element) => { buttons.current[index] = element; }} aria-selected={active === index}
         aria-controls={`${id}-panel-${index}`} tabIndex={active === index ? 0 : -1}
         onClick={() => activate(index)} onKeyDown={(event) => {
@@ -105,5 +109,8 @@ export function LessonWorkspace({ lesson, loadGuide, sources, mainSources, loadE
       {active === index + 3 && <LessonInfographic visual={visual} onSource={path => { setRequestedSource(previous => ({ path, serial: previous.serial + 1 })); activate(2, true); }}
         onExplanation={target => { const step = tour.find(item => item.id === target); if (step) { activate(step.view, true); setExplanation(target); } }} />}
     </div>)}
+    <div role="tabpanel" id={`${id}-panel-${tutorIndex}`} aria-labelledby={tabId(tutorIndex)} hidden={active !== tutorIndex} tabIndex={0}>
+      {tutorVisited && <AiTutor key={lesson.id} lessonId={lesson.id} title={lesson.title} />}
+    </div>
   </div>;
 }

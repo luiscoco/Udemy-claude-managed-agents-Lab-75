@@ -12,6 +12,8 @@ All 75 lessons include **Concept map** and **Lab walkthrough** tabs: 150 origina
 
 Home includes a browser-local course progress overview and **Continue learning** shortcut. Checklist completion is self-assessment, separate from verified exercise evidence. Saved tours resume only when explicitly selected.
 
+Every lab also has an **AI Tutor** tab: six suggested questions, free prepared guidance grounded in this course, optional Live Claude model selection with per-question consent, and locally saved answers that reopen without another model call. See [setup, behavior and validation](docs/ai-tutor.md).
+
 The Learning Guide also has a personal notebook and lesson bookmarks. Home can download a learning backup and preview a restore before applying it; these controls stay entirely in the browser.
 
 Use **Open notebook**, **Open checklist** or **Open exercise** beside a lesson title, or choose the same sections in the sidebar or mobile Menu. Course progress also links directly to these sections for the next lesson and every lesson under **Review lesson checklists**. Section links survive refresh, browser Back and opening in a new tab. Opening the exercise selects its view; execution still requires your Run action. **Course progress** and **Back up or restore** remain available in navigation. These optional learning tools never require you to visit every lesson or complete a checklist.
@@ -31,6 +33,8 @@ The [earlier Word workbook](docs/prompt-migration/Claude-Managed-Agents-Prompts-
 Each lab includes an authored **Knowledge check** with explained answers and retries. Home tracks these practice results separately from self-assessment checklists and verified exercise evidence. Version 2 learning backups include knowledge answers and still accept version 1 backups.
 
 Home also offers four suggested **Learning paths** and a **Review queue** for incorrect knowledge answers and bookmarks. Paths are optional; every lab remains available.
+
+The [three guided milestone apps](docs/managed-milestone-projects.md)—Study Coach, Agent Evaluation Studio and Agent Publishing Studio—use Claude Managed Agents, with local launch controls, starter downloads and 22 build stages. Install dependencies with `npm run projects:install`, then open **Milestone projects** in the sidebar. Prepared mode makes no provider calls.
 
 The [offline milestone projects](docs/learning-milestones.md) provide downloadable Node 24 starters and local tests for an event viewer, SSE endpoint and fictional approval ledger. No dependency installation or provider key is required; initial starter failures are intentional. Instructor validation: `npm run milestones:check`.
 

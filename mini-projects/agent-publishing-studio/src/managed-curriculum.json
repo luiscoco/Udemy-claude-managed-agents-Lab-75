@@ -1,0 +1,311 @@
+[
+  {
+    "id": "foundations",
+    "title": "01 - Models, agents, environments and sessions",
+    "level": "Beginner",
+    "description": "Learn the actual Managed Agents protocol and the surrounding host application.",
+    "prompts": [
+      "Explain Session event streaming: Consume a Managed Agents event stream and tell agent response text apart from session lifecycle events and turn completion.",
+      "How do I verify Lab 1? Ask for three bullet points. Identify the authoritative agent.message containing them and the lifecycle event confirming that the turn finished.",
+      "Show a small Managed Agents example for Lab 1, distinguish host code, and describe a failure check.",
+      "Explain Session options: Control a dedicated Managed Agents session with model and system overrides, a list-cost budget, connection previews and a local deadline.",
+      "How do I verify Lab 2? Reduce the session budget or local deadline. Explain the outcome, which limit produced it, and whether remote execution was confirmed stopped.",
+      "Show a small Managed Agents example for Lab 2, distinguish host code, and describe a failure check.",
+      "Explain Built-in tools: Distinguish a tool being enabled in the session toolset from a call being permitted by its permission_policy and the host, and verify the effects in files rather than in agent claims.",
+      "How do I verify Lab 3? Take the Permitted edit preset and remove edit from the enabled tools. Before you run it, predict whether the edit attempt is unavailable (deny with no evaluation) or denied, and what outputs/draft.md contains on disk afterwards.",
+      "Show a small Managed Agents example for Lab 3, distinguish host code, and describe a failure check."
+    ]
+  },
+  {
+    "id": "tools",
+    "title": "02 - Tools and effect boundaries",
+    "level": "Beginner",
+    "description": "Learn the actual Managed Agents protocol and the surrounding host application.",
+    "prompts": [
+      "Explain Permissions: Approve or deny paused tool calls through a host review dialog: the Managed Agents equivalent of canUseTool is a requires_action pause answered once with user.tool_confirmation.",
+      "How do I verify Lab 4? Deny one write with your own deny_message and explain how the agent responds: the message comes back as an error agent.tool_result and the session keeps running. Why is the offline reaction authored, while a live agent may try another approach?",
+      "Show a small Managed Agents example for Lab 4, distinguish host code, and describe a failure check.",
+      "Explain Custom tools: Expose typed application functions as Managed Agents custom tools: the agent declares them, the session pauses on agent.custom_tool_use, and the host validates the input, runs the handler and answers once with user.custom_tool_result.",
+      "How do I verify Lab 5? Send add_task with a missing or wrong-typed title. Confirm that the result is is_error, that the handler call count is unchanged and that the task list is identical before and after.",
+      "Show a small Managed Agents example for Lab 5, distinguish host code, and describe a failure check."
+    ]
+  },
+  {
+    "id": "sessions-agents",
+    "title": "03 - Sessions and host coordination",
+    "level": "Beginner",
+    "description": "Learn the actual Managed Agents protocol and the surrounding host application.",
+    "prompts": [
+      "Explain Sessions and retained context: Continue a conversation in the same server-owned Managed session, compare it with fresh context, and reconnect without duplicating persisted events.",
+      "How do I verify Lab 6? Ask a follow-up that depends on the first answer. Explain which ID proves session reuse and why fixture recall is evidence only of fixture behavior.",
+      "Show a small Managed Agents example for Lab 6, distinguish host code, and describe a failure check.",
+      "Explain Tool policy and execution audit: Replace Agent SDK tool hooks with a host policy pipeline that validates before execution and records the actual effect afterward.",
+      "How do I verify Lab 7? Block a protected-file call and identify the host decision that prevented the effect before any handler ran.",
+      "Show a small Managed Agents example for Lab 7, distinguish host code, and describe a failure check.",
+      "Explain Delegation and session threads: Delegate bounded work to predefined Managed Agents, inspect separate session-thread histories, and verify role capabilities and effects in the host.",
+      "How do I verify Lab 8? Restrict one worker capability and compare its report with the host effect ledger.",
+      "Show a small Managed Agents example for Lab 8, distinguish host code, and describe a failure check."
+    ]
+  },
+  {
+    "id": "prompts-output",
+    "title": "04 - Instructions and validated output",
+    "level": "Beginner",
+    "description": "Learn the actual Managed Agents protocol and the surrounding host application.",
+    "prompts": [
+      "Explain System instructions and explicit context: Compare inherited and explicitly composed system instructions in fresh sessions while keeping the question and base model fixed.",
+      "How do I verify Lab 9? Keep the question fixed and change only the system instructions. Explain what is inherited and what is replaced.",
+      "Show a small Managed Agents example for Lab 9, distinguish host code, and describe a failure check.",
+      "Explain Validated reports and interruption: Validate final JSON reports with a closed application schema and distinguish interrupt, local abort and idle-session close.",
+      "How do I verify Lab 10? Identify the stop action that keeps the same session available for another turn and the evidence required before reuse.",
+      "Show a small Managed Agents example for Lab 10, distinguish host code, and describe a failure check."
+    ]
+  },
+  {
+    "id": "skills-mcp",
+    "title": "05 - Skills, MCP, models and usage",
+    "level": "Beginner",
+    "description": "Learn the actual Managed Agents protocol and the surrounding host application.",
+    "prompts": [
+      "Explain Managed skills and progressive loading: Inspect pinned skill metadata separately from observed instruction and reference file reads in fresh sessions.",
+      "How do I verify Lab 11? Compare attached metadata with event evidence that SKILL.md was read. Explain why no observed read does not prove the skill was unavailable.",
+      "Show a small Managed Agents example for Lab 11, distinguish host code, and describe a failure check.",
+      "Explain Multiple messages in one session: Queue multiple messages in one retained session, separating local admission, provider acceptance and correlated turn outcomes.",
+      "How do I verify Lab 12? Queue a follow-up while busy. Identify admission, processing, provider acceptance and completion evidence, then prove that closing the queue prevented waiting commands from being sent.",
+      "Show a small Managed Agents example for Lab 12, distinguish host code, and describe a failure check.",
+      "Explain MCP connections and reachability: Connect real local MCP transports, separate configuration from observed reachability, and compare host bridges with native Managed HTTPS MCP.",
+      "How do I verify Lab 13? Disable a server and inspect which calls remain possible. Prove the disabled tool had no host MCP effect, and explain why local success does not prove cloud access.",
+      "Show a small Managed Agents example for Lab 13, distinguish host code, and describe a failure check.",
+      "Explain Models and supported effort: Compare supported model and effort settings in fresh sessions with resolved metadata, public responses and explicit fallback budgets.",
+      "How do I verify Lab 14? Change supported effort while keeping prompt and model fixed in fresh sessions. Explain why uncertain work blocks fallback.",
+      "Show a small Managed Agents example for Lab 14, distinguish host code, and describe a failure check.",
+      "Explain Usage and session budgets: Read cumulative session usage and separate overlapping scopes while enforcing platform budgets and bounded host turns.",
+      "How do I verify Lab 15? Explain why intermediate usage differs from the final session snapshot, and why list cost is not a guaranteed invoice total.",
+      "Show a small Managed Agents example for Lab 15, distinguish host code, and describe a failure check.",
+      "Explain Environment and configuration provenance: Trace synthetic host configuration precedence, server credential readiness and explicit Managed environment resources without conflating their scopes.",
+      "How do I verify Lab 16? Change a host configuration layer. Identify its winning provenance and explain why the remote sandbox value does not change automatically.",
+      "Show a small Managed Agents example for Lab 16, distinguish host code, and describe a failure check."
+    ]
+  },
+  {
+    "id": "project-context",
+    "title": "06 - Recovery and project context",
+    "level": "Intermediate",
+    "description": "Learn the actual Managed Agents protocol and the surrounding host application.",
+    "prompts": [
+      "Explain Host snapshots and file restoration: Restore tracked host fixture files from an owned snapshot while the retained Managed conversation remains intact.",
+      "How do I verify Lab 17? Explain why restoring notes.md and deleting draft.md leaves the conversation and untracked scratch.md intact.",
+      "Show a small Managed Agents example for Lab 17, distinguish host code, and describe a failure check.",
+      "Explain Cloud sandbox and host boundaries: Inspect configured cloud sandbox policy and independently test a disposable host file boundary without conflating either with agent permission flags.",
+      "How do I verify Lab 18? Explain why an unavailable configured environment fails closed before a session and why an offline host path denial does not prove cloud OS containment.",
+      "Show a small Managed Agents example for Lab 18, distinguish host code, and describe a failure check.",
+      "Explain Session inventory and explicit branches: Inventory owned Managed sessions, inspect bounded history pages and derive a fresh conversation from an explicit host summary.",
+      "How do I verify Lab 19? Show why a derived conversation is a new session with explicit selected history, not a native fork carrying hidden state.",
+      "Show a small Managed Agents example for Lab 19, distinguish host code, and describe a failure check.",
+      "Explain Lifecycle events and host interceptors: Correlate Managed lifecycle events with host interceptor decisions and actual custom-tool effects without treating observations as SDK hook callbacks.",
+      "How do I verify Lab 20? Compare a host interceptor exception with a failed tool execution. Which one reached the handler, and what did the fixture file prove?",
+      "Show a small Managed Agents example for Lab 20, distinguish host code, and describe a failure check.",
+      "Explain Host commands and prompt expansion: Validate host commands, inspect exact fixed-template expansion, and distinguish local-only actions from messages sent on an owned session.",
+      "How do I verify Lab 21? Why does a local inspect command not create a model turn, while a fixed prompt template does?",
+      "Show a small Managed Agents example for Lab 21, distinguish host code, and describe a failure check.",
+      "Explain Explicit project context and memory: Trace exactly which authored project and summary files the host selects for a fresh Managed session without assuming automatic CLAUDE.md discovery.",
+      "How do I verify Lab 22? Disable nested context and select the summary instead. Which authored markers disappear, and which appear in the new session input?",
+      "Show a small Managed Agents example for Lab 22, distinguish host code, and describe a failure check.",
+      "Explain Reusable capability bundles: Compose a reviewed, hash-pinned host bundle of commands, tools, skills, agent definitions and optional MCP declarations while enforcing worker least privilege.",
+      "How do I verify Lab 23? Reload a reviewed bundle and compare the requested capabilities with the fixture-resolved inventory. What remains unverified in Managed Agents?",
+      "Show a small Managed Agents example for Lab 23, distinguish host code, and describe a failure check."
+    ]
+  },
+  {
+    "id": "harness",
+    "title": "07 - Host harness and failure recovery",
+    "level": "Intermediate",
+    "description": "Learn the actual Managed Agents protocol and the surrounding host application.",
+    "prompts": [
+      "Explain Who owns the agent loop: Compare who iterates, executes host tools, holds state and cleans up in a manual Messages loop, the Messages SDK tool runner and Managed session custom tools.",
+      "How do I verify Lab 24? Identify one responsibility the manual loop owns that the Managed session harness supplies.",
+      "Explain Context growth and compaction evidence: Distinguish observed Managed compaction events, available cumulative thread usage and a separate host-authored summary handoff without inventing context capacity.",
+      "How do I verify Lab 25? Compare the authored compaction event with the host summary handoff. Which one could prove a platform action, and which retained facts can you verify from source reports?",
+      "Explain Session controls and supported updates: Operate an owned session through a strict catalog and compare updates that require idle with an explicit fresh-session model handoff.",
+      "How do I verify Lab 26? Change model through a fresh session and inspect its resolved configuration.",
+      "Explain Remote work beyond a browser connection: Track authored remote work in a host ledger across browser detach and reconnect without creating duplicate sessions or task cards.",
+      "How do I verify Lab 27? Reconnect and identify evidence that the original task stopped.",
+      "Explain Errors, retries and reconciliation: Classify authored transport, event, handler and cleanup faults while bounding read retries and reconciling uncertain mutations without duplicate effects.",
+      "How do I verify Lab 28? Explain when reconnecting a known session is safer than creating another one.",
+      "Explain Images, documents and mounted files: Compare checked inline image/document blocks, explicit file mounts and separate downloaded output evidence using small fictional fixtures.",
+      "How do I verify Lab 29? Send the same fixture through two supported routes and compare observed usage."
+    ]
+  },
+  {
+    "id": "human-state",
+    "title": "08 - Human decisions and durable state",
+    "level": "Intermediate",
+    "description": "Learn the actual Managed Agents protocol and the surrounding host application.",
+    "prompts": [
+      "Explain Host task board and completion gates: Use a host-owned task board and typed custom-tool inputs to enforce dependencies, versions and checked completion evidence independently of agent claims.",
+      "How do I verify Lab 30? Try a plan change and locate the deterministic accepting or refusing gate.",
+      "Explain Host questions and correlated answers: Collect one human answer to a bounded host question and correlate a single Managed custom-tool result with the paused event ID.",
+      "How do I verify Lab 31? Compare a partial answer with a complete validated response.",
+      "Explain Plan review and execution gate: Review an immutable host-validated plan before a separate restricted execution phase, with file effects checked independently of plan text.",
+      "How do I verify Lab 32? Request a revision and verify an older approval cannot authorize the new plan.",
+      "Explain Human forms during tool work: Collect schema-validated human input during a real local MCP tool call, keeping MCP, custom-tool and consent correlation IDs separate.",
+      "How do I verify Lab 33? Submit invalid values and identify the layer that rejects them.",
+      "Explain Output instruction variants: Compare trusted host output-instruction files in fresh session snapshots while validating JSON reports independently of style text.",
+      "How do I verify Lab 34? Use an unknown style and inspect the preflight rejection.",
+      "Explain Event mirrors and conversation indexes: Persist a bounded local mirror of canonical session events by thread without claiming ownership of remote Managed session state.",
+      "How do I verify Lab 35? Compare flush strategies and identify which records survive a simulated crash."
+    ]
+  },
+  {
+    "id": "stream-boundaries",
+    "title": "09 - Streaming and trust boundaries",
+    "level": "Intermediate",
+    "description": "Learn the actual Managed Agents protocol and the surrounding host application.",
+    "prompts": [
+      "Explain Remote transport and host runners: Inspect the host HTTP/event boundary, bounded event consumption, fixed host worker lifecycle and remote cleanup without spawning Claude Code.",
+      "How do I verify Lab 36? Identify which work runs on the host and which belongs to the remote session.",
+      "Explain External policy decision service: Ask a host-only policy service about an exact paused action and send one correlated confirmation only after a valid gate decision and independent path check.",
+      "How do I verify Lab 37? Return an invalid gate response and inspect the prevented effect.",
+      "Explain Application follow up suggestions: Offer optional application follow-up suggestions bound to a conversation, turn and response version without auto-sending or conflating usage with the answer.",
+      "How do I verify Lab 38? Explain why a suggestion may be absent and why accepting one needs a separate send.",
+      "Explain Trusted configuration and untrusted checkouts: Verify a host-selected configuration manifest and hash before handling branch data through checked file tools.",
+      "How do I verify Lab 39? Identify a branch rule the trusted configuration refuses to execute.",
+      "Explain Safe recovery boundaries: Choose recovery from a host command/effect ledger without erasing remote history or dropping accepted work.",
+      "How do I verify Lab 40? Explain how queued work changes the safe recovery boundary.",
+      "Explain Managed session lifecycle comparison: Compare one-shot, retained and reconnect workflows using current Managed session events, IDs and archive evidence.",
+      "How do I verify Lab 41? Describe the Managed event sequence for continuing an idle session.",
+      "Explain Bounded web research and citations: Research with bounded, inspected source records and verify citations against returned evidence while refusing unsafe redirects.",
+      "How do I verify Lab 42? Test a hostile page and inspect the enforcing host decision.",
+      "Explain MCP resources through a host bridge: Read authenticated, bounded MCP resources through a host bridge without assuming Managed query-control methods.",
+      "How do I verify Lab 43? Refresh the bridge token and inspect the next authorized call."
+    ]
+  },
+  {
+    "id": "observability",
+    "title": "10 - Observability and budgets",
+    "level": "Intermediate",
+    "description": "Learn the actual Managed Agents protocol and the surrounding host application.",
+    "prompts": [
+      "Explain Host telemetry and provider event traces: Correlate redacted host OTLP spans with separately labeled Managed model-span event evidence and effect counts.",
+      "How do I verify Lab 44? Compare denied and executed actions in the host trace and effect ledger.",
+      "Explain Provider availability and configuration: Separate documented Managed Agents availability, installed client verification and Messages API support before choosing a provider path.",
+      "How do I verify Lab 45? Identify a preflight check that catches an unsupported provider path.",
+      "Explain Observed cache usage and cost: Compare supported Managed cache-read and creation counters across equal-scope observations without inventing prompt control or savings.",
+      "How do I verify Lab 46? Change a content prefix and compare measured cache counters when available."
+    ]
+  },
+  {
+    "id": "teams",
+    "title": "11 - Coordination and support capstone",
+    "level": "Intermediate",
+    "description": "Learn the actual Managed Agents protocol and the surrounding host application.",
+    "prompts": [
+      "Explain Model driven and host driven orchestration: Compare native Managed worker threads with a host pipeline of independent sessions using closed reports and verified sales fixtures.",
+      "How do I verify Lab 47? Stop one worker and inspect the effect on dependent tasks.",
+      "Explain Security hardening: Use host-enforced tool input, path and egress checks to distinguish hostile attempts from observed local effects.",
+      "How do I verify Lab 48? Identify the host check that protects data when the model is misled.",
+      "Explain Headless host and CI outcomes: Classify bounded headless Managed session work into machine-readable CI outcomes with explicit cleanup evidence.",
+      "How do I verify Lab 49? Explain which outcome should fail CI and what remote cleanup evidence is required.",
+      "Explain Full stack capstone: Resolve fictional support cases through customer-owned tools, retained sessions, trusted host review and a verified refund ledger.",
+      "How do I verify Lab 50? Deny a refund and verify that no refund is recorded."
+    ]
+  },
+  {
+    "id": "testing",
+    "title": "12 - Testing and evaluation",
+    "level": "Advanced",
+    "description": "Learn the actual Managed Agents protocol and the surrounding host application.",
+    "prompts": [
+      "Explain Testing the Managed host offline: Verify the real Acme Support Desk host logic and event consumption without a provider request.",
+      "How do I verify Lab 51? Enable the 60-day mutation and explain why the 30-day policy assertion fails for the same order and clock.",
+      "Explain Evals, judges and regression baselines: Compare deterministic host safety checks with optional judge output and gate candidate promotion against a recorded baseline.",
+      "How do I verify Lab 52? Change a candidate claim and decide whether the regression and safety gates should permit local promotion.",
+      "Explain Debugging session and host traces: Reproduce a session or host failure and identify its first useful redacted event, decision or effect.",
+      "How do I verify Lab 53? Change one trace variable and explain whether it fixes the first evidenced cause without inventing a remote outcome.",
+      "Explain Designing tools the model uses well: Compare vague and explicit Managed custom-tool contracts while keeping refund policy and idempotency in the host handler.",
+      "How do I verify Lab 54? Improve one vague field name or error message and predict how the linter and host effects should differ.",
+      "Explain Official SDK and API upgrades: Rehearse SDK and Managed API compatibility gates, canary, promotion and rollback without changing the locked teaching app.",
+      "How do I verify Lab 55? Make one candidate fixture lose a required event type and explain why a version bump alone cannot authorize promotion."
+    ]
+  },
+  {
+    "id": "durable",
+    "title": "13 - Routing and durable agents",
+    "level": "Advanced",
+    "description": "Learn the actual Managed Agents protocol and the surrounding host application.",
+    "prompts": [
+      "Explain Teams and evidence messages: Coordinate two application roles with checked evidence, stable envelopes and explicit completion gates.",
+      "How do I verify Lab 56? Try to acknowledge evidence before delivery and explain which state transition must occur first.",
+      "Explain Workers in host Git worktrees: Rehearse isolated Git worktrees and host-verified, serialized integration of two worker edits.",
+      "How do I verify Lab 57? Explain why a worker claim cannot substitute for host path checks, tests or serialized cherry-pick.",
+      "Explain Tool catalogs and bounded discovery: Search a 64-tool application catalog with a bounded host scorer and dispatch only through a checked schema and host context.",
+      "How do I verify Lab 58? Rewrite a catalog description to promise authority and explain why the fixed dispatcher still rejects an unauthorized refund.",
+      "Explain Routing with verified outcomes: Compare seven routing strategies on 13 tasks using independent answer keys and full attempt accounting.",
+      "How do I verify Lab 59? Find a high-confidence wrong answer and explain why confidence cannot replace the independent host key.",
+      "Explain Durable long running agents: Recover a fictional refund batch from atomic host journals and a stable idempotent ledger.",
+      "How do I verify Lab 60? Explain why the third effect can exist in the ledger without a journal entry and which stable key suppresses it."
+    ]
+  },
+  {
+    "id": "retrieval-data",
+    "title": "14 - Retrieval, data and approval",
+    "level": "Advanced",
+    "description": "Learn the actual Managed Agents protocol and the surrounding host application.",
+    "prompts": [
+      "Explain Exposing an agent as an MCP server: Expose a typed fictional support/refund review through a bearer-protected local MCP transport.",
+      "How do I verify Lab 61? Send a valid MCP session ID with a different bearer identity and explain why authentication precedes lookup.",
+      "Explain Retrieval RAG through custom tools: Retrieve tenant-filtered current policy chunks and verify answer citations against the exact returned set.",
+      "How do I verify Lab 62? Cite an archived or foreign-tenant policy ID and explain why the run’s filtered result set rejects it.",
+      "Explain A safe database agent: Read tenant-scoped orders through fixed queries and let a separate human endpoint commit one checked cancellation.",
+      "How do I verify Lab 63? Change the order version after proposal and show why the checked UPDATE rolls back rather than cancelling it.",
+      "Explain Browser tools across host and cloud: Automate a fixture page through host-side Playwright MCP and verify the actual DOM and screenshot.",
+      "How do I verify Lab 64? Explain why successful MCP tool prose without DOM and screenshot checks is insufficient browser proof.",
+      "Explain Human approval over Slack, Teams or email: Bind a fictional case archive to one trusted reviewer decision after an immutable proposal and local notification.",
+      "How do I verify Lab 65? Approve twice or approve a second proposal for the same case and explain why the effect ledger stays at one."
+    ]
+  },
+  {
+    "id": "delivery",
+    "title": "15 - Application delivery",
+    "level": "Advanced",
+    "description": "Learn the actual Managed Agents protocol and the surrounding host application.",
+    "prompts": [
+      "Explain Real-time frontends over WebSocket: Stream a bounded offline or explicitly started Managed turn over authenticated local WebSocket, with replay after reconnect.",
+      "How do I verify Lab 66? Reconnect after a terminal frame and show the same run ID and sequence without another accepted message.",
+      "Explain A multi-tenant SaaS architecture: Enforce tenant ownership across project sources, runs, sessions, transcripts, cancellation and quota reservations.",
+      "How do I verify Lab 67? Add a tenant field to a model tool input or start body and explain why it cannot choose authority.",
+      "Explain Scheduled and event-driven agents: Admit scheduled and signed incident jobs into a bounded queue, then explicitly claim, retry or cancel them.",
+      "How do I verify Lab 68? Show why an HTTP 202 trigger and an advanced schedule clock cannot prove execution or signature freshness.",
+      "Explain Desktop and IDE host integration: Supply explicit document context from a trusted host and apply a reviewed patch only when version and hash still match.",
+      "How do I verify Lab 69? Change a document after its context snapshot and explain why a valid remote patch still cannot apply.",
+      "Explain Python client for Managed Agents: Compare the Managed session protocol through an isolated Python worker and the TypeScript host bridge.",
+      "How do I verify Lab 70? Terminate a worker and explain why process exit cannot prove a remote Managed session has stopped."
+    ]
+  },
+  {
+    "id": "publishing",
+    "title": "16 - Analysis and publishing",
+    "level": "Advanced",
+    "description": "Learn the actual Managed Agents protocol and the surrounding host application.",
+    "prompts": [
+      "Explain A data analysis agent: Build a sales analysis from scoped CSV data, executable calculations and ledger-cited reports and charts.",
+      "How do I verify Lab 71? Explain why averaging row return rates differs from the host ratio of summed returns to summed units.",
+      "Explain Document generation with Skills: Generate a deterministic Word document from a closed specification and independently inspect the package and immutable skill bundle.",
+      "How do I verify Lab 72? Explain why a valid OOXML package does not prove factual correctness or good pagination in Word."
+    ]
+  },
+  {
+    "id": "release",
+    "title": "17 - Review, red teams and release",
+    "level": "Advanced",
+    "description": "Learn the actual Managed Agents protocol and the surrounding host application.",
+    "prompts": [
+      "Explain An autonomous PR reviewer and fixer: Route changed-line review findings to a constrained fixer and commit only after independent host gates and real tests.",
+      "How do I verify Lab 73? Route a low-confidence finding and a question to a person without granting fixer authority.",
+      "Explain Prompt injection red teaming: Measure attempted and executed prompt-injection effects alongside safe support-desk utility.",
+      "How do I verify Lab 74? Show why a canary-free answer can still hide an executed refund or exfiltration effect.",
+      "Explain Capstone 2 an autonomous engineering team: Coordinate real worker branches through a validated task graph, independent verification, bounded review rework and a durable release gate.",
+      "How do I verify Lab 75? Explain why a green worker suite and a done report cannot establish readiness without host acceptance, review, ownership and known costs."
+    ]
+  }
+]

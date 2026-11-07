@@ -27,7 +27,7 @@ export function ReadableMarkdown({ text, headingOffset = 1 }: { text: string; he
       const language = fence[2]!.trim(); const code: string[] = []; i++;
       const end = new RegExp(`^\\s*${fence[1]![0]}{${fence[1]!.length},}\\s*$`);
       while (i < lines.length && !end.test(lines[i]!)) code.push(lines[i++]!);
-      i++; blocks.push(<CodeBlock key={key} code={code.join('\n')} label={language || 'Guide code'} />); continue;
+      i++; blocks.push(<CodeBlock key={key} code={code.join('\n')} label={language || 'Guide code'} syntax />); continue;
     }
     const heading = /^(#{1,6})\s+(.+)$/.exec(line);
     if (heading) { const Tag = `h${Math.max(2, Math.min(heading[1]!.length + headingOffset, 6))}` as 'h2' | 'h3' | 'h4' | 'h5' | 'h6'; blocks.push(<Tag key={key}>{inline(heading[2]!)}</Tag>); i++; continue; }

@@ -95,6 +95,7 @@ export function App({ lessons = implementedLessons }: { lessons?: readonly Lesso
       <a className="home-link" href={routeHref()} aria-current={!selected ? 'page' : undefined} onClick={(event) => navigate(event)}>Home <span aria-hidden="true">↗</span></a>
       <div className="learning-quick-links" aria-label="Learning shortcuts">
         <a href={`${routeHref()}#course-start-here`} onClick={event => navigate(event, undefined, 'course-start-here')}>Start here</a>
+        <a href={`${routeHref()}#course-learning-milestones`} onClick={event => navigate(event, undefined, 'course-learning-milestones')}>Milestone projects</a>
         <a data-tone="green" href={routeHref()} onClick={event => navigate(event, undefined, 'course-progress')}>Course progress</a>
         <a data-tone="blue" href={routeHref()} onClick={event => navigate(event, undefined, 'course-learning-backup')}>Back up or restore</a>
         <a data-tone="green" href={`${routeHref()}#course-validation`} onClick={event => navigate(event, undefined, 'course-validation')}>Validation results</a>
@@ -156,7 +157,7 @@ export function App({ lessons = implementedLessons }: { lessons?: readonly Lesso
           if (check instanceof HTMLDetailsElement) check.open = true;
           check?.scrollIntoView({ block: 'start', behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth' });
           check?.focus({ preventScroll: true });
-        }}>Open knowledge check</button>{lessonSections.map(section => <a className="button button-secondary" key={section.key} href={lessonSectionHref(selected.id, section.key)} onClick={event => navigate(event, selected.id)}>Open {section.label.toLowerCase()}</a>)}<p>Optional voice narration, highlighted steps, checklist and personal notes. Explore any lab at your own pace.</p></div>
+        }}>Open knowledge check</button><button type="button" className="button-secondary" onClick={() => openLearningSection(`lesson-tutor-${selected.id}`)}>Ask AI Tutor</button>{lessonSections.map(section => <a className="button button-secondary" key={section.key} href={lessonSectionHref(selected.id, section.key)} onClick={event => navigate(event, selected.id)}>Open {section.label.toLowerCase()}</a>)}<p>Optional voice narration, highlighted steps, checklist and personal notes. Explore any lab at your own pace.</p></div>
         <Component key={selected.id} />
         <nav className="lesson-pagination" aria-label="Previous and next lessons">
           {ordered[position - 1] ? <a href={routeHref(ordered[position - 1]!.id)} onClick={(event) => navigate(event, ordered[position - 1]!.id)}>← {ordered[position - 1]!.title}</a> : <span>First implemented lesson</span>}
