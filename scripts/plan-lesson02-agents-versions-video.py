@@ -1,0 +1,202 @@
+"""Authored, phrase-targeted narration for the supplied Agents and Versions deck."""
+from pathlib import Path
+import hashlib,json
+from measured_video_text import MeasuredVideoText,at
+from plan_lab_settings import SETTINGS
+
+ROOT=Path(__file__).resolve().parents[1];NAME='lesson02-agents-versions';FOLDER=ROOT/'presentations'/NAME
+OCR=json.loads((FOLDER/'.build/video/slides/ocr.json').read_text(encoding='utf-8-sig'));MEASURED=MeasuredVideoText(OCR)
+ROWS=[];AUDIT=[]
+
+def slide(n,*parts):
+ segments=[]
+ for selection,text in parts:
+  target,visible=MEASURED.target(n,selection);cue=f'{n}-{len(segments)+1}'
+  segments.append({'id':cue,'text':text,'target':target});AUDIT.append({'slide':n,'cue':cue,'narration':text,'visibleText':visible,'selectedPhrases':selection})
+ ROWS.append({'slide':n,'segments':segments})
+
+slide(1,
+ (['Claude Managed','Agents','and Versions'],'Welcome to Lesson two: Claude Managed Agents and Versions.'),
+ ('Luis Coco Enr','This presentation by Luis Coco Enriquez explains reusable agents and their configuration history.'),
+ (['What they are and','how they work'],'We will begin with what an agent definition contains and how applications use it.'),
+ (['Versioning, changes','and configuration'],'Then we will connect configuration changes to version history.'),
+ (['Deploy, test and','promote new','versions'],'The practical aim is to make agent changes deliberately, test them, and understand what is being promoted.'),
+ ('Learn what Claude Managed Agents are','Keep the distinction between a reusable agent definition and its individual sessions in mind throughout the lesson.'))
+
+slide(2,
+ ('Persistent reusable agents','An agent is a saved, reusable definition. It brings together the configuration needed to run an agent with a particular purpose.'),
+ ('Model (e.g. Claude Sonnet 4.5)','The model field selects the model used for that definition.'),
+ ('System instructions','System instructions describe the intended behavior.'),
+ ('Tools and tool definitions','Tools define available capabilities'),
+ ('MCP servers','and connected MCP servers can provide additional tools and data access.'),
+ ('Permissions and execution policy','Permissions and execution policy govern how those capabilities may be used.'),
+ ('Metadata (e.g. team, tags, description)','Metadata records organizational information such as team ownership or tags.'),
+ ('Create once, reuse everywhere','The reuse panel explains why this configuration is saved instead of reconstructed for every interaction.'),
+ ('Different sessions','Several sessions can refer to the same agent definition.'),
+ ('Multiple environments','The slide also illustrates using the definition across different execution environments'),
+ ('Across deployments','and referencing its identifier from deployments or applications.'),
+ (at('Version history',1400,220),'Version history makes changes to the definition inspectable.'),
+ ('See what changed','It helps you see changes to configuration, instructions, tools, and permissions.'),
+ ('Audit changes','A history also supports reviewing when a change happened and its recorded context.'),
+ ('Safety iterate','Earlier configurations provide context for evaluating the next iteration. A history is not, by itself, a test of the new behavior.'),
+ ('Consistency','Consistency comes from reusing a clearly defined configuration.'),
+ ('Reduced repetition','Reduced repetition means less setup logic has to be copied between use cases.'),
+ ('Easier maintenance','Central configuration makes changes easier to manage.'),
+ ('Scalability','Sharing definitions across teams requires clear ownership and careful change review.'),
+ ('Support agents','The use cases include support agents with access to tools and internal knowledge,'),
+ ('Research agents','research agents that analyze information,'),
+ ('Internal assistants','internal assistants for team workflows,'),
+ ('Domain-specific workflows','and specialized tasks such as analysis or code review.'),
+ ('const agent = await','The small TypeScript example creates an agent definition.'),
+ (at('name:',700,930),'Its name identifies the example agent.'),
+ (at('model:',700,950),'The model field selects its model,'),
+ (at('system:',700,970),'the system field supplies instructions,'),
+ (at('tools:',700,995),'and the tools field supplies capabilities.'),
+ ('control-plane resource','The key takeaway is that an agent is reusable configuration. A session is the separate runtime context that puts that configuration to work.'))
+
+slide(3,
+ ('Core methods','The core methods support different management tasks. Follow the highlighted method and its purpose rather than treating all lifecycle operations as interchangeable.'),
+ (at('create(params)',150,260),'Create starts a new agent definition from the supplied configuration.'),
+ (at('retrieve(agentld)',150,325),'Retrieve reads the details of an existing agent using its identifier.'),
+ (at('update(agentld, params)',150,390),'Update changes an existing definition.'),
+ (at('list(params?)',150,450),'List finds agents and supports browsing larger collections.'),
+ (at('archive(agentld)',150,515),'Archive is the terminal lifecycle operation described in this presentation.'),
+ (at('versions. list',150,580),'Version listing inspects the history associated with a particular agent.'),
+ ('When you need a new agent','Use creation when you actually need a new definition for a use case or team.'),
+ ('current configuration or details.','Use retrieval when the question is what the existing definition currently contains.'),
+ ('settings, instructions, tools, or model.','Use an update when you intend to change those settings.'),
+ ('When you need to find and browse','Use listing for a dashboard, search, or management script.'),
+ ('Use with care','The archival panel emphasizes its permanence. Decide that the agent is no longer needed before choosing that operation.'),
+ ('Change history or audit past versions.','Use version history to review earlier configurations and their recorded changes.'),
+ ('Typical workfiow','The workflow panel summarizes a management sequence.'),
+ (at('Create',245,750),'Create the agent,'),
+ (at('List',245,810),'find or confirm it in the collection,'),
+ ('Update (iterate)','iterate on the definition,'),
+ ('View versions','and review its versions as it evolves.'),
+ ('Archive (when done)','Archival is a separate final decision, not a normal step in every update.'),
+ ('const agent = await client. beta. agents.','The code creates an agent and keeps the returned identifier.'),
+ ('const agents','It then lists agents.'),
+ ('client. beta. agents. versions. list(agent.id)','Finally, it requests versions for the agent that was created.'),
+ ('versions.data.map','The result processing reads the returned version identifiers.'),
+ ('Archive is terminal','The notes distinguish terminal archival'),
+ (at('Version history',1490,850),'from inspecting configuration history.'),
+ ('Use filters and pagination','For large collections, use the available filtering and pagination rather than assuming one response contains everything.'))
+
+slide(4,
+ ('Important fields','These fields describe different parts of an agent definition. Read each one according to its responsibility.'),
+ (at('name',145,140),'Name is the human readable identity of the definition.'),
+ ('identify the agent in','A clear name helps people recognize the agent in dashboards, logs, and code.'),
+ ('Support Agent','Support Agent is the example name shown here.'),
+ (at('model',640,140),'Model selects the model for the agent.'),
+ (['capabilities, performance,','and cost of the agent.'],'The panel connects that selection to capabilities, performance, and cost.'),
+ ('fits your use case.','Choose it according to the task and the constraints of the application.'),
+ (at('system',1120,140),'System supplies instructions that define behavior.'),
+ (['Sets the agent\'s role,','goals, and behavior'],'These instructions should make the role, goals, and behavioral expectations clear.'),
+ ('specific to get consistent','Specific instructions make the intended behavior easier to evaluate.'),
+ (at('tools',1580,140),'Tools supply the capabilities the agent can call.'),
+ ('Only include the tools','Include the capabilities relevant to the task'),
+ ('purpose.','rather than treating tool access as unrestricted by default.'),
+ (at('mcp_servers',145,530),'The MCP server field connects additional tools or data sources.'),
+ (['external tools and data','sources through MCP servers'],'The panel illustrates external systems such as file systems, databases, and services.'),
+ (at('metadata',750,530),'Metadata stores application context about the definition.'),
+ ('filtering, and automation.','It can help with organization, filtering, and automation.'),
+ ('Use it to store team, project,','Team, project, environment, and tags are examples of organizational information.'),
+ ('Execution policy / permissions','Execution policy and permissions govern allowed behavior.'),
+ ('Controls what the agent is allowed to do','The panel includes tool access,'),
+ ('network access, budgets, rate limits','network access, budgets, and rate limits as governance concerns.'),
+ ('within your organization\'s policies.','These controls should reflect the policies and constraints of the application.'),
+ ('How the fields work together','The lower diagram connects identity, model choice, behavior, capabilities, external services, metadata, and governance.'),
+ (at('name:',1470,955),'The code excerpt combines a name,'),
+ (at('model:',1470,970),'a model,'),
+ (at('Systf*:',1470,987),'instructions,'),
+ (at('tools:',1470,1003),'and tools into one request.'),
+ (at('mcp_servers:',1470,1018),'It also illustrates connected servers'),
+ (at('netadata:',1470,1035),'and metadata. Treat the exact request fields and values as specific to the example and SDK version shown.'))
+
+slide(5,
+ ('Behavior and status','Lifecycle behavior matters when managing a persistent definition. This slide separates archival, configuration changes, and history inspection.'),
+ ('No delete method','The presentation describes an agent workflow based on archival rather than a delete method.'),
+ (['If you want to remove an agent,','use archive instead.'],'Its guidance is to use archive when retiring an agent.'),
+ (at('Archive is terminal',800,165),'Archive is presented as terminal.'),
+ ('Permanently archives the agent.','The definition is permanently archived'),
+ ('Archived agents are read-only','and becomes read only.'),
+ ('and cannot be modified or restored.','The slide states that it cannot be modified or restored.'),
+ ('Cannot be unarchived.','Do not treat archive as a temporary pause or an ordinary reversible edit.'),
+ ('sure the agent is no longer needed.','Confirm that the definition is no longer required before retiring it.'),
+ ('Each agent has a version history','Version history serves a different purpose: inspecting the evolution of configuration.'),
+ (['that tracks configuration changes,','instructions, tools, and more.'],'It records the changes described here to instructions, tools, and other settings.'),
+ ('. versions. list(agentld)','The version listing operation selects history using the agent identifier.'),
+ ('Agent lifecycle flow','Now trace the lifecycle diagram from left to right.'),
+ (at('create(params)',70,745),'Creation establishes a definition.'),
+ (at('update (agentld',320,745),'An update changes that definition.'),
+ (['Each update creates','a new version.'],'The diagram describes a new version associated with each update.'),
+ (at('list(params?)',570,745),'Listing helps locate and inspect the collection.'),
+ (at('archive(agentld)',810,745),'Archival retires the definition'),
+ (at('versions. list(agentld)',1060,745),'while version inspection reads its history.'),
+ ('Track changes with versions','The best practices emphasize reviewing what changed'),
+ ('when, and by whom.','together with the time and recorded authorship of changes.'),
+ ('Record key context','Keep release notes or change records that explain why a change was made.'),
+ ('Inspect before reusing','Inspect earlier configurations before making substantial changes or deciding how to reuse the agent.'),
+ ('const versions = await','The code requests the version collection for one agent.'),
+ ('for (const version of versions.data)','It iterates over the returned entries'),
+ ('version.created_at','and prints identifying information and timestamps. Inspection provides evidence for review; it does not automatically perform a rollout or restore an earlier configuration.'))
+
+slide(6,
+ ('TypeScript example','The full example connects three operations: create an agent, list agents, and list the created agent\'s versions.'),
+ (at('import Anthropic from',610,208),'Begin with the SDK import.'),
+ (at('new Anthropic()',850,255),'Construct the client instance.'),
+ ('The client uses your API key','The client setup uses a key from the runtime environment. No working credentials are supplied by this video.'),
+ ('const agent','Next, create the agent definition.'),
+ (at('name.',640,353),'The name identifies the example agent.'),
+ (at('model:',640,379),'The model field selects its model.'),
+ (at('system:',640,405),'The system field describes the intended behavior.'),
+ (at('tools:',640,430),'The tools field supplies capabilities.'),
+ ('Created agent:','Keep the identifier returned by agent creation. Later operations need the identity of the correct resource.'),
+ ('const agents = await client. beta.agents.list','The next code section lists the agents available to the client.'),
+ ('agents .data . map','The example maps over the returned data to inspect identifiers.'),
+ ('List agents, optionally with filters','The explanatory panel notes filters'),
+ ('and pagination. Returns a list of agents','and pagination. Design collection handling for more than a single small response.'),
+ ('client. beta. agents. versions.list(agent.ld)','The version listing call uses the identifier from agent creation.'),
+ ('versions. data. map','The result handling reads version identifiers from that agent\'s history.'),
+ ('List the version history for a specific agent','This operation is scoped to one agent, rather than the entire workspace collection.'),
+ ('Step-by-step walkthrough','The walkthrough reinforces the same sequence.'),
+ ('Import the Anthropic SDK','Import the SDK,'),
+ ('Create a new Anthropic client instance.','create the client,'),
+ ('Call client. beta. agents. create()','create the reusable agent definition,'),
+ ('Call client. beta. agents. list()','list available agents,'),
+ ('Call client. beta. agents. versions. list(agentld)','and inspect the chosen agent\'s versions.'),
+ ('What this example does','This is an explanation of the supplied code illustration, not a new live provider test performed for the video.'),
+ ('Create, list, and track','The important application pattern is to connect creation, collection browsing, and history inspection using explicit identifiers.'),
+ (['reuse across sessions, environments, and','deployments.'],'The saved definition can then be reused across sessions and other application contexts.'))
+
+slide(7,
+ ('Deprecated / Experimental','The final slide explains the status labels attached to this part of the SDK in the presentation.'),
+ ('Current status','It labels the agents and agent versions namespaces as beta.'),
+ ('based on feedback and ongoing','The accompanying text describes continuing development and feedback.'),
+ ('No oficial deprecations','The deck separately states that there are no official deprecations in the namespace at the time it describes.'),
+ ('Not a deprecation signal','Beta and deprecated are different concepts. Beta means an interface is evolving, rather than that it has been withdrawn.'),
+ ('Actively evolving','The beta explanation highlights evolving capabilities'),
+ ('Early access','and early access to those capabilities.'),
+ ('Release notes','Release notes help identify changes relevant to an integration.'),
+ ('Potential breaking changes','Changes can affect method signatures,'),
+ ('Method signatures, fields, or behavior','fields, or behavior. Match implementation details to the version you use.'),
+ ('Keep implementations flexible','Keep integration boundaries clear so a change does not require editing unrelated application code.'),
+ ('coding assumptions about response formats','Avoid scattering assumptions about response formats or field names throughout the application.'),
+ ('Safe to explore','The student guidance encourages exploration and prototypes.'),
+ ('Design for change','Plan for controlled updates as the API evolves.'),
+ ('Focus on learning','Focus on understanding the capability boundaries and reusable patterns.'),
+ ('const client = new Anthropic()','The context example returns to the SDK client.'),
+ ('Use the beta namespace for managed agents','It illustrates the beta namespace used by the lesson.'),
+ (at('name:',1440,845),'The example supplies an agent name,'),
+ (at('model :',1440,870),'a model,'),
+ (at('system:',1440,900),'and system instructions.'),
+ ('Student guidance','You now have the management workflow: define a reusable agent, inspect its configuration and history, evaluate changes, and retire the definition deliberately when it is no longer needed.'))
+
+def main():
+ out=ROOT/'videos'/NAME;out.mkdir(parents=True,exist_ok=True);deck=next((FOLDER/'output').glob('*.pptx'))
+ assert len(ROWS)==7 and all(sum(len(s['text'])+1 for s in r['segments'])<4000 for r in ROWS)
+ plan={'project':NAME,'title':'Lesson 2 · Claude Managed Agents and Versions','displayTitle':'Lesson 2 - Claude Managed Agents and Versions','mediaPrefix':'Lesson02-Agents-and-Versions','presentation':deck.relative_to(ROOT).as_posix(),'presentationSha256':hashlib.sha256(deck.read_bytes()).hexdigest(),'outputFile':'Lesson02-Agents-and-Versions.mp4','settings':SETTINGS,'resolution':[1920,1080],'fps':30,'transition':{'type':'perspective rotating cube','seconds':.8},'highlightAudit':'highlight-semantic-audit.json','verifyPhraseBoundaries':True,'slides':ROWS}
+ (out/'narration-plan.json').write_text(json.dumps(plan,indent=2));(out/'highlight-semantic-audit.json').write_text(json.dumps(AUDIT,indent=2))
+ print(f'Planned {len(ROWS)} slides, {len(AUDIT)} phrase cues, {sum(len(s["text"].split()) for r in ROWS for s in r["segments"])} narration words.',flush=True)
+
+if __name__=='__main__':main()

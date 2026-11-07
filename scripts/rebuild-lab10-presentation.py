@@ -1,0 +1,71 @@
+import importlib.util
+spec = importlib.util.spec_from_file_location('deck', 'scripts/lesson-deck.py')
+deck = importlib.util.module_from_spec(spec); spec.loader.exec_module(deck)
+
+deck.build(10, {
+ 'title': 'Validated reports and interruption',
+ 'subtitle': 'Validate final JSON reports against a closed schema and distinguish interrupt, abort and idle-session close.',
+ 'verify': 'STOP AND REUSE',
+ 'gui': [
+  {'title': 'Set up the report experiment', 'label': 'GUI · report experiment', 'cards': [
+   ('User question', 'Asks for the Aurora Finch report as one JSON object with project, summary, risks and nextSteps.'),
+   ('Offline scenario', 'Valid, Invalid, Corrected, Exhausted, Hang or Interrupt unconfirmed: authored fixtures, no credentials.'),
+   ('One corrective round', 'Permits at most one extra message after invalid JSON. It never starts an unlimited repair loop.')]},
+  {'title': 'Report experiment controls', 'label': 'GUI · application view', 'image': 'overview.png', 'crop_bottom': .01},
+  {'title': 'Control a retained session', 'label': 'GUI · exercise actions', 'size': 17, 'cards': [
+   ('Start · send', 'Start offline report opens a fresh session. Send another turn reuses it only while idle.'),
+   ('Interrupt', 'Interrupt and retain session stops the turn and waits for confirmed idle before reuse.'),
+   ('Abort · disconnect', 'Abort and clean up, or Disconnect locally, interrupts and archives. Future sends end.'),
+   ('Close · inspect', 'Close idle session archives an idle session. Inspect run state reads the run ledger.')]},
+  {'title': 'Actions on a retained session', 'label': 'GUI · offline fixture', 'image': 'actions.png',
+   'note': 'After a valid turn the run is idle: Send another turn, Interrupt, Abort and Close are enabled, and the evidence names the run and session IDs.'},
+  {'title': 'A verified report', 'label': 'GUI · offline valid scenario', 'image': 'report.png', 'crop_bottom': .04,
+   'side': ('Application validation', 'The final message parsed as JSON and passed the closed report schema on the first attempt.\n\nOnly a verified report is rendered as project, summary, risks and numbered next steps.')},
+  {'title': 'Interrupt and keep the session', 'label': 'GUI · offline hang scenario', 'image': 'interrupt.png',
+   'side': ('Idle confirmed', 'The hanging second turn is interrupted. The host polled the status until idle, so the same session is retained for another turn.\n\nNo verified report was accepted for that turn.')},
+ ],
+ 'sequence': {'title': 'A validated report in sequence', 'label': 'UML sequence diagram · start a report',
+  'names': [('User', ''), ('React UI', 'Concept10StructuredInterrupt'), ('Express route', 'POST /api/c10/structured'), ('Run ledger', 'Lab10Runs'), ('Session port', 'fixture or live')],
+  'messages': [
+   (0, 1, 'Start offline report', False), (1, 2, 'POST + X-Lab-Owner', False),
+   (2, 3, 'Validate; create; enqueue', False), (3, 4, 'Create text-only session', False),
+   (3, 4, 'Send prompt; open stream', False), (4, 3, 'Final text; end_turn', True),
+   (3, 4, 'One corrective prompt if invalid', False), (3, 4, 'Retrieve status until idle', False),
+   (3, 2, 'Snapshot: turns, state, cleanup', True), (2, 1, 'Progress + result (SSE)', True),
+   (1, 0, 'Render validated report', True)]},
+ 'branches': ('Three ways to stop', 'Workflow · stop actions compared', [
+  ('Interrupt', 'Send user.interrupt if not idle, then poll the status. Only confirmed idle keeps the session for another turn.'),
+  ('Abort', 'Interrupt, then archive. If idle is never confirmed, cleanup stays pending and remains visible.'),
+  ('Close', 'Allowed only when idle with no pending sends; otherwise 409. Archives the session and rejects future sends.')], 18),
+ 'glance': 'From a report request to a verified result',
+ 'steps': [
+  ('Start or send a turn', 'src/concepts/Concept10StructuredInterrupt.tsx',
+   'The first report opens a new run. Later turns post the same local run ID to the send endpoint.',
+   "streamPost(`/api/c10/${send ?\n    'send' : 'structured'}`,\n  {mode,prompt,\n   scenario:mode === 'live' ?\n     'valid' : scenario,\n   correctiveRound,deadlineSeconds:30,\n   ...(send ? {runId:runId.current}\n     : {})})"),
+  ('Bind the owner and validate', 'server/concepts/10-structured-interrupt.ts',
+   'Each call carries an exercise owner header. Native outputFormat fields are rejected: the host validates the final JSON itself.',
+   "const value=\n  request.headers['x-lab-owner'];\n// must match /^[A-Za-z0-9_-]{1,80}$/\nconst parsed=(action === 'send' ?\n  lab10SendSchema : lab10RequestSchema)\n  .safeParse(request.body);\n// 400: outputFormat and\n// structured_output are unsupported"),
+  ('Create a text-only run', 'server/lib/lab10-run.ts',
+   'At most two runs are retained. A session that still has tools or MCP servers is archived and rejected with 422.',
+   "const session=await port.create();\nif(session.toolCount ||\n   session.mcpServerCount) {\n  await port.archive(session.id)\n  // 422: cleared capabilities required\n}\nstate:'idle',\nexpiresAt:this.now()+15*60_000"),
+  ('Queue the turn', 'server/lib/lab10-run.ts',
+   'Sends to one session are serialized: one active turn and at most two queued. Each turn waits for the previous tail.',
+   "if(e.jobs.size >= 3) throw new\n  Lab10Error(429,/* queue full */);\nconst previous=e.tail;\njob.work=(async()=>{\n  await previous; /* ... */\n})();\ne.tail=job.work.catch(()=>{});"),
+  ('Validate the final JSON', 'server/lib/lab10-run.ts',
+   'Only the last message of a confirmed end_turn is parsed and checked against the closed report schema.',
+   "let raw:unknown;\ntry {raw=JSON.parse(text);}\ncatch {/* not one JSON object */}\nconst result=\n  lab10ReportSchema.safeParse(raw);\nreturn result.success\n  ? {report:result.data,errors:[]}\n  : {report:null, /* issues */};"),
+  ('Allow one correction', 'server/lib/lab10-run.ts',
+   'An invalid report gets one corrective prompt. A second failure is exhausted; with correction disabled it is invalid.',
+   "for(let attempt=1;attempt<=2;attempt++)\n  // attempt 2: corrective prompt\n  if(validated.report) {\n    turn.outcome='verified';break;}\n  if(!input.correctiveRound ||\n     attempt === 2) {\n    turn.state='failed';\n    turn.outcome=attempt === 2 ?\n      'exhausted' : 'invalid';break;}"),
+  ('Interrupt and confirm idle', 'server/lib/lab10-run.ts',
+   'The host interrupts only if the session is busy, then polls. An acknowledgment alone never permits reuse.',
+   "if(status !== 'idle') {\n  await e.port.interrupt(e.session.id);\n  // poll e.port.status(...) until idle\n}\nif(status !== 'idle') {\n  e.interruption='unconfirmed';\n  return this.snapshot(e);}\ne.interruption='idle-confirmed';\ne.state='idle';"),
+  ('Close or clean up', 'server/lib/lab10-run.ts',
+   'Close requires confirmed idle and no pending sends. Archiving ends the run; offline cleanup is reported as simulated.',
+   "if(e.jobs.size || e.control ||\n   /* status */ !== 'idle')\n  throw new Lab10Error(409,\n    /* interrupt first */);\nreturn this.stop(e,true);\nawait e.port.archive(e.session.id);\ne.state='closed';"),
+ ],
+ 'challenge': ('Stop a turn and reuse the session', [
+  ('Run', 'Start a valid report, choose Hang, send another turn, then Interrupt and retain session.'),
+  ('Inspect', 'Confirm idle-confirmed and the unchanged session ID, then send a valid report again.'),
+  ('Compare', 'Repeat with Abort and Close. Which action keeps the session, and what evidence allows reuse?')]),
+})

@@ -1,0 +1,61 @@
+import {chromium} from 'playwright';
+import {mkdir,writeFile} from 'node:fs/promises';
+import path from 'node:path';
+const out=path.resolve('presentations/managed-agents-platform-walkthrough/platform');await mkdir(out,{recursive:true});
+const browser=await chromium.launch({channel:'msedge',headless:true});
+const evidence={origin:'http://127.0.0.1:5174',viewport:{width:1920,height:1080},deviceScaleFactor:1,browserZoom:1,liveExecution:false,shots:[],runs:[],errors:[]};
+try{
+ const page=await browser.newPage({viewport:evidence.viewport,deviceScaleFactor:1,reducedMotion:'reduce',colorScheme:'light',forcedColors:'none'});
+ page.on('pageerror',e=>evidence.errors.push(String(e)));
+ page.on('request',r=>{if(r.method()==='POST'&&r.url().includes('/api/c1/query')){const b=r.postDataJSON();if(b.mode!=='scripted')throw Error('Only offline fixtures are permitted');evidence.runs.push(b);}});
+ const text=t=>page.getByText(t,{exact:true}).first();
+ async function shot(id,anchor,targets){
+  await anchor.waitFor({state:'visible'});await anchor.evaluate(e=>window.scrollTo(0,Math.max(0,e.getBoundingClientRect().top+scrollY-120)));await page.waitForTimeout(250);
+  const cues=[];
+  for(const [name,loc] of targets){await loc.waitFor({state:'visible'});const box=await loc.evaluate(el=>{const range=document.createRange();range.selectNodeContents(el);const r=el.matches('textarea,input,select')?el.getBoundingClientRect():range.getBoundingClientRect();return {text:el.innerText||el.value,rect:[r.x,r.y,r.width,r.height]};});const [x,y,w,h]=box.rect;if(x<0||y<90||x+w>1920||y+h>1068)throw Error('Offscreen target '+id+' '+name+' '+JSON.stringify(box));cues.push({id:name,...box});}
+  await page.screenshot({path:path.join(out,id+'.png')});evidence.shots.push({id,url:page.url(),cues});await writeFile(path.join(out,'capture-evidence.json'),JSON.stringify(evidence,null,2));console.log('Captured '+id);
+ }
+ const home=()=>page.goto(evidence.origin,{waitUntil:'networkidle'});
+ await home();await shot('home',page.locator('.portal-intro'),[['catalog',text('75 implemented lessons')]]);
+ await shot('setup',page.locator('#course-start-here'),[['setup',page.locator('#start-here-heading')]]);
+ await page.getByRole('button',{name:'Check backend',exact:true}).click();await page.waitForTimeout(500);
+ await shot('health',page.locator('#health-heading'),[['health',page.locator('#health-heading')]]);
+ await shot('progress',page.locator('#course-progress'),[['progress',page.locator('#course-progress-heading')]]);
+ await shot('paths',page.locator('#course-learning-paths'),[['paths',page.locator('#learning-paths-heading')]]);
+ await page.goto(evidence.origin+'/?lesson=1',{waitUntil:'networkidle'});
+ await shot('lesson',page.locator('#main'),[['lesson',page.getByRole('heading',{name:'Session event streaming',exact:true})]]);
+ await page.getByRole('button',{name:'Start guided tour',exact:true}).click();
+ await shot('guide',page.locator('.learning-voice-guide'),[['guide',page.getByRole('heading',{name:'Understand the goal',exact:true})]]);
+ await page.getByRole('button',{name:'Close guide',exact:true}).click();
+ await text('Run the exercise').click();
+ const heading=page.getByRole('heading',{name:'Query a session and read its events',exact:true});
+ await shot('exercise',heading,[['exercise',heading],['prompt',page.getByLabel('Prompt',{exact:true})]]);
+ await shot('controls',page.getByLabel('Offline scenario',{exact:true}),[['offline',page.getByRole('button',{name:'Run offline fixture',exact:true})],['mode',page.locator('p').filter({hasText:'Mode: Offline authored fixture (no API calls).'}).first()]]);
+ await page.getByRole('button',{name:'Run offline fixture',exact:true}).click();
+ await page.getByRole('group',{name:'Turn outcome',exact:true}).waitFor({timeout:30000});
+ if(!(await page.getByRole('group',{name:'Turn outcome',exact:true}).innerText()).includes('completed'))throw Error('Normal fixture did not complete');
+ evidence.normalOutcome=await page.getByRole('group',{name:'Turn outcome',exact:true}).innerText();
+ await shot('answer',page.locator('.agent-response'),[['answer',page.getByRole('heading',{name:'2. Agent text',exact:true})]]);
+ await shot('outcome',page.getByRole('heading',{name:'3. Lifecycle and span events',exact:true}),[['lifecycle',page.getByRole('heading',{name:'3. Lifecycle and span events',exact:true})],['outcome',page.getByRole('group',{name:'Turn outcome',exact:true}).locator('p').first()]]);
+ await page.locator('summary').filter({hasText:/^Result JSON$/}).click();
+ await shot('json',page.locator('summary').filter({hasText:/^Result JSON$/}),[['json',page.locator('summary').filter({hasText:/^Result JSON$/})]]);
+ await page.getByLabel('Offline scenario',{exact:true}).selectOption('stream-ended');await page.getByRole('button',{name:'Run offline fixture',exact:true}).click();
+ await page.getByRole('group',{name:'Turn outcome',exact:true}).filter({hasText:'incomplete'}).waitFor({timeout:30000});
+ evidence.incompleteOutcome=await page.getByRole('group',{name:'Turn outcome',exact:true}).innerText();
+ await shot('incomplete',page.getByRole('heading',{name:'4. Turn outcome',exact:true}),[['incomplete',page.getByRole('group',{name:'Turn outcome',exact:true}).locator('p').first()]]);
+ await text('TypeScript source').click();await shot('source',page.locator('.code-block:visible').first(),[['source',page.locator('.code-block:visible [data-code-line]').first()]]);
+ await text('Concept map').click();await shot('map',page.getByRole('region',{name:'Concept map for Lab',exact:false}),[['map',page.getByRole('region',{name:'Concept map for Lab',exact:false}).locator('h2')]]);
+ await page.getByRole('link',{name:'Open notebook',exact:true}).click();
+ const notebook=page.locator('#lesson-notebook-1');await notebook.evaluate(e=>e.open=true);
+ await page.getByLabel('Notes for Lab 01',{exact:true}).fill('Agent text is separate from lifecycle completion. Check end_turn before calling a turn complete.');
+ await page.getByRole('button',{name:'Save note',exact:true}).click();await page.getByLabel('Bookmark this lesson for review',{exact:true}).check();
+ await shot('notebook',notebook,[['notebook',notebook.locator('summary')],['saved',page.getByRole('status',{name:'Notebook status'})]]);
+ await page.getByRole('link',{name:'Open checklist',exact:true}).click();const checklist=page.locator('#lesson-checklist-1');await checklist.evaluate(e=>e.open=true);await checklist.locator('input[type=checkbox]').first().check();
+ await shot('checklist',checklist,[['checklist',checklist.locator('summary')]]);
+ await page.getByRole('button',{name:'Open knowledge check',exact:true}).click();
+ await shot('knowledge',page.locator('#knowledge-check-1 summary'),[['knowledge',page.locator('#knowledge-check-1 summary')]]);
+ await home();const backup=page.locator('#course-learning-backup');await backup.evaluate(e=>e.open=true);await shot('backup',backup,[['backup',backup.locator('summary')]]);
+ await shot('review',page.locator('#course-review-queue'),[['review',page.locator('#review-queue-heading')]]);
+ await shot('validation',page.locator('#course-validation'),[['validation',page.locator('#course-validation').locator('h2,h3').first()]]);
+ await writeFile(path.join(out,'capture-evidence.json'),JSON.stringify(evidence,null,2));console.log(JSON.stringify({shots:evidence.shots.map(s=>s.id),runs:evidence.runs,outcomes:[evidence.normalOutcome,evidence.incompleteOutcome],errors:evidence.errors}));
+}finally{await browser.close()}

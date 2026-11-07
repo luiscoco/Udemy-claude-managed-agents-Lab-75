@@ -16,7 +16,9 @@ export default defineConfig(({ mode }) => ({
     // Other learning apps may occupy 5174. Vite reports the next available port.
     strictPort: false,
     proxy: { '/api': { target: `http://127.0.0.1:${process.env.LEARNING_API_PORT ?? 3076}`, changeOrigin: false, ws: true } },
-    watch: mode === 'browser-test' ? null : { ignored: ['**/*-lab/**', '**/sandbox/**', '**/generated/**', '**/logs/**', '**/sessions/**'] },
+    // Generated course media and render caches are served on demand. Watching
+    // them makes startup crawl the output trees and reloads the app on exports.
+    watch: mode === 'browser-test' ? null : { ignored: ['**/videos/**', '**/presentations/**', '**/artifacts/**', '**/.venv/**', '**/__pycache__/**', '**/*-lab/**', '**/sandbox/**', '**/generated/**', '**/logs/**', '**/sessions/**'] },
     fs: { deny: ['.env', '.env.*', '**/.git/**', '**/.claude/**', '**/sessions/**', '**/*-lab/**', '**/sandbox/**', '**/workspaces/**', '**/server/acceptance/**'] },
   },
 }));

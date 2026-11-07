@@ -1,0 +1,55 @@
+import importlib.util
+spec=importlib.util.spec_from_file_location('deck','scripts/lesson-deck.py')
+deck=importlib.util.module_from_spec(spec);spec.loader.exec_module(deck)
+deck.build(16,{
+ 'title':'Environment and configuration provenance',
+ 'subtitle':'Trace the winning host setting and distinguish it from the Managed environment and explicitly mounted file.',
+ 'verify':'TRACE THE SOURCE',
+ 'gui':[
+  {'title':'Choose the host layers','label':'GUI · offline controls','cards':[
+   ('Course default','The course defines north as the default observation region.'),
+   ('User and session','An optional user override wins over the course; an optional session override wins over both.'),
+   ('Offline scenarios','Compare authored readiness, a missing mount and a restricted host-path decision.')]},
+  {'title':'Settings experiment controls','label':'GUI · application view','image':'controls.png','crop_bottom':.01},
+  {'title':'Compare the winning source','label':'GUI · offline layer comparison','image':'layers.png','note':'The three cases show course default, user override and session override. These settings are synthetic.'},
+  {'title':'Host value is not automatically remote','label':'GUI · provenance evidence','image':'region.png','note':'The session override wins on the host; the remote region remains not injected.'},
+  {'title':'Inspect the approved file resource','label':'GUI · offline mount evidence','image':'mount.png','note':'A mount is an explicit file resource. Its presence does not prove that an agent read its contents.'},
+  {'title':'Inspect a restricted path','label':'GUI · host policy evidence','image':'path.png','note':'The host denies this path without opening a file; this is not a cloud operating-system test.'},
+ ],
+ 'sequence':{'title':'Environment experiment in sequence','label':'UML sequence diagram · live environment run',
+  'names':[('User',''),('React UI','Concept16SettingsEnv'),('Express route','POST /api/c16/env-run'),('Host','runLab01 · live port'),('Managed API','environment · session')],
+  'messages':[(0,1,'Choose settings and run',False),(1,2,'POST /env-run + owner',False),
+   (2,3,'Validate; select live port',False),(3,4,'Retrieve environment',False),
+   (4,3,'Environment metadata',True),(3,4,'Retrieve base agent',False),
+   (3,4,'Create session + file resource',False),(3,4,'List session resources',False),
+   (4,3,'Confirm approved mount',True),(3,4,'Open stream; send prompt',False),
+   (4,3,'Events and completion',True),(3,2,'Resolution + mount report',True),
+   (2,1,'Progress and result (SSE)',True)]},
+ 'branches':('Keep evidence boundaries separate','Workflow · what each observation proves',[
+  ('Host settings','Application-defined precedence selects a host value; it does not inject it into the remote environment.'),
+  ('Environment','Live metadata verifies the configured network and packages; it is not a network connectivity test.'),
+  ('File resource','A listed mount confirms resource metadata; it does not prove the file contents were read.')],19),
+ 'glance':'From settings to independently checked resource evidence',
+ 'steps':[
+  ('Choose an experiment','src/concepts/Concept16SettingsEnv.tsx','The UI creates a bounded request from the selected scenario, user region, session region and prompt.',
+   "lab16RequestSchema.parse({\n  mode, scenario: mode === 'live'\n    ? 'winning-host-layer' : scenario,\n  userRegion, sessionRegion, prompt,\n  deadlineSeconds: 30, budgetCents: 50\n})"),
+  ('Validate local requests','server/concepts/16-settings-env.ts','The route requires the local origin and owner for mutations. Strict schemas reject unsupported or malformed inputs.',
+   "router.post('/resolve',\n  (request, response) => {\n  const parsed = lab16RequestSchema\n    .safeParse(request.body);\n  // invalid or non-scripted: 400\n});"),
+  ('Resolve host precedence','server/lib/lab16-provenance.ts','The host selects session, then user, then course default. The remote region is shown separately as not injected.',
+   "const hostRegion = input.sessionRegion\n  ?? input.userRegion ?? 'north';\nconst regionSource = input.sessionRegion\n  ? 'session override'\n  : input.userRegion ? 'user override'\n  : 'course default';"),
+  ('Compare three cases','server/concepts/16-settings-env.ts','The offline comparison constructs three synthetic cases and applies the same resolver to each.',
+   "const cases = [\n  { ...parsed.data, userRegion: null,\n    sessionRegion: null },\n  // user and session cases omitted\n];\ncomparisons: cases.map(resolveLab16)"),
+  ('Check a path locally','server/lib/lab16-provenance.ts','Only the named fixture mount is allowed by this host guard. A denial happens without opening a file.',
+   "if (path !== fixtureMount)\n  return { allowed: false,\n    /* reason omitted */ };\n// absent mount also denied"),
+  ('Verify the environment','server/lib/lab16-port.ts','The live port retrieves the cloud environment and rejects an archived or unrestricted configuration before session creation.',
+   "const environment = await client.beta\n  .environments.retrieve(\n    ids.environmentId, {},\n    { timeout: 3000 });\nconst network = environment.config\n  .networking;\n// restricted policy checked before create"),
+  ('Create with one resource','server/lib/lab16-port.ts','The session uses a pinned single-agent version, cleared capabilities, a budget, and one approved file mount.',
+   "environment_id: ids.environmentId,\ntitle: 'Lab 16 configuration provenance',\nresources: [{ type: 'file',\n  file_id: fileId,\n  mount_path: fixtureMount }]\n// agent and budget omitted"),
+  ('Confirm before sending','server/lib/lab16-port.ts','The port lists session resources and verifies the resolved configuration. An unconfirmed mount blocks opening the prompt stream.',
+   "const page = await client.beta\n  .sessions.resources.list(\n    session.id, { limit: 10 },\n    { timeout: 3000 });\n// verify mount and session settings\nif (!evidence.verified)\n  throw new LabError(/* no prompt */);"),
+ ],
+ 'challenge':('Trace the source and the boundary',[
+  ('Change','Choose a user region and then add a different session region; compare the winners.'),
+  ('Inspect','Check the remote region and approved file resource in the provenance results.'),
+  ('Explain','Why does a host override not automatically become a remote environment variable?')]),
+})

@@ -1,2 +1,2 @@
-# Independently verified Python pin; npm uses @anthropic-ai/sdk 0.133.0.
+# Python is pinned independently; the platform reports the installed Node SDK separately.
 anthropic==1.7.0

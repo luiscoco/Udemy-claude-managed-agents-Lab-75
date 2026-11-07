@@ -1,0 +1,6 @@
+import {chromium} from 'playwright';import {readFile,writeFile,mkdir} from 'node:fs/promises';import path from 'node:path';import {pathToFileURL} from 'node:url';
+const p=path.resolve('presentations/agent-sdk-udemy-promo-zoom-v3'),out=path.join(p,'.build/video/shots');await mkdir(out,{recursive:true});const spec=JSON.parse(await readFile(path.join(p,'visual-spec.json'),'utf8'));
+const browser=await chromium.launch({channel:'msedge',headless:true});
+try{const page=await browser.newPage({viewport:{width:1920,height:1080},deviceScaleFactor:1});await page.goto(pathToFileURL(path.join(p,'promo-zoom.html')).href);await page.evaluate(()=>document.fonts.ready);const rows=[];
+for(const shot of spec.shots){await page.evaluate(id=>showShot(id),shot.id);const boxes=await page.locator('.active [data-cue]').evaluateAll(nodes=>nodes.map(el=>{const r=el.getBoundingClientRect();if(r.x<8||r.right>1912||r.y<8||r.bottom>1072||el.scrollWidth>el.clientWidth+1)throw Error('Clipped overlay: '+el.innerText);return {id:el.dataset.cue,text:el.innerText,rect:[r.x,r.y,r.width,r.height]};}));await page.screenshot({path:path.join(out,shot.id+'.png')});rows.push({id:shot.id,shapes:[],rects:boxes});}
+await writeFile(path.join(out,'geometry.json'),JSON.stringify(rows,null,2));console.log('Exported seven readable promo shots; overlays fit.');}finally{await browser.close();}

@@ -1,0 +1,71 @@
+import importlib.util
+spec = importlib.util.spec_from_file_location('deck', 'scripts/lesson-deck.py')
+deck = importlib.util.module_from_spec(spec); spec.loader.exec_module(deck)
+
+deck.build(9, {
+ 'title': 'System instructions and explicit context',
+ 'subtitle': 'Keep one question fixed and compare inherited, replaced and explicitly composed system instructions in fresh sessions.',
+ 'verify': 'COMPARE VARIANTS',
+ 'gui': [
+  {'title': 'Choose what to compare', 'label': 'GUI · instruction comparison', 'cards': [
+   ('Fixed user question', 'The same question is sent to every variant, so only the system instructions change.'),
+   ('System variant', 'Base, Custom replacement, Base plus appended instructions or Base plus authored project context.'),
+   ('Instruction texts', 'Custom replacement text replaces the base system. Appended text is joined to the retrieved base by the host.')]},
+  {'title': 'Instruction comparison controls', 'label': 'GUI · application view', 'image': 'overview.png', 'crop_bottom': .01},
+  {'title': 'Run, compare and cancel', 'label': 'GUI · exercise actions', 'cards': [
+   ('Compare all offline', 'Runs the four variants one after another, each in a fresh fixture session.'),
+   ('Run live', 'An explicit, billed run of only the selected variant against the base agent from Lab 01.'),
+   ('Cancel query', 'Stops the local request; the server attempts a bounded interrupt and cleanup.')]},
+  {'title': 'Actions after a comparison', 'label': 'GUI · offline fixture', 'image': 'actions.png',
+   'note': 'Compare all offline variants finished. The status line reports the last variant; Clear comparison empties the result list.'},
+  {'title': 'One question, four fresh sessions', 'label': 'GUI · offline comparison', 'image': 'compare.png',
+   'note': 'Only Base omits the system override. The authored context variant is the only one that knows Aurora Finch facts.'},
+  {'title': 'Requested composition and resolved settings', 'label': 'GUI · base variant evidence', 'image': 'composition-base.png', 'crop_bottom': .02,
+   'side': ('Inherited base', 'overrideIncluded is false, so the session inherits the base system unchanged.\n\nsystemSource reports inherited. Tools, MCP servers and skills are cleared to zero in every variant.')},
+ ],
+ 'sequence': {'title': 'Composing instructions in sequence', 'label': 'UML sequence diagram · one variant, live path',
+  'names': [('User', ''), ('React UI', 'Concept09SystemPrompts'), ('Express route', 'POST /api/c9/query'), ('Host', 'runLab09 · composer'), ('Managed API', 'fixture or live port')],
+  'messages': [
+   (0, 1, 'Compare all offline', False), (1, 2, 'POST /query per variant', False),
+   (2, 3, 'Validate; cap at two; runLab09', False), (3, 4, 'Retrieve base agent + version', False),
+   (4, 3, 'Base system and model', True), (3, 4, 'Create session with overrides', False),
+   (4, 3, 'Resolved agent snapshot', True), (3, 4, 'Send fixed question; stream', False),
+   (4, 3, 'Answer, spans, end_turn', True), (3, 2, 'Composition, resolved, usage', True),
+   (2, 1, 'Progress + result (SSE)', True), (1, 0, 'Render comparison article', True)]},
+ 'branches': ('How the host composes the system', 'Workflow · composition branches', [
+  ('Base', 'No system field is sent. The session inherits the base agent system.'),
+  ('Custom', 'The custom text is sent as a complete replacement of the base system.'),
+  ('Base + append', 'Base system and appended text are joined into one replacement.'),
+  ('Base + context', 'Base system plus the authored fictional CLAUDE.md, selected by ID on the server.')], 17),
+ 'glance': 'From variant choice to resolved evidence',
+ 'steps': [
+  ('Run each variant', 'src/concepts/Concept09SystemPrompts.tsx',
+   'Compare runs every variant in turn. Each request carries the same question and selects the authored context by ID only.',
+   "for (const selected of compare\n    ? lab09Variants : [variant]) {\n  await streamPost('/api/c9/query',\n    { mode, variant: selected, prompt,\n      customSystem, append,\n      contextId: 'aurora-finch-v1',\n      deadlineSeconds: 30,\n      budgetCents: 50 }, /* ... */);\n}"),
+  ('Validate the request', 'shared/lab09-system-prompts.ts',
+   'A strict schema accepts only known fields. The context is a literal ID, so no path or project text can reach the system.',
+   "lab09RequestSchema = z.strictObject({\n  mode: z.enum(['scripted', 'live']),\n  variant: z.enum(lab09Variants),\n  prompt: z.string().trim().min(1)\n    .max(1000),\n  contextId: z.literal('aurora-finch-v1')\n  // ... customSystem, append, limits\n})"),
+  ('Cap work and select a port', 'server/concepts/09-system-prompts.ts',
+   'The route rejects invalid bodies with 400, caps simultaneous queries at two with 429, then chooses a live or fixture port.',
+   "const parsed = lab09RequestSchema\n  .safeParse(request.body);\nif (closing || active.size >=\n    Math.min(2, settings.maxConcurrent))\n  // 429 CAPACITY\nif (mode === 'live')\n  port = livePort(parsed.data)\nelse port =\n  createFixtureLab09Port(/* ... */)"),
+  ('Retrieve a single-agent base', 'server/lib/lab09-port.ts',
+   'The live port pins the configured base agent and version. A multiagent base is rejected before any session exists.',
+   "const agent = await client.beta.agents\n  .retrieve(\n    managedResourceIds(env).agentId,\n    version ? { version } : {},\n    { timeout: 3000 });\nif (agent.multiagent)\n  throw new LabError(/* single-agent\n    base required; no session */);"),
+  ('Compose the system', 'server/lib/lab09-composer.ts',
+   'Base keeps the inherited system. Custom replaces it. Both combined variants join the base with explicit text into one replacement.',
+   "const inherited =\n  request.variant === 'base';\nconst configuredSystem = inherited\n  ? baseSystem\n  : request.variant === 'custom'\n  ? request.customSystem\n  : [baseSystem, suffix]\n      .filter(Boolean).join('\\n\\n');"),
+  ('Create the session with overrides', 'server/lib/lab09-port.ts',
+   'The system field is sent only for an override. Tools, MCP servers and skills are cleared so only instructions differ.',
+   "agent: { type: 'agent_with_overrides',\n  id: base.id, version: base.version,\n  ...(composition.overrideIncluded\n    ? { system:\n        composition.configuredSystem }\n    : {}),\n  tools: [], mcp_servers: [], skills: [] }"),
+  ('Verify the resolved snapshot', 'server/lib/lab09-port.ts',
+   'If the session resolves a different agent, version, model or system, the host archives it and sends no prompt.',
+   "if (resolved.id !== agent.id ||\n    resolved.version !== agent.version ||\n    resolved.system !==\n      port.composition.configuredSystem)\n  // archive the session, then throw:\n  // no prompt was sent"),
+  ('Run the turn and report', 'server/lib/lab09-run.ts',
+   'The shared Lab 01 runner sends the question. Usage counts only deduplicated live model-request spans; offline usage stays null.',
+   "if (port.source === 'managed-api' &&\n    event.type ===\n      'span.model_request_end' &&\n    !seen.has(event.id)) {\n  seen.add(event.id); usage.requests++;\n}\nconst result = await runLab01(/* ... */);\nreportedUsage:\n  usage.requests ? usage : null"),
+ ],
+ 'challenge': ('Change only the system instructions', [
+  ('Run', 'Keep the question fixed and select Compare all offline variants.'),
+  ('Inspect', 'For each result, compare overrideIncluded, configuredSystem and the resolved systemSource.'),
+  ('Explain', 'What is inherited, what is replaced, and how did explicit project context change the available facts?')]),
+})

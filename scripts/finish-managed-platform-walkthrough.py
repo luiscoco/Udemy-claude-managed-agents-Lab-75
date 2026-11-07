@@ -1,0 +1,18 @@
+from pathlib import Path
+import json,html,shutil
+ROOT=Path(__file__).resolve().parents[1];NAME='managed-agents-platform-walkthrough';V=ROOT/'videos'/NAME;P=ROOT/'presentations'/NAME
+r=json.loads((V/'validation.json').read_text(encoding='utf-8'));assert r['fullVideoAndAudioDecode']=='passed'
+t=json.loads((V/'timeline.json').read_text(encoding='utf-8'));s=json.loads((P/'storyboard.json').read_text(encoding='utf-8'))
+shutil.copy2(P/'.build/video/slides/slide-01.png',V/'cover.png')
+chapters=[]
+for row,story in zip(t['slides'],s):
+ seconds=int(row['start']);stamp=f'{seconds//60}:{seconds%60:02}';chapters.append(f'<li><button onclick="const v=document.querySelector(\'video\');v.currentTime={row["start"]};v.play()">{stamp} · {html.escape(story["title"])}</button></li>')
+page=(V/'index.html').read_text(encoding='utf-8').replace('poster="highlight-preview.jpg"','poster="cover.png"')
+extra='<section><h2>Jump to a section</h2><p>Real local app views at 100% browser zoom. Lab 01 was run with two offline authored fixtures; no billed provider session was created.</p><ol style="columns:2;line-height:2.1">'+''.join(chapters)+'</ol><p><a href="walkthrough-evidence.json">Browser run evidence</a> · <a href="editorial-validation.json">Native pixel and highlight audit</a> · <a href="narration-script.txt">Narration script</a></p></section><style>button{background:transparent;border:0;color:#f2b48f;font:inherit;text-align:left;cursor:pointer}li{break-inside:avoid}@media(max-width:750px){ol{columns:1!important}}</style>'
+if 'Jump to a section' not in page:page=page.replace('</main>',extra+'</main>')
+(V/'index.html').write_text(page,encoding='utf-8')
+duration=int(r['durationSeconds']);stamp=f'{duration//60}:{duration%60:02}'
+catalog=ROOT/'videos/index.html';body=catalog.read_text(encoding='utf-8');card=f'<article data-project="{NAME}"><span>CLAUDE MANAGED AGENTS · PLATFORM WALKTHROUGH</span><a href="{NAME}/index.html"><img loading="lazy" src="{NAME}/cover.png" alt="Managed Agents learning platform walkthrough"></a><div><h2>Explore the platform and run your first lesson</h2><p>Verified · {stamp} · 1080p · Yash narration · 2 tested offline scenarios</p><a href="{NAME}/{r["file"]}">MP4</a> · <a href="{NAME}/index.html">Player and chapters</a></div></article>'
+if f'data-project="{NAME}"' not in body:catalog.write_text(body.replace('<main>','<main>'+card,1),encoding='utf-8')
+(V/'README.txt').write_text('CLAUDE MANAGED AGENTS — LEARNING PLATFORM WALKTHROUGH\n\n'+f'Duration: {stamp}; 1920x1080, 30 fps, Inworld Yash, English captions.\n\n'+'Open index.html for the video player and chapter links. Native app captures use a fresh browser context; demonstration notes and checklist changes do not affect the instructor browser profile.\n\nLab 01 was actually exercised through the browser: normal -> completed/end_turn; stream-ended -> incomplete. Both are authored offline fixtures. No new remote session or billed agent execution occurred. The video explains live readiness separately and does not demonstrate a live run.\n\nBackup restore and current workflow execution were not performed. Recorded validation is explained as dated commit-specific evidence. Narration was generated with the existing authorized Inworld setup.\n\nCapture: scripts/capture-managed-platform-walkthrough.mjs\nAuthor: scripts/create-managed-platform-walkthrough.py\nBuild: python -u scripts/build-narrated-presentation.py --project managed-agents-platform-walkthrough\nAudit: scripts/audit-managed-platform-walkthrough.py\n',encoding='utf-8')
+print(f'Published local player, chapters and catalog entry: {stamp}.')

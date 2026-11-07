@@ -8,6 +8,21 @@ managed/lab07-resources.local.json
 managed/lab08-resources.local.json
 managed/lab50-resources.local.json
 node_modules/
+# Course production outputs stay local; commit their authoring scripts instead.
+/videos/
+/presentations/
+/artifacts/
+*.mp4
+*.webm
+*.mov
+*.mkv
+*.avi
+*.mp3
+*.wav
+*.m4a
+*.flac
+*.aac
+*.ogg
 dist/
 coverage/
 test-results/
