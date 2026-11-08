@@ -9,6 +9,7 @@ export const miniProjects = [
 export type MiniProjectId = typeof miniProjects[number]['id'];
 export type MiniProjectStatus = Omit<typeof miniProjects[number], 'frontend' | 'backend'> & {
   frontend: number; backend: number;
+  liveAvailable: boolean; liveSetupRequired: string[];
   status: 'stopped' | 'starting' | 'running'; mode: 'learner' | 'reference' | null;
   url: string | null; notice: string | null; dependenciesReady: boolean;
 };

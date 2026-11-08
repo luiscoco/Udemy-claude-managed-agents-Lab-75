@@ -28,6 +28,10 @@ Study Coach replays bounded host conversation history into a new Managed session
 
 ## Live configuration and verification
 
+For a new installation, follow the [student instructions for both resource IDs](managed-setup.md#student-installation-configure-the-two-ids). They include provisioning or reuse, the exact `.env` fields, local and remote checks, and restart instructions. The three projects share the Lab 01 text-only agent and learning environment.
+
+If “Live agent · paid” is disabled, check the setup message on the course project's card. Both resource IDs must be populated; an API key and enabled flag alone are insufficient. Reuse the existing text-only course agent and learning environment. After editing the root `.env`, restart the course backend and stop/start any running milestone apps, then refresh their tabs. Standalone downloaded apps need these settings in their own `.env`.
+
 Prepared mode is the default and makes zero provider calls. Live mode requires `ANTHROPIC_API_KEY`, `CLAUDE_MANAGED_AGENT_ID`, `CLAUDE_MANAGED_ENVIRONMENT_ID`, and `MANAGED_LIVE_ENABLED=true` in the server environment. `MILESTONE_LIVE_ENABLED=false` disables live milestone execution. Existing course credentials and IDs are forwarded only to project backends. Each paid question, evaluation or content plan requires fresh consent; MCP access has separate consent. Starting an app creates no remote agent, environment or session.
 
 Use `npm run projects:check` for the three standalone suites and `npm run projects:build` for their production builds. Integration coverage is in `tests/mini-projects.test.ts` and `browser-tests/mini-projects.spec.ts`. Live protocol tests inject fake Managed clients and make no provider requests. These checks verify the implementation contract, not live account permissions or real provider execution.

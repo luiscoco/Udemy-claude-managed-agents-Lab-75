@@ -39,6 +39,7 @@ function ProjectCard({ project, refresh }: { project: MiniProjectStatus; refresh
     </select>
     <p className="muted">Both modes show a working starter. Build the stages in your own copy; opening a reference does not complete your work.</p>
     <p role="status">{busy ? 'Updating project…' : `Status: ${project.status}${project.mode ? ` · ${project.mode}` : ''}`}</p>
+    <p>{project.liveAvailable ? 'Live agent · paid is available. Authorize each run inside the project.' : `Live agent · paid needs these server settings in .env: ${(project.liveSetupRequired ?? []).join(', ')}. Restart the course server and project after updating settings.`}</p>
     {!project.dependenciesReady && <p>Install dependencies from the course folder with <code>npm run projects:install</code>.</p>}
     <div className="mini-project-actions">
       <button type="button" disabled={busy || project.status !== 'stopped' || !project.dependenciesReady} onClick={() => void action('start')}>Start {project.title}</button>
@@ -66,6 +67,18 @@ export function MiniProjects() {
     <h3>Three guided milestone apps</h3>
     <p>Build Study Coach, Agent Evaluation Studio, and Agent Publishing Studio through 22 cumulative stages. Prepared mode works without a model call. Each optional live run needs fresh consent inside its app.</p>
     <p>All three projects use <strong>Claude Managed Agents</strong>: agents, environments, sessions, streamed events and session budgets. Each app opens in its own tab and keeps its own history. Runtime history clears when its server stops.</p>
+    <details><summary>Student setup: enable Live agent · paid</summary>
+      <p>The Agent ID selects your saved agent. The Environment ID selects its cloud environment. All three projects share the same pair from your own Claude Console workspace.</p>
+      <ol>
+        <li>Create the course root <code>.env</code> from <code>.env.example</code> if needed, and configure your <code>ANTHROPIC_API_KEY</code> privately.</li>
+        <li>Reuse your Lab 01 text-only agent and learning environment. Copy their IDs from Claude Console or <code>managed/resources.local.json</code>: <code>agentId</code> and <code>environmentId</code>. Use ID values, not resource names.</li>
+        <li>If you have no resources, review <code>managed/lab01-agent.json</code> and <code>managed/lab01-environment.json</code>, set <code>MANAGED_MODEL</code> to an available model in <code>.env</code>, then run <code>npm run managed:provision</code> once from the course folder. It creates resources and prints both IDs without starting a model session.</li>
+        <li>Fill the settings below in the root <code>.env</code>, replacing the placeholders with your IDs.</li>
+      </ol>
+      <CodeBlock code={'CLAUDE_MANAGED_AGENT_ID=YOUR_AGENT_ID\nCLAUDE_MANAGED_ENVIRONMENT_ID=YOUR_ENVIRONMENT_ID\nMANAGED_LIVE_ENABLED=true\nMILESTONE_LIVE_ENABLED=true'} label="Root .env · replace both ID placeholders" lineNumbers={false} />
+      <p>Run <code>npm run managed:ready</code> for local configuration checks, then <code>npm run managed:verify</code> to check remote resource access without a paid session. Stop the platform with Ctrl+C and restart using <code>npm run dev</code>, start the projects again, and refresh their tabs. Select live mode and authorize each paid run inside the project.</p>
+      <p>Independently downloaded starters need these settings and your API key in their own <code>.env</code>. Keep private settings out of Git and use server variables without a <code>VITE_</code> prefix.</p>
+    </details>
     <p>Use Node 24. Download a starter for a separate study folder, then run <code>npm ci</code>, <code>npm test</code>, and <code>npm run dev</code> there. Publishing also uses Python and Playwright Chromium for file extraction and export.</p>
     {error && <p role="alert">{error} <button type="button" onClick={() => void refresh()}>Retry milestone status</button></p>}
     <div className="mini-project-grid">{projects.map(project => <ProjectCard key={project.id} project={project} refresh={refresh} />)}</div>

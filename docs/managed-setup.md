@@ -36,6 +36,35 @@ node 'C:\Users\luisc\AppData\Local\Author Software\nvm\installs\v24.21.0\node_mo
 
 ## Resources (explicit remote commands)
 
+### Student installation: configure the two IDs
+
+The **Agent ID** identifies the saved agent configuration. The **Environment ID** identifies the cloud environment used for its sessions. They are separate from your API key. Use resources accessible to the workspace associated with your own key; instructor IDs are not included in the installation.
+
+1. Create the root `.env` from `.env.example` if it does not exist. Configure your API key using the hidden prompt above, or edit `ANTHROPIC_API_KEY` locally in `.env`.
+2. If you already completed Lab 01, reuse its text-only agent and learning environment. Copy the resource IDs from their details in Claude Console, or from `managed/resources.local.json` if you previously ran this platform's provisioning command. In that file, `agentId` maps to `CLAUDE_MANAGED_AGENT_ID`, and `environmentId` maps to `CLAUDE_MANAGED_ENVIRONMENT_ID`. Copy the ID values, not the display names, agent version or a session ID.
+3. If you have no resources yet, review `managed/lab01-agent.json` and `managed/lab01-environment.json`. Set `MANAGED_MODEL` in `.env` to a supported model available to your account, then run `npm.cmd run managed:provision` from the course folder. It creates an agent and environment, records their IDs locally and prints the two settings to copy. It does not start a paid model session. Keep the local record and reuse these resources on subsequent installations rather than repeatedly provisioning them.
+4. Open the root `.env` and replace the placeholder values below with your actual IDs. Set both enable flags to `true` when you want optional paid execution:
+
+   ```dotenv
+   CLAUDE_MANAGED_AGENT_ID=YOUR_AGENT_ID
+   CLAUDE_MANAGED_ENVIRONMENT_ID=YOUR_ENVIRONMENT_ID
+   MANAGED_LIVE_ENABLED=true
+   MILESTONE_LIVE_ENABLED=true
+   ```
+
+5. Run the checks below from the course folder. `managed:ready` checks local configuration without contacting Anthropic. Expect `configured: true`, `liveEnabled: true`, `liveReady: true` and an empty `missing` list. `providerVerified: false` is expected for this local check. `managed:verify` reads the configured resources remotely and confirms access and the text-only agent configuration; it starts no session.
+
+   ```powershell
+   npm.cmd run managed:ready
+   npm.cmd run managed:verify
+   ```
+
+6. Stop the running platform with Ctrl+C, wait for cleanup, then run `npm.cmd run dev` again. Start each milestone app from **Milestone projects** and refresh any already-open project tabs. Its card should say **Live agent · paid is available**. Select live mode and authorize an individual run inside the app when you want a paid answer.
+
+All three milestone apps share these two course IDs; they do not need three separate pairs. The course launcher forwards the settings only to their backends. A starter downloaded and run independently needs its own `.env` beside its `package.json`, containing its API key, both IDs and the enable flags. Never use `VITE_` prefixes for these settings or commit private `.env` files.
+
+If live mode stays disabled, inspect the setup message on the project card. Empty IDs still disable live mode even with a valid API key and both flags enabled. An authentication failure means the key needs attention; a resource access failure means you should check the IDs and workspace access. When using the hidden key prompt, restart from the same terminal or set the key again in the new terminal. Explicit shell environment variables override values in `.env`; remove stale overrides or update them before restarting.
+
 Reuse existing resource IDs by setting CLAUDE_MANAGED_AGENT_ID and
 CLAUDE_MANAGED_ENVIRONMENT_ID in `.env`. The existing agent must have no tools,
 MCP servers or multiagent configuration for this first lesson.

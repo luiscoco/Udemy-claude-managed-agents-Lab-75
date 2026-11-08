@@ -7,6 +7,17 @@ import projectFiles from '../shared/mini-project-files.json';
 import { MiniProjectManager } from '../server/lib/mini-project-manager.js';
 import { createMiniProjectsRouter, miniProjectArchive } from '../server/routes/mini-projects.js';
 
+test('live setup identifies missing settings without exposing credentials and supports legacy IDs', () => {
+  const missing = new MiniProjectManager({}).list();
+  assert.ok(missing.every(project => !project.liveAvailable && project.liveSetupRequired.includes('CLAUDE_MANAGED_AGENT_ID')));
+  const env = { ANTHROPIC_API_KEY: 'fixture-never-sent', CLAUDE_MANAGED_AGENT_ID: '', MANAGED_AGENT_ID: 'agent_fixture',
+    CLAUDE_MANAGED_ENVIRONMENT_ID: '', MANAGED_ENVIRONMENT_ID: 'env_fixture', MANAGED_LIVE_ENABLED: 'true' };
+  const available = new MiniProjectManager(env).list();
+  assert.ok(available.every(project => project.liveAvailable && project.liveSetupRequired.length === 0));
+  assert.ok(!JSON.stringify(available).includes(env.ANTHROPIC_API_KEY));
+  assert.ok(new MiniProjectManager({ ...env, MILESTONE_LIVE_ENABLED: 'false' }).list().every(project => !project.liveAvailable));
+});
+
 test('the three starters contain only reviewed source, lockfiles, and all 22 stage prompts', async () => {
   for (const project of miniProjects) {
     const bytes = await miniProjectArchive(project.id); let offset = 0; const members = new Map<string, Buffer>();

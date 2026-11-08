@@ -79,6 +79,8 @@ npm.cmd run package:course
 
 Live readiness requires server-side credentials and existing configured resources. A Claude web, desktop or CLI login does not supply an isolated lab key. Installation, startup, readiness and offline checks do not provision resources or start paid sessions. See [setup](docs/managed-setup.md).
 
+**Students enabling live projects:** follow [configure the Agent ID and Environment ID](docs/managed-setup.md#student-installation-configure-the-two-ids). The guide explains how to reuse Lab 01 resources or create your own, copy both IDs into the root `.env`, enable live mode, verify access and restart the platform. An API key alone does not enable the three milestone projects.
+
 Optional prerequisites vary by lesson: Lab 44 can use a separately configured telemetry collector; Lab 45 cloud adapters require their own verified infrastructure; Lab 64 uses pinned Playwright MCP and Chrome; Lab 65 notification transports require explicit provider setup and approval; Lab 69 builds a VS Code extension but interactive IDE installation is manual; Lab 70 needs a selected Python interpreter and explicit isolated requirements installation for live work; Lab 72 can generate offline DOCX and uses Word for visual inspection; Lab 75 requires an isolated API key and three pinned role agents for live execution. Authored adapters and configuration examples are not evidence that those integrations ran.
 
 The sanitized course ZIP uses an explicit source allowlist and hash manifest. It excludes keys, local resource manifests, node_modules, builds, logs, session stores, browser profiles and runtime repositories. It preserves the learner workspace and does not delete files to sanitize the distribution.

@@ -15,7 +15,7 @@ function occupied(port: number) {
   });
 }
 async function ready(url: string, child: ChildProcess, valid: (response: Response) => Promise<boolean>) {
-  const deadline = Date.now() + 30000;
+  const deadline = Date.now() + 90000;
   while (Date.now() < deadline) {
     if (child.exitCode !== null || child.signalCode !== null) throw Error('Project process exited during startup.');
     try { const response = await fetch(url, { signal: AbortSignal.timeout(1000) }); if (response.ok && await valid(response)) return; } catch { /* Wait for startup. */ }
@@ -28,9 +28,16 @@ export class MiniProjectManager {
   private starting = new Set<string>();
   constructor(private env: NodeJS.ProcessEnv = process.env) {}
   list(): MiniProjectStatus[] {
+    const missing = [
+      !this.env.ANTHROPIC_API_KEY?.trim() && 'ANTHROPIC_API_KEY',
+      !(this.env.CLAUDE_MANAGED_AGENT_ID || this.env.MANAGED_AGENT_ID)?.trim() && 'CLAUDE_MANAGED_AGENT_ID',
+      !(this.env.CLAUDE_MANAGED_ENVIRONMENT_ID || this.env.MANAGED_ENVIRONMENT_ID)?.trim() && 'CLAUDE_MANAGED_ENVIRONMENT_ID',
+      this.env.MANAGED_LIVE_ENABLED !== 'true' && 'MANAGED_LIVE_ENABLED=true',
+      this.env.MILESTONE_LIVE_ENABLED === 'false' && 'MILESTONE_LIVE_ENABLED=true',
+    ].filter((value): value is string => Boolean(value));
     return miniProjects.map(project => {
       const item = this.active.get(project.id);
-      return { ...project, frontend: item?.port ?? project.frontend, backend: item?.backend ?? project.backend,
+      return { ...project, liveAvailable: missing.length === 0, liveSetupRequired: missing, frontend: item?.port ?? project.frontend, backend: item?.backend ?? project.backend,
         status: item?.ready ? 'running' : this.starting.has(project.id) ? 'starting' : 'stopped',
         mode: item?.mode ?? null, url: item?.ready ? `http://127.0.0.1:${item.port}/` : null, notice: item?.notice ?? null,
         dependenciesReady: existsSync(join(root, 'mini-projects', project.id, 'node_modules', 'vite', 'bin', 'vite.js')) };
@@ -65,8 +72,8 @@ export class MiniProjectManager {
       if (!runtime.PYTHON && existsSync(localPython)) runtime.PYTHON = localPython;
       const backendEnv = { ...runtime, ...(this.env.MILESTONE_LIVE_ENABLED === 'false' ? {} : {
         ANTHROPIC_API_KEY: this.env.ANTHROPIC_API_KEY ?? '', CLAUDE_MODEL: this.env.CLAUDE_MODEL ?? 'claude-haiku-4-5',
-        CLAUDE_MANAGED_AGENT_ID: this.env.CLAUDE_MANAGED_AGENT_ID ?? this.env.MANAGED_AGENT_ID ?? '',
-        CLAUDE_MANAGED_ENVIRONMENT_ID: this.env.CLAUDE_MANAGED_ENVIRONMENT_ID ?? this.env.MANAGED_ENVIRONMENT_ID ?? '',
+        CLAUDE_MANAGED_AGENT_ID: this.env.CLAUDE_MANAGED_AGENT_ID || this.env.MANAGED_AGENT_ID || '',
+        CLAUDE_MANAGED_ENVIRONMENT_ID: this.env.CLAUDE_MANAGED_ENVIRONMENT_ID || this.env.MANAGED_ENVIRONMENT_ID || '',
         MANAGED_LIVE_ENABLED: this.env.MANAGED_LIVE_ENABLED ?? 'false',
       }) };
       const lifecycle = new URL('./mini-project-lifecycle.mjs', import.meta.url).href;
