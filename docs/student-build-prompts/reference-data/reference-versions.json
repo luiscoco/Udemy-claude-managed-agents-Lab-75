@@ -2,72 +2,72 @@
   "referenceCommit": "963cbbf8a30b2341d0a932baab53d79766c32337",
   "referenceDate": "2026-10-20",
   "date": "2026-10-26",
-  "sdkMigration": "Current 1.3.0 dependency inventory supersedes original 0.133.0; see 17-sdk-upgrade.md.",
+  "sdkMigration": "Current 1.7.0 dependency inventory supersedes original 0.133.0; see 17-sdk-upgrade.md.",
   "node": ">=24",
   "dependencies": {
     "@anthropic-ai/aws-sdk": {
-      "declared": "0.8.0",
-      "resolved": "0.8.0"
+      "declared": "1.1.2",
+      "resolved": "1.1.2"
     },
     "@anthropic-ai/sdk": {
-      "declared": "1.3.0",
-      "resolved": "1.3.0"
+      "declared": "1.7.0",
+      "resolved": "1.7.0"
     },
     "@azure/monitor-opentelemetry-exporter": {
-      "declared": "1.0.0-beta.46",
-      "resolved": "1.0.0-beta.46"
+      "declared": "1.0.0-beta.47",
+      "resolved": "1.0.0-beta.47"
     },
     "@azure/msal-node": {
-      "declared": "7.1.0",
-      "resolved": "7.1.0"
+      "declared": "7.2.1",
+      "resolved": "7.2.1"
     },
     "@opentelemetry/resources": {
-      "declared": "2.12.0",
-      "resolved": "2.12.0"
+      "declared": "2.12.1",
+      "resolved": "2.12.1"
     },
     "@opentelemetry/sdk-trace-base": {
-      "declared": "2.12.0",
-      "resolved": "2.12.0"
+      "declared": "2.12.1",
+      "resolved": "2.12.1"
     },
     "express": {
-      "declared": "^5.2.1",
+      "declared": "^5.3.0",
       "resolved": "5.3.0"
     },
     "react": {
-      "declared": "^19.3.0",
-      "resolved": "19.3.0"
+      "declared": "^19.3.1",
+      "resolved": "19.3.1"
     },
     "react-dom": {
-      "declared": "^19.3.0",
-      "resolved": "19.3.0"
+      "declared": "^19.3.1",
+      "resolved": "19.3.1"
     },
     "ws": {
-      "declared": "8.22.0",
-      "resolved": "8.22.0"
+      "declared": "8.22.2",
+      "resolved": "8.22.2"
     },
     "zod": {
-      "declared": "^4.6.5",
-      "resolved": "4.6.5"
+      "declared": "^4.6.7",
+      "resolved": "4.6.7"
     },
     "@modelcontextprotocol/sdk": {
-      "declared": "1.32.1",
-      "resolved": "1.32.1"
+      "declared": "1.32.2",
+      "resolved": "1.32.2"
     },
     "@playwright/mcp": {
-      "declared": "0.0.83",
-      "resolved": "0.0.83"
+      "declared": "0.0.85",
+      "resolved": "0.0.85"
     },
     "@playwright/test": {
-      "declared": "^1.64.0",
-      "resolved": "1.64.0"
+      "declared": "^1.65.0",
+      "resolved": "1.65.0"
     },
     "@types/express": {
       "declared": "^5.0.6",
       "resolved": "5.0.6"
     },
     "@types/node": {
-      "declared": "^26.6.2",
-      "resolved": "26.6.5"
+      "declared": "^26.6.6",
+      "resolved": "26.6.6"
     },
     "@types/react": {
       "declared": "^19.3.0",
@@ -78,20 +78,20 @@
       "resolved": "19.3.0"
     },
     "@types/vscode": {
-      "declared": "1.140.0",
-      "resolved": "1.140.0"
+      "declared": "1.145.0",
+      "resolved": "1.145.0"
     },
     "@types/ws": {
       "declared": "8.18.2",
       "resolved": "8.18.2"
     },
     "@vitejs/plugin-react": {
-      "declared": "^6.1.1",
-      "resolved": "6.1.2"
+      "declared": "^6.3.0",
+      "resolved": "6.3.0"
     },
     "concurrently": {
-      "declared": "^10.0.5",
-      "resolved": "10.0.6"
+      "declared": "^10.0.7",
+      "resolved": "10.0.7"
     },
     "esbuild": {
       "declared": "0.28.2",
@@ -106,8 +106,8 @@
       "resolved": "7.0.2"
     },
     "vite": {
-      "declared": "^8.3.0",
-      "resolved": "8.3.4"
+      "declared": "^8.3.7",
+      "resolved": "8.3.7"
     }
   },
   "scripts": {
@@ -124,6 +124,7 @@
     "test:offline": "node --import tsx --test --test-concurrency=1 tests/*.test.ts",
     "test:capstone": "node --import tsx --test tests/lab50-capstone-domain.test.ts tests/lab50-capstone-agent.test.ts",
     "test:analysis": "node --import tsx --test tests/lab71-data-analysis-agent.test.ts",
+    "test:tutor": "node --import tsx --test tests/ai-tutor.test.ts",
     "capstone:check": "node --env-file-if-exists=.env --import tsx scripts/lab50-setup.ts check",
     "capstone:provision": "node --env-file-if-exists=.env --import tsx scripts/lab50-setup.ts provision",
     "test:browser": "node scripts/run-browser-tests.mjs",
@@ -152,6 +153,9 @@
     "notifications:signin": "node --env-file-if-exists=.env --import tsx scripts/lab65-mail-signin.ts --interactive-personal-signin",
     "guide:live:test": "node --env-file-if-exists=.env --import tsx scripts/learning-guide-live.ts --execute-authorized-narration-test",
     "milestones:check": "node --import tsx scripts/check-learning-milestones.ts",
+    "projects:install": "node scripts/mini-projects.mjs install",
+    "projects:check": "node scripts/mini-projects.mjs check",
+    "projects:build": "node scripts/mini-projects.mjs build",
     "test:editor:real": "npm run lab69:extension:build && node --import tsx scripts/lab69-real-editor.ts",
     "test:ui:audit": "node scripts/run-browser-tests.mjs course-ui-audit.spec.ts",
     "test:live:evidence": "node --test scripts/live-audit-evidence.test.mjs scripts/configure-github-live.test.mjs",
@@ -167,6 +171,6 @@
     "infographics:check": "node --import tsx scripts/audit-infographic-assets.ts",
     "infographics:publish": "node --import tsx scripts/publish-infographic-batch.ts"
   },
-  "python": "# Independently verified Python pin; npm uses @anthropic-ai/sdk 0.133.0.\nanthropic==1.7.0",
+  "python": "# Python is pinned independently; the platform reports the installed Node SDK separately.\nanthropic==2.7.0",
   "note": "Frozen reference versions, not a claim that later provider APIs or model availability are unchanged. Never silently substitute unsupported API fields."
 }

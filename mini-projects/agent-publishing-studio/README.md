@@ -2,7 +2,7 @@
 
 173 Managed Agents publishing prompts in 17 sections, safe coloured code, bounded source uploads, selected-answer Word/PDF and SVG/PNG export, PNG palette/crop references and host-validated live content plans.
 
-Adapted from the three milestone apps in https://github.com/luiscoco/Udemy-Claude-Agent-SDK-Student-Rebuild. This version uses Claude Managed Agents through `@anthropic-ai/sdk@1.3.0`. The Claude Agent SDK package and local `query()` runtime are not dependencies.
+Adapted from the three milestone apps in https://github.com/luiscoco/Udemy-Claude-Agent-SDK-Student-Rebuild. This version uses Claude Managed Agents through `@anthropic-ai/sdk@1.7.0`. The Claude Agent SDK package and local `query()` runtime are not dependencies.
 
 ## Run
 

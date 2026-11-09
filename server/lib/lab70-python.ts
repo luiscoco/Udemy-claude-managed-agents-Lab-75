@@ -5,7 +5,7 @@ import { z } from 'zod';
 import { lab70FrameSchema, lab70ToolSchema, type Lab70Frame } from '../../shared/lab70-python-sdk.js';
 import { managedResourceIds } from './managed-config.js';
 
-export const pythonPin = '1.7.0';
+export const pythonPin = '2.7.0';
 export function selectLab70Python(env: NodeJS.ProcessEnv = process.env) {
   const candidates = [resolve('.venv/Scripts/python.exe'), resolve('.venv/bin/python'),
     'C:\\Python314\\python.exe', 'C:\\Python313\\python.exe', 'C:\\Python312\\python.exe', '/usr/bin/python3'];

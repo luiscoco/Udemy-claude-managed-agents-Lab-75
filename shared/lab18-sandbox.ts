@@ -3,7 +3,7 @@ import { z } from 'zod';
 export const lab18Lesson = { id: 18, title: 'Cloud sandbox and host boundaries', topic: 'Permissions and security', serverPrefix: '/api/c18' } as const;
 export const lab18Scenarios = ['allowed-mount', 'outside-mount', 'blocked-network', 'missing-environment'] as const;
 export const lab18PlatformSchema = z.strictObject({ source: z.literal('server-configuration'), environmentId: z.string().nullable(),
-  environmentVersion: z.literal('not exposed by SDK 1.3.0'), agentVersionPin: z.string().nullable(), liveReady: z.boolean(),
+  environmentVersion: z.literal('not exposed by SDK 1.7.0'), agentVersionPin: z.string().nullable(), liveReady: z.boolean(),
   approvedMounts: z.array(z.string()).max(2), authoredNetwork: z.strictObject({ type: z.literal('limited'), allowedHosts: z.array(z.string()).max(2),
     allowMcpServers: z.literal(false), allowPackageManagers: z.literal(false) }),
   note: z.string().max(300) });
@@ -11,7 +11,7 @@ export type Lab18Platform = z.infer<typeof lab18PlatformSchema>;
 export const lab18AvailabilitySchema = z.strictObject({ mode: z.enum(['scripted', 'live']), scenario: z.enum(lab18Scenarios) })
   .superRefine((value, ctx) => { if (value.mode === 'live' && value.scenario !== 'allowed-mount') ctx.addIssue({ code: 'custom', message: 'Failure scenarios are offline host tests.' }); });
 export const lab18AvailabilityResultSchema = z.strictObject({ source: z.enum(['authored-host-policy', 'managed-api']), ready: z.boolean(),
-  environmentId: z.string().nullable(), environmentUpdatedAt: z.string().nullable(), environmentVersion: z.literal('not exposed by SDK 1.3.0'),
+  environmentId: z.string().nullable(), environmentUpdatedAt: z.string().nullable(), environmentVersion: z.literal('not exposed by SDK 1.7.0'),
   cloud: z.boolean(), archived: z.boolean(), networking: z.enum(['limited', 'unrestricted', 'not-applicable', 'unavailable']),
   allowedHosts: z.array(z.string()).max(20), approvedMounts: z.array(z.string()).max(2), reason: z.string().max(400), sessionStarted: z.literal(false) });
 export type Lab18Availability = z.infer<typeof lab18AvailabilityResultSchema>;

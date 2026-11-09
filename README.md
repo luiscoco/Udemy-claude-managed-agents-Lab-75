@@ -1,8 +1,10 @@
 # Claude Managed Agents Learning
 
-The platform contains 75 numbered lessons with React exercises, Express routes, authored guides and source inspection. It uses the official `@anthropic-ai/sdk` 1.3.0 for supported Managed API operations. Host implementations and Agent SDK replacements are labeled in each lesson; offline fixtures are distinguished from provider observations.
+The platform contains 75 numbered lessons with React exercises, Express routes, authored guides and source inspection. It uses the official `@anthropic-ai/sdk` 1.7.0 for supported Managed API operations. Host implementations and Agent SDK replacements are labeled in each lesson; offline fixtures are distinguished from provider observations.
 
 Use the sidebar by topic or lesson number, search by title or objective, and switch between Learn, Run the exercise and TypeScript source. See the [repository index](docs/github-repositories.md) for the independent private lesson checkpoints and the [final validation report](docs/course-validation.md) for executed checks and remaining live prerequisites.
+
+The current dependency migration and compatibility exceptions are documented in [the dependency upgrade guide](docs/dependency-upgrade.md). Historical implementation and live-run records retain the versions they actually tested.
 
 ## Run locally
 
@@ -103,7 +105,7 @@ The foundation checks message execution, not sandbox tools or generated files.
 
 ## Configure live execution
 
-Managed Agents is a beta API; this app pins the official TypeScript SDK to 1.3.0.
+Managed Agents is a beta API; this app pins the official TypeScript SDK to 1.7.0.
 Use a Claude Console account with API access and credits.
 Install the `ant` CLI using the official quickstart. Review the model in
 managed/agent.md for your account before applying the configuration:
@@ -1854,4 +1856,4 @@ After explicitly authorizing billed tests, run `node --env-file-if-exists=.env -
 
 ## SDK upgrade priority
 
-The current exact TypeScript SDK is **1.3.0** (verified 26 October 2026). Before replaying older prompts, follow [the SDK migration and student prompt](docs/sdk-upgrade.md). Historical reports retain their original version; no paid provider acceptance is implied by this upgrade.
+The current exact TypeScript SDK is **1.7.0** (verified 9 November 2026). Before replaying older prompts, follow [the SDK migration and student prompt](docs/sdk-upgrade.md). Historical reports retain their original version; no paid provider acceptance is implied by this upgrade.

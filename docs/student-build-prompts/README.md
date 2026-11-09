@@ -22,7 +22,7 @@ The [code reading controls prompt](16-code-reading-controls.md) adds font size, 
 
 ## Current SDK migration
 
-Before replaying the frozen dependency references, follow [SDK 1.3.0 and its implementation prompt](17-sdk-upgrade.md). This supersedes older npm pins; historical media/transcripts retain their original wording.
+Before replaying the frozen dependency references, follow [SDK 1.7.0 and its implementation prompt](17-sdk-upgrade.md). This supersedes older npm pins; historical media/transcripts retain their original wording.
 
 ## Prerequisites
 

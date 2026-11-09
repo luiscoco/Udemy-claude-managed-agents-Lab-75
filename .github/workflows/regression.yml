@@ -38,9 +38,11 @@ jobs:
       - name: Prepare isolated Python worker
         run: |
           python -m venv .venv
-          .venv/Scripts/python.exe -m pip install -r python/lab70/requirements.txt
-      - run: npx playwright install chrome
+          .venv/Scripts/python.exe -m pip install -r python/lab70/requirements.txt -r mini-projects/agent-publishing-studio/requirements.txt
+      - run: npx playwright install chrome chromium
       - run: npm run test:offline
+      - run: npm run projects:check
+      - run: npm run projects:build
       - run: node --test scripts/live-audit-evidence.test.mjs scripts/configure-github-live.test.mjs
       - run: npm run test:dev-server
       - run: npm run milestones:check

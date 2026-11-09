@@ -6,7 +6,7 @@ import type { z } from 'zod';
 type Scenario = z.infer<typeof lab55ScenarioSchema>;
 type Result = z.infer<typeof lab55ResultSchema>;
 const installed = JSON.parse(readFileSync(new URL('../../node_modules/@anthropic-ai/sdk/package.json', import.meta.url), 'utf8')) as { version: string };
-if (installed.version !== '1.3.0') throw new Error('Lab 55 baseline requires the locked installed SDK 1.3.0.');
+if (installed.version !== '1.7.0') throw new Error('Lab 55 baseline requires the locked installed SDK 1.7.0.');
 const betaHeader = 'managed-agents-2026-04-01';
 const pins = { agentVersion: 'fixture:agent-v1', environmentVersion: 'fixture:env-v1',
   skillVersion: 'fixture:skill-v1' };
@@ -25,7 +25,7 @@ const checksFor = (scenario: Scenario) => {
   };
   const target = scenario === 'compatible-change' ? null : failures[scenario];
   const entries = [
-    ['locked-npm-baseline', 'Installed package manifest is @anthropic-ai/sdk 1.3.0; package files remain unchanged.'],
+    ['locked-npm-baseline', 'Installed package manifest is @anthropic-ai/sdk 1.7.0; package files remain unchanged.'],
     ['beta-header', `Managed API header remains ${betaHeader}.`],
     ['event-union', 'Required session and custom-tool result event types remain available.'],
     ['stream-order', 'Event stream opens before user.message is sent; terminal idle remains explicit.'],
@@ -53,7 +53,7 @@ export class Lab55UpgradeStore {
     const apiCompatibility = scenario === 'removed-type' || scenario === 'stream-change' || scenario === 'policy-drift' ?
       'incompatible' : scenario === 'missing-evidence' ? 'unknown' : 'compatible';
     const result = lab55ResultSchema.parse({ id: randomUUID(), source: 'offline-upgrade-rehearsal', scenario,
-      baselineNpmVersion: '1.3.0', candidateNpmVersion: null, apiCompatibility, pinnedResources: pins,
+      baselineNpmVersion: '1.7.0', candidateNpmVersion: null, apiCompatibility, pinnedResources: pins,
       checks, eligible, state: 'candidate', canaryEvidence: 'not-run', remoteSessionsRewound: false, providerCalls: 0,
       note: 'Server-computed rehearsal only. A client eligible flag grants no promotion; no real candidate SDK or release was validated.' });
     space.set(result.id, result); return result;

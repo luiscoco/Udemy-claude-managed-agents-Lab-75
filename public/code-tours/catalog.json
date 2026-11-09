@@ -1264,7 +1264,7 @@
     {
       "lessonId": 24,
       "path": "server/concepts/24-harnesses.ts",
-      "sourceSha256": "f2dcd8f3725d4a9e8c0656afc5c061a07c381e6fae89dff70bbf0afdea4b86f9",
+      "sourceSha256": "4478acebec9a7ec14b8b450c8f837009ae85f29e43ad725adb2b68f17759ce78",
       "sections": [
         {
           "id": "code-0",
@@ -1313,7 +1313,7 @@
     {
       "lessonId": 25,
       "path": "server/concepts/25-compaction-context.ts",
-      "sourceSha256": "6554ae8305c3a7dfc0e41ccfa6d4e9d414250b8b67ecb6d7aa1f0402a29a16f8",
+      "sourceSha256": "5e3676a9ee4d97ee2d3c5310b71c050897716e63a04f7c662fff9d8751c6e0b1",
       "sections": [
         {
           "id": "code-0",
@@ -1362,7 +1362,7 @@
     {
       "lessonId": 26,
       "path": "server/concepts/26-query-control.ts",
-      "sourceSha256": "fd24525b59458da264b9fc87d90c1c38517780106cbe5e219f172ce62474db13",
+      "sourceSha256": "a0f328786a22e785c560f83512f5606cc2c427f1f3b46f86756b7eb0b5c671f0",
       "sections": [
         {
           "id": "code-0",
@@ -1467,7 +1467,7 @@
     {
       "lessonId": 28,
       "path": "server/concepts/28-errors-retries.ts",
-      "sourceSha256": "4c3503b7e6c26a45700e68a2eb92d389084c3d96fa9d41f7c4bb263c4b5f1d83",
+      "sourceSha256": "06fee651d1a80e16690dc8556be83667026613ca0eea805146f5134673b42a22",
       "sections": [
         {
           "id": "code-0",
@@ -1509,7 +1509,7 @@
     {
       "lessonId": 29,
       "path": "server/concepts/29-images-files.ts",
-      "sourceSha256": "3cc8d9eff0e4239c9080b30c690fd7b452722c5f121ecaf80a64ccc7e9ca2096",
+      "sourceSha256": "b7ff2315dfa0606a58d78cc72a3c7ef715dd2e6c53339bea75771e88994e4075",
       "sections": [
         {
           "id": "code-0",
@@ -1607,7 +1607,7 @@
     {
       "lessonId": 31,
       "path": "server/concepts/31-ask-user-question.ts",
-      "sourceSha256": "06f85095d77a8391ff71a7ce6edb90694b5aabd2ab585619650d73d3f394878e",
+      "sourceSha256": "841b55be87ce9cf31f193fd94ffab63a4d1d73cca8f1e7e89ce2f38175e581cb",
       "sections": [
         {
           "id": "code-0",
@@ -2258,7 +2258,7 @@
     {
       "lessonId": 42,
       "path": "server/concepts/42-web-tools.ts",
-      "sourceSha256": "1e1d07bf440f624d4a8131eda39cb8e3bf4de2c4bd7b63b563c1e40eee24749c",
+      "sourceSha256": "54022764d823d3d838fd90219b5dad575154e6d986b976439abcee6d28359db0",
       "sections": [
         {
           "id": "code-0",
@@ -2853,7 +2853,7 @@
     {
       "lessonId": 54,
       "path": "server/concepts/54-tool-design.ts",
-      "sourceSha256": "7868a5dae109c116e6548e62cfe3e36c27767b6a334b2dfa0e9243adaa7b5b96",
+      "sourceSha256": "5c1f225955a9ac05c935be24e0a28367bdef207f5fa2424af0e2c2dbbcc468e9",
       "sections": [
         {
           "id": "code-0",
@@ -2902,7 +2902,7 @@
     {
       "lessonId": 55,
       "path": "server/concepts/55-upgrading-sdk.ts",
-      "sourceSha256": "406e0fe76db5e198764a6a4961306d7c80e0000374764dfe3c03eba167ef15f3",
+      "sourceSha256": "3860397fa84e39993fa5f9cd8821a05eaf1030bd97e46c2ca47222a84a27860d",
       "sections": [
         {
           "id": "code-0",
@@ -3378,7 +3378,7 @@
     {
       "lessonId": 64,
       "path": "server/concepts/64-browser-playwright-mcp.ts",
-      "sourceSha256": "e6091d77a5586de344f5b8e0eff6e79fc3565126e986d6ff0d0e2741933ae0bd",
+      "sourceSha256": "8cfe6142e27fb5940ae9c6b9bba31744bf75e7a4a2ae74c7e71dce4d1d4a512f",
       "sections": [
         {
           "id": "code-0",
@@ -3686,7 +3686,7 @@
     {
       "lessonId": 70,
       "path": "server/concepts/70-python-sdk.ts",
-      "sourceSha256": "37eb3667a16ab2f088c3b8c5bcd8660d7d44a6750454f1eccf7fa352e0f89795",
+      "sourceSha256": "760f73611fb9b6cc0035a71ce6b418e2c8072884868efbdba3a79c70a1bb58b8",
       "sections": [
         {
           "id": "code-0",

@@ -8,9 +8,9 @@ import { createLab55Router } from '../server/concepts/55-upgrading-sdk.js';
 test('installed official SDK baseline is locked and distinct from authored candidate/API identity', () => {
   const packageJson = JSON.parse(readFileSync(new URL('../package.json', import.meta.url), 'utf8')) as {
     dependencies: Record<string, string> };
-  assert.equal(packageJson.dependencies['@anthropic-ai/sdk'], '1.3.0');
+  assert.equal(packageJson.dependencies['@anthropic-ai/sdk'], '1.7.0');
   const facts = new Lab55UpgradeStore().facts();
-  assert.equal(facts.baseline.npmVersion, '1.3.0');
+  assert.equal(facts.baseline.npmVersion, '1.7.0');
   assert.equal(facts.baseline.betaHeader, 'managed-agents-2026-04-01');
   assert.ok(facts.baseline.sendEvents.includes('user.custom_tool_result'));
   assert.equal(facts.candidateNpmVersion, null); assert.equal(facts.candidateIsInstalled, false);

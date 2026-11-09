@@ -2,7 +2,7 @@
 
 ## Prerequisites
 
-The platform remains TypeScript and uses npm `@anthropic-ai/sdk@1.3.0`. The independent Python requirement is `anthropic==1.7.0` in `python/lab70/requirements.txt`. That official package was inspected locally for session create, event stream/send, custom-tool result, retrieve/archive and agent lookup APIs. Its [PyPI release](https://pypi.org/project/anthropic/1.7.0/) and [official SDK source](https://github.com/anthropics/anthropic-sdk-python) identify the client. No Agent SDK query or `ClaudeSDKClient` is used.
+The platform remains TypeScript and uses npm `@anthropic-ai/sdk@1.7.0`. The independent Python requirement is `anthropic==2.7.0` in `python/lab70/requirements.txt`. That official package was inspected locally for session create, event stream/send, custom-tool result, retrieve/archive and agent lookup APIs. Its [PyPI release](https://pypi.org/project/anthropic/2.7.0/) and [official SDK source](https://github.com/anthropics/anthropic-sdk-python) identify the client. No Agent SDK query or `ClaudeSDKClient` is used.
 
 The bridge prefers `.venv`, then an allowlisted system interpreter. It uses fixed `-I -u -B` arguments and a narrow environment. Isolated Python ignores user-site packages, so a package installed only in the user profile does not make the selected worker ready. Install explicitly when you want live capability:
 

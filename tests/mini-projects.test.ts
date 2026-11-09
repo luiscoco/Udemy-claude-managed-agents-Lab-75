@@ -31,7 +31,7 @@ test('the three starters contain only reviewed source, lockfiles, and all 22 sta
     assert.equal([...members.keys()].filter(name => /\/prompts\/m\d+/.test(name)).length, project.id === 'agent-publishing-studio' ? 8 : 7);
     assert.ok([...members.keys()].every(name => !/(node_modules|dist|artifacts)\//.test(name) && !/\/\.env$/.test(name)));
     const dependencies = JSON.parse(members.get(`${project.id}/package.json`)!.toString()).dependencies;
-    assert.equal(dependencies['@anthropic-ai/sdk'], '1.3.0'); assert.equal('@anthropic-ai/claude-agent-sdk' in dependencies, false);
+    assert.equal(dependencies['@anthropic-ai/sdk'], '1.7.0'); assert.equal('@anthropic-ai/claude-agent-sdk' in dependencies, false);
   }
   await assert.rejects(miniProjectArchive('../.env'), /Unknown/);
 });

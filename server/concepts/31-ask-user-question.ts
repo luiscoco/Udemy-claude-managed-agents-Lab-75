@@ -14,7 +14,7 @@ export function createLab31Router(questions = new Lab31Questions()) {
   const reply = (response: import('express').Response, action: () => unknown) => { try { response.json(action()); }
     catch (error) { const status = error instanceof Lab31Error ? error.statusCode : 500;
       response.status(status).json(apiError(status === 404 ? 'NOT_FOUND' : 'INVALID_REQUEST', error instanceof Lab31Error ? error.message : 'Question control failed.')); } };
-  router.get('/code', (_request, response) => response.json({ source: 'installed-sdk-1.3.0-and-authored-pause',
+  router.get('/code', (_request, response) => response.json({ source: 'installed-sdk-1.7.0-and-authored-pause',
     files: ['shared/lab31-ask-user-question.ts', 'server/lib/lab31-questions.ts', 'server/concepts/31-ask-user-question.ts'],
     toolInputSchema: z.toJSONSchema(lab31AskUserShape, { target: 'draft-2020-12', io: 'input' }),
     resultType: 'user.custom_tool_result', unsupported: ['canUseTool mutation', 'built-in AskUserQuestion'] }));

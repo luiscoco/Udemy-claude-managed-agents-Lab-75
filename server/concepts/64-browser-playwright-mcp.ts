@@ -159,7 +159,7 @@ export function createLab64Router(runner = createLab64Runner()) {
     response.set('Cache-Control', 'no-store'); next();
   });
   router.get('/facts', (_request, response) => response.json({ source: 'playwright-mcp', providerCalls: 0,
-    pinnedPackage: '@playwright/mcp@0.0.83', isolation: 'fresh temporary browser profile; fixture-only network route',
+    pinnedPackage: '@playwright/mcp@0.0.85', isolation: 'fresh temporary browser profile; fixture-only network route',
     note: 'A host-supplied context uses isolated:false; only the host may issue allowlisted MCP calls. Cloud Managed sessions cannot reach host localhost.' }));
   router.get('/code', (_request, response) => response.json({ files: ['shared/lab64-browser-playwright-mcp.ts',
     'server/concepts/64-browser-playwright-mcp.ts'], note: 'Actual DOM and screenshot establish proof.' }));

@@ -18,7 +18,7 @@ export function createLab24Router(run = runLab24) {
     { name: 'get_stock', input: { sku: 'NOTEBOOK' }, effect: 'read-only' },
     { name: 'reserve_stock', input: { sku: 'NOTEBOOK', quantity: 'integer 1..2' }, effect: 'decrement host-local stock' }],
     initialStock: 5, providerCalls: 0 }));
-  router.get('/code', (_request, response) => response.json({ source: 'installed-sdk-1.3.0-and-host-source', sdk: installedHarnessMethods(),
+  router.get('/code', (_request, response) => response.json({ source: 'installed-sdk-1.7.0-and-host-source', sdk: installedHarnessMethods(),
     manual: 'Messages API messages.create: application repeats requests and appends tool_result blocks.',
     runner: 'Installed beta.messages.toolRunner: SDK iterates, application callback still owns the checked effect.',
     managed: 'Managed sessions emit agent.custom_tool_use; client sends user.custom_tool_result. Managed harness owns iteration.',

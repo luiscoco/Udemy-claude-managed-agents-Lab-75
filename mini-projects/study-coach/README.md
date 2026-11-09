@@ -2,7 +2,7 @@
 
 127 Managed Agents learning topics across all 75 labs, 17 sections, ten editable coach prompts per topic, recognition checks, prepared answers, bounded host conversation history and study plans.
 
-Adapted from the three milestone apps in https://github.com/luiscoco/Udemy-Claude-Agent-SDK-Student-Rebuild. This version uses Claude Managed Agents through `@anthropic-ai/sdk@1.3.0`. The Claude Agent SDK package and local `query()` runtime are not dependencies.
+Adapted from the three milestone apps in https://github.com/luiscoco/Udemy-Claude-Agent-SDK-Student-Rebuild. This version uses Claude Managed Agents through `@anthropic-ai/sdk@1.7.0`. The Claude Agent SDK package and local `query()` runtime are not dependencies.
 
 ## Run
 
