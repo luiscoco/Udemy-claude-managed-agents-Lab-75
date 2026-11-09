@@ -12,7 +12,9 @@ test('agent prose renders headings lists bold code and tables while retaining ex
   const html = renderToStaticMarkup(createElement(AgentMessage, { text }));
   assert.match(html, /<h4>Observation<\/h4>/); assert.match(html, /<strong>Species:<\/strong>/);
   assert.match(html, /<ul>/); assert.match(html, /<table>/); assert.match(html, /<code>3<\/code>/);
-  assert.match(html, /Inspect exact agent message/); assert.match(html, /const count/);
+  assert.match(html, /Inspect exact agent message/);
+  // Syntax highlighting may split a code line across spans; check its text.
+  assert.match(html.replace(/<[^>]+>/g, ''), /const count = 3;/);
 });
 
 test('raw HTML and unsafe links do not become executable elements or embedded resources', () => {

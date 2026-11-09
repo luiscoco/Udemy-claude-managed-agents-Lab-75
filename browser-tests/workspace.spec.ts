@@ -3,7 +3,7 @@ test('tabs use roving focus, arrow wrap, Home/End and named panels', async ({ pa
   await page.goto('/browser-tests/harness.html?lesson=1');
   const learn = page.getByRole('tab', { name: 'Learn', exact: true });
   const run = page.getByRole('tab', { name: 'Run the exercise' });
-  const last = page.getByRole('tab', { name: 'Lab walkthrough', exact: true });
+  const last = page.getByRole('tab', { name: 'AI Tutor', exact: true });
   await learn.focus(); await page.keyboard.press('ArrowRight');
   await expect(run).toBeFocused(); await expect(run).toHaveAttribute('aria-selected', 'true');
   await expect(learn).toHaveAttribute('tabindex', '-1');

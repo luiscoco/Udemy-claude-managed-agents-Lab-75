@@ -10,7 +10,9 @@ for (const visual of lessonInfographics) test(`Lab ${visual.lessonId} ${visual.k
   await page.goto(`/?lesson=${visual.lessonId}`);
   // Give the real workspace its loading budget before making fast UI assertions.
   await expect(page.getByRole('tab', { name: 'Learn', exact: true })).toBeVisible({ timeout: 30000 });
-  await expect(page.getByRole('tab')).toHaveCount(5);
+  await expect(page.getByRole('tab')).toHaveText([
+    'Learn', 'Run the exercise', 'TypeScript source', 'Concept map', 'Lab walkthrough', 'AI Tutor',
+  ]);
   const name = visual.kind === 'concepts' ? 'Concept map' : 'Lab walkthrough';
   await page.getByRole('tab', { name, exact: true }).click();
   const panel = page.getByRole('tabpanel', { name, exact: true });
