@@ -52,6 +52,11 @@ npm.cmd run dev
 Open the **Local** URL printed by Vite. It starts at http://127.0.0.1:5174
 and uses the next available port if another application occupies it.
 The backend listens on 127.0.0.1:3076.
+For a separate local container deployment at `http://127.0.0.1:8080`, follow the [Docker Desktop student guide](docs/docker-desktop.md). It includes the real Dockerfile, Compose commands, offline configuration, persistence checks and optional integration limits.
+
+To run the platform on Docker Desktop's local Kubernetes cluster, follow the [Kubernetes student guide](docs/kubernetes-desktop.md). It covers the manifest, local image loading, persistent storage, health probes and loopback access at `http://127.0.0.1:8090`.
+
+For the Azure Container Apps walkthrough, follow the [Azure deployment guide](docs/azure-container-apps.md). It covers private image builds, managed identity, protected HTTPS access, offline verification, storage limits and cleanup.
 These ports differ from the original app. Vite selects the next free frontend port.
 If npm.cmd is unavailable with NVM, this machine has npm here:
 

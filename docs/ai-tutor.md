@@ -1,5 +1,7 @@
 # AI Tutor
 
+Instructor video: [AI Tutor Live Lab production guide](ai-tutor-video.md) documents the 9:29 walkthrough of prepared guidance, two real Claude models, and saving/reopening answers, with local MP4 and subtitle paths.
+
 Every lab has an **AI Tutor** tab. Its six prompts explain the exercise, connect concepts to source, outline steps, offer a hint, describe expected evidence or show an actual TypeScript excerpt. Prepared guidance works without an API key and makes no model requests. It follows the selected topic rather than answering custom wording.
 
 For a tailored response, choose **Live Claude**, select an available model and authorize one paid question. The backend uses `ANTHROPIC_API_KEY`; no key reaches the browser. Set `AI_TUTOR_LIVE_ENABLED=false` to disable live answers. It defaults to available when a key exists; an explicit value must be `true` to enable it. This setting is independent of `MANAGED_LIVE_ENABLED` and does not enable lab execution.

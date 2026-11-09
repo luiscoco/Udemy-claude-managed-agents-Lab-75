@@ -1,4 +1,5 @@
 .env
+docker/*.env
 .env.*
 !.env.example
 claude-lock.json
@@ -140,3 +141,15 @@ managed/lab75-resources.local.json
 artifacts/learning-guide/
 artifacts/learning-guide*.png
 artifacts/ci/
+aws-state/
+aws/deployment-config.json
+gcp-state/
+gcp/deployment-config.json
+artifacts/gcp-deployment/
+
+# Generated deployment and student download archives stay local.
+*.zip
+*.7z
+*.tar
+*.tar.gz
+*.tgz

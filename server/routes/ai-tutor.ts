@@ -6,6 +6,7 @@ import { resolve, relative, isAbsolute } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { tutorContext, tutorRequestSchema, preparedTutorAnswer, type TutorLesson, type TutorModel, type SavedTutorAnswer } from '../../shared/ai-tutor.js';
 import { AiTutorStore } from '../lib/ai-tutor-store.js';
+import { configuredLearningOriginAllowed } from '../lib/learning-origin.js';
 import { createTutorProvider, tutorMaxOutputTokens, type TutorProvider } from '../lib/ai-tutor-provider.js';
 
 const root = fileURLToPath(new URL('../../', import.meta.url));
@@ -57,7 +58,8 @@ export function createAiTutorRouter(options: { lessons: readonly TutorLesson[]; 
   const router = Router();
   router.use((request, response, next) => {
     const host = request.headers.host ?? '';
-    if (!/^(localhost|127\.0\.0\.1):\d+$/.test(host) || request.headers.origin && request.headers.origin !== `http://${host}`) {
+    const local = /^(localhost|127\.0\.0\.1):\d+$/.test(host) && (!request.headers.origin || request.headers.origin === `http://${host}`);
+    if (!local && !configuredLearningOriginAllowed(request.headers, env)) {
       response.status(403).json({ message: 'Use the local learning application for tutor requests.' }); return;
     }
     response.set('Cache-Control', 'no-store'); next();

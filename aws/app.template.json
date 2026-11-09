@@ -1,0 +1,610 @@
+{
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Description": "Temporary protected HTTPS course recording: CloudFront, ALB, one ECS Fargate task. Ephemeral data, no provider keys.",
+  "Parameters": {
+    "VpcId": {
+      "Type": "AWS::EC2::VPC::Id"
+    },
+    "SubnetIds": {
+      "Type": "List<AWS::EC2::Subnet::Id>"
+    },
+    "CloudFrontPrefixListId": {
+      "Type": "String",
+      "AllowedPattern": "pl-[a-f0-9]+"
+    },
+    "ImageUri": {
+      "Type": "String",
+      "AllowedPattern": "[0-9]{12}\\.dkr\\.ecr\\.eu-north-1\\.amazonaws\\.com/[^\\s]+@sha256:[a-f0-9]{64}"
+    },
+    "RepositoryArn": {
+      "Type": "String",
+      "AllowedPattern": "arn:aws:ecr:eu-north-1:[0-9]{12}:repository/.+"
+    },
+    "CredentialDigest": {
+      "Type": "String",
+      "NoEcho": true,
+      "AllowedPattern": "[a-f0-9]{64}"
+    },
+    "OriginToken": {
+      "Type": "String",
+      "NoEcho": true,
+      "AllowedPattern": "[a-f0-9]{64}"
+    }
+  },
+  "Resources": {
+    "Cluster": {
+      "Type": "AWS::ECS::Cluster",
+      "Properties": {
+        "ClusterSettings": [
+          {
+            "Name": "containerInsights",
+            "Value": "disabled"
+          }
+        ],
+        "Tags": [
+          {
+            "Key": "purpose",
+            "Value": "claude-learning-aws-video"
+          }
+        ]
+      }
+    },
+    "AppLogs": {
+      "Type": "AWS::Logs::LogGroup",
+      "Properties": {
+        "RetentionInDays": 3,
+        "Tags": [
+          {
+            "Key": "purpose",
+            "Value": "claude-learning-aws-video"
+          }
+        ]
+      }
+    },
+    "LoadBalancerSecurityGroup": {
+      "Type": "AWS::EC2::SecurityGroup",
+      "Properties": {
+        "GroupDescription": "Only CloudFront origin-facing addresses reach the recording load balancer",
+        "VpcId": {
+          "Ref": "VpcId"
+        },
+        "SecurityGroupIngress": [
+          {
+            "IpProtocol": "tcp",
+            "FromPort": 80,
+            "ToPort": 80,
+            "SourcePrefixListId": {
+              "Ref": "CloudFrontPrefixListId"
+            }
+          }
+        ],
+        "Tags": [
+          {
+            "Key": "purpose",
+            "Value": "claude-learning-aws-video"
+          }
+        ]
+      }
+    },
+    "TaskSecurityGroup": {
+      "Type": "AWS::EC2::SecurityGroup",
+      "Properties": {
+        "GroupDescription": "Only the recording load balancer reaches the app port",
+        "VpcId": {
+          "Ref": "VpcId"
+        },
+        "SecurityGroupIngress": [
+          {
+            "IpProtocol": "tcp",
+            "FromPort": 8080,
+            "ToPort": 8080,
+            "SourceSecurityGroupId": {
+              "Ref": "LoadBalancerSecurityGroup"
+            }
+          }
+        ],
+        "Tags": [
+          {
+            "Key": "purpose",
+            "Value": "claude-learning-aws-video"
+          }
+        ]
+      }
+    },
+    "LoadBalancer": {
+      "Type": "AWS::ElasticLoadBalancingV2::LoadBalancer",
+      "Properties": {
+        "Scheme": "internet-facing",
+        "Type": "application",
+        "Subnets": {
+          "Ref": "SubnetIds"
+        },
+        "SecurityGroups": [
+          {
+            "Ref": "LoadBalancerSecurityGroup"
+          }
+        ],
+        "LoadBalancerAttributes": [
+          {
+            "Key": "idle_timeout.timeout_seconds",
+            "Value": "120"
+          }
+        ],
+        "Tags": [
+          {
+            "Key": "purpose",
+            "Value": "claude-learning-aws-video"
+          }
+        ]
+      }
+    },
+    "TargetGroup": {
+      "Type": "AWS::ElasticLoadBalancingV2::TargetGroup",
+      "Properties": {
+        "VpcId": {
+          "Ref": "VpcId"
+        },
+        "TargetType": "ip",
+        "Protocol": "HTTP",
+        "Port": 8080,
+        "HealthCheckPath": "/api/health",
+        "HealthCheckIntervalSeconds": 15,
+        "HealthyThresholdCount": 2,
+        "Matcher": {
+          "HttpCode": "200"
+        },
+        "TargetGroupAttributes": [
+          {
+            "Key": "deregistration_delay.timeout_seconds",
+            "Value": "15"
+          }
+        ],
+        "Tags": [
+          {
+            "Key": "purpose",
+            "Value": "claude-learning-aws-video"
+          }
+        ]
+      }
+    },
+    "Listener": {
+      "Type": "AWS::ElasticLoadBalancingV2::Listener",
+      "Properties": {
+        "LoadBalancerArn": {
+          "Ref": "LoadBalancer"
+        },
+        "Port": 80,
+        "Protocol": "HTTP",
+        "DefaultActions": [
+          {
+            "Type": "fixed-response",
+            "FixedResponseConfig": {
+              "StatusCode": "403",
+              "ContentType": "text/plain",
+              "MessageBody": "Use the recording HTTPS address."
+            }
+          }
+        ]
+      }
+    },
+    "OriginRule": {
+      "Type": "AWS::ElasticLoadBalancingV2::ListenerRule",
+      "Properties": {
+        "ListenerArn": {
+          "Ref": "Listener"
+        },
+        "Priority": 1,
+        "Conditions": [
+          {
+            "Field": "http-header",
+            "HttpHeaderConfig": {
+              "HttpHeaderName": "X-Learning-Origin",
+              "Values": [
+                {
+                  "Ref": "OriginToken"
+                }
+              ]
+            }
+          }
+        ],
+        "Actions": [
+          {
+            "Type": "forward",
+            "TargetGroupArn": {
+              "Ref": "TargetGroup"
+            }
+          }
+        ]
+      }
+    },
+    "Distribution": {
+      "Type": "AWS::CloudFront::Distribution",
+      "Properties": {
+        "DistributionConfig": {
+          "Enabled": true,
+          "Comment": "Temporary Claude learning AWS recording",
+          "HttpVersion": "http2",
+          "IPV6Enabled": true,
+          "PriceClass": "PriceClass_100",
+          "Origins": [
+            {
+              "Id": "recording-alb",
+              "DomainName": {
+                "Fn::GetAtt": [
+                  "LoadBalancer",
+                  "DNSName"
+                ]
+              },
+              "OriginCustomHeaders": [
+                {
+                  "HeaderName": "X-Learning-Origin",
+                  "HeaderValue": {
+                    "Ref": "OriginToken"
+                  }
+                }
+              ],
+              "CustomOriginConfig": {
+                "HTTPPort": 80,
+                "OriginProtocolPolicy": "http-only",
+                "OriginReadTimeout": 60
+              }
+            }
+          ],
+          "DefaultCacheBehavior": {
+            "TargetOriginId": "recording-alb",
+            "ViewerProtocolPolicy": "redirect-to-https",
+            "AllowedMethods": [
+              "GET",
+              "HEAD",
+              "OPTIONS",
+              "PUT",
+              "POST",
+              "PATCH",
+              "DELETE"
+            ],
+            "CachedMethods": [
+              "GET",
+              "HEAD"
+            ],
+            "CachePolicyId": "4135ea2d-6df8-44a3-9df3-4b5a84be39ad",
+            "OriginRequestPolicyId": "b689b0a8-53d0-40ab-baf2-68738e2966ac",
+            "Compress": true
+          },
+          "ViewerCertificate": {
+            "CloudFrontDefaultCertificate": true
+          },
+          "CustomErrorResponses": [
+            {
+              "ErrorCode": 403,
+              "ErrorCachingMinTTL": 0
+            },
+            {
+              "ErrorCode": 404,
+              "ErrorCachingMinTTL": 0
+            },
+            {
+              "ErrorCode": 500,
+              "ErrorCachingMinTTL": 0
+            },
+            {
+              "ErrorCode": 502,
+              "ErrorCachingMinTTL": 0
+            },
+            {
+              "ErrorCode": 503,
+              "ErrorCachingMinTTL": 0
+            },
+            {
+              "ErrorCode": 504,
+              "ErrorCachingMinTTL": 0
+            }
+          ]
+        },
+        "Tags": [
+          {
+            "Key": "purpose",
+            "Value": "claude-learning-aws-video"
+          }
+        ]
+      }
+    },
+    "TaskRole": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Version": "2012-10-17",
+          "Statement": [
+            {
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "ecs-tasks.amazonaws.com"
+              },
+              "Action": "sts:AssumeRole"
+            }
+          ]
+        },
+        "Tags": [
+          {
+            "Key": "purpose",
+            "Value": "claude-learning-aws-video"
+          }
+        ]
+      }
+    },
+    "ExecutionRole": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Version": "2012-10-17",
+          "Statement": [
+            {
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "ecs-tasks.amazonaws.com"
+              },
+              "Action": "sts:AssumeRole"
+            }
+          ]
+        },
+        "Tags": [
+          {
+            "Key": "purpose",
+            "Value": "claude-learning-aws-video"
+          }
+        ],
+        "Policies": [
+          {
+            "PolicyName": "pull-one-image-and-write-app-logs",
+            "PolicyDocument": {
+              "Version": "2012-10-17",
+              "Statement": [
+                {
+                  "Effect": "Allow",
+                  "Action": [
+                    "ecr:GetAuthorizationToken"
+                  ],
+                  "Resource": "*"
+                },
+                {
+                  "Effect": "Allow",
+                  "Action": [
+                    "ecr:BatchCheckLayerAvailability",
+                    "ecr:GetDownloadUrlForLayer",
+                    "ecr:BatchGetImage"
+                  ],
+                  "Resource": [
+                    {
+                      "Ref": "RepositoryArn"
+                    }
+                  ]
+                },
+                {
+                  "Effect": "Allow",
+                  "Action": [
+                    "logs:CreateLogStream",
+                    "logs:PutLogEvents"
+                  ],
+                  "Resource": [
+                    {
+                      "Fn::GetAtt": [
+                        "AppLogs",
+                        "Arn"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    "TaskDefinition": {
+      "Type": "AWS::ECS::TaskDefinition",
+      "Properties": {
+        "RequiresCompatibilities": [
+          "FARGATE"
+        ],
+        "NetworkMode": "awsvpc",
+        "Cpu": "1024",
+        "Memory": "2048",
+        "RuntimePlatform": {
+          "CpuArchitecture": "X86_64",
+          "OperatingSystemFamily": "LINUX"
+        },
+        "ExecutionRoleArn": {
+          "Fn::GetAtt": [
+            "ExecutionRole",
+            "Arn"
+          ]
+        },
+        "TaskRoleArn": {
+          "Fn::GetAtt": [
+            "TaskRole",
+            "Arn"
+          ]
+        },
+        "ContainerDefinitions": [
+          {
+            "Name": "platform",
+            "Image": {
+              "Ref": "ImageUri"
+            },
+            "Essential": true,
+            "Command": [
+              "node",
+              "azure/recording-gateway.mjs"
+            ],
+            "User": "node",
+            "PortMappings": [
+              {
+                "ContainerPort": 8080,
+                "Protocol": "tcp"
+              }
+            ],
+            "Environment": [
+              {
+                "Name": "LEARNING_RECORDING_GATEWAY",
+                "Value": "true"
+              },
+              {
+                "Name": "LEARNING_ACCESS_SHA256",
+                "Value": {
+                  "Ref": "CredentialDigest"
+                }
+              },
+              {
+                "Name": "LEARNING_PUBLIC_ORIGIN",
+                "Value": {
+                  "Fn::Sub": "https://${Distribution.DomainName}"
+                }
+              },
+              {
+                "Name": "ANTHROPIC_API_KEY",
+                "Value": ""
+              },
+              {
+                "Name": "AI_TUTOR_LIVE_ENABLED",
+                "Value": "false"
+              },
+              {
+                "Name": "MANAGED_LIVE_ENABLED",
+                "Value": "false"
+              },
+              {
+                "Name": "MILESTONE_LIVE_ENABLED",
+                "Value": "false"
+              },
+              {
+                "Name": "INWORLD_NARRATION_ENABLED",
+                "Value": "0"
+              }
+            ],
+            "HealthCheck": {
+              "Command": [
+                "CMD-SHELL",
+                "node -e \"fetch('http://127.0.0.1:8080/api/health').then(r=>{if(!r.ok)process.exit(1)}).catch(()=>process.exit(1))\""
+              ],
+              "Interval": 15,
+              "Timeout": 5,
+              "Retries": 5,
+              "StartPeriod": 60
+            },
+            "LogConfiguration": {
+              "LogDriver": "awslogs",
+              "Options": {
+                "awslogs-group": {
+                  "Ref": "AppLogs"
+                },
+                "awslogs-region": {
+                  "Ref": "AWS::Region"
+                },
+                "awslogs-stream-prefix": "platform"
+              }
+            }
+          }
+        ],
+        "Tags": [
+          {
+            "Key": "purpose",
+            "Value": "claude-learning-aws-video"
+          }
+        ]
+      }
+    },
+    "Service": {
+      "Type": "AWS::ECS::Service",
+      "Properties": {
+        "Cluster": {
+          "Ref": "Cluster"
+        },
+        "TaskDefinition": {
+          "Ref": "TaskDefinition"
+        },
+        "DesiredCount": 1,
+        "LaunchType": "FARGATE",
+        "PlatformVersion": "1.4.0",
+        "HealthCheckGracePeriodSeconds": 180,
+        "DeploymentConfiguration": {
+          "DeploymentCircuitBreaker": {
+            "Enable": true,
+            "Rollback": true
+          },
+          "MinimumHealthyPercent": 0,
+          "MaximumPercent": 100
+        },
+        "NetworkConfiguration": {
+          "AwsvpcConfiguration": {
+            "AssignPublicIp": "ENABLED",
+            "Subnets": {
+              "Ref": "SubnetIds"
+            },
+            "SecurityGroups": [
+              {
+                "Ref": "TaskSecurityGroup"
+              }
+            ]
+          }
+        },
+        "LoadBalancers": [
+          {
+            "ContainerName": "platform",
+            "ContainerPort": 8080,
+            "TargetGroupArn": {
+              "Ref": "TargetGroup"
+            }
+          }
+        ],
+        "EnableECSManagedTags": true,
+        "PropagateTags": "SERVICE",
+        "Tags": [
+          {
+            "Key": "purpose",
+            "Value": "claude-learning-aws-video"
+          }
+        ]
+      },
+      "DependsOn": [
+        "OriginRule"
+      ]
+    }
+  },
+  "Outputs": {
+    "Origin": {
+      "Value": {
+        "Fn::Sub": "https://${Distribution.DomainName}"
+      }
+    },
+    "ClusterArn": {
+      "Value": {
+        "Fn::GetAtt": [
+          "Cluster",
+          "Arn"
+        ]
+      }
+    },
+    "ServiceName": {
+      "Value": {
+        "Fn::GetAtt": [
+          "Service",
+          "Name"
+        ]
+      }
+    },
+    "TargetGroupArn": {
+      "Value": {
+        "Ref": "TargetGroup"
+      }
+    },
+    "DistributionId": {
+      "Value": {
+        "Ref": "Distribution"
+      }
+    },
+    "AppLogGroup": {
+      "Value": {
+        "Ref": "AppLogs"
+      }
+    }
+  }
+}

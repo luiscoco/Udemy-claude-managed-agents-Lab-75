@@ -1,0 +1,9 @@
+{
+  "steps": [
+    {"name": "python:3.12-slim", "entrypoint": "python3", "args": ["gcp/verify-source.py"]},
+    {"name": "gcr.io/cloud-builders/docker", "args": ["build", "-t", "${_IMAGE_URI}", "."]}
+  ],
+  "images": ["${_IMAGE_URI}"],
+  "timeout": "1800s",
+  "options": {"logging": "GCS_ONLY"}
+}

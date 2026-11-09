@@ -24,7 +24,7 @@ test('guide selection isolates historical lessons, exact numeric IDs, fences and
 test('authored guide renders headings, lists, safe links, tables and fenced code', () => {
   const html = renderToStaticMarkup(createElement(LessonGuide, { markdown: testGuide, lessonId: 0 }));
   for (const tag of ['h2', 'h3', 'ol', 'ul', 'table', 'th', 'pre', 'code', 'a']) assert.match(html, new RegExp(`<${tag}[ >]`), tag);
-  assert.match(html, /const request/);
+  assert.match(html.replace(/<[^>]+>/g, ''), /const request = \{\};/);
   const unsafe = renderToStaticMarkup(createElement(LessonGuide, { markdown: '# Lab 0\n[x](javascript:alert)\n<script>bad</script>', lessonId: 0 }));
   assert.doesNotMatch(unsafe, /href="javascript|<script>/);
 });

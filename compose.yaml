@@ -1,0 +1,34 @@
+name: claude-learning-platform
+services:
+  platform:
+    image: claude-learning-platform:local
+    build:
+      context: .
+      dockerfile: Dockerfile
+    init: true
+    ports:
+      - "127.0.0.1:${LEARNING_DOCKER_PORT:-8080}:8080"
+    environment:
+      # Runtime-only settings. No private .env is copied into the image.
+      ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY:-}
+      AI_TUTOR_LIVE_ENABLED: ${AI_TUTOR_LIVE_ENABLED:-false}
+      CLAUDE_MANAGED_AGENT_ID: ${CLAUDE_MANAGED_AGENT_ID:-}
+      CLAUDE_MANAGED_ENVIRONMENT_ID: ${CLAUDE_MANAGED_ENVIRONMENT_ID:-}
+      MANAGED_LIVE_ENABLED: ${MANAGED_LIVE_ENABLED:-false}
+      MILESTONE_LIVE_ENABLED: ${MILESTONE_LIVE_ENABLED:-false}
+      MANAGED_BUDGET_CENTS: ${MANAGED_BUDGET_CENTS:-50}
+      MANAGED_DEADLINE_MS: ${MANAGED_DEADLINE_MS:-120000}
+      MANAGED_MAX_CONCURRENT: ${MANAGED_MAX_CONCURRENT:-2}
+    volumes:
+      - platform-artifacts:/app/artifacts
+      - platform-sessions:/app/sessions
+      - platform-workspaces:/app/workspaces
+      - platform-logs:/app/logs
+    stop_grace_period: 45s
+    restart: unless-stopped
+
+volumes:
+  platform-artifacts:
+  platform-sessions:
+  platform-workspaces:
+  platform-logs:

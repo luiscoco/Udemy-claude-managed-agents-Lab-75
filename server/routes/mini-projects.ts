@@ -5,6 +5,7 @@ import { Router, json } from 'express';
 import { z } from 'zod';
 import { miniProjects } from '../../shared/mini-projects.js';
 import { MiniProjectManager } from '../lib/mini-project-manager.js';
+import { configuredLearningOriginAllowed } from '../lib/learning-origin.js';
 
 const projectRoot = fileURLToPath(new URL('../../mini-projects/', import.meta.url));
 async function sourceFiles(): Promise<string[]> {
@@ -29,7 +30,8 @@ export function createMiniProjectsRouter(manager: MiniProjectManager) {
   const router = Router();
   router.use((request, response, next) => {
     const local = (value: string) => { try { const url = new URL(value); return url.protocol === 'http:' && ['127.0.0.1', 'localhost', '[::1]'].includes(url.hostname); } catch { return false; } };
-    if (!local(`http://${request.headers.host ?? ''}`) || request.headers.origin && !local(request.headers.origin)) {
+    const localRequest = local(`http://${request.headers.host ?? ''}`) && (!request.headers.origin || local(request.headers.origin));
+    if (!localRequest && !configuredLearningOriginAllowed(request.headers)) {
       response.status(403).json({ message: 'Milestone controls are available only from the local course app.' }); return;
     }
     response.setHeader('Cache-Control', 'no-store'); next();

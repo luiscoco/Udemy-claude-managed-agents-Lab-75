@@ -1,0 +1,29 @@
+00:00 Deploying the Claude Managed Agents Learning Platform to AWS
+00:26 Understand the AWS deployment
+01:16 Prepare the account, region and recording budget
+02:14 1 · Confirm identity and select Stockholm
+02:46 2 · Upload and inspect the reviewed source
+03:19 3 · Reuse the application Dockerfile
+03:41 4 · Build the image inside AWS
+04:01 5 · Create build resources, then start the image build
+04:36 6 · Inspect the successful image build
+04:56 7 · Separate build and runtime permissions
+05:18 8 · Limit access to the application task
+05:39 9 · Configure the browser HTTPS endpoint
+06:03 10 · Keep the demonstration offline
+06:26 11 · Use one small recording task
+06:47 12 · Deploy the successful image
+07:20 13 · Check the actual CloudFormation application
+07:40 14 · Confirm the running task and healthy target
+08:01 15 · Verify protected HTTPS behaviour
+08:21 16 · Open the AWS-hosted learning platform
+08:41 17 · Check the backend from the browser
+09:00 18 · Complete the normal offline exercise
+09:20 19 · Inspect an interrupted turn
+09:39 20 · Read the deployed TypeScript source
+09:55 21 · Use the prepared AI Tutor
+10:20 22 · Save and reload a browser note
+10:39 Understand storage and production limits
+11:31 Troubleshoot the failed layer
+12:23 23 · Follow the recording retention plan
+13:00 The verified learning platform running on AWS

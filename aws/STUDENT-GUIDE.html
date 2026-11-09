@@ -1,0 +1,187 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><title>AWS Deployment Student Guide</title><style>body{font:15px/1.55 Arial,sans-serif;color:#142638;max-width:980px;margin:35px auto;padding:0 25px}h1{font-size:29px;color:#10385c}h2{font-size:21px;color:#10385c;border-bottom:1px solid #ccd8e2;padding-bottom:6px;margin-top:30px}pre{background:#eff4f8;border:1px solid #cbd7e1;padding:13px;white-space:pre-wrap;overflow-wrap:anywhere;font:12px/1.5 Consolas,monospace}code{font-family:Consolas,monospace}li{margin:5px 0}a{color:#145d91;overflow-wrap:anywhere}@media print{body{max-width:none;margin:0;padding:0;font-size:10pt}h1{font-size:22pt}h2{font-size:15pt;break-after:avoid}pre{font-size:8pt;break-inside:avoid}p,li{orphans:3;widows:3}a{color:inherit;text-decoration:none}}</style><main><h1>Deploying the Claude Managed Agents Learning Platform to AWS</h1>
+<h2>Start here</h2>
+<p>This kit follows the 13:22 Udemy video. Build the included application in AWS and open your own protected deployment. Use AWS CloudShell in your browser; you do not need to install AWS CLI or Docker on your computer.</p>
+<p>The kit includes application source, existing course images and audio, package-lock.json, the Dockerfile, deployment templates and helper scripts. CodeBuild installs dependencies, so access to the Node package registry and container base image is required. The application source matches the successful recording. The student helper adds an explicit account configuration step before the video commands. Never copy the instructor&#x27;s account ID or application URL.</p>
+<h2>1. Prerequisites and costs</h2>
+<ul>
+<li>Use your own AWS learning account or an approved training sandbox.</li>
+<li>Check IAM-REQUIREMENTS.md with your account administrator.</li>
+<li>Select Europe (Stockholm), region eu-north-1.</li>
+<li>Have an existing default VPC, usable default subnets in at least two zones, and active internet-gateway routes. Preflight checks these without changing them.</li>
+<li>Have Fargate On-Demand quota for a one-vCPU, 2-GiB task. Other workloads can consume your quota; the value shown in the video is only an example.</li>
+<li>Choose your own spending estimate and decide when to delete the deployment.</li>
+</ul>
+<p>The video used €10. That is not a price guarantee or hard spending cap. Review current Fargate, CodeBuild, ECR, S3, load balancer, public IPv4, logging and data transfer charges. Resources can keep billing until deletion completes.</p>
+<p>CloudShell documents 1 GB of persistent home storage per region. Check space:</p>
+<pre><code>df -h &quot;$HOME&quot;</code></pre>
+<p>Leave room for this ZIP and small helper/state files. Do not extract the whole application into CloudShell; CodeBuild expands it in AWS.</p>
+<h2>2. Open CloudShell and check identity</h2>
+<p>Sign in to the AWS console, select Stockholm and open CloudShell. Complete MFA yourself. Keep passwords and tokens outside source files and screenshots.</p>
+<pre><code>export AWS_REGION=eu-north-1
+export AWS_DEFAULT_REGION=eu-north-1
+export AWS_PAGER=&quot;&quot;
+aws sts get-caller-identity</code></pre>
+<p>Inspect Account and Arn. Authentication does not prove every creation permission.</p>
+<h2>3. Upload the ZIP and extract only the helpers</h2>
+<p>Choose CloudShell Actions → Upload file. Upload the unchanged file named Claude-Managed-Agents-AWS-Student-Kit.zip. Then run:</p>
+<pre><code>mkdir -p ~/claude-aws
+unzip -o ~/Claude-Managed-Agents-AWS-Student-Kit.zip &#x27;aws/*&#x27; -d ~/claude-aws
+cd ~/claude-aws</code></pre>
+<p>Keep the full ZIP in your home directory; do not expand the course media there. If you rename the upload, adjust every --source-zip path accordingly.</p>
+<h2>4. Configure your own account</h2>
+<p>This is the additional student step before the video&#x27;s preflight command. Enter your own 12-digit account ID from get-caller-identity:</p>
+<pre><code>read -r -p &quot;Your 12-digit AWS account ID: &quot; STUDENT_AWS_ACCOUNT_ID
+python3 aws/cloudshell-deploy.py configure --account-id &quot;$STUDENT_AWS_ACCOUNT_ID&quot;</code></pre>
+<p>Expected output: your account ID, eu-north-1 and awsResourcesCreated: false. The helper saves aws/deployment-config.json locally and rejects a different signed-in account on later commands. Do not change this file to switch accounts after starting a deployment. No instructor credentials are included.</p>
+<h2>5. Run preflight</h2>
+<pre><code>python3 aws/cloudshell-deploy.py preflight</code></pre>
+<p>Expected: templateValidation: passed. The helper validates both templates, the default network/routes, subnets, CloudFront prefix list and Fargate quota. creationPermissionsVerified remains false because read checks cannot prove permission to create everything. Resolve exact errors before proceeding.</p>
+<h2>6. Create the build stack</h2>
+<p>Enter a positive number in euros, with a decimal point if necessary:</p>
+<pre><code>read -r -p &quot;Your deployment budget estimate in EUR: &quot; DEMO_BUDGET_EUR
+python3 aws/cloudshell-deploy.py build \
+  --source-zip ~/Claude-Managed-Agents-AWS-Student-Kit.zip \
+  --approved-budget-eur &quot;$DEMO_BUDGET_EUR&quot;
+python3 aws/cloudshell-deploy.py status</code></pre>
+<p>The first invocation creates the dedicated build infrastructure. Poll status until claude-learning-aws-video-build shows CREATE_COMPLETE. FAILED or ROLLBACK requires diagnosis. This budget argument records your estimate; it creates no AWS Budget, billing alert, automatic shutdown or spending cap.</p>
+<h2>7. Start the image build once</h2>
+<p>When the build stack is ready, run the same build command once more:</p>
+<pre><code>python3 aws/cloudshell-deploy.py build \
+  --source-zip ~/Claude-Managed-Agents-AWS-Student-Kit.zip \
+  --approved-budget-eur &quot;$DEMO_BUDGET_EUR&quot;</code></pre>
+<p>You should receive a buildId. The ZIP is uploaded to private S3; CodeBuild checks the source manifest, builds the image and pushes it to private ECR. Poll only:</p>
+<pre><code>python3 aws/cloudshell-deploy.py status</code></pre>
+<p>Wait for imageBuild.buildStatus: SUCCEEDED. BUILD and POST_BUILD are intermediate phases. Do not repeat build to poll. The cloud build continues if CloudShell disconnects; use its saved ID after returning to the same helper folder.</p>
+<h2>8. Deploy the successful image</h2>
+<pre><code>python3 aws/cloudshell-deploy.py deploy --approved-budget-eur &quot;$DEMO_BUDGET_EUR&quot;
+python3 aws/cloudshell-deploy.py status</code></pre>
+<p>The helper resolves the immutable image tag to its ECR digest and creates the separate app stack. Poll until all these conditions appear:</p>
+<ul>
+<li>App stack: CREATE_COMPLETE.</li>
+<li>Service: ACTIVE; desiredCount 1, runningCount 1, pendingCount 0.</li>
+<li>Load balancer target: healthy.</li>
+<li>cloudProvisioningComplete: true.</li>
+</ul>
+<p>Your own CloudFront Origin is returned. Creation can take several minutes. Use status to poll; do not repeat deploy.</p>
+<h2>9. Verify HTTPS and access protection</h2>
+<pre><code>python3 aws/cloudshell-deploy.py verify</code></pre>
+<p>Expected results:</p>
+<ul>
+<li>anonymous-app-denied: 401.</li>
+<li>health-ready: 200, readiness ready.</li>
+<li>authenticated-home: 200.</li>
+<li>foreign-origin-denied: 403.</li>
+<li>tutor-status: 200, live tutor unavailable.</li>
+</ul>
+<p>httpVerification.complete should be true. These checks make no paid model calls. The evidence is saved in aws-state/evidence.json. A later status refreshes that file; run verify again to export current HTTP checks. Browser workflows remain a separate check.</p>
+<h2>10. Open your own application privately</h2>
+<p>Run this command away from any screen recording:</p>
+<pre><code>python3 aws/cloudshell-deploy.py access</code></pre>
+<p>Open the returned origin and enter the generated username/password. They are unique to your deployment. Keep aws-state/recording-access.json private. Never upload it to Udemy or Git, and retain it until cleanup is finished.</p>
+<p>CloudFront supplies browser HTTPS without your own domain. Its ALB origin connection uses HTTP. A private origin header and CloudFront prefix list gate the load balancer. This is not an end-to-end TLS or production student identity design. Do not open the task port to the public internet to bypass an error.</p>
+<h2>11. Repeat the video exercises</h2>
+<ul>
+<li>Open Home and click Check backend; inspect the ready response.</li>
+<li>Open Lab 01 → Run the exercise; run the normal offline fixture and confirm a completed turn outcome.</li>
+<li>Choose Stream ends early; confirm an incomplete outcome.</li>
+<li>Open TypeScript source; confirm the deployed teaching source is readable.</li>
+<li>Open AI Tutor; request prepared guidance. Confirm the answer is marked Prepared and live mode is disabled.</li>
+<li>Save a notebook note, reload, reopen the notebook and confirm the note remains.</li>
+</ul>
+<p>Notebook reload proves browser-local state for that profile/hostname. It does not prove durable server storage. Task files and the local database are ephemeral in this template. Separate milestone servers and host integrations need their own setup. Paid provider execution is disabled by default.</p>
+<h2>12. Resume after a disconnect</h2>
+<pre><code>cd ~/claude-aws
+python3 aws/cloudshell-deploy.py status</code></pre>
+<p>Keep aws/deployment-config.json, aws-state and the uploaded ZIP. Do not delete state or extract another helper folder to force a retry. A new terminal loses shell variables; restore the saved budget if needed:</p>
+<pre><code>DEMO_BUDGET_EUR=$(python3 -c &#x27;import json; print(json.load(open(&quot;aws-state/budget.json&quot;))[&quot;estimatedBudgetEuros&quot;])&#x27;)</code></pre>
+<p>If the first build failed before saving a budget, re-enter your estimate. Read TROUBLESHOOTING.md before retrying failed AWS operations.</p>
+<h2>13. Clean up when finished</h2>
+<p>Save any notes you need first. Cleanup permanently removes the dedicated task files, private images, source objects and logs. Existing VPC/subnets/routes are preserved. Enter the same account ID you configured:</p>
+<pre><code>read -r -p &quot;Account ID whose lesson resources you want to delete: &quot; STUDENT_AWS_ACCOUNT_ID
+python3 aws/cloudshell-deploy.py cleanup \
+  --confirm-delete-account &quot;$STUDENT_AWS_ACCOUNT_ID&quot; \
+  --lesson-complete
+python3 aws/cloudshell-deploy.py status</code></pre>
+<p>This requests app-stack deletion. Wait until that stack is ABSENT. Then repeat:</p>
+<pre><code>python3 aws/cloudshell-deploy.py cleanup \
+  --confirm-delete-account &quot;$STUDENT_AWS_ACCOUNT_ID&quot; \
+  --lesson-complete
+python3 aws/cloudshell-deploy.py status</code></pre>
+<p>Wait for BOTH dedicated stacks to show ABSENT. CloudFront deletion can take time. Stopping one task is insufficient: ECS can replace it and the load balancer remains provisioned. Inspect deletion failures rather than assuming billing has stopped. Keep the helper&#x27;s original configuration/state until deletion completes. The video&#x27;s --video-verified flag remains an alias for --lesson-complete.</p>
+<h2>Package contents</h2>
+<ul>
+<li>Dockerfile, .dockerignore, package.json and package-lock.json: build inputs.</li>
+<li>src, shared, server, fixtures and supporting files: application/lesson source.</li>
+<li>public: existing course images, infographics and audio.</li>
+<li>aws/build.template.json: private S3/ECR, CodeBuild and build logs.</li>
+<li>aws/app.template.json: CloudFront, ALB, ECS, task roles and logs.</li>
+<li>aws/cloudshell-deploy.py: account-aware deployment helper.</li>
+<li>aws/verify-source.py and aws/source-manifest.json: source checksums.</li>
+<li>IAM-REQUIREMENTS.md, TROUBLESHOOTING.md and VIDEO-CHAPTERS.txt: support material.</li>
+</ul>
+<p>Installed dependencies, AWS CLI, instructor credentials, deployment state, recording evidence, authoring API keys and the MP4 are excluded. CodeBuild installs application dependencies. Watch the video in Udemy; this ZIP is its student resource.</p>
+<h2>Official references</h2>
+<ul>
+<li>CloudShell authentication: <a href="https://docs.aws.amazon.com/cloudshell/latest/userguide/working-with-aws-cli.html">https://docs.aws.amazon.com/cloudshell/latest/userguide/working-with-aws-cli.html</a></li>
+<li>CloudShell limits: <a href="https://docs.aws.amazon.com/cloudshell/latest/userguide/limits.html">https://docs.aws.amazon.com/cloudshell/latest/userguide/limits.html</a></li>
+<li>CodeBuild Docker: <a href="https://docs.aws.amazon.com/codebuild/latest/userguide/sample-docker.html">https://docs.aws.amazon.com/codebuild/latest/userguide/sample-docker.html</a></li>
+<li>ECS networking: <a href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-networking-awsvpc.html">https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-networking-awsvpc.html</a></li>
+<li>CloudFront/ALB access: <a href="https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/restrict-access-to-load-balancer.html">https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/restrict-access-to-load-balancer.html</a></li>
+<li>Fargate storage: <a href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/fargate-task-storage.html">https://docs.aws.amazon.com/AmazonECS/latest/developerguide/fargate-task-storage.html</a></li>
+</ul>
+<hr>
+<h1>Permissions and account prerequisites</h1>
+<p>Ask your account administrator for a suitable approved training role or permission set. Organization policies, permission boundaries, region restrictions and quotas can still prevent provisioning. Do not use instructor credentials or grant AdministratorAccess simply to bypass an error.</p>
+<p>The CloudShell identity needs permission for the helper&#x27;s API calls and the resources CloudFormation creates/deletes. The templates are the authoritative inventory. This checklist is not a drop-in least-privilege IAM policy.</p>
+<h2>Operator permission areas</h2>
+<ul>
+<li>STS: get caller identity.</li>
+<li>EC2/VPC: describe VPCs, subnets, route tables and managed prefix lists; manage the dedicated security groups/rules and their tags. Existing networking is not changed.</li>
+<li>Service Quotas: read the Fargate On-Demand vCPU quota.</li>
+<li>CloudFormation: validate, create, describe and delete the two stacks, inspect events and manage their purpose tags.</li>
+<li>S3: create/configure/tag/delete the dedicated bucket/policy, encryption, ownership and public-access block; upload/list/delete lesson source objects.</li>
+<li>ECR: create/read/tag/delete the repository and its images; describe image digests.</li>
+<li>CodeBuild: manage the dedicated project, start the build and read its status.</li>
+<li>CloudWatch Logs: manage the dedicated log groups/retention and read diagnostic logs.</li>
+<li>IAM: create/read/tag/delete service roles and inline policies; pass only the appropriate CodeBuild and ECS roles to those services. First use can require ECS or Elastic Load Balancing service-linked role creation.</li>
+<li>ECS: manage the dedicated cluster, task definition, service and deployment settings.</li>
+<li>Elastic Load Balancing v2: manage the ALB, target group, listener, rule, attributes/tags and inspect target health.</li>
+<li>CloudFront: create/read/update/tag/disable/delete the dedicated distribution.</li>
+</ul>
+<p>CloudFront is global. A region-only organization policy may need a reviewed exception. CAPABILITY_IAM acknowledges role creation; it grants no missing permissions.</p>
+<h2>Created service roles</h2>
+<p>CodeBuild reads only the source bucket&#x27;s source prefix, writes its build logs, and publishes to the dedicated repository. The execution role pulls this ECR image and writes application logs. ECR authorization-token retrieval requires its separate account-level action. The application task role has no AWS access policies. No AWS access key or provider API key belongs in the image.</p>
+<h2>Network and quota prerequisites</h2>
+<p>Use eu-north-1 with an existing default VPC, usable default subnets in at least two zones, active internet-gateway routes and quota for the one-vCPU task. Other workloads can consume that quota. A sandbox that blocks IAM roles, CodeBuild, CloudFront or public ALBs cannot run this exact architecture unchanged. Ask its owner rather than removing access protections.</p>
+<hr>
+<h1>Troubleshooting</h1>
+<h2>Account configuration</h2>
+<p>Configure your own matching account before preflight. If deployment state already exists, keep its original account configuration. Changing a folder&#x27;s account ID does not move AWS resources.</p>
+<h2>Upload or extraction</h2>
+<p>Check <code>df -h &quot;$HOME&quot;</code> and <code>ls -lh ~/*.zip</code>. Keep the source ZIP and extract only aws/*. Do not expand all media in CloudShell. If the filename acquired a suffix such as (1), adjust the source path or rename the upload before starting.</p>
+<h2>Budget or shell variable errors</h2>
+<p>Use a positive number with a decimal point. Shell variables disappear in a new terminal; restore the saved budget as shown in the guide. No estimate enforces a cap.</p>
+<h2>AccessDenied / UnauthorizedOperation</h2>
+<p>Report the exact denied action/resource to your training administrator. Use the templates and IAM-REQUIREMENTS.md as context. Preflight checks do not prove all creation permissions. Do not share tokens, access JSON, CloudFront configuration or listener rules: the latter can contain the private origin header.</p>
+<h2>Missing default network, routes or quota</h2>
+<p>Have the administrator prepare a suitable course account/network or deliberately adapt/review the templates. The helper does not create a default VPC. Fargate quota is regional; the recorded quota is not a promise about a new account.</p>
+<h2>Build resources still creating</h2>
+<p>Use status until the build stack reaches CREATE_COMPLETE. The first build call creates infrastructure; the second starts the image build. Avoid repeated creates.</p>
+<h2>Build running / CloudShell disconnected</h2>
+<p>Use status with the same saved buildId. BUILD and POST_BUILD are intermediate phases. Wait for SUCCEEDED before deploy. The cloud build continues after a CloudShell disconnect; return to the same helper folder and keep its state.</p>
+<h2>Build failed</h2>
+<p>Follow the build log deepLink from status. Inspect source download, manifest verification, npm installation, application build and ECR push separately. Do not modify the ZIP after checksums were generated. Additional build calls are blocked after a buildId is saved. Do not delete state to force a retry. After diagnosis, an experienced operator may explicitly retry the existing CodeBuild build with its project/source settings, or remove this dedicated deployment and start a reviewed clean attempt. Retrying is not polling.</p>
+<h2>App failure / rollback</h2>
+<p>Inspect the first failure in the dedicated CloudFormation stack Events tab, then ECS service events and the app log group if relevant. Check permissions, quotas, image digest/pull role, outbound network path and port 8080. The gateway starts its backend on loopback port 8081. The helper does not overwrite an existing app stack. Do not relax security groups to bypass a startup error.</p>
+<h2>Browser 401 / 403 / 502</h2>
+<p>Anonymous 401 is expected. Run access privately and use its generated login at your own returned CloudFront HTTPS origin. Foreign Origin requests are deliberately denied. A 502 can indicate startup/backend failure: inspect target health/logs. Do not substitute a task IP or the ALB URL. The app password is not your AWS login.</p>
+<h2>HTTP checks disappear from evidence</h2>
+<p>Status refreshes evidence.json. Run verify again for current HTTP results. Neither command marks the manual browser exercises complete.</p>
+<h2>Notebook state</h2>
+<p>Use the same browser profile and hostname. Clearing site data or changing profiles changes browser-local notes. The template does not configure durable server data, database backups or a production student identity system.</p>
+<h2>Cleanup pending / failed</h2>
+<p>CloudFront deletion takes time. Poll until the app stack is ABSENT, then run cleanup again for the build stack. Resolve the exact failed deletion resource; do not assume a submitted delete stops all charges. Unexpected source-bucket objects intentionally block automatic removal. Preserve unrelated resources and keep your original helper/state until both stacks are ABSENT.</p>
+<h2>Offline helper checks</h2>
+<p>After extracting the full kit on a development machine, run:</p>
+<pre><code>python scripts/test-aws-deployment.py</code></pre>
+<p>These checks mock AWS. They verify account configuration and guards, state preservation, duplicate-build prevention, budget validation, cleanup guards and credential redaction. They create no AWS resources.</p></main></html>

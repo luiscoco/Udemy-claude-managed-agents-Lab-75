@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
+import { request as httpRequest } from 'node:http';
 import express from 'express';
 import { randomUUID } from 'node:crypto';
 import { mkdtemp, mkdir, writeFile, rm } from 'node:fs/promises';
@@ -49,6 +50,22 @@ test('all 75 labs have six grounded prepared answers without model or catalog ca
     assert.equal((await send(base, '/1', { ...question, mode: 'prepared', arbitraryPath: '.env' })).status, 400);
     assert.equal((await send(base, '/1', question)).status, 403);
     assert.equal((await (await fetch(base + '/status')).json()).liveAvailable, false);
+  });
+});
+
+test('prepared guidance accepts the configured HTTPS host and still rejects foreign origins', async () => {
+  const publicOrigin = 'https://course.example.azurecontainerapps.io';
+  await withRouter({ env: { LEARNING_PUBLIC_ORIGIN: publicOrigin } }, async base => {
+    const sendCloud = (requestOrigin: string) => new Promise<{ status: number; body: string }>((resolve, reject) => {
+      const request = httpRequest(base + '/1', { method: 'POST', headers: { ...headers(), Host: new URL(publicOrigin).host, Origin: requestOrigin } }, response => {
+        let body = ''; response.setEncoding('utf8'); response.on('data', chunk => body += chunk);
+        response.on('end', () => resolve({ status: response.statusCode!, body }));
+      });
+      request.on('error', reject); request.end(JSON.stringify({ mode: 'prepared', intent: 'explain', question: 'Explain this exercise.' }));
+    });
+    const response = await sendCloud(publicOrigin); assert.equal(response.status, 200);
+    const answer = JSON.parse(response.body); assert.equal(answer.mode, 'prepared'); assert.equal(answer.modelCalls, 0);
+    assert.equal((await sendCloud('https://attacker.example')).status, 403);
   });
 });
 

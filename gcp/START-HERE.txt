@@ -1,0 +1,22 @@
+GOOGLE CLOUD DEPLOYMENT - CLAUDE MANAGED AGENTS LEARNING PLATFORM
+
+Read gcp/STUDENT-GUIDE.pdf or gcp/STUDENT-GUIDE.html first.
+The Markdown instructions are gcp/README.md.
+
+This ZIP contains the full application source, course media, Dockerfile,
+Cloud Build configuration, Cloud Shell helper, guide and source checksums.
+Dependencies are installed remotely during Cloud Build.
+
+Use your OWN Google Cloud project with active billing and approved permissions.
+Use the configure command before preparing resources. No local CLI or Docker
+installation is needed. Upload this ZIP as claude-learning-gcp.zip to browser
+Cloud Shell, extract only gcp/*, and follow the guide step by step.
+
+A budget estimate is not a hard spending cap. Deployment is billable.
+Keep the deployment short; verify all checks; clean up your tutorial resources.
+Container files are ephemeral. The recording gateway is temporary access,
+not a production student identity system. Paid model calls are disabled.
+
+Instructor credentials, recording access files, evidence, local state,
+installed dependencies, narration credentials and the final video are excluded.
+Do not put your private configuration or access files into a source ZIP.

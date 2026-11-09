@@ -1,0 +1,10 @@
+[
+  {
+    "path": "mini-projects/study-coach/.gitignore",
+    "content": "node_modules/\ndist/\n.env\n.data/\n.cache/\n"
+  },
+  {
+    "path": "mini-projects/agent-evaluation-studio/.gitignore",
+    "content": "node_modules/\ndist/\n.env\n.env.local\n"
+  }
+]

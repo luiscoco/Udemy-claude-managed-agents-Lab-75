@@ -1,0 +1,120 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: learning-platform
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: platform-config
+  namespace: learning-platform
+data:
+  NODE_ENV: production
+  LEARNING_HOST: 0.0.0.0
+  LEARNING_API_PORT: "8080"
+  LEARNING_SERVE_STATIC: "true"
+  AI_TUTOR_LIVE_ENABLED: "false"
+  MANAGED_LIVE_ENABLED: "false"
+  MILESTONE_LIVE_ENABLED: "false"
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: platform-data
+  namespace: learning-platform
+spec:
+  accessModes: [ReadWriteOnce]
+  resources:
+    requests:
+      storage: 2Gi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: platform
+  namespace: learning-platform
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: learning-platform
+  template:
+    metadata:
+      labels:
+        app: learning-platform
+    spec:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+      containers:
+        - name: platform
+          image: claude-learning-platform:kubernetes
+          imagePullPolicy: Never
+          ports:
+            - name: http
+              containerPort: 8080
+          envFrom:
+            - configMapRef:
+                name: platform-config
+          resources:
+            requests:
+              cpu: 250m
+              memory: 512Mi
+            limits:
+              cpu: "2"
+              memory: 2Gi
+          startupProbe:
+            httpGet:
+              path: /api/health
+              port: http
+            periodSeconds: 5
+            failureThreshold: 60
+          readinessProbe:
+            httpGet:
+              path: /api/health
+              port: http
+            periodSeconds: 5
+          livenessProbe:
+            httpGet:
+              path: /api/health
+              port: http
+            periodSeconds: 15
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop: [ALL]
+          volumeMounts:
+            - name: data
+              mountPath: /app/artifacts
+              subPath: artifacts
+            - name: data
+              mountPath: /app/sessions
+              subPath: sessions
+            - name: data
+              mountPath: /app/workspaces
+              subPath: workspaces
+            - name: data
+              mountPath: /app/logs
+              subPath: logs
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: platform-data
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: platform
+  namespace: learning-platform
+spec:
+  selector:
+    app: learning-platform
+  ports:
+    - name: http
+      port: 8080
+      targetPort: http
+  type: ClusterIP

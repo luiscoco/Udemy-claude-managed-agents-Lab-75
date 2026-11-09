@@ -1,0 +1,58 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><title>Google Cloud Deployment Student Guide</title><style>body{font:16px/1.6 Arial,sans-serif;color:#17334b;max-width:980px;margin:35px auto;padding:0 25px}h1{font-size:30px;color:#123d60}h2{font-size:22px;border-bottom:1px solid #ccd8e2;padding-bottom:6px;margin-top:30px}pre{background:#eff4f8;border:1px solid #cbd7e1;padding:14px;white-space:pre-wrap;overflow-wrap:anywhere;font:13px/1.5 Consolas,monospace}li{margin:6px 0}a{color:#145d91;overflow-wrap:anywhere}@media print{body{max-width:none;margin:0;padding:0;font-size:10pt}h1{font-size:22pt}h2{font-size:15pt;break-after:avoid}pre{font-size:8pt;break-inside:avoid}p,li{orphans:3;widows:3}a{color:inherit;text-decoration:none}}</style><main><h1>Google Cloud deployment recording</h1>
+<p>This package deploys the course application to Cloud Run, using Cloud Build, Artifact Registry, a private Cloud Storage source/log bucket and Secret Manager. Use browser Cloud Shell; no local CLI or Docker installation is required. The application source and course media match the verified AWS recording snapshot.</p>
+<h2>1. Choose your project</h2>
+<p>Use an active project with billing enabled. The operator needs permission to enable APIs, create the listed resources, manage their IAM policies, use the build and runtime service accounts, and allow public Cloud Run invocation. An organization policy may forbid public invocation. Do not bypass such a policy. The helper does not grant project-wide administrator roles to its service accounts.</p>
+<p>Upload <code>claude-learning-gcp.zip</code> using Cloud Shell&#x27;s three-dot menu, Upload. Extract only the small deployment tools, keeping the full source ZIP intact:</p>
+<pre><code>mkdir -p ~/claude-gcp
+unzip -o ~/claude-learning-gcp.zip &#x27;gcp/*&#x27; -d ~/claude-gcp
+cd ~/claude-gcp
+python3 gcp/cloudshell-deploy.py configure \
+  --project-id YOUR_PROJECT_ID --region europe-west1
+python3 gcp/cloudshell-deploy.py preflight</code></pre>
+<p>Replace YOUR_PROJECT_ID with your own project ID. For the instructor recording, the selected project is <code>learning-platform-agents-lab</code>. Belgium (<code>europe-west1</code>) is the default; Madrid (<code>europe-southwest1</code>) is also supported. Choose before preparing resources. Project and region are locked into the local manifest. Configure and preflight perform cloud reads and write only local state files. They do not verify all creation permissions. No passwords, tokens, Google login details or service-account private keys need to be shared.</p>
+<h2>2. Prepare and build</h2>
+<p>Deployment is billable. Enter your approved estimate in euros; this records an estimate and does not create a billing budget or hard spending cap. Cloud Run scales to zero, with a maximum of one instance; builds, storage, network, secrets and retained logs can still incur charges. Keep this temporary deployment short.</p>
+<pre><code>read -rp &#x27;Approved recording budget estimate in EUR: &#x27; DEMO_BUDGET_EUR
+python3 gcp/cloudshell-deploy.py prepare --approved-budget-eur &quot;$DEMO_BUDGET_EUR&quot;
+python3 gcp/cloudshell-deploy.py build --source-zip ~/claude-learning-gcp.zip
+python3 gcp/cloudshell-deploy.py status</code></pre>
+<p>Repeat **status**, not build, until imageBuild.status is SUCCESS. The first build installs dependencies and compiles the application remotely. Its logUrl opens the Google Cloud build log. Stop and inspect failures rather than starting duplicate builds. Preserve <code>gcp-state/</code> and <code>gcp/deployment-config.json</code> to resume. Do not put these files in a source archive or commit them.</p>
+<p>The bucket is private with uniform access and soft delete disabled for this temporary tutorial data. The build account has bucket-scoped storage.admin and repository-scoped artifactregistry.writer. The runtime account has access only to the recording credential digest secret. Source checksums are verified in Cloud Build before the Docker image is built. The final image uses its digest.</p>
+<h2>3. Deploy and verify</h2>
+<pre><code>python3 gcp/cloudshell-deploy.py deploy --approved-budget-eur &quot;$DEMO_BUDGET_EUR&quot;
+python3 gcp/cloudshell-deploy.py status
+python3 gcp/cloudshell-deploy.py verify</code></pre>
+<p>Cloud Run supplies the HTTPS URL. The helper initially deploys with private Cloud Run IAM, sets the exact observed application origin, then allows public transport. A generated HTTP Basic password still protects the application. The public health endpoint supports readiness checks. Paid model calls are disabled; the course application runs in its teaching/demo mode.</p>
+<p>Verify checks anonymous denial (401), readiness (200), authenticated home (200), foreign-origin denial (403) and disabled live tutor (200). Browser verification is a separate step: open the origin, log in, navigate lessons, open a starter download and check the tutor demo before recording. Server files are ephemeral; do not use this temporary service for durable student progress or real secrets.</p>
+<p>To display credentials privately, outside the screen recording:</p>
+<pre><code>python3 gcp/cloudshell-deploy.py access</code></pre>
+<p>Do not paste that output into chat or include it in a video. To download evidence and access files with Cloud Shell&#x27;s Download menu, use these paths:</p>
+<pre><code>/home/YOUR_CLOUD_SHELL_USER/claude-gcp/gcp-state/evidence.json
+/home/YOUR_CLOUD_SHELL_USER/claude-gcp/gcp-state/recording-access.json</code></pre>
+<p>Run <code>pwd</code> inside <code>~/claude-gcp</code> to determine the actual path. Evidence contains project/resource identifiers but no recording password. Keep the access file private and share it only through the established local recording workflow.</p>
+<h2>4. Remove tutorial resources after verifying the final MP4</h2>
+<pre><code>python3 gcp/cloudshell-deploy.py cleanup \
+  --confirm-delete-project YOUR_PROJECT_ID --video-verified
+python3 gcp/cloudshell-deploy.py status</code></pre>
+<p>The confirmation identifies the project containing the resources; **the project itself is preserved**. Cleanup checks ownership markers before deleting the tutorial Cloud Run service, image repository, source/log bucket, digest secret and two service accounts. It cancels an active build first. Check cleanupComplete is true and all six resource statuses are ABSENT. If an asynchronous deletion or temporary API error occurs, inspect it and repeat cleanup/status.</p>
+<p>Existing projects, Gemini resources, billing accounts and enabled APIs are preserved. Shared Cloud Logging and build history follow provider/project retention policies. This helper does not delete shared log buckets or assert that unrelated resources elsewhere in the account incur no cost. Review Billing Reports after usage has settled. Retain local cleanup evidence with the video.</p>
+<h2>Troubleshooting</h2>
+<ul>
+<li>Billing disabled: select a project linked to an open billing account.</li>
+<li>Permission denied: ask your project administrator for the specific operation reported. Do not share access tokens or grant blanket roles to runtime code.</li>
+<li>API activation/IAM propagation delay: retry prepare after the error clears.</li>
+<li>Build failure: inspect the build log; do not deploy a failed or unexpected image.</li>
+<li>Organization forbids allUsers: stop; this browser recording workflow requires administrator-approved public transport plus the application password gateway.</li>
+<li>Browser 401: use the generated username/password from access, not Google login.</li>
+<li>Readiness failure: inspect the Cloud Run revision log and the gateway startup.</li>
+<li>Unrelated-resource refusal: inspect the resource labels; never relabel existing shared resources just to force deployment or deletion.</li>
+<li>Lost local state/password: restore the original private files before proceeding.</li>
+</ul>
+<h2>Official references</h2>
+<ul>
+<li><a href="https://docs.cloud.google.com/shell/docs/how-cloud-shell-works">https://docs.cloud.google.com/shell/docs/how-cloud-shell-works</a></li>
+<li><a href="https://docs.cloud.google.com/run/docs/deploying">https://docs.cloud.google.com/run/docs/deploying</a></li>
+<li><a href="https://docs.cloud.google.com/build/docs/securing-builds/configure-user-specified-service-accounts">https://docs.cloud.google.com/build/docs/securing-builds/configure-user-specified-service-accounts</a></li>
+<li><a href="https://docs.cloud.google.com/sdk/gcloud/reference/builds/submit">https://docs.cloud.google.com/sdk/gcloud/reference/builds/submit</a></li>
+<li><a href="https://docs.cloud.google.com/sdk/gcloud/reference/storage/buckets/create">https://docs.cloud.google.com/sdk/gcloud/reference/storage/buckets/create</a></li>
+</ul></main></html>

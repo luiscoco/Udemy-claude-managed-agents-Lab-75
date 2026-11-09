@@ -1,0 +1,296 @@
+{
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Description": "Dedicated private source, ECR and cloud image build for the AWS course recording.",
+  "Resources": {
+    "SourceBucket": {
+      "Type": "AWS::S3::Bucket",
+      "Properties": {
+        "BucketEncryption": {
+          "ServerSideEncryptionConfiguration": [
+            {
+              "ServerSideEncryptionByDefault": {
+                "SSEAlgorithm": "AES256"
+              }
+            }
+          ]
+        },
+        "PublicAccessBlockConfiguration": {
+          "BlockPublicAcls": true,
+          "BlockPublicPolicy": true,
+          "IgnorePublicAcls": true,
+          "RestrictPublicBuckets": true
+        },
+        "OwnershipControls": {
+          "Rules": [
+            {
+              "ObjectOwnership": "BucketOwnerEnforced"
+            }
+          ]
+        },
+        "Tags": [
+          {
+            "Key": "purpose",
+            "Value": "claude-learning-aws-video"
+          }
+        ]
+      }
+    },
+    "SourceBucketPolicy": {
+      "Type": "AWS::S3::BucketPolicy",
+      "Properties": {
+        "Bucket": {
+          "Ref": "SourceBucket"
+        },
+        "PolicyDocument": {
+          "Version": "2012-10-17",
+          "Statement": [
+            {
+              "Effect": "Deny",
+              "Principal": "*",
+              "Action": "s3:*",
+              "Resource": [
+                {
+                  "Fn::GetAtt": [
+                    "SourceBucket",
+                    "Arn"
+                  ]
+                },
+                {
+                  "Fn::Sub": "${SourceBucket.Arn}/*"
+                }
+              ],
+              "Condition": {
+                "Bool": {
+                  "aws:SecureTransport": "false"
+                }
+              }
+            }
+          ]
+        }
+      }
+    },
+    "Repository": {
+      "Type": "AWS::ECR::Repository",
+      "Properties": {
+        "ImageTagMutability": "IMMUTABLE",
+        "EmptyOnDelete": true,
+        "EncryptionConfiguration": {
+          "EncryptionType": "AES256"
+        },
+        "Tags": [
+          {
+            "Key": "purpose",
+            "Value": "claude-learning-aws-video"
+          }
+        ]
+      }
+    },
+    "BuildLogs": {
+      "Type": "AWS::Logs::LogGroup",
+      "Properties": {
+        "RetentionInDays": 3,
+        "Tags": [
+          {
+            "Key": "purpose",
+            "Value": "claude-learning-aws-video"
+          }
+        ]
+      }
+    },
+    "BuildRole": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Version": "2012-10-17",
+          "Statement": [
+            {
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "codebuild.amazonaws.com"
+              },
+              "Action": "sts:AssumeRole"
+            }
+          ]
+        },
+        "Policies": [
+          {
+            "PolicyName": "reviewed-source-and-one-registry",
+            "PolicyDocument": {
+              "Version": "2012-10-17",
+              "Statement": [
+                {
+                  "Effect": "Allow",
+                  "Action": [
+                    "s3:GetObject",
+                    "s3:GetObjectVersion"
+                  ],
+                  "Resource": [
+                    {
+                      "Fn::Sub": "${SourceBucket.Arn}/source/*"
+                    }
+                  ]
+                },
+                {
+                  "Effect": "Allow",
+                  "Action": [
+                    "s3:GetBucketLocation"
+                  ],
+                  "Resource": [
+                    {
+                      "Fn::GetAtt": [
+                        "SourceBucket",
+                        "Arn"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "Effect": "Allow",
+                  "Action": [
+                    "ecr:GetAuthorizationToken"
+                  ],
+                  "Resource": "*"
+                },
+                {
+                  "Effect": "Allow",
+                  "Action": [
+                    "ecr:BatchCheckLayerAvailability",
+                    "ecr:GetDownloadUrlForLayer",
+                    "ecr:BatchGetImage",
+                    "ecr:InitiateLayerUpload",
+                    "ecr:UploadLayerPart",
+                    "ecr:CompleteLayerUpload",
+                    "ecr:PutImage"
+                  ],
+                  "Resource": [
+                    {
+                      "Fn::GetAtt": [
+                        "Repository",
+                        "Arn"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "Effect": "Allow",
+                  "Action": [
+                    "logs:CreateLogStream",
+                    "logs:PutLogEvents"
+                  ],
+                  "Resource": [
+                    {
+                      "Fn::GetAtt": [
+                        "BuildLogs",
+                        "Arn"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        ],
+        "Tags": [
+          {
+            "Key": "purpose",
+            "Value": "claude-learning-aws-video"
+          }
+        ]
+      }
+    },
+    "ImageBuild": {
+      "Type": "AWS::CodeBuild::Project",
+      "Properties": {
+        "ServiceRole": {
+          "Fn::GetAtt": [
+            "BuildRole",
+            "Arn"
+          ]
+        },
+        "Artifacts": {
+          "Type": "NO_ARTIFACTS"
+        },
+        "Source": {
+          "Type": "S3",
+          "Location": {
+            "Fn::Sub": "${SourceBucket}/source/pending.zip"
+          },
+          "BuildSpec": "version: 0.2\nphases:\n  pre_build:\n    commands:\n      - python3 aws/verify-source.py\n      - aws ecr get-login-password --region \"$AWS_DEFAULT_REGION\" | docker login --username AWS --password-stdin \"${REPOSITORY_URI%%/*}\"\n  build:\n    commands:\n      - docker build --label \"org.opencontainers.image.revision=$SOURCE_SHA256\" -t \"$REPOSITORY_URI:$IMAGE_TAG\" .\n  post_build:\n    commands:\n      - test \"$CODEBUILD_BUILD_SUCCEEDING\" = 1\n      - docker push \"$REPOSITORY_URI:$IMAGE_TAG\"\n"
+        },
+        "Environment": {
+          "Type": "LINUX_CONTAINER",
+          "ComputeType": "BUILD_GENERAL1_SMALL",
+          "Image": "aws/codebuild/standard:7.0",
+          "PrivilegedMode": true,
+          "EnvironmentVariables": [
+            {
+              "Name": "REPOSITORY_URI",
+              "Value": {
+                "Fn::GetAtt": [
+                  "Repository",
+                  "RepositoryUri"
+                ]
+              }
+            }
+          ]
+        },
+        "TimeoutInMinutes": 30,
+        "QueuedTimeoutInMinutes": 15,
+        "ConcurrentBuildLimit": 1,
+        "LogsConfig": {
+          "CloudWatchLogs": {
+            "Status": "ENABLED",
+            "GroupName": {
+              "Ref": "BuildLogs"
+            },
+            "StreamName": "image"
+          }
+        },
+        "Tags": [
+          {
+            "Key": "purpose",
+            "Value": "claude-learning-aws-video"
+          }
+        ]
+      }
+    }
+  },
+  "Outputs": {
+    "SourceBucket": {
+      "Value": {
+        "Ref": "SourceBucket"
+      }
+    },
+    "RepositoryUri": {
+      "Value": {
+        "Fn::GetAtt": [
+          "Repository",
+          "RepositoryUri"
+        ]
+      }
+    },
+    "RepositoryArn": {
+      "Value": {
+        "Fn::GetAtt": [
+          "Repository",
+          "Arn"
+        ]
+      }
+    },
+    "RepositoryName": {
+      "Value": {
+        "Ref": "Repository"
+      }
+    },
+    "BuildProject": {
+      "Value": {
+        "Ref": "ImageBuild"
+      }
+    },
+    "BuildLogGroup": {
+      "Value": {
+        "Ref": "BuildLogs"
+      }
+    }
+  }
+}

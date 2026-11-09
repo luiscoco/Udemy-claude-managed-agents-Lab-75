@@ -28,7 +28,10 @@ test('course launch and stop controls open a prepared Study Coach conversation',
     await coach.getByRole('button',{name:'Show practice reply',exact:true}).click();
     await expect(coach.locator('.turn')).toContainText('authored practice explanation');
     await expect(coach.locator('.turn pre')).toBeVisible();await coach.close();
+    // Shutdown waits for owned child processes; assert the UI after it completes.
+    const stopped=page.waitForResponse(response=>response.url().endsWith('/api/projects/study-coach/stop')&&response.request().method()==='POST');
     await card.getByRole('button',{name:'Stop Study Coach',exact:true}).click();
+    expect((await stopped).ok()).toBe(true);
     await expect(card).toContainText('Status: stopped');
   }finally{await request.post('/api/projects/study-coach/stop',{data:{}});}
 });

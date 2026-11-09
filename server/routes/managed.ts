@@ -5,6 +5,7 @@ import { createManagedPort, managedSettings } from '../lib/managed-port.js';
 import type { ManagedPort } from '../lib/managed-port.js';
 import { runFoundation } from '../lib/managed-run.js';
 import { openSse } from '../sse.js';
+import { configuredLearningOriginAllowed } from '../lib/learning-origin.js';
 
 export function createManagedRouter(portFactory: () => ManagedPort = createManagedPort) {
   const router = Router();
@@ -14,7 +15,8 @@ export function createManagedRouter(portFactory: () => ManagedPort = createManag
     response.set('Cache-Control', 'no-store');
     const host = request.headers.host ?? '';
     const origin = request.headers.origin;
-    if (!/^(127\.0\.0\.1|localhost):\d+$/.test(host) || (origin && origin !== `http://${host}`)) {
+    const local = /^(127\.0\.0\.1|localhost):\d+$/.test(host) && (!origin || origin === `http://${host}`);
+    if (!local && !configuredLearningOriginAllowed(request.headers)) {
       response.status(403).json(apiError('INVALID_REQUEST', 'Use the local application origin.')); return;
     }
     next();

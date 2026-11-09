@@ -2,6 +2,7 @@ import { createHash } from 'node:crypto';
 import { Router, json } from 'express';
 import { z } from 'zod';
 import { learningGuide } from '../../shared/learning-guide.js';
+import { configuredLearningOriginAllowed } from '../lib/learning-origin.js';
 import { alignNarration, narrationText } from '../../shared/learning-narration.js';
 import { isNarrationMp3, readNarrationRecording, writeNarrationRecording, type NarrationRecording } from '../lib/learning-narration-cache.js';
 
@@ -34,7 +35,8 @@ export function createLearningGuideRouter(env: NodeJS.ProcessEnv = process.env, 
   });
   router.post('/audio', (request, response, next) => {
     const host = request.headers.host ?? '';
-    if (!/^(localhost|127\.0\.0\.1):\d+$/.test(host) || request.headers.origin && request.headers.origin !== `http://${host}` ||
+    const local = /^(localhost|127\.0\.0\.1):\d+$/.test(host) && (!request.headers.origin || request.headers.origin === `http://${host}`);
+    if ((!local && !configuredLearningOriginAllowed(request.headers, env)) ||
       request.headers['x-learning-guide'] !== '1') { response.status(403).json({ message: 'Local learning guide request required.' }); return; }
     next();
   }, json({ limit: '1kb', strict: true }), async (request, response) => {
