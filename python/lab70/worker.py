@@ -8,7 +8,7 @@ import threading
 import time
 import uuid
 
-PIN = "1.7.0"
+PIN = "2.7.0"
 MAX_LINE = 12000
 
 

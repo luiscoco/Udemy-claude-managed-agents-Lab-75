@@ -903,12 +903,12 @@
       "explanation": "Compare supported model and effort settings in fresh sessions with resolved metadata, public responses and explicit fallback budgets.",
       "level": "Start here",
       "category": "patterns",
-      "code": "export function lab14Catalog(env = process.env) {\n  const settings = managedSettings(env);\n  const ready = new Set((env.CLAUDE_MANAGED_LAB14_MODELS ?? '').split(',').map(value => value.trim()));\n  return lab14CatalogSchema.parse({ sdkVersion: '1.3.0', checkedOn: '2026-10-14', providerVerified: false,\n    liveReady: settings.liveReady, deadlineSeconds: settings.deadlineMs / 1000,\n    models: pinnedModels.map(id => ({ id, efforts: lab14Supported[id as (typeof lab14Models)[number]], accountReady: ready.has(id),\n      readiness: ready.has(id) ? 'Operator configured; provider access is not verified by setup.' : 'Not declared ready. Add this ID to CLAUDE_MANAGED_LAB14_MODELS after checking account access.' })),\n    unsupported: [\n      { setting: 'thinking / budget_tokens', reason: 'Not fields of Managed session model configuration in SDK 1.3.0.' },\n      { setting: 'fallbackModel / supportedModels', reason: 'Agent SDK controls are not Managed session fields. This host owns a closed catalog and fallback policy.' },\n      { setting: 'In-place model or effort change', reason: 'SessionUpdateParams supports tool/MCP changes, not model/effort. Create a new session.' },\n    ], sources: ['https://platform.claude.com/docs/en/build-with-claude/effort', 'https://platform.claude.com/docs/en/managed-agents/sessions', 'https://platform.claude.com/docs/en/api/typescript/beta/sessions/create'] });",
+      "code": "export function lab14Catalog(env = process.env) {\n  const settings = managedSettings(env);\n  const ready = new Set((env.CLAUDE_MANAGED_LAB14_MODELS ?? '').split(',').map(value => value.trim()));\n  return lab14CatalogSchema.parse({ sdkVersion: '1.7.0', checkedOn: '2026-10-14', providerVerified: false,\n    liveReady: settings.liveReady, deadlineSeconds: settings.deadlineMs / 1000,\n    models: pinnedModels.map(id => ({ id, efforts: lab14Supported[id as (typeof lab14Models)[number]], accountReady: ready.has(id),\n      readiness: ready.has(id) ? 'Operator configured; provider access is not verified by setup.' : 'Not declared ready. Add this ID to CLAUDE_MANAGED_LAB14_MODELS after checking account access.' })),\n    unsupported: [\n      { setting: 'thinking / budget_tokens', reason: 'Not fields of Managed session model configuration in SDK 1.7.0.' },\n      { setting: 'fallbackModel / supportedModels', reason: 'Agent SDK controls are not Managed session fields. This host owns a closed catalog and fallback policy.' },\n      { setting: 'In-place model or effort change', reason: 'SessionUpdateParams supports tool/MCP changes, not model/effort. Create a new session.' },\n    ], sources: ['https://platform.claude.com/docs/en/build-with-claude/effort', 'https://platform.claude.com/docs/en/managed-agents/sessions', 'https://platform.claude.com/docs/en/api/typescript/beta/sessions/create'] });",
       "source": {
         "file": "server/lib/lab14-port.ts",
         "startLine": 14,
         "endLine": 25,
-        "sha256": "01a434b23ac4657dc67a4a1b514c683e9662ed65259a84797a904f009bd5f2c7"
+        "sha256": "22e1e0b90cbf6bf9a8653cbeac57bad89d656034ef858a8b9ab86427f47bb051"
       },
       "challenge": "Change supported effort while keeping prompt and model fixed in fresh sessions. Explain why uncertain work blocks fallback.",
       "prompts": [
@@ -1028,7 +1028,7 @@
         "file": "server/lib/lab18-sandbox.ts",
         "startLine": 15,
         "endLine": 26,
-        "sha256": "be593b5aa79727511c48b9d4808f88a0e44e689b9f2c94313e384a3e38cadf32"
+        "sha256": "7c94fafe29b9848719e72b8e12b175644ead1ea94c1af8164ff9f3841ddfe1fc"
       },
       "challenge": "Explain why an unavailable configured environment fails closed before a session and why an offline host path denial does not prove cloud OS containment.",
       "prompts": [
@@ -1713,12 +1713,12 @@
       "explanation": "Compare one-shot, retained and reconnect workflows using current Managed session events, IDs and archive evidence.",
       "level": "Build applications",
       "category": "patterns",
-      "code": "export class Lab41Error extends Error { constructor(public statusCode: number, message: string) { super(message); } }\ntype Entry = { owner: string; runId: string; scenario: Lab41Scenario; sessionId: string; status: 'idle' | 'archived' | 'interrupted-idle';\n  userEventIds: string[]; agentEventIds: string[]; history: Awaited<ReturnType<FixtureLab06Port['history']>>;\n  lifecycle: string[]; archiveCount: number; expiresAt: number };\nexport class Lab41Lifecycle {\n  private entries = new Map<string, Entry>(); private port = new FixtureLab06Port(); private closed = false;\n  constructor(private now = () => Date.now()) {}\n  facts() { return { source: 'host-only', sdk: '@anthropic-ai/sdk@1.3.0', currentApi: ['sessions.create', 'events.stream', 'events.send', 'events.list', 'sessions.retrieve', 'sessions.archive'],\n    historical: 'A prior local-process model is described only; no legacy runtime is loaded.', processCountClaim: false, jsonlCompatibilityClaim: false, providerCalls: 0 }; }\n  private get(owner: string, runId: string) { const entry = this.entries.get(runId);\n    if (!entry || entry.owner !== owner) throw new Lab41Error(404, 'Unknown or unowned lifecycle run.');\n    if (this.now() > entry.expiresAt) { this.entries.delete(runId); throw new Lab41Error(410, 'Lifecycle run expired.'); }",
+      "code": "export class Lab41Error extends Error { constructor(public statusCode: number, message: string) { super(message); } }\ntype Entry = { owner: string; runId: string; scenario: Lab41Scenario; sessionId: string; status: 'idle' | 'archived' | 'interrupted-idle';\n  userEventIds: string[]; agentEventIds: string[]; history: Awaited<ReturnType<FixtureLab06Port['history']>>;\n  lifecycle: string[]; archiveCount: number; expiresAt: number };\nexport class Lab41Lifecycle {\n  private entries = new Map<string, Entry>(); private port = new FixtureLab06Port(); private closed = false;\n  constructor(private now = () => Date.now()) {}\n  facts() { return { source: 'host-only', sdk: '@anthropic-ai/sdk@1.7.0', currentApi: ['sessions.create', 'events.stream', 'events.send', 'events.list', 'sessions.retrieve', 'sessions.archive'],\n    historical: 'A prior local-process model is described only; no legacy runtime is loaded.', processCountClaim: false, jsonlCompatibilityClaim: false, providerCalls: 0 }; }\n  private get(owner: string, runId: string) { const entry = this.entries.get(runId);\n    if (!entry || entry.owner !== owner) throw new Lab41Error(404, 'Unknown or unowned lifecycle run.');\n    if (this.now() > entry.expiresAt) { this.entries.delete(runId); throw new Lab41Error(410, 'Lifecycle run expired.'); }",
       "source": {
         "file": "server/lib/lab41-lifecycle.ts",
         "startLine": 6,
         "endLine": 17,
-        "sha256": "c9d2b771e93d1002d3e33d5d40f18799683f435b5c800ba8137523bb020c9278"
+        "sha256": "53c9f51c83684d550bb8540e125e5e94b703f27342e2ace27b931899cb8c1ee2"
       },
       "challenge": "Describe the Managed event sequence for continuing an idle session.",
       "prompts": [
@@ -1748,7 +1748,7 @@
         "file": "server/lib/lab42-research.ts",
         "startLine": 7,
         "endLine": 18,
-        "sha256": "f826e5817b133700550a3c3d5943f0a82430d3e01dd6174f7c64a6032b06ca7b"
+        "sha256": "5960f7694a7c004976249bb0eb71473bf857701b9b3855ecff3565e6eb884c3b"
       },
       "challenge": "Test a hostile page and inspect the enforcing host decision.",
       "prompts": [
@@ -1868,7 +1868,7 @@
         "file": "server/lib/lab46-cache-observations.ts",
         "startLine": 7,
         "endLine": 18,
-        "sha256": "fc4497252230e8540bfa5fd11706b0e1b626070291e87e0ff75ee929013dab09"
+        "sha256": "392dd750263d5932b7a19c81b7d22d7d5791a91158dc6c692b53a552a6c7adbe"
       },
       "challenge": "Change a content prefix and compare measured cache counters when available.",
       "prompts": [
@@ -2048,7 +2048,7 @@
         "file": "server/evals/lab52.ts",
         "startLine": 25,
         "endLine": 36,
-        "sha256": "e53a379420ec9a90be226d4918807f90fe65921c56faca9b090de797eefa91a3"
+        "sha256": "630835de026472e9b7add48b00888e72a7e11bdd286565a0c5dd4cf149cf3c14"
       },
       "challenge": "Change a candidate claim and decide whether the regression and safety gates should permit local promotion.",
       "prompts": [
@@ -2138,7 +2138,7 @@
         "file": "server/upgrades/lab55.ts",
         "startLine": 42,
         "endLine": 53,
-        "sha256": "ddeb281214bd7fceab1407594d3b4ddb00909908c1bb1237cd6eea4cbe033a6c"
+        "sha256": "6494fbc35155a3b01f2acdf4bee707969e269bffac8d69dfcacd3cd1f27f7b78"
       },
       "challenge": "Make one candidate fixture lose a required event type and explain why a version bump alone cannot authorize promotion.",
       "prompts": [
@@ -2408,7 +2408,7 @@
         "file": "server/concepts/64-browser-playwright-mcp.ts",
         "startLine": 27,
         "endLine": 38,
-        "sha256": "22115b599976e7134d3d54463b9ab14beb0fec34dbfdde532bb5cdb057f22f56"
+        "sha256": "97a1e9c32f5411d0a16114d1293458a4f0f383416371eeff31ce739e0117cd6b"
       },
       "challenge": "Explain why successful MCP tool prose without DOM and screenshot checks is insufficient browser proof.",
       "prompts": [
@@ -2583,12 +2583,12 @@
       "explanation": "Compare the Managed session protocol through an isolated Python worker and the TypeScript host bridge.",
       "level": "Advanced",
       "category": "projects",
-      "code": "export const pythonPin = '1.7.0';\nexport function selectLab70Python(env: NodeJS.ProcessEnv = process.env) {\n  const candidates = [resolve('.venv/Scripts/python.exe'), resolve('.venv/bin/python'),\n    'C:\\\\Python314\\\\python.exe', 'C:\\\\Python313\\\\python.exe', 'C:\\\\Python312\\\\python.exe', '/usr/bin/python3'];\n  const requested = env.PYTHON_SDK_EXECUTABLE;\n  if (requested) {\n    if (!isAbsolute(requested) || !existsSync(requested)) return null;\n    const actual = realpathSync(requested);\n    return candidates.some(path => existsSync(path) && realpathSync(path) === actual) ? actual : null;\n  }\n  const found = candidates.find(path => existsSync(path)); return found ? realpathSync(found) : null;\n}",
+      "code": "export const pythonPin = '2.7.0';\nexport function selectLab70Python(env: NodeJS.ProcessEnv = process.env) {\n  const candidates = [resolve('.venv/Scripts/python.exe'), resolve('.venv/bin/python'),\n    'C:\\\\Python314\\\\python.exe', 'C:\\\\Python313\\\\python.exe', 'C:\\\\Python312\\\\python.exe', '/usr/bin/python3'];\n  const requested = env.PYTHON_SDK_EXECUTABLE;\n  if (requested) {\n    if (!isAbsolute(requested) || !existsSync(requested)) return null;\n    const actual = realpathSync(requested);\n    return candidates.some(path => existsSync(path) && realpathSync(path) === actual) ? actual : null;\n  }\n  const found = candidates.find(path => existsSync(path)); return found ? realpathSync(found) : null;\n}",
       "source": {
         "file": "server/lib/lab70-python.ts",
         "startLine": 8,
         "endLine": 19,
-        "sha256": "241d7ced1477be7630616ee97786f2fb41d9f28e876a55d9c9a94e36ccdefd56"
+        "sha256": "5a30bef52f7ddc4950ac6be4f62ff214ab6ffc27fead07aa0dfa5c60e37bc381"
       },
       "challenge": "Terminate a worker and explain why process exit cannot prove a remote Managed session has stopped.",
       "prompts": [
@@ -3153,12 +3153,12 @@
       "explanation": "Hold the prompt and model fixed; compare low, medium and high effort offline. Reject incompatible values and inspect the resolved model snapshot. Simulate unavailable and uncertain primary models with one explicitly budgeted host fallback. Evidence check: Change supported effort while keeping prompt and model fixed in fresh sessions. Explain why uncertain work blocks fallback.",
       "level": "Start here",
       "category": "patterns",
-      "code": "export function lab14Catalog(env = process.env) {\n  const settings = managedSettings(env);\n  const ready = new Set((env.CLAUDE_MANAGED_LAB14_MODELS ?? '').split(',').map(value => value.trim()));\n  return lab14CatalogSchema.parse({ sdkVersion: '1.3.0', checkedOn: '2026-10-14', providerVerified: false,\n    liveReady: settings.liveReady, deadlineSeconds: settings.deadlineMs / 1000,\n    models: pinnedModels.map(id => ({ id, efforts: lab14Supported[id as (typeof lab14Models)[number]], accountReady: ready.has(id),\n      readiness: ready.has(id) ? 'Operator configured; provider access is not verified by setup.' : 'Not declared ready. Add this ID to CLAUDE_MANAGED_LAB14_MODELS after checking account access.' })),\n    unsupported: [\n      { setting: 'thinking / budget_tokens', reason: 'Not fields of Managed session model configuration in SDK 1.3.0.' },\n      { setting: 'fallbackModel / supportedModels', reason: 'Agent SDK controls are not Managed session fields. This host owns a closed catalog and fallback policy.' },\n      { setting: 'In-place model or effort change', reason: 'SessionUpdateParams supports tool/MCP changes, not model/effort. Create a new session.' },\n    ], sources: ['https://platform.claude.com/docs/en/build-with-claude/effort', 'https://platform.claude.com/docs/en/managed-agents/sessions', 'https://platform.claude.com/docs/en/api/typescript/beta/sessions/create'] });",
+      "code": "export function lab14Catalog(env = process.env) {\n  const settings = managedSettings(env);\n  const ready = new Set((env.CLAUDE_MANAGED_LAB14_MODELS ?? '').split(',').map(value => value.trim()));\n  return lab14CatalogSchema.parse({ sdkVersion: '1.7.0', checkedOn: '2026-10-14', providerVerified: false,\n    liveReady: settings.liveReady, deadlineSeconds: settings.deadlineMs / 1000,\n    models: pinnedModels.map(id => ({ id, efforts: lab14Supported[id as (typeof lab14Models)[number]], accountReady: ready.has(id),\n      readiness: ready.has(id) ? 'Operator configured; provider access is not verified by setup.' : 'Not declared ready. Add this ID to CLAUDE_MANAGED_LAB14_MODELS after checking account access.' })),\n    unsupported: [\n      { setting: 'thinking / budget_tokens', reason: 'Not fields of Managed session model configuration in SDK 1.7.0.' },\n      { setting: 'fallbackModel / supportedModels', reason: 'Agent SDK controls are not Managed session fields. This host owns a closed catalog and fallback policy.' },\n      { setting: 'In-place model or effort change', reason: 'SessionUpdateParams supports tool/MCP changes, not model/effort. Create a new session.' },\n    ], sources: ['https://platform.claude.com/docs/en/build-with-claude/effort', 'https://platform.claude.com/docs/en/managed-agents/sessions', 'https://platform.claude.com/docs/en/api/typescript/beta/sessions/create'] });",
       "source": {
         "file": "server/lib/lab14-port.ts",
         "startLine": 14,
         "endLine": 25,
-        "sha256": "01a434b23ac4657dc67a4a1b514c683e9662ed65259a84797a904f009bd5f2c7"
+        "sha256": "22e1e0b90cbf6bf9a8653cbeac57bad89d656034ef858a8b9ab86427f47bb051"
       },
       "challenge": "Change supported effort while keeping prompt and model fixed in fresh sessions. Explain why uncertain work blocks fallback.",
       "prompts": [
@@ -3278,7 +3278,7 @@
         "file": "server/lib/lab18-sandbox.ts",
         "startLine": 15,
         "endLine": 26,
-        "sha256": "be593b5aa79727511c48b9d4808f88a0e44e689b9f2c94313e384a3e38cadf32"
+        "sha256": "7c94fafe29b9848719e72b8e12b175644ead1ea94c1af8164ff9f3841ddfe1fc"
       },
       "challenge": "Explain why an unavailable configured environment fails closed before a session and why an offline host path denial does not prove cloud OS containment.",
       "prompts": [

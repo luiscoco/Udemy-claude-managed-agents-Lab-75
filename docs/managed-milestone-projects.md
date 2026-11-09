@@ -18,7 +18,7 @@ Start a project from its card, then choose **Open**. An occupied port is preserv
 
 ## Managed Agents migration
 
-All three projects depend on `@anthropic-ai/sdk@1.3.0`. The Claude Agent SDK package, `query()` subprocess, `maxTurns`, SDK `outputFormat`, and SDK result-subtype execution adapters are absent. The generated study catalogs use this course's 75 actual lesson objectives, source excerpts, source digests and evidence challenges. Regenerate them with `node --import tsx scripts/build-managed-milestones.ts`, then refresh the archive allowlist using `node scripts/mini-project-manifest.mjs`.
+All three projects depend on `@anthropic-ai/sdk@1.7.0`. The Claude Agent SDK package, `query()` subprocess, `maxTurns`, SDK `outputFormat`, and SDK result-subtype execution adapters are absent. The generated study catalogs use this course's 75 actual lesson objectives, source excerpts, source digests and evidence challenges. Regenerate them with `node --import tsx scripts/build-managed-milestones.ts`, then refresh the archive allowlist using `node scripts/mini-project-manifest.mjs`.
 
 Each live request creates a [Managed session](https://platform.claude.com/docs/en/managed-agents/sessions) with a configured existing agent and environment. Session-local `agent_with_overrides` sets model, system instructions, explicit tools/MCP and cleared skills, leaving the persistent agent unchanged. A [session budget](https://platform.claude.com/docs/en/managed-agents/budgets) sets `max_list_cost` in minor currency units. Host deadline/event limits are separate from provider budgets.
 

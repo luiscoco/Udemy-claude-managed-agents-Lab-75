@@ -14,12 +14,12 @@ const pinnedModels: readonly BetaManagedAgentsModel[] = lab14Models;
 export function lab14Catalog(env = process.env) {
   const settings = managedSettings(env);
   const ready = new Set((env.CLAUDE_MANAGED_LAB14_MODELS ?? '').split(',').map(value => value.trim()));
-  return lab14CatalogSchema.parse({ sdkVersion: '1.3.0', checkedOn: '2026-10-14', providerVerified: false,
+  return lab14CatalogSchema.parse({ sdkVersion: '1.7.0', checkedOn: '2026-10-14', providerVerified: false,
     liveReady: settings.liveReady, deadlineSeconds: settings.deadlineMs / 1000,
     models: pinnedModels.map(id => ({ id, efforts: lab14Supported[id as (typeof lab14Models)[number]], accountReady: ready.has(id),
       readiness: ready.has(id) ? 'Operator configured; provider access is not verified by setup.' : 'Not declared ready. Add this ID to CLAUDE_MANAGED_LAB14_MODELS after checking account access.' })),
     unsupported: [
-      { setting: 'thinking / budget_tokens', reason: 'Not fields of Managed session model configuration in SDK 1.3.0.' },
+      { setting: 'thinking / budget_tokens', reason: 'Not fields of Managed session model configuration in SDK 1.7.0.' },
       { setting: 'fallbackModel / supportedModels', reason: 'Agent SDK controls are not Managed session fields. This host owns a closed catalog and fallback policy.' },
       { setting: 'In-place model or effort change', reason: 'SessionUpdateParams supports tool/MCP changes, not model/effort. Create a new session.' },
     ], sources: ['https://platform.claude.com/docs/en/build-with-claude/effort', 'https://platform.claude.com/docs/en/managed-agents/sessions', 'https://platform.claude.com/docs/en/api/typescript/beta/sessions/create'] });

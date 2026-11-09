@@ -17,7 +17,7 @@ export function createLab55Router(store = new Lab55UpgradeStore()) {
   router.get('/facts', (_request, response) => response.json(store.facts()));
   router.get('/code', (_request, response) => response.json({ files: ['shared/lab55-upgrading-sdk.ts',
     'server/upgrades/lab55.ts', 'server/concepts/55-upgrading-sdk.ts', 'server/lib/session-events.ts'],
-    note: 'The teaching application keeps the installed and lockfile SDK at 1.3.0.' }));
+    note: 'The teaching application keeps the installed and lockfile SDK at 1.7.0.' }));
   router.post('/run', (request, response) => { const parsed = lab55RunSchema.safeParse(request.body);
     if (!parsed.success) { response.status(400).json(apiError('INVALID_REQUEST', 'Choose a supported compatibility fixture.')); return; }
     reply(response, () => store.run(ownerOf(request), parsed.data.scenario, parsed.data.clientEligible)); });

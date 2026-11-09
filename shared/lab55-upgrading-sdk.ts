@@ -9,7 +9,7 @@ export const lab55TransitionSchema = z.strictObject({ runId: z.string().uuid(),
   action: z.enum(['canary', 'promote', 'rollback']), clientEligible: z.boolean().optional() });
 export const lab55CheckSchema = z.strictObject({ name: z.string(), pass: z.boolean(), evidence: z.string() });
 export const lab55ResultSchema = z.strictObject({ id: z.string().uuid(), source: z.literal('offline-upgrade-rehearsal'),
-  scenario: lab55ScenarioSchema, baselineNpmVersion: z.literal('1.3.0'), candidateNpmVersion: z.null(),
+  scenario: lab55ScenarioSchema, baselineNpmVersion: z.literal('1.7.0'), candidateNpmVersion: z.null(),
   apiCompatibility: z.enum(['compatible', 'incompatible', 'unknown']),
   pinnedResources: z.strictObject({ agentVersion: z.string(), environmentVersion: z.string(), skillVersion: z.string() }),
   checks: z.array(lab55CheckSchema), eligible: z.boolean(), state: z.enum(['candidate', 'canary', 'promoted', 'rolled-back']),

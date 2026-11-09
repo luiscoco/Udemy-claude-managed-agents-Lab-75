@@ -10,7 +10,7 @@ Install the pinned development dependencies and a local Chrome browser. The exer
 
 ## Evidence to inspect
 
-The host client connects to pinned `@playwright/mcp@0.0.83` through an in-memory MCP transport. Only navigate, snapshot, fill, click and screenshot are issued; unsafe evaluation, file upload, download and arbitrary URLs are not bridged. A Playwright route blocks requests beyond the fixture origin, including redirected requests. Each run gets a fresh host browser context and fixture server. Proof checks MCP snapshot text against independent live DOM reads and a host-captured screenshot. Model prose and cloud event fixtures are not browser proof.
+The host client connects to pinned `@playwright/mcp@0.0.85` through an in-memory MCP transport. Only navigate, snapshot, fill, click and screenshot are issued; unsafe evaluation, file upload, download and arbitrary URLs are not bridged. A Playwright route blocks requests beyond the fixture origin, including redirected requests. Each run gets a fresh host browser context and fixture server. Proof checks MCP snapshot text against independent live DOM reads and a host-captured screenshot. Model prose and cloud event fixtures are not browser proof.
 
 The screenshot route requires the same local experiment owner as the run. The cloud Managed session cannot access host localhost or spawn this local MCP server; a reachable remote browser is a separate setup and is not configured here.
 

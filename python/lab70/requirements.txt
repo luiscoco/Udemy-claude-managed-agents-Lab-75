@@ -1,2 +1,2 @@
 # Python is pinned independently; the platform reports the installed Node SDK separately.
-anthropic==1.7.0
+anthropic==2.7.0
