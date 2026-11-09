@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from './fixtures/diagnostic-test';
 
 test('checklist changes update Home progress and recommend the next unfinished lesson without provider calls', async ({ page }) => {
   let posts = 0; page.on('request', request => { if (request.method() === 'POST') posts++; });

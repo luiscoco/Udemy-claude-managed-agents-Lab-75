@@ -1,12 +1,12 @@
 import { spawn } from 'node:child_process';
 import { once } from 'node:events';
 import { setTimeout as delay } from 'node:timers/promises';
-import { createServer } from 'vite';
+import { build, createServer, preview } from 'vite';
 import { chromium } from 'playwright';
 import { mkdir, rm, writeFile } from 'node:fs/promises';
 
 // Own Node children directly; Windows shell wrappers otherwise leave servers running.
-let web; let api;
+let web; let harness; let api;
 const webPort = Number(process.env.LEARNING_BROWSER_WEB_PORT ?? 5184);
 const apiPort = Number(process.env.LEARNING_BROWSER_API_PORT ?? 3086);
 let stage = 'creating Vite server';
@@ -17,18 +17,42 @@ try {
   if (process.env.LEARNING_BROWSER_EXTERNAL_SERVERS !== '1') {
     process.env.LEARNING_API_PORT = String(apiPort);
     process.env.LESSON_UI_URL = `http://127.0.0.1:${webPort}`;
-    // Browser scenarios exercise a fixed checkout, not hot editing. Generated
-    // screenshots/worktrees must not compete with loading or trigger HMR.
-    progress('creating Vite server');
-    // Keep browser checks separate from a concurrently running developer server.
-    web = await createServer({ mode: 'browser-test', cacheDir: `node_modules/.vite-browser-${webPort}`, server: { port: webPort, strictPort: true, hmr: false } });
-    await web.listen();
+    // Vite build and middleware share this process; keep their NODE_ENV aligned.
+    process.env.NODE_ENV = 'development';
+    // A fresh test context loading the full unbundled registry can exhaust
+    // Chrome's request buffers on Windows (ERR_NO_BUFFER_SPACE). Exercise the
+    // bundled application; keep Vite transforms for development-only harness
+    // and raw-source failure tests, whose request URLs are intentional contracts.
+    const outDir = `artifacts/ci/browser-app-${webPort}`;
+    const browserBuild = { outDir, copyPublicDir: false };
+    progress('building browser application');
+    await build({ mode: 'browser-test', build: browserBuild });
+    harness = await createServer({
+      mode: 'browser-test', cacheDir: `node_modules/.vite-browser-${webPort}`,
+      server: { middlewareMode: true, hmr: false, ws: false },
+    });
+    progress('serving bundled application and development harness');
+    web = await preview({
+      mode: 'browser-test', build: browserBuild,
+      preview: { host: '127.0.0.1', port: webPort, strictPort: true },
+      plugins: [{
+        name: 'browser-test-harness-and-public-media',
+        configurePreviewServer(server) {
+          server.middlewares.use((request, response, next) => {
+            const pathname = new URL(request.url ?? '/', 'http://localhost').pathname;
+            if (pathname === '/' || pathname === '/index.html' || pathname.startsWith('/assets/')) next();
+            else harness.middlewares(request, response, next);
+          });
+        },
+      }],
+    });
     progress('waiting for backend health');
     api = spawn(process.execPath, ['--import', 'tsx', 'server/index.ts'], { stdio: 'inherit', env: process.env });
-    for (let attempt = 0; ; attempt++) {
+    const readinessDeadline = Date.now() + 120000;
+    for (;;) {
       if (api.exitCode !== null) throw new Error('Backend exited before readiness.');
       try { const response = await fetch(`http://127.0.0.1:${apiPort}/api/health`, { signal: AbortSignal.timeout(500) }); if (response.ok) break; } catch {}
-      if (attempt >= 300) throw new Error('Backend readiness timed out.');
+      if (Date.now() >= readinessDeadline) throw new Error('Backend readiness timed out.');
       await delay(100);
     }
     // An HTTP-ready Vite server is not yet a rendered React application.
@@ -63,4 +87,5 @@ try {
 } finally {
   if (api && api.exitCode === null) { const done = once(api, 'exit'); api.kill(); await done; }
   await web?.close();
+  await harness?.close();
 }
